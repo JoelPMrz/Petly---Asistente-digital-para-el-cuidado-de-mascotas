@@ -9,9 +9,6 @@ object Login
 object Home
 
 @Serializable
-object PetDetails
-
-@Serializable
 object ForgotPassword
 
 @Serializable
@@ -19,3 +16,11 @@ object SingUp
 
 @Serializable
 object CreatePet
+
+@Serializable
+data class PetDetail(
+    val petId : String
+)
+
+@Serializable
+object UserDetail

@@ -1,6 +1,6 @@
 package com.example.petly.ui.screens.login.pet
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,25 +42,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.petly.data.models.PetModel
+import com.example.petly.data.models.Pet
+import com.example.petly.navegation.CreatePet
 import com.example.petly.navegation.Home
+import com.example.petly.navegation.Login
 import com.example.petly.ui.components.BaseOutlinedTextField
+import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
-import com.example.petly.utils.RealtimeManager
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun CreatePetScreen(analytics: AnalyticsManager,
-                    auth: AuthManager,
-                    realtime: RealtimeManager,
-                    navigation : NavController
+fun CreatePetScreen(
+    analytics: AnalyticsManager,
+    navigateBack:() -> Unit,
+    petViewModel: PetViewModel = hiltViewModel()
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -68,18 +71,13 @@ fun CreatePetScreen(analytics: AnalyticsManager,
     var name: String by remember { mutableStateOf("") }
     var type: String by remember { mutableStateOf("") }
     var gender: String by remember { mutableStateOf("") }
-    var weight: String by remember { mutableStateOf("") }
-    val ownerId = auth.getCurrentUser()?.uid
-    var newPet : PetModel
-    val context = LocalContext.current
+    var enableCreatePet: Boolean by remember { mutableStateOf(true) }
 
     Scaffold(
         topBar = {
             MyTopAppBar(
                 {
-                    coroutineScope.launch {
-                        snackBarHostState.showSnackbar("Has pulsado $it")
-                    }
+                    navigateBack()
                 }
             )
         },
@@ -87,8 +85,7 @@ fun CreatePetScreen(analytics: AnalyticsManager,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         floatingActionButton = { MyFloatingActionButton() },
         floatingActionButtonPosition = FabPosition.End,
-
-        ) { paddingValues ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -122,44 +119,45 @@ fun CreatePetScreen(analytics: AnalyticsManager,
                 gender = it
             }
             Spacer(modifier = Modifier.height(20.dp))
-            BaseOutlinedTextField(
-                value = weight,
-                placeHolder = "8.2",
-                label = "Peso",
-                leadingIcon = Icons.Default.AutoMode
-            ) {
-                weight = it
-            }
             Button(onClick = {
-                newPet = PetModel(
+                enableCreatePet = false
+                val newPet = Pet(
                     name = name,
                     type = type,
-                    gender = gender,
-                    weight = null,
-                    ownerId = ownerId.toString(),
-                    breed = null,
-                    birthDate = null,
-                    photo = null,
-                    microchipId = null,
-                    adoptionDate = null
+                    gender = gender
                 )
-                realtime.addPet(newPet)
-                name = ""
-                type = ""
-                gender = ""
-                weight = ""
-                Toast.makeText(context,"${newPet.name} es tu mascota", Toast.LENGTH_SHORT).show()
-                navigation.navigate(Home)
-            }) {
+                // Llama al método de ViewModel para agregar la mascota
+                petViewModel.addPet(newPet,
+                    onSuccess = {
+                        // Aquí puedes mostrar un mensaje o navegar después de crear la mascota
+                        coroutineScope.launch {
+                            snackBarHostState.showSnackbar("${newPet.name} registrado con éxito")
+                            navigateBack()
+                        }
+
+                    },
+                    onFailure = { exception ->
+                        // Aquí puedes mostrar un error si algo sale mal
+                        coroutineScope.launch {
+                            enableCreatePet = true
+                            snackBarHostState.showSnackbar("No se ha podido crear")
+                            Log.d("Crear pet","Error: ${exception.message}" )
+                        }
+                    }
+                )
+            },
+                enabled = enableCreatePet
+            ) {
                 Text(text = "Crear mascota")
             }
         }
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(onClickIcon: (String) -> Unit) {
+fun MyTopAppBar(onClickIcon: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -171,14 +169,14 @@ fun MyTopAppBar(onClickIcon: (String) -> Unit) {
         },
         navigationIcon = {
             IconButton(onClick = {
-                onClickIcon("Atrás")
+                onClickIcon()
             }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
             }
         },
         actions = {
             IconButton(onClick = {
-                onClickIcon("Menú desplegado")
+
             }) {
                 Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
             }
