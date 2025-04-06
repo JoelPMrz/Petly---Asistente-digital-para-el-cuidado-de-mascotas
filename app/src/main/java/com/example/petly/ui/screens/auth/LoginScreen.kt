@@ -43,12 +43,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.petly.R
-import com.example.petly.navegation.ForgotPassword
-import com.example.petly.navegation.Home
-import com.example.petly.navegation.Login
-import com.example.petly.navegation.SingUp
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
@@ -59,7 +54,13 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavController) {
+fun LoginScreen(
+    analytics: AnalyticsManager,
+    auth: AuthManager,
+    navigateToHome:()-> Unit,
+    navigateToForgotPassword:()-> Unit,
+    navigateToSingUp:()-> Unit
+) {
     val context = LocalContext.current
     var name: String by remember { mutableStateOf("") }
     var email: String by remember { mutableStateOf("") }
@@ -77,11 +78,7 @@ fun LoginScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavC
                     val fireUser = auth.signInWithGoogleCredential(credential)
                     if (fireUser != null) {
                         Toast.makeText(context, "Bienvenido", Toast.LENGTH_SHORT).show()
-                        navigation.navigate(Home) {
-                            popUpTo(Login) {
-                                inclusive = true
-                            }
-                        }
+                        navigateToHome()
                     }
                 }
             }
@@ -140,7 +137,7 @@ fun LoginScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavC
                 text = "Forgot password?", modifier = Modifier
                     .align(Alignment.End)
                     .clickable {
-                        navigation.navigate(ForgotPassword)
+                        navigateToForgotPassword()
                     },
                 color = colorResource(R.color.blue80)
             )
@@ -151,7 +148,7 @@ fun LoginScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavC
             ) {
                 ButtonSingIn {
                     scope.launch {
-                        signInEmailPassword(email, password, auth, analytics, context, navigation)
+                        signInEmailPassword(email, password, auth, analytics, context, navigateToHome)
                     }
                 }
             }
@@ -180,7 +177,7 @@ fun LoginScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavC
                 Button(
                     onClick = {
                         scope.launch {
-                            signInAnonymously(auth, analytics, context, navigation)
+                            signInAnonymously(auth, analytics, context, navigateToHome)
                         }
                     },
                     modifier = Modifier
@@ -208,7 +205,7 @@ fun LoginScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavC
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "Sing up", modifier = Modifier.clickable {
-                    navigation.navigate(SingUp)
+                        navigateToSingUp()
                 },
                     color = colorResource(R.color.blue100),
                     fontWeight = FontWeight.SemiBold
@@ -284,16 +281,12 @@ private suspend fun signInAnonymously(
     auth: AuthManager,
     analytics: AnalyticsManager,
     context: Context,
-    navigation: NavController
+    navigateToHome: () -> Unit
 ) {
     when (val result = auth.signInAnonymously()) {
         is AuthRes.Success -> {
             analytics.logButtonClicked("Click: Continuar como inviatdo")
-            navigation.navigate(Home) {
-                popUpTo(Login) {
-                    inclusive = true
-                }
-            }
+            navigateToHome()
 
         }
 
@@ -310,17 +303,13 @@ private suspend fun signInEmailPassword(
     auth: AuthManager,
     analytics: AnalyticsManager,
     context: Context,
-    navigation: NavController
+    navigateToHome: () -> Unit
 ) {
     if (email.isNotEmpty() && password.isNotEmpty()) {
         when (val result = auth.signInWithEmailPassword(email, password)) {
             is AuthRes.Success -> {
                 analytics.logButtonClicked("Click: Iniciar sesión correo y contraseña")
-                navigation.navigate(Home) {
-                    popUpTo(Login) {
-                        inclusive = true
-                    }
-                }
+                navigateToHome()
             }
 
             is AuthRes.Error -> {

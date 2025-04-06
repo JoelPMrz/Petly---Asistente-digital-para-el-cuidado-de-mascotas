@@ -32,7 +32,11 @@ import com.example.petly.utils.AuthRes
 import kotlinx.coroutines.launch
 
 @Composable
-fun ForgotPasswordScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavController) {
+fun ForgotPasswordScreen(
+    analytics: AnalyticsManager,
+    auth: AuthManager,
+    navigateToLogin:()-> Unit
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var email: String by remember { mutableStateOf("") }
@@ -54,7 +58,7 @@ fun ForgotPasswordScreen(analytics: AnalyticsManager, auth: AuthManager, navigat
         Spacer(modifier = Modifier.height(10.dp))
         Button(onClick = {
             scope.launch {
-                resetPassword(email, auth, analytics, context, navigation)
+                resetPassword(email, auth, analytics, context, navigateToLogin)
             }
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Recuperar contraseña")
@@ -67,13 +71,13 @@ suspend fun resetPassword(
     auth: AuthManager,
     analytics: AnalyticsManager,
     context: Context,
-    navigate: NavController
+    navigateToLogin: ()-> Unit
 ) {
     when (val res = auth.resetPassword(email)) {
         is AuthRes.Success -> {
             analytics.logButtonClicked(buttonName = "Reset password $email")
             Toast.makeText(context, "Correo enviado a $email", Toast.LENGTH_SHORT).show()
-            navigate.navigate(Login)
+            navigateToLogin()
         }
 
         is AuthRes.Error -> {

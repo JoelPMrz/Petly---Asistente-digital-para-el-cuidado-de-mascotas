@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -20,6 +21,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,35 +32,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.petly.R
-import com.example.petly.data.models.PetModel
-import com.example.petly.navegation.CreatePet
-import com.example.petly.navegation.Home
-import com.example.petly.navegation.Login
+import com.example.petly.data.models.Pet
+import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
-import com.example.petly.utils.RealtimeManager
 
 @Composable
 fun HomeScreen(
     analytics: AnalyticsManager,
     auth: AuthManager,
-    realtime: RealtimeManager,
-    navigation: NavController
+    navigateToPetDetail:(String)-> Unit,
+    navigateBack:()-> Unit,
+    navigateToCreatePet:()-> Unit,
+    petViewModel: PetViewModel =  hiltViewModel()
 ) {
+
+    val pets by petViewModel.petsState.collectAsState()
 
     val onConfirmLogOut: () -> Unit = {
         auth.singOut()
-        navigation.navigate(Login) {
-            popUpTo(Home) {
-                inclusive = true
-            }
-        }
+        navigateBack()
     }
 
-    val pets by realtime.getPetsFlows().collectAsState(emptyList())
-
+    // Muestra la UI
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,37 +65,47 @@ fun HomeScreen(
     ) {
         Text(text = "HOME SCREEN", fontSize = 25.sp)
         Spacer(modifier = Modifier.height(20.dp))
+
+        // Si no hay mascotas, muestra un mensaje
         if (pets.isEmpty()) {
-            Text(text = "No tienes macotas")
+            Text(text = "No tienes mascotas")
         } else {
+            // Si hay mascotas, muestra una lista
             LazyColumn {
-                pets.forEach { pet ->
-                    item {
-                        Pet(pet, realtime)
-                    }
+                items(pets) { pet ->
+                    Pet(pet, petViewModel, navigateToPetDetail)
                 }
             }
         }
+
+        // Botón para crear una mascota
         Button(onClick = {
-            navigation.navigate(CreatePet)
+            navigateToCreatePet()
         }) {
             Text(text = "Crear mascota")
         }
+
+        // Botón para cerrar sesión
         Button(onClick = {
             onConfirmLogOut()
         }) {
             Text(text = "Cerrar sesión")
         }
     }
+
+    LaunchedEffect(Unit) {
+        petViewModel.getPets()
+    }
 }
 
-
 @Composable
-fun Pet(pet: PetModel, realtime: RealtimeManager) {
+fun Pet(pet: Pet, petViewModel: PetViewModel, navigateToPetDetail: (String)-> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { },
+            .clickable {
+                navigateToPetDetail(pet.id)
+            },
         elevation = CardDefaults.cardElevation(8.dp),
         shape = MaterialTheme.shapes.large
     ) {
@@ -122,7 +131,8 @@ fun Pet(pet: PetModel, realtime: RealtimeManager) {
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Button(onClick = {
-                    realtime.deletePet(pet.key ?: "")
+                    // Eliminar la mascota
+                    petViewModel.deletePet(pet.id)
                 }) {
                     Text(text = "Eliminar mascota")
                 }
@@ -130,5 +140,6 @@ fun Pet(pet: PetModel, realtime: RealtimeManager) {
         }
     }
 }
+
 
 

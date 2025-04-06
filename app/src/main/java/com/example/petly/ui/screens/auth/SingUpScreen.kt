@@ -33,7 +33,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
 
 @Composable
-fun SingUpScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: NavController) {
+fun SingUpScreen(
+    analytics: AnalyticsManager,
+    auth: AuthManager,
+    navigateBack:()->Unit
+) {
     var password: String by remember { mutableStateOf("") }
     var email: String by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
@@ -61,7 +65,7 @@ fun SingUpScreen(analytics: AnalyticsManager, auth: AuthManager, navigation: Nav
         Spacer(modifier = Modifier.height(10.dp))
         Button(onClick = {
             scope.launch {
-                singUp(email, password, auth, analytics, navigation, context)
+                singUp(email, password, auth, analytics, navigateBack, context)
             }
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Registrarse")
@@ -77,7 +81,7 @@ private suspend fun singUp(
     password: String,
     auth: AuthManager,
     analytics: AnalyticsManager,
-    navigation: NavController,
+    navigateBack:()->Unit,
     context: Context
 ) {
     if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -85,7 +89,7 @@ private suspend fun singUp(
             is AuthRes.Success->{
                 analytics.logButtonClicked(FirebaseAnalytics.Event.SIGN_UP)
                 Toast.makeText(context, "Registro completado", Toast.LENGTH_SHORT).show()
-                navigation.popBackStack()
+                navigateBack()
             }
             is AuthRes.Error->{
                 analytics.logButtonClicked("Error SignUp: ${result.errorMessage}")
