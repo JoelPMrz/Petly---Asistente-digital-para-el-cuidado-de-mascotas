@@ -15,7 +15,7 @@ object ForgotPassword
 object SingUp
 
 @Serializable
-object CreatePet
+object AddPet
 
 @Serializable
 data class PetDetail(
@@ -24,3 +24,18 @@ data class PetDetail(
 
 @Serializable
 object UserDetail
+
+@Serializable
+data class Weights(
+    val petId : String
+)
+
+@Serializable
+data class AddWeight(
+    val petId : String
+)
+
+@Serializable
+data class DetailWeight(
+    val weightId : String
+)

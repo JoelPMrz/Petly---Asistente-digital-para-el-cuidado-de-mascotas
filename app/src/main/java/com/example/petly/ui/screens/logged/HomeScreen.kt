@@ -1,4 +1,4 @@
-package com.example.petly.ui.screens.login.home
+package com.example.petly.ui.screens.logged
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -33,7 +33,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.ui.viewmodel.PetViewModel
@@ -52,10 +51,6 @@ fun HomeScreen(
 
     val pets by petViewModel.petsState.collectAsState()
 
-    val onConfirmLogOut: () -> Unit = {
-        auth.singOut()
-        navigateBack()
-    }
 
     // Muestra la UI
     Column(
@@ -87,7 +82,8 @@ fun HomeScreen(
 
         // Botón para cerrar sesión
         Button(onClick = {
-            onConfirmLogOut()
+            auth.singOut()
+            navigateBack()
         }) {
             Text(text = "Cerrar sesión")
         }
@@ -104,7 +100,7 @@ fun Pet(pet: Pet, petViewModel: PetViewModel, navigateToPetDetail: (String)-> Un
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                navigateToPetDetail(pet.id)
+                pet.id?.let { navigateToPetDetail(it) }
             },
         elevation = CardDefaults.cardElevation(8.dp),
         shape = MaterialTheme.shapes.large
@@ -132,7 +128,7 @@ fun Pet(pet: Pet, petViewModel: PetViewModel, navigateToPetDetail: (String)-> Un
                 Spacer(modifier = Modifier.height(4.dp))
                 Button(onClick = {
                     // Eliminar la mascota
-                    petViewModel.deletePet(pet.id)
+                    pet.id?.let { petViewModel.deletePet(it) }
                 }) {
                     Text(text = "Eliminar mascota")
                 }

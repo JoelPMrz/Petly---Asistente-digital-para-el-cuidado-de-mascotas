@@ -3,7 +3,7 @@ package com.example.petly.data.models
 import java.time.LocalDate
 
 data class Pet(
-    var id: String = "",
+    var id: String? = "",
     var name: String = "",
     var type: String = "",
     var breed: String? = null,

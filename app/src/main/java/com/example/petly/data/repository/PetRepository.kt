@@ -30,7 +30,7 @@ class PetRepository @Inject constructor(
 
     suspend fun updatePet(pet: Pet) {
         val petRef = pet.id.let {
-            firestore.collection("pets").document(it)
+            firestore.collection("pets").document(it!!)
         }
         petRef.set(pet).await()
     }
