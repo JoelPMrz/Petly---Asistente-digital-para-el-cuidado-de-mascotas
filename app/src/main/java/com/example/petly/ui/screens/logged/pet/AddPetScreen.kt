@@ -1,4 +1,4 @@
-package com.example.petly.ui.screens.login.pet
+package com.example.petly.ui.screens.logged.pet
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -47,20 +47,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.petly.data.models.Pet
-import com.example.petly.navegation.CreatePet
-import com.example.petly.navegation.Home
-import com.example.petly.navegation.Login
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
-import com.example.petly.utils.AuthManager
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun CreatePetScreen(
+fun AddPetScreen(
     analytics: AnalyticsManager,
     navigateBack:() -> Unit,
     petViewModel: PetViewModel = hiltViewModel()

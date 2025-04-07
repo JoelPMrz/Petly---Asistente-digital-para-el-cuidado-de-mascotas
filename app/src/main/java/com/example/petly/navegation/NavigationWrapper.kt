@@ -9,22 +9,21 @@ import androidx.navigation.toRoute
 import com.example.petly.ui.screens.auth.ForgotPasswordScreen
 import com.example.petly.ui.screens.auth.LoginScreen
 import com.example.petly.ui.screens.auth.SingUpScreen
-import com.example.petly.ui.screens.login.UserDetailScreen
-import com.example.petly.ui.screens.login.home.HomeScreen
-import com.example.petly.ui.screens.login.pet.CreatePetScreen
-import com.example.petly.ui.screens.login.pet.PetDetailScreen
+import com.example.petly.ui.screens.logged.UserDetailScreen
+import com.example.petly.ui.screens.logged.HomeScreen
+import com.example.petly.ui.screens.logged.pet.AddPetScreen
+import com.example.petly.ui.screens.logged.pet.PetDetailScreen
+import com.example.petly.ui.screens.logged.weight.AddWeightScreen
+import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
-import com.example.petly.utils.RealtimeManager
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.auth.User
 
 @Composable
 fun NavigationWrapper(context : Context){
     val navController = rememberNavController()
     val analytics = AnalyticsManager(context)
     val authManager = AuthManager(context)
-    val realtime = RealtimeManager(context)
     val user: FirebaseUser? = authManager.getCurrentUser()
 
     NavHost(navController = navController, startDestination = if(user == null)Login else Home){
@@ -73,10 +72,14 @@ fun NavigationWrapper(context : Context){
                     navController.navigate(PetDetail(petId = petId))
                 },
                 navigateBack = {
-                    navController.popBackStack()
+                    navController.navigate(Login){
+                        popUpTo<Home>{
+                            inclusive = true
+                        }
+                    }
                 },
                 navigateToCreatePet = {
-                    navController.navigate(CreatePet)
+                    navController.navigate(AddPet)
                 }
             )
         }
@@ -89,8 +92,8 @@ fun NavigationWrapper(context : Context){
                 }
             )
         }
-        composable<CreatePet> {
-            CreatePetScreen(
+        composable<AddPet> {
+            AddPetScreen(
                 analytics = analytics,
                 navigateBack = {
                     navController.popBackStack()
@@ -104,8 +107,36 @@ fun NavigationWrapper(context : Context){
                 petId = petDetail.petId,
                 navigateBack = {
                     navController.popBackStack()
+                },
+                navigateToWeights = {
+                    navController.navigate(Weights(petDetail.petId))
+                },
+                navigateToAddWeight = {
+                    navController.navigate(AddWeight(petDetail.petId))
+                }
+
+            )
+        }
+        composable<Weights> {backStackEntry->
+            val petDetail: Weights = backStackEntry.toRoute()
+            WeightsScreen(
+                analytics = analytics,
+                petId = petDetail.petId,
+                navigateBack = {
+                    navController.popBackStack()
                 }
             )
+        }
+        composable<AddWeight> {backStackEntry->
+            val petDetail: AddWeight = backStackEntry.toRoute()
+            AddWeightScreen(
+                analytics = analytics,
+                petId = petDetail.petId,
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
+
         }
     }
 }

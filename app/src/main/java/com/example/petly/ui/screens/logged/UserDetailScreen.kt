@@ -1,7 +1,6 @@
-package com.example.petly.ui.screens.login
+package com.example.petly.ui.screens.logged
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 
