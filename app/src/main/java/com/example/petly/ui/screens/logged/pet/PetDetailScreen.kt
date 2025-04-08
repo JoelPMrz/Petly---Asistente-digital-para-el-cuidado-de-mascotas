@@ -1,21 +1,30 @@
 package com.example.petly.ui.screens.logged.pet
 
+
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.MonitorWeight
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -38,15 +47,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.T
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.petly.R
 import com.example.petly.data.models.Weight
-import com.example.petly.ui.screens.logged.Pet
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.viewmodel.WeightViewModel
@@ -85,18 +98,35 @@ fun PetDetailScreen(
             )
         },
         bottomBar = { MyNavigationAppBar() },
-        snackbarHost = { SnackbarHost(snackBarHostState) },
-        floatingActionButton = { MyFloatingActionButton() },
-        floatingActionButtonPosition = FabPosition.End,
+        snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(paddingValues)
         ){
-            Text(text= petState?.name ?: "")
+            Image(
+                painter = painterResource(R.drawable.pet_predeterminado),
+                contentDescription = "Imagen de la mascota",
+                modifier = Modifier
+                    .clip(RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp))
+                    .fillMaxWidth(),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                Text(
+                    text= petState?.name ?: "",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text= "22 de marzo de 2020",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W500
+                )
+            }
+
             Spacer(modifier = Modifier.height(10.dp))
             Weigths(weight, petId, navigateToWeights, navigateToAddWeight)
         }
@@ -107,19 +137,30 @@ fun PetDetailScreen(
 fun Weigths(weight: Weight?, petId: String, navigateToWeights:(String)->Unit, navigateToAddWeights:(String)-> Unit){
     Card(
         modifier = Modifier
-            .width(400.dp)
+            .width(100.dp)
             .clickable {
-                if(weight == null){
-                    navigateToAddWeights(petId)
-                }else{
-                    navigateToWeights(petId)
-                }
+                navigateToWeights(petId)
             },
         elevation = CardDefaults.cardElevation(8.dp),
-        shape = MaterialTheme.shapes.large
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.white)
+        )
     ) {
-        Row(modifier = Modifier.padding(8.dp)){
-            Text(text = if(weight != null ) weight.value.toString() else "Añadir un peso")
+        Column(modifier = Modifier.padding(8.dp)){
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                Row(){
+                    Icon(
+                        imageVector = Icons.Outlined.MonitorWeight,
+                        contentDescription = "Weight icon",
+                        tint = colorResource(id = R.color.blue100)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(text= "Peso", fontWeight = FontWeight.W500)
+                }
+                Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = "Back", modifier = Modifier.padding(top = 4.dp))
+            }
+            Text(text = weight?.value?.toString() ?: "Agregar un peso")
         }
     }
 }
@@ -131,10 +172,11 @@ fun PetDetailTopAppBar(onClickIcon: (String) -> Unit) {
     TopAppBar(
         title = {
             Text(
-                "Detalle de la mascota",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontStyle = FontStyle.Italic
+                "Ficha técnica",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.W400,
+                fontStyle = FontStyle.Italic,
+                color = Color.DarkGray
             )
         },
         navigationIcon = {
@@ -148,9 +190,9 @@ fun PetDetailTopAppBar(onClickIcon: (String) -> Unit) {
             IconButton(onClick = {
                 onClickIcon("Menú desplegado")
             }) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
+                Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit pet")
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray)
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
     )
 }

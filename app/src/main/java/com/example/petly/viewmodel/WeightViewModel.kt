@@ -1,9 +1,11 @@
 package com.example.petly.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Weight
 import com.example.petly.data.repository.WeightRepository
+import com.example.petly.navegation.Weights
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,7 +44,6 @@ class WeightViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 weightRepository.addWeightToPet(petId, weight)
-                getWeights(petId) // Recargar los pesos después de agregar uno nuevo
             } catch (e: Exception) {
                 _errorState.value = "Error al agregar peso: ${e.message}"
             }
@@ -86,5 +87,15 @@ class WeightViewModel @Inject constructor(
 
     fun clearError() {
         _errorState.value = null
+    }
+
+    fun comparePreviousWeight(weight: Weight, weights: List<Weight>): Double? {
+        Log.d("LISTA PESOS", "comparePreviousWeight: ${weights}")
+        val position = weights.indexOf(weight)
+        Log.d("LISTA PESOS", "Posicion: $position")
+        if (position <= 0) return null
+        val weightToCompare = weights[position - 1]
+        Log.d("LISTA PESOS", "Peso a comparar: $weightToCompare con posicion: ${weights.indexOf(weightToCompare)}")
+        return weight.value - weightToCompare.value
     }
 }

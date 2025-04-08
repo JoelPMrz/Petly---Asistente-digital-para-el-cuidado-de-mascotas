@@ -4,11 +4,16 @@ import java.time.LocalDate
 
 data class Weight(
     var id: String? = null,
+    var petId: String? = null,
     var value: Double = 0.0,
     var unit: WeightUnit = WeightUnit.KILOGRAMS,
-    var date: LocalDate = LocalDate.now(),
+    var date: LocalDate? = null,
     var notes: String? = null
-)
+){
+    override fun toString(): String {
+        return "id: $id Peso: $value"
+    }
+}
 
 enum class WeightUnit(val displayName: String){
     KILOGRAMS("kg"),

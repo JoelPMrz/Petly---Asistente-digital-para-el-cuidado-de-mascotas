@@ -38,6 +38,15 @@ class PetRepository @Inject constructor(
     suspend fun deletePet(petId: String) {
         val petRef = firestore.collection("pets").document(petId)
         petRef.delete().await()
+
+        val weightsQuery = firestore.collection("weights")
+            .whereEqualTo("petId", petId)
+            .get()
+            .await()
+
+        for (doc in weightsQuery.documents) {
+            doc.reference.delete().await()
+        }
     }
 
     fun getPetsFlow(): Flow<List<Pet>> = callbackFlow {

@@ -132,11 +132,13 @@ fun NavigationWrapper(context : Context){
             AddWeightScreen(
                 analytics = analytics,
                 petId = petDetail.petId,
+                navigateToAddWeight = {
+                    navController.navigate(AddWeight(petDetail.petId))
+                },
                 navigateBack = {
                     navController.popBackStack()
                 }
             )
-
         }
     }
 }
