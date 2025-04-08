@@ -51,8 +51,6 @@ fun HomeScreen(
 
     val pets by petViewModel.petsState.collectAsState()
 
-
-    // Muestra la UI
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

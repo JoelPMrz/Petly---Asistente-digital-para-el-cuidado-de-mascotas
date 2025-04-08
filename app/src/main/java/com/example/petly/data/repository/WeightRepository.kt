@@ -22,7 +22,6 @@ class WeightRepository @Inject constructor(
                 val weightsIds = it.get("weights") as? List<String> ?: emptyList()
 
                 if (weightsIds.isNotEmpty()) {
-                    // Solo realiza la consulta si weightsIds no está vacío
                     val weightsRefs = firestore.collection("weights")
                         .whereIn("id", weightsIds)
 
@@ -34,11 +33,16 @@ class WeightRepository @Inject constructor(
                                 weight?.id = document.id
                                 weight?.let { weights.add(it) }
                             }
-                            trySend(weights) // Emitir los pesos obtenidos
+
+                            // Reordenar según el orden de weightsIds
+                            val sortedWeights = weightsIds.mapNotNull { id ->
+                                weights.find { it.id == id }
+                            }
+
+                            trySend(sortedWeights) // Emitimos la lista ordenada
                         }
                     }
                 } else {
-                    // Si no hay pesos, simplemente emitimos una lista vacía
                     trySend(emptyList<Weight>())
                 }
             }

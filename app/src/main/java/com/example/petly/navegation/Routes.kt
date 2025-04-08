@@ -37,5 +37,6 @@ data class AddWeight(
 
 @Serializable
 data class DetailWeight(
+    val petId : String,
     val weightId : String
 )
