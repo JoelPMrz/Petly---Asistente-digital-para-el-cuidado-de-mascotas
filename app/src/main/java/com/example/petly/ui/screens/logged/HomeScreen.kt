@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,45 +51,46 @@ fun HomeScreen(
 ) {
 
     val pets by petViewModel.petsState.collectAsState()
+    Surface {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "HOME SCREEN", fontSize = 25.sp)
+            Spacer(modifier = Modifier.height(20.dp))
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = "HOME SCREEN", fontSize = 25.sp)
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Si no hay mascotas, muestra un mensaje
-        if (pets.isEmpty()) {
-            Text(text = "No tienes mascotas")
-        } else {
-            // Si hay mascotas, muestra una lista
-            LazyColumn {
-                items(pets) { pet ->
-                    Pet(pet, petViewModel, navigateToPetDetail)
+            // Si no hay mascotas, muestra un mensaje
+            if (pets.isEmpty()) {
+                Text(text = "No tienes mascotas")
+            } else {
+                // Si hay mascotas, muestra una lista
+                LazyColumn {
+                    items(pets) { pet ->
+                        Pet(pet, petViewModel, navigateToPetDetail)
+                    }
                 }
+            }
+
+            // Botón para crear una mascota
+            Button(onClick = {
+                navigateToCreatePet()
+            }) {
+                Text(text = "Crear mascota")
+            }
+
+            // Botón para cerrar sesión
+            Button(onClick = {
+                auth.singOut()
+                navigateBack()
+            }) {
+                Text(text = "Cerrar sesión")
             }
         }
 
-        // Botón para crear una mascota
-        Button(onClick = {
-            navigateToCreatePet()
-        }) {
-            Text(text = "Crear mascota")
+        LaunchedEffect(Unit) {
+            petViewModel.getPets()
         }
-
-        // Botón para cerrar sesión
-        Button(onClick = {
-            auth.singOut()
-            navigateBack()
-        }) {
-            Text(text = "Cerrar sesión")
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        petViewModel.getPets()
     }
 }
 

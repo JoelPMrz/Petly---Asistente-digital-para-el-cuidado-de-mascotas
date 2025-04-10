@@ -214,7 +214,9 @@ fun AddPetAppBar(
 @Composable
 fun MyNavigationAppBar() {
     var index by remember { mutableIntStateOf(1) }
-    NavigationBar(containerColor = Color.White) {
+    NavigationBar(
+        //containerColor = Color.White
+    ) {
 
         NavigationBarItem(
             selected = index == 0,
@@ -223,15 +225,11 @@ fun MyNavigationAppBar() {
                 Icon(
                     imageVector = if (index != 0) Icons.Outlined.CalendarMonth else Icons.Rounded.CalendarMonth,
                     contentDescription = "Favourite icon",
-                    tint = if (index != 0) Color.LightGray else Color.Gray
+                   // tint = if (index != 0) Color.LightGray else Color.Gray
                 )
             },
             alwaysShowLabel = false,
-            colors = NavigationBarItemDefaults.colors(
-                indicatorColor = Color.Transparent,
-
-
-                )
+            //colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent,)
         )
 
         NavigationBarItem(
@@ -241,14 +239,11 @@ fun MyNavigationAppBar() {
                 Icon(
                     imageVector = if (index != 1) Icons.Outlined.Home else Icons.Rounded.Home,
                     contentDescription = "Home icon",
-                    tint = if (index != 1) Color.LightGray else Color.Gray
+                    //tint = if (index != 1) Color.LightGray else Color.Gray
                 )
             },
             alwaysShowLabel = false,
-            colors = NavigationBarItemDefaults.colors(
-                indicatorColor = Color.Transparent
-
-            )
+            //colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent)
         )
 
         NavigationBarItem(
@@ -258,14 +253,11 @@ fun MyNavigationAppBar() {
                 Icon(
                     imageVector = if (index != 2) Icons.Outlined.Person else Icons.Rounded.Person,
                     contentDescription = "Search icon",
-                    tint =  if (index != 2) Color.LightGray else Color.Gray
+                    //tint =  if (index != 2) Color.LightGray else Color.Gray
                 )
             },
             alwaysShowLabel = false,
-            colors = NavigationBarItemDefaults.colors(
-                indicatorColor = Color.Transparent
-
-            )
+            //colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent)
         )
 
     }
@@ -277,8 +269,8 @@ fun MyFloatingActionButton() {
         onClick = {
 
         },
-        containerColor = Color.White,
-        contentColor = Color.Red
+        //containerColor = Color.White,
+        //contentColor = Color.Red
     ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = "Add icon")
     }

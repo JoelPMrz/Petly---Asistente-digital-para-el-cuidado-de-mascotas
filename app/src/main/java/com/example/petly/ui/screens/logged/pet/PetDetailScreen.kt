@@ -39,6 +39,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -143,9 +145,12 @@ fun Weigths(weight: Weight?, petId: String, navigateToWeights:(String)->Unit, na
             },
         elevation = CardDefaults.cardElevation(8.dp),
         shape = MaterialTheme.shapes.large,
+        /*
         colors = CardDefaults.cardColors(
             containerColor = colorResource(id = R.color.white)
         )
+
+         */
     ) {
         Column(modifier = Modifier.padding(8.dp)){
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
@@ -153,7 +158,7 @@ fun Weigths(weight: Weight?, petId: String, navigateToWeights:(String)->Unit, na
                     Icon(
                         imageVector = Icons.Outlined.MonitorWeight,
                         contentDescription = "Weight icon",
-                        tint = colorResource(id = R.color.blue100)
+                        //tint = colorResource(id = R.color.blue100)
                     )
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(text= "Peso", fontWeight = FontWeight.W500)
@@ -172,11 +177,11 @@ fun PetDetailTopAppBar(onClickIcon: (String) -> Unit) {
     TopAppBar(
         title = {
             Text(
-                "Ficha técnica",
+                stringResource(R.string.pet_detail_screen_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W400,
                 fontStyle = FontStyle.Italic,
-                color = Color.DarkGray
+                //color = Color.DarkGray
             )
         },
         navigationIcon = {
@@ -193,6 +198,6 @@ fun PetDetailTopAppBar(onClickIcon: (String) -> Unit) {
                 Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit pet")
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+        //colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
     )
 }

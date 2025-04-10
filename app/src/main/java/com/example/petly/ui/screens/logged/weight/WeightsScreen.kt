@@ -1,8 +1,11 @@
 package com.example.petly.ui.screens.logged.weight
 
-import android.util.Log
+import android.R.attr.visible
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,22 +18,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.ArrowRight
-import androidx.compose.material.icons.rounded.MonitorWeight
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Scale
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +45,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -55,7 +52,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -65,14 +64,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.Weight
 import com.example.petly.data.models.WeightUnit
-import com.example.petly.ui.components.BaseOutlinedTextField
-import com.example.petly.ui.screens.logged.Pet
-import com.example.petly.ui.screens.logged.pet.MyFloatingActionButton
-import com.example.petly.ui.screens.logged.pet.MyNavigationAppBar
-import com.example.petly.ui.screens.logged.pet.Weigths
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.viewmodel.WeightViewModel
+
 
 @Composable
 fun WeightsScreen(
@@ -126,11 +121,19 @@ fun WeightsScreen(
 @Composable
 fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewModel, petId: String) {
     val difference: Double? = weightViewModel.comparePreviousWeight(weight, weights)
+    var expanded by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                weightViewModel.deleteWeight(petId = petId, weightId = weight.id.toString())
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        expanded = !expanded
+                    },
+                    onLongPress = {
+                        weightViewModel.deleteWeight(petId = petId, weightId = weight.id.toString())
+                    }
+                )
             },
         elevation = CardDefaults.cardElevation(2.dp),
         shape = MaterialTheme.shapes.large
@@ -155,8 +158,10 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                     Text(text = "${kotlin.math.abs(difference)}")
                 }
             }
-            Spacer(modifier = Modifier.height(5.dp))
-            Text(text = weight.notes ?: "No hay notas disponibles")
+            AnimatedVisibility(expanded){
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(text = weight.notes ?: "No hay notas disponibles")
+            }
         }
     }
 }
@@ -217,7 +222,7 @@ fun WeightsTopAppBar(navigateBack:()->Unit, petId: String, petName: String, weig
                 )
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+        //colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
     )
 }
 
@@ -234,7 +239,9 @@ fun AddWeightDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Nuevo peso")
+            Text(
+                stringResource(R.string.create_weight_title)
+            )
         },
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -243,23 +250,27 @@ fun AddWeightDialog(
                     onValueChange = { note = it },
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
-                        Text(text = "Escribe algun comentario", color = colorResource(id = R.color.blue80))
+                        Text(
+                            text = "Escribe algun comentario",
+                            //color = colorResource(id = R.color.blue80)
+                            )
                     },
                     label = {
                         Text(
                             text = "Comentario",
                             fontWeight = FontWeight.Medium,
                             fontStyle = FontStyle.Italic,
-                            color = colorResource(id = R.color.blue100)
+                            //color = colorResource(id = R.color.blue100)
                         )
                     },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.Description,
                             contentDescription = Icons.Outlined.Description.name,
-                            tint = colorResource(id = R.color.blue100)
+                            //tint = colorResource(id = R.color.blue100)
                         )
                     },
+                    /*
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         containerColor = colorResource(id = R.color.blue50),
                         focusedBorderColor = colorResource(id = R.color.blue100),
@@ -267,6 +278,7 @@ fun AddWeightDialog(
                         focusedTextColor = colorResource(id = R.color.blue100),
                         unfocusedTextColor = colorResource(id = R.color.blue100),
                     ),
+                     */
                     maxLines = 2,
                 )
                 Text(text = "Opcional")
@@ -276,30 +288,21 @@ fun AddWeightDialog(
                     onValueChange = { weightText = it },
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
-                        Text(text = "20.0", color = colorResource(id = R.color.blue80))
+                        Text(text = "20.0")
                     },
                     label = {
                         Text(
                             text = "Peso",
                             fontWeight = FontWeight.Medium,
                             fontStyle = FontStyle.Italic,
-                            color = colorResource(id = R.color.blue100)
                         )
                     },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.MonitorWeight,
                             contentDescription = Icons.Outlined.MonitorWeight.name,
-                            tint = colorResource(id = R.color.blue100)
                         )
                     },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        containerColor = colorResource(id = R.color.blue50),
-                        focusedBorderColor = colorResource(id = R.color.blue100),
-                        unfocusedBorderColor = colorResource(id = R.color.blue50),
-                        focusedTextColor = colorResource(id = R.color.blue100),
-                        unfocusedTextColor = colorResource(id = R.color.blue100),
-                    ),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
