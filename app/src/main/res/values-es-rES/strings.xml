@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Fícha técnica</string>
+    <string name="create_weight_title">Nuevo peso</string>
+</resources>

@@ -32,7 +32,10 @@ fun BaseOutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         placeholder = {
             if (!placeHolder.isNullOrEmpty()) {
-                Text(text = placeHolder, color = colorResource(id = R.color.blue80))
+                Text(
+                    text = placeHolder,
+                    //color = colorResource(id = R.color.blue80)
+                )
             }
         },
         label = {
@@ -40,16 +43,17 @@ fun BaseOutlinedTextField(
                 label,
                 fontWeight = FontWeight.Medium,
                 fontStyle = FontStyle.Italic,
-                color = colorResource(id = R.color.blue100)
+                //color = colorResource(id = R.color.blue100)
             )
         },
         leadingIcon = {
             Icon(
                 imageVector = leadingIcon,
                 contentDescription = leadingIcon.name,
-                tint = colorResource(id = R.color.blue100)
+                //tint = colorResource(id = R.color.blue100)
             )
         },
+       /*
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = colorResource(id = R.color.blue50),  // Cambia el color de fondo
             focusedBorderColor = colorResource(id = R.color.blue100), // Cambia el color del borde cuando está enfocado
@@ -58,5 +62,7 @@ fun BaseOutlinedTextField(
             unfocusedTextColor = colorResource(id = R.color.blue100),
             //cursorColor = colorResource(id = R.color.blue100)// Cambia el color del borde cuando no está enfocado
         )
+
+        */
     )
 }
