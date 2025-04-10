@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Petly</string>
-    <string name="pet_detail_screen_title">Fícha técnica</string>
+    <string name="pet_detail_screen_title">Ficha técnica</string>
     <string name="create_weight_title">Nuevo peso</string>
+    <string name="weight_form_label_date">Fecha</string>
+    <string name="weight_form_label_note">Comentario</string>
+    <string name="weight_form_placeholder_note">Escribe un comentario</string>
+    <string name="weight_form_label_weight">Peso</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="weight_form_acept_btn">Aceptar</string>
+    <string name="weight_form_cancel_btn">Cancelar</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Opcional</string>
 </resources>

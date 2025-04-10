@@ -66,4 +66,5 @@ fun AddWeightScreen(
     navigateBack:()-> Unit,
     weightViewModel: WeightViewModel = hiltViewModel()
 ){
+
 }
