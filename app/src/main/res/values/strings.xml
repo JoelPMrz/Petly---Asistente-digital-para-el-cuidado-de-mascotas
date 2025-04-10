@@ -3,4 +3,16 @@
     <string name="app_name">Petly</string>
     <string name="pet_detail_screen_title">Technical sheet</string>
     <string name="create_weight_title">New weight</string>
+    <string name="weight_form_label_date">Fecha</string>
+    <string name="weight_form_label_note">Comentario</string>
+    <string name="weight_form_placeholder_note">Escribe un comentario</string>
+    <string name="weight_form_label_weight">Peso</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="weight_form_acept_btn">Aceptar</string>
+    <string name="weight_form_cancel_btn">Cancelar</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Opcional</string>
+    <string name="edit_weight_title">Editar peso</string>
+    <string name="delete_weight_alert_title">¿Deseas eliminar este peso?</string>
+    <string name="delete_weight_alert_description">Al realizar esta acción, el peso se eliminará y no será posible recuperarlo</string>
 </resources>

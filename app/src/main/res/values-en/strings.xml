@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_weight_title">Editar peso</string>
+    <string name="delete_weight_alert_title">¿Deseas eliminar este peso?</string>
+    <string name="delete_weight_alert_description">Al realizar esta acción, el peso se eliminará y no será posible recuperarlo</string>
+</resources>
