@@ -243,7 +243,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
     if(showDeleteWeightDialog){
         DeleteAlertDialog(
             onDismiss = {
-                expanded = false
+                showDeleteWeightDialog = false
             },
             petId = petId,
             weightViewModel = weightViewModel,
@@ -269,10 +269,24 @@ fun DeleteAlertDialog(
             Text(text = stringResource(R.string.delete_weight_alert_description))
         },
         confirmButton = {
-            weightViewModel.deleteWeight(petId, weight.id.toString())
+            TextButton(
+                onClick = {
+                    weightViewModel.deleteWeight(petId, weight.id.toString())
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(R.string.weight_form_acept_btn))
+            }
         },
         dismissButton = {
-            onDismiss()
+            TextButton(
+                onClick = {
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(R.string.weight_form_cancel_btn))
+            }
+
         }
     )
 }
