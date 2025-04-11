@@ -66,6 +66,7 @@ class WeightViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 weightRepository.deleteWeightFromPet(petId, weightId)
+                getWeights(petId)
             } catch (e: Exception) {
                 _errorState.value = "Error al eliminar peso: ${e.message}"
             }
