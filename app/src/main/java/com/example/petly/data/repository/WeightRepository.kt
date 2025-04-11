@@ -33,13 +33,11 @@ class WeightRepository @Inject constructor(
                                 weight.let { weights.add(it) }
                             }
                             val sortedWeights = weights.sortedBy { it.date }
-
                             /* Para ordenar por orden de registro
                             val finalSortedWeights = weightsIds.mapNotNull { id ->
                                 sortedWeights.find { it.id == id }
                             }
                              */
-
                             trySend(sortedWeights)
                         }
                     }
