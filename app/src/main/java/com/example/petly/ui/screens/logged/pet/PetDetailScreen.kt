@@ -88,7 +88,7 @@ fun PetDetailScreen(
         weightViewModel.getWeights(petId)
     }
     LaunchedEffect(weights){
-        weight = weights.firstOrNull()
+        weight = weights.lastOrNull()
     }
 
     Scaffold(

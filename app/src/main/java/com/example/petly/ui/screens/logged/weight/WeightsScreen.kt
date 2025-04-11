@@ -1,6 +1,7 @@
 package com.example.petly.ui.screens.logged.weight
 
 import android.R.attr.visible
+import android.app.DatePickerDialog
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -63,6 +64,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -78,7 +80,10 @@ import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
+import com.example.petly.utils.formatLocalDateToString
+import com.example.petly.utils.parseDate
 import com.example.petly.viewmodel.WeightViewModel
+import java.time.LocalDate
 
 
 @Composable
@@ -125,8 +130,9 @@ fun WeightsScreen(
                 if (weights.isEmpty()) {
                     Text(text = "No tienes pesos")
                 } else {
+                    val sortedWeights = remember(key1 = weights) { weights.reversed() }
                     LazyColumn(modifier = Modifier.padding(10.dp)) {
-                        items(weights.reversed()) { weight ->
+                        items(sortedWeights, key = { it.id!! }) { weight ->
                             Weight(weight, weights, weightViewModel, petId)
                             Spacer(modifier = Modifier.height(10.dp))
                         }
@@ -143,16 +149,16 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
     var expanded by remember { mutableStateOf(false) }
     var showEditWeightDialog by remember { mutableStateOf(false) }
     var showDeleteWeightDialog by remember { mutableStateOf(false)  }
+    var selectedItemId by remember { mutableStateOf<String?>(null) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
+                        selectedItemId = weight.id
                         expanded = !expanded
-                    },
-                    onLongPress = {
-                        //weightViewModel.deleteWeight(petId = petId, weightId = weight.id.toString())
                     }
                 )
             },
@@ -190,7 +196,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                 }
             }
             AnimatedVisibility(expanded) {
-                Box() {
+                Box {
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = weight.notes ?: "No hay notas disponibles",
@@ -207,7 +213,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                 verticalAlignment = Alignment.Bottom
             ) {
                 Text(
-                    text = "21 Marzo 2025",
+                    text = formatLocalDateToString(weight.date),
                     fontSize = 10.sp
                 )
                 AnimatedVisibility(expanded) {
@@ -216,6 +222,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                             Icons.Rounded.Delete,
                             onClick = {
                                 showDeleteWeightDialog = !showDeleteWeightDialog
+                                expanded = false
                             }
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -223,6 +230,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                             Icons.Rounded.Edit,
                             onClick = {
                                 showEditWeightDialog = !showEditWeightDialog
+                                expanded =false
                             }
                         )
                     }
@@ -367,13 +375,36 @@ fun AddWeightDialog(
     var weightText by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
     var dateText by remember { mutableStateOf("") }
+    val openDatePicker = remember { mutableStateOf(false) }
     val noteMaxLength = 100
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = weight) {
         weight?.let {
             weightText = it.value.toString()
             note = it.notes ?: ""
+            dateText = it.date.toString()
         }
+    }
+
+
+    // Manejamos el DatePicker
+    if (openDatePicker.value) {
+        val currentDate = LocalDate.now()
+        val initialDate = weight?.date ?: currentDate
+        val datePickerDialog = DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                // Convertimos la fecha seleccionada a LocalDate y la mostramos en el TextField
+                val selectedDate = LocalDate.of(year, month + 1, dayOfMonth) // Month is 0-indexed
+                dateText = formatLocalDateToString(selectedDate)
+                openDatePicker.value = false
+            },
+            initialDate.year,
+            initialDate.monthValue - 1, // Month is 0-indexed
+            initialDate.dayOfMonth
+        )
+        datePickerDialog.show()
     }
 
     AlertDialog(
@@ -392,7 +423,7 @@ fun AddWeightDialog(
             Column(modifier = Modifier.fillMaxWidth()) {
                 OutlinedTextField(
                     value = weightText,
-                    onValueChange = { weightText = it },
+                    onValueChange = { weightText = it},
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
                         Text(text = stringResource(R.string.weight_form_placeholder_weight))
@@ -412,12 +443,15 @@ fun AddWeightDialog(
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedTextField(
                     value = dateText,
                     onValueChange = { dateText = it },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().clickable{
+                        openDatePicker.value = true
+                    },
                     placeholder = {
                         Text(text = stringResource(R.string.weight_form_placeholder_date))
                     },
@@ -435,7 +469,8 @@ fun AddWeightDialog(
                         )
                     },
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    enabled = false
+
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedTextField(
@@ -473,11 +508,13 @@ fun AddWeightDialog(
             TextButton(
                 onClick = {
                     val parsedWeight = weightText.toDoubleOrNull()
+                    val parsedDate = parseDate(dateText)
                     if (parsedWeight != null) {
                         val newWeight = Weight(
                             id = weight?.id,
                             petId = petId,
                             value = parsedWeight,
+                            date = parsedDate,
                             notes = note
                         )
                         if (weight != null) {

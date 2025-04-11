@@ -1,6 +1,8 @@
 package com.example.petly.data.repository
 
 import com.example.petly.data.models.Weight
+import com.example.petly.data.models.fromFirestoreMap
+import com.example.petly.data.models.toFirestoreMap
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
@@ -13,33 +15,32 @@ class WeightRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
 
-    // Función para obtener los pesos de una mascota a partir de los IDs de los pesos almacenados en el documento de la mascota
     fun getWeightsFlow(petId: String): Flow<List<Weight>> = callbackFlow {
         val petDocRef = firestore.collection("pets").document(petId)
-
         val subscription = petDocRef.addSnapshotListener { snapshot, _ ->
             snapshot?.let {
                 val weightsIds = it.get("weights") as? List<String> ?: emptyList()
-
                 if (weightsIds.isNotEmpty()) {
                     val weightsRefs = firestore.collection("weights")
                         .whereIn("id", weightsIds)
-
                     weightsRefs.addSnapshotListener { weightSnapshot, _ ->
                         weightSnapshot?.let { querySnapshot ->
                             val weights = mutableListOf<Weight>()
                             for (document in querySnapshot.documents) {
-                                val weight = document.toObject(Weight::class.java)
-                                weight?.id = document.id
-                                weight?.let { weights.add(it) }
+                                val data = document.data
+                                val weight = fromFirestoreMap(data ?: emptyMap())
+                                weight.id = document.id
+                                weight.let { weights.add(it) }
                             }
+                            val sortedWeights = weights.sortedBy { it.date }
 
-                            // Reordenar según el orden de weightsIds
-                            val sortedWeights = weightsIds.mapNotNull { id ->
-                                weights.find { it.id == id }
+                            /* Para ordenar por orden de registro
+                            val finalSortedWeights = weightsIds.mapNotNull { id ->
+                                sortedWeights.find { it.id == id }
                             }
+                             */
 
-                            trySend(sortedWeights) // Emitimos la lista ordenada
+                            trySend(sortedWeights)
                         }
                     }
                 } else {
@@ -52,10 +53,9 @@ class WeightRepository @Inject constructor(
     }
 
 
-    // Función para agregar un peso a una mascota (agrega el ID del peso al campo 'weights' de la mascota)
     suspend fun addWeightToPet(petId: String, weight: Weight) {
         val petRef = firestore.collection("pets").document(petId)
-        val weightRef = firestore.collection("weights").add(weight).await()
+        val weightRef = firestore.collection("weights").add(weight.toFirestoreMap()).await()
         weight.id = weightRef.id
         updateWeight(weight)
         petRef.update("weights", FieldValue.arrayUnion(weight.id)).await()
@@ -64,23 +64,24 @@ class WeightRepository @Inject constructor(
 
     suspend fun updateWeight(weight: Weight) {
         val weightRef = firestore.collection("weights").document(weight.id!!)
-        weightRef.set(weight).await()  // Solo actualiza el peso en la colección "weights"
+        weightRef.set(weight.toFirestoreMap()).await()
     }
 
-    // Función para eliminar un peso de una mascota
+
     suspend fun deleteWeightFromPet(petId: String, weightId: String) {
         val petRef = firestore.collection("pets").document(petId)
-        petRef.update("weights", FieldValue.arrayRemove(weightId)).await()  // Eliminar el ID del peso
+        petRef.update("weights", FieldValue.arrayRemove(weightId)).await()
         val weightRef = firestore.collection("weights").document(weightId)
-        weightRef.delete().await()  // Eliminar el documento de peso
+        weightRef.delete().await()
     }
 
-    // Función para obtener un peso específico por ID
+
     suspend fun getWeightById(weightId: String): Weight? {
         val weightDoc = firestore.collection("weights").document(weightId).get().await()
         return if (weightDoc.exists()) {
-            val weight = weightDoc.toObject(Weight::class.java)
-            weight?.id = weightDoc.id
+            val data = weightDoc.data
+            val weight = fromFirestoreMap(data ?: emptyMap())
+            weight.id = weightDoc.id
             weight
         } else {
             null

@@ -12,4 +12,7 @@
     <string name="weight_form_cancel_btn">Cancelar</string>
     <string name="weight_form_placeholder_weight">20.0</string>
     <string name="optional">Opcional</string>
+    <string name="edit_weight_title">Editar peso</string>
+    <string name="delete_weight_alert_title">¿Deseas eliminar este peso?</string>
+    <string name="delete_weight_alert_description">Al realizar esta acción, el peso se eliminará y no será posible recuperarlo</string>
 </resources>
