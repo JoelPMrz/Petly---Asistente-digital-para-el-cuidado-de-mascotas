@@ -1,8 +1,8 @@
 package com.example.petly.data.repository
 
 import com.example.petly.data.models.Weight
-import com.example.petly.data.models.fromFirestoreMap
-import com.example.petly.data.models.toFirestoreMap
+import com.example.petly.utils.fromFirestoreMap
+import com.example.petly.utils.toFirestoreMap
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
