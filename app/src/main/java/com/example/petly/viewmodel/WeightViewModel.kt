@@ -1,16 +1,16 @@
 package com.example.petly.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Weight
 import com.example.petly.data.repository.WeightRepository
-import com.example.petly.navegation.Weights
+import com.example.petly.utils.convertWeight
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.round
 
 @HiltViewModel
 class WeightViewModel @Inject constructor(
@@ -90,13 +90,17 @@ class WeightViewModel @Inject constructor(
         _errorState.value = null
     }
 
-    fun comparePreviousWeight(weight: Weight, weights: List<Weight>): Double? {
-        Log.d("LISTA PESOS", "comparePreviousWeight: ${weights}")
+    fun comparePreviousWeight(weight: Weight, weights: List<Weight>, selectedUnit: String): Double? {
         val position = weights.indexOf(weight)
-        Log.d("LISTA PESOS", "Posicion: $position")
         if (position <= 0) return null
-        val weightToCompare = weights[position - 1]
-        Log.d("LISTA PESOS", "Peso a comparar: $weightToCompare con posicion: ${weights.indexOf(weightToCompare)}")
-        return weight.value - weightToCompare.value
+
+        val previousWeight = weights[position - 1]
+
+        val previousConverted = convertWeight(previousWeight.value, previousWeight.unit, selectedUnit)
+        val currentConverted = convertWeight(weight.value, weight.unit, selectedUnit)
+
+        val difference = currentConverted - previousConverted
+
+        return (round(difference * 100) / 100)
     }
 }

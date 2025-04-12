@@ -1,10 +1,8 @@
 package com.example.petly.ui.screens.logged.weight
 
-import android.app.DatePickerDialog
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,8 +19,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.CalendarToday
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
@@ -30,7 +26,7 @@ import androidx.compose.material.icons.rounded.ArrowRight
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Scale
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -49,8 +45,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,27 +57,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.toLowerCase
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.Weight
-import com.example.petly.data.models.WeightUnit
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
+import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.parseDate
+import com.example.petly.utils.truncate
+import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
 import kotlin.math.abs
-
 
 @Composable
 fun WeightsScreen(
@@ -87,7 +88,7 @@ fun WeightsScreen(
     petId: String,
     navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
-    weightViewModel: WeightViewModel = hiltViewModel()
+    weightViewModel: WeightViewModel = hiltViewModel(),
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -134,7 +135,7 @@ fun WeightsScreen(
                     val sortedWeights = remember(key1 = weights) { weights.reversed() }
                     LazyColumn(modifier = Modifier.padding(10.dp)) {
                         items(sortedWeights, key = { it.id!! }) { weight ->
-                            Weight(weight, weights, weightViewModel, petId)
+                            Weight(weight, weights, petId)
                             Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
@@ -146,20 +147,27 @@ fun WeightsScreen(
                 onDismiss = {
                     showAddWeightDialog = false
                 },
-                petId = petId,
-                weightViewModel = weightViewModel
+                petId = petId
             )
         }
     }
 }
 
 @Composable
-fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewModel, petId: String) {
-    val difference: Double? = weightViewModel.comparePreviousWeight(weight, weights)
+fun Weight(
+    weight: Weight,
+    weights: List<Weight>,
+    petId: String,
+    weightViewModel: WeightViewModel = hiltViewModel(),
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
+) {
     var expanded by remember { mutableStateOf(false) }
     var showEditWeightDialog by remember { mutableStateOf(false) }
     var showDeleteWeightDialog by remember { mutableStateOf(false) }
     var selectedItemId by remember { mutableStateOf<String?>(null) }
+    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
+    val convertedWeight = convertWeight(weight.value, weight.unit, selectedUnit).truncate(2)
+    val difference: Double? = weightViewModel.comparePreviousWeight(weight, weights, selectedUnit)
 
     Card(
         modifier = Modifier
@@ -167,7 +175,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        selectedItemId = weight.id
+                        //selectedItemId = weight.id
                         expanded = !expanded
                     }
                 )
@@ -185,7 +193,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "${weight.value} kilos")
+                Text(text = "$convertedWeight $selectedUnit")
 
                 AnimatedVisibility(difference != null) {
                     difference?.let {
@@ -203,7 +211,7 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                                     else -> Color.Green
                                 }
                             )
-                            Text(text = "${abs(it)}")
+                            Text(text = "${abs(it)} $selectedUnit",fontSize = 13.sp)
                         }
                     }
                 }
@@ -257,28 +265,26 @@ fun Weight(weight: Weight, weights: List<Weight>, weightViewModel: WeightViewMod
                 showEditWeightDialog = false
             },
             petId = petId,
-            weightViewModel = weightViewModel,
             weight = weight
         )
     }
     if (showDeleteWeightDialog) {
-        DeleteAlertDialog(
+        DeleteWeightDialog(
             onDismiss = {
                 showDeleteWeightDialog = false
             },
             petId = petId,
-            weightViewModel = weightViewModel,
             weight = weight
         )
     }
 }
 
 @Composable
-fun DeleteAlertDialog(
+fun DeleteWeightDialog(
     onDismiss: () -> Unit,
-    weightViewModel: WeightViewModel,
     petId: String,
     weight: Weight,
+    weightViewModel: WeightViewModel = hiltViewModel()
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -316,10 +322,10 @@ fun DeleteAlertDialog(
 fun WeightsTopAppBar(
     navigateBack: () -> Unit,
     petName: String,
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     var showUnitDialog by remember { mutableStateOf(false) }
-    var selectedUnit by remember { mutableStateOf("") }
-
+    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
     TopAppBar(
         title = {
             Text(
@@ -335,18 +341,15 @@ fun WeightsTopAppBar(
             }
         },
         actions = {
-            //Text(text= selectedUnit)
+            Text(text= selectedUnit)
             IconButton(onClick = {
                 showUnitDialog = true
             }) {
-                Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "Scale icon")
+                Icon(painter  = painterResource(R.drawable.ic_weight_24dp), contentDescription = "Scale icon")
             }
             if (showUnitDialog) {
+
                 SelectWeightUnitDialog(
-                    onUnitSelected = { unit ->
-                        selectedUnit = unit.toString()
-                        println("Unidad seleccionada: $unit")
-                    },
                     onDismiss = {
                         showUnitDialog = false
                     }
@@ -374,8 +377,9 @@ fun AddWeightFAB(onClick: () -> Unit) {
 fun AddWeightDialog(
     onDismiss: () -> Unit,
     petId: String,
-    weightViewModel: WeightViewModel,
-    weight: Weight? = null
+    weight: Weight? = null,
+    weightViewModel: WeightViewModel = hiltViewModel(),
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     var weightText by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
@@ -383,13 +387,14 @@ fun AddWeightDialog(
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedDate = remember { mutableStateOf(LocalDate.now()) }
     val noteMaxLength = 100
+    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
 
     LaunchedEffect(key1 = weight) {
         weight?.let {
             weightText = it.value.toString()
             note = it.notes ?: ""
             selectedDate.value = it.date
-            dateText = it.date.toString()
+            dateText = formatLocalDateToString(it.date)
         }?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(selectedDate.value)
@@ -425,11 +430,12 @@ fun AddWeightDialog(
                     onValueChange = { weightText = it },
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
+
                         Text(text = stringResource(R.string.weight_form_placeholder_weight))
                     },
                     label = {
                         Text(
-                            text = stringResource(R.string.weight_form_label_weight),
+                            text = stringResource(R.string.weight_form_label_weight,selectedUnit),
                             fontWeight = FontWeight.Medium,
                             fontStyle = FontStyle.Italic,
                         )
@@ -505,7 +511,8 @@ fun AddWeightDialog(
                         val newWeight = Weight(
                             id = weight?.id,
                             petId = petId,
-                            value = parsedWeight,
+                            value = parsedWeight.truncate(2),
+                            unit = selectedUnit,
                             date = parsedDate,
                             notes = note
                         )
@@ -531,11 +538,14 @@ fun AddWeightDialog(
     )
 }
 
+
+
 @Composable
 fun SelectWeightUnitDialog(
-    onUnitSelected: (WeightUnit) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
+    val weightUnits = listOf("Kg", "Oz","Lb")
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -543,13 +553,13 @@ fun SelectWeightUnitDialog(
         },
         text = {
             Column {
-                WeightUnit.entries.forEach { unit ->
+                weightUnits.forEach { unit ->
                     Text(
-                        text = unit.displayName,
+                        text = unit,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                onUnitSelected(unit)
+                                preferencesViewModel.setSelectedUnit(unit)
                                 onDismiss()
                             }
                             .padding(8.dp)
