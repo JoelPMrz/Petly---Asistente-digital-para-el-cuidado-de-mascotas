@@ -35,7 +35,10 @@ import androidx.compose.material.icons.outlined.Pets
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.Female
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Male
 import androidx.compose.material.icons.rounded.Person
@@ -49,6 +52,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -68,6 +72,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
@@ -79,12 +84,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.Pet
+import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
+import com.example.petly.utils.formatLocalDateToString
+import com.example.petly.utils.parseDate
+import com.example.petly.utils.toTimestamp
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
 fun AddPetScreen(
@@ -94,15 +104,55 @@ fun AddPetScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     var name: String by remember { mutableStateOf("") }
+    var gender: String by remember { mutableStateOf("Male") }
     var type: String by remember { mutableStateOf("") }
-    var gender: String by remember { mutableStateOf("") }
-    var expandedGender by remember { mutableStateOf(false) }
+    var breed: String by remember { mutableStateOf("") }
+
+    val openBirthDatePicker = remember { mutableStateOf(false) }
+    val selectedBirthDate = remember { mutableStateOf(LocalDate.now()) }
+    var birthDateText by remember { mutableStateOf("") }
+
+    val openAdoptionDatePicker = remember { mutableStateOf(false) }
+    val selectedAdoptionDate = remember { mutableStateOf(LocalDate.now()) }
+    var adoptionDateText by remember { mutableStateOf("") }
+
+    var microchipId by remember { mutableStateOf("") }
+
+    var sterilized by remember { mutableStateOf(false) }
 
     val newPet = Pet(
         name = name,
         type = type,
-        gender = gender
+        gender = gender,
+        breed = breed,
+        birthDate = (parseDate(birthDateText)),
+        adoptionDate = parseDate(adoptionDateText),
+        microchipId = microchipId
     )
+
+    if (openBirthDatePicker.value) {
+        BaseDatePicker(
+            initialDate = selectedBirthDate.value,
+            onDismissRequest = { openBirthDatePicker.value = false },
+            onDateSelected = { date ->
+                selectedBirthDate.value = date
+                birthDateText = formatLocalDateToString(date)
+                openBirthDatePicker.value = false
+            }
+        )
+    }
+
+    if (openAdoptionDatePicker.value) {
+        BaseDatePicker(
+            initialDate = selectedAdoptionDate.value,
+            onDismissRequest = { openAdoptionDatePicker.value = false },
+            onDateSelected = { date ->
+                selectedAdoptionDate.value = date
+                adoptionDateText = formatLocalDateToString(date)
+                openAdoptionDatePicker.value = false
+            }
+        )
+    }
 
     Scaffold(
         bottomBar = { AddPetAppBar(newPet, petViewModel, snackBarHostState, navigateBack) },
@@ -118,12 +168,12 @@ fun AddPetScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .height(170.dp)
+                    .height(200.dp)
                     .background(
-                        color = Color.Blue,  // Cambia el color de fondo
-                        shape = RoundedCornerShape(12, 12, 50, 6)  // Bordes redondeados
+                        color = Color.Blue,
+                        shape = RoundedCornerShape(12, 12, 6, 6)
                     )
-                    .clip(RoundedCornerShape(16.dp))  // Asegura que el contenido también tenga bordes redondeados
+                    .clip(RoundedCornerShape(16.dp))
             ) {
                 IconCircle(
                     Icons.Rounded.ArrowBack,
@@ -133,45 +183,117 @@ fun AddPetScreen(
                     modifier = Modifier
                         .padding(10.dp)
                         .size(35.dp)
+                        .align(Alignment.TopStart)
+                )
+
+                IconCircle(
+                    Icons.Rounded.CameraAlt,
+                    onClick = {
+
+                    },
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(35.dp)
+                        .align(Alignment.TopEnd)
                 )
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 10.dp)
             )
             {
+
+                BaseOutlinedTextField(
+                    value = name,
+                    label = "Nombre",
+                    maxLines = 1
+                ) {
+                    name = it
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    BaseOutlinedTextField(
+                    IconSquare(
                         modifier = Modifier.weight(1f),
-                        value = name,
-                        label = "Nombre",
-                        maxLines = 1
-                    ) {
-                        name = it
-                    }
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                BaseOutlinedTextField(
-                    value = gender,
-                    placeHolder = "Macho",
-                    label = "Género",
-                    leadingIcon = Icons.Default.Transgender,
-                    maxLines = 1
-                ) {
-                    gender = it
+                        icon = Icons.Rounded.Male,
+                        onClick = {
+
+                        },
+                        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    IconSquare(
+                        modifier = Modifier
+                            .weight(1f)
+                            .alpha(0.3f),
+                        icon = Icons.Rounded.Female,
+                        onClick = {
+
+                        }
+                    )
+
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 BaseOutlinedTextField(
                     value = type,
                     placeHolder = "Perro",
-                    label = "Tipo",
+                    label = "Espécie",
                     maxLines = 1
                 ) {
                     type = it
                 }
+                Spacer(modifier = Modifier.height(10.dp))
+                BaseOutlinedTextField(
+                    value = breed,
+                    placeHolder = "Carlino",
+                    label = "Raza",
+                    maxLines = 1
+                ) {
+                    breed = it
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Row{
+                    BaseOutlinedTextField(
+                        modifier = Modifier.weight(1f),
+                        value = birthDateText,
+                        label = "Nacimiento",
+                        trailingIcon = Icons.Rounded.CalendarMonth,
+                        onClickTrailingIcon = {
+                            openBirthDatePicker.value = true
+                        },
+                        maxLines = 1
+                    ) {
+                        birthDateText = it
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                    BaseOutlinedTextField(
+                        modifier = Modifier.weight(1f),
+                        value = adoptionDateText,
+                        label = "Adopción",
+                        trailingIcon = Icons.Rounded.CalendarMonth,
+                        onClickTrailingIcon = {
+                            openAdoptionDatePicker.value = true
+                        },
+                        maxLines = 1
+                    ) {
+                        adoptionDateText = it
+                    }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                BaseOutlinedTextField(
+                    value = microchipId,
+                    placeHolder = "224774HTSD675",
+                    label = "MicroChip",
+                    maxLines = 1
+                ) {
+                    microchipId = it
+                }
+
             }
         }
     }
@@ -210,7 +332,8 @@ fun AddPetAppBar(
 ) {
     val coroutineScope = rememberCoroutineScope()
     var enableCreatePet: Boolean by remember { mutableStateOf(true) }
-    NavigationBar{
+
+    NavigationBar {
         Button(
             onClick = {
                 petViewModel.addPet(
@@ -224,7 +347,6 @@ fun AddPetAppBar(
 
                     },
                     onFailure = { exception ->
-                        // Aquí puedes mostrar un error si algo sale mal
                         coroutineScope.launch {
                             enableCreatePet = true
                             snackBarHostState.showSnackbar("No se ha podido crear")
@@ -251,7 +373,7 @@ fun AddPetAppBar(
 @Composable
 fun MyNavigationAppBar() {
     var index by remember { mutableIntStateOf(1) }
-    NavigationBar{
+    NavigationBar {
 
         NavigationBarItem(
             selected = index == 0,

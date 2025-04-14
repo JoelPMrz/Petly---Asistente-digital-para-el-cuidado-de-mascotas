@@ -18,7 +18,7 @@ class WeightRepository @Inject constructor(
     fun getWeightsFlow(petId: String): Flow<List<Weight>> = callbackFlow {
         val petDocRef = firestore.collection("pets").document(petId)
         val subscription = petDocRef.addSnapshotListener { snapshot, _ ->
-            snapshot?.let {
+            snapshot?.let { it ->
                 val weightsIds = it.get("weights") as? List<String> ?: emptyList()
                 if (weightsIds.isNotEmpty()) {
                     val weightsRefs = firestore.collection("weights")

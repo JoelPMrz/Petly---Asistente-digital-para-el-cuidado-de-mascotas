@@ -64,6 +64,7 @@ import com.example.petly.R
 import com.example.petly.data.models.Weight
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
+import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.viewmodel.WeightViewModel
 
 @Composable
@@ -123,7 +124,7 @@ fun PetDetailScreen(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text= "22 de marzo de 2020",
+                    text= petState?.birthDate.toString(),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500
                 )
