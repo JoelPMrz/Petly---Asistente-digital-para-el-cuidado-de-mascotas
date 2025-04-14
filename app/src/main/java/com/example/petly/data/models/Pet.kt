@@ -7,7 +7,7 @@ data class Pet(
     var name: String = "",
     var type: String = "",
     var breed: String? = null,
-    var weights: List<String>? = listOf(),  // Lista de IDs de pesos
+    var weights: List<String>? = listOf(),
     var gender: String = "",
     var birthDate: LocalDate? = null,
     var photo: Int? = null,

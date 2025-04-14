@@ -51,7 +51,8 @@ fun ForgotPasswordScreen(
             value = email,
             placeHolder = "ejemplo@gmail.com",
             label = "Correo electrónico",
-            leadingIcon = Icons.Default.Mail
+            leadingIcon = Icons.Default.Mail,
+            maxLines = 1
         ) {
             email = it
         }

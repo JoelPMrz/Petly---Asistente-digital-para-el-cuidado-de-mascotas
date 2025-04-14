@@ -26,7 +26,6 @@ import androidx.compose.material.icons.rounded.ArrowRight
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material.icons.rounded.Scale
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -45,10 +44,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -62,8 +59,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.toLowerCase
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -71,6 +66,7 @@ import com.example.petly.R
 import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.convertWeight
@@ -95,6 +91,7 @@ fun WeightsScreen(
     val petState by petViewModel.petState.collectAsState()
     val weights by weightViewModel.weightsState.collectAsState()
     var showAddWeightDialog by remember { mutableStateOf(false) }
+    val petName = petState?.name
 
     LaunchedEffect(petId) {
         petViewModel.getPetById(petId)
@@ -109,10 +106,11 @@ fun WeightsScreen(
             )
         },
         floatingActionButton = {
-            AddWeightFAB(
+            BaseFAB(
                 onClick = {
                     showAddWeightDialog = !showAddWeightDialog
-                }
+                },
+                imageVector = Icons.Rounded.Add
             )
         },
         floatingActionButtonPosition = FabPosition.End,
@@ -135,7 +133,7 @@ fun WeightsScreen(
                     val sortedWeights = remember(key1 = weights) { weights.reversed() }
                     LazyColumn(modifier = Modifier.padding(10.dp)) {
                         items(sortedWeights, key = { it.id!! }) { weight ->
-                            Weight(weight, weights, petId)
+                            Weight(weight, weights, petId, petName)
                             Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
@@ -158,6 +156,7 @@ fun Weight(
     weight: Weight,
     weights: List<Weight>,
     petId: String,
+    petName : String?,
     weightViewModel: WeightViewModel = hiltViewModel(),
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
@@ -274,7 +273,8 @@ fun Weight(
                 showDeleteWeightDialog = false
             },
             petId = petId,
-            weight = weight
+            petName = petName ,
+            weight = weight,
         )
     }
 }
@@ -284,6 +284,7 @@ fun DeleteWeightDialog(
     onDismiss: () -> Unit,
     petId: String,
     weight: Weight,
+    petName : String?,
     weightViewModel: WeightViewModel = hiltViewModel()
 ) {
     AlertDialog(
@@ -292,7 +293,7 @@ fun DeleteWeightDialog(
             Text(text = stringResource(R.string.delete_weight_alert_title))
         },
         text = {
-            Text(text = stringResource(R.string.delete_weight_alert_description))
+            Text(text = stringResource(R.string.delete_weight_alert_description, petName.toString()))
         },
         confirmButton = {
             TextButton(
@@ -301,7 +302,7 @@ fun DeleteWeightDialog(
                     onDismiss()
                 }
             ) {
-                Text(text = stringResource(R.string.form_confirm_btn))
+                Text(text = stringResource(R.string.form_confirm_delete_btn))
             }
         },
         dismissButton = {
@@ -348,7 +349,6 @@ fun WeightsTopAppBar(
                 Icon(painter  = painterResource(R.drawable.ic_weight_24dp), contentDescription = "Scale icon")
             }
             if (showUnitDialog) {
-
                 SelectWeightUnitDialog(
                     onDismiss = {
                         showUnitDialog = false
@@ -360,20 +360,6 @@ fun WeightsTopAppBar(
 }
 
 @Composable
-fun AddWeightFAB(onClick: () -> Unit) {
-    FloatingActionButton(
-        onClick = {
-            onClick()
-        }
-    ) {
-        Icon(
-            imageVector = Icons.Rounded.Add,
-            contentDescription = null
-        )
-    }
-}
-
-@Composable
 fun AddWeightDialog(
     onDismiss: () -> Unit,
     petId: String,
@@ -381,13 +367,14 @@ fun AddWeightDialog(
     weightViewModel: WeightViewModel = hiltViewModel(),
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
+    var showUnitDialog by remember { mutableStateOf(false) }
+    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
     var weightText by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
-    var dateText by remember { mutableStateOf("") }
+    val noteMaxLength = 100
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedDate = remember { mutableStateOf(LocalDate.now()) }
-    val noteMaxLength = 100
-    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
+    var dateText by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = weight) {
         weight?.let {
@@ -438,6 +425,15 @@ fun AddWeightDialog(
                             text = stringResource(R.string.weight_form_label_weight,selectedUnit),
                             fontWeight = FontWeight.Medium,
                             fontStyle = FontStyle.Italic,
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_weight_24dp),
+                            contentDescription = null,
+                            modifier = Modifier.clickable{
+                                showUnitDialog = true
+                            }
                         )
                     },
                     singleLine = true,
@@ -536,6 +532,13 @@ fun AddWeightDialog(
             }
         }
     )
+    if (showUnitDialog) {
+        SelectWeightUnitDialog(
+            onDismiss = {
+                showUnitDialog = false
+            }
+        )
+    }
 }
 
 
@@ -549,7 +552,7 @@ fun SelectWeightUnitDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Seleccionar unidad de peso")
+            Text(text = stringResource(R.string.select_weght_unit_title_dialog))
         },
         text = {
             Column {
@@ -568,6 +571,12 @@ fun SelectWeightUnitDialog(
             }
         },
         confirmButton = {},
-        dismissButton = {}
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text(text = stringResource(R.string.form_cancel_btn))
+            }
+        }
     )
 }

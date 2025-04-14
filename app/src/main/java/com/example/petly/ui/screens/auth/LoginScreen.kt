@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -115,7 +116,8 @@ fun LoginScreen(
             BaseOutlinedTextField(
                 value = name,
                 label = "Nombre",
-                leadingIcon = Icons.Default.Person
+                leadingIcon = Icons.Default.Person,
+                maxLines = 1
             ) {
                 name = it
             }
@@ -124,7 +126,8 @@ fun LoginScreen(
                 value = email,
                 placeHolder = "ejemplo@gmail.com",
                 label = "Correo electrónico",
-                leadingIcon = Icons.Default.Mail
+                leadingIcon = Icons.Default.Mail,
+                maxLines = 1
             ) {
                 email = it
             }
@@ -138,8 +141,7 @@ fun LoginScreen(
                     .align(Alignment.End)
                     .clickable {
                         navigateToForgotPassword()
-                    },
-                color = colorResource(R.color.blue80)
+                    }
             )
             Spacer(modifier = Modifier.height(20.dp))
             Box(
@@ -162,16 +164,16 @@ fun LoginScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(70.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue50))
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
                 )
                 {
                     Icon(
                         imageVector = Icons.Filled.Android,
                         contentDescription = "Android",
                         modifier = Modifier.padding(end = 10.dp),
-                        tint = colorResource(R.color.blue80)
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                    Text(text = "Google", fontSize = 15.sp, color = colorResource(R.color.blue80))
+                    Text(text = "Google", fontSize = 15.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 }
                 Spacer(modifier = Modifier.width(20.dp))
                 Button(
@@ -183,16 +185,16 @@ fun LoginScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(70.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue50))
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
                 )
                 {
                     Icon(
                         imageVector = Icons.Default.NoAccounts,
                         contentDescription = "No accounts",
                         modifier = Modifier.padding(end = 10.dp),
-                        tint = colorResource(R.color.blue80)
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                    Text(text = "Invitado", fontSize = 15.sp, color = colorResource(R.color.blue80))
+                    Text(text = "Invitado", fontSize = 15.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 }
             }
 
@@ -201,13 +203,13 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
-                Text(text = "Already have an account?", color = colorResource(R.color.blue80))
+                Text(text = "Already have an account?")
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "Sing up", modifier = Modifier.clickable {
                         navigateToSingUp()
                 },
-                    color = colorResource(R.color.blue100),
+                    color = MaterialTheme.colorScheme.secondary,
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -227,16 +229,14 @@ fun ButtonSingIn(onSingIn: () -> Unit) {
             onSingIn()
         },
         modifier = Modifier.height(60.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue100))
     )
     {
-        Text(text = "INICIAR", fontSize = 16.sp, color = colorResource(id = R.color.white))
+        Text(text = "INICIAR", fontSize = 16.sp)
         Spacer(modifier = Modifier.width(7.dp))
         Icon(
             imageVector = Icons.Default.ArrowRightAlt,
             contentDescription = "ArrowForward icon",
-            modifier = Modifier.size(30.dp),
-            tint = colorResource(id = R.color.white)
+            modifier = Modifier.size(30.dp)
         )
     }
 }

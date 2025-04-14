@@ -1,10 +1,7 @@
 package com.example.petly.data.models
 
-import com.example.petly.utils.toLocalDate
-import com.example.petly.utils.toTimestamp
-import com.example.petly.utils.truncate
-import com.google.firebase.Timestamp
 import java.time.LocalDate
+import java.time.LocalTime
 
 data class Weight(
     var id: String? = null,
@@ -12,6 +9,7 @@ data class Weight(
     var value: Double = 0.0,
     var unit: String = "Kg",
     var date: LocalDate = LocalDate.now(),
+    var time: LocalTime = LocalTime.now(),
     var notes: String? = null
 ){
     override fun toString(): String {

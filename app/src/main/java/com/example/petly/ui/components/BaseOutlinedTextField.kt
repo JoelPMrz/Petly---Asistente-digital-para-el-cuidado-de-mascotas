@@ -20,16 +20,18 @@ import com.example.petly.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseOutlinedTextField(
+    modifier: Modifier = Modifier,
+    maxLines : Int,
     value: String,
     placeHolder: String? = null,
     label: String,
-    leadingIcon: ImageVector,
+    leadingIcon: ImageVector? = null,
     onUserChange: (String) -> Unit
 ) {
    OutlinedTextField(
         value = value,
         onValueChange = { onUserChange(it) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         placeholder = {
             if (!placeHolder.isNullOrEmpty()) {
                 Text(
@@ -46,23 +48,14 @@ fun BaseOutlinedTextField(
                 //color = colorResource(id = R.color.blue100)
             )
         },
-        leadingIcon = {
-            Icon(
-                imageVector = leadingIcon,
-                contentDescription = leadingIcon.name,
-                //tint = colorResource(id = R.color.blue100)
-            )
-        },
-       /*
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = colorResource(id = R.color.blue50),  // Cambia el color de fondo
-            focusedBorderColor = colorResource(id = R.color.blue100), // Cambia el color del borde cuando está enfocado
-            unfocusedBorderColor = colorResource(id = R.color.blue50), // Cambia el color del borde cuando no está enfocado
-            focusedTextColor = colorResource(id = R.color.blue100), // Cambia el color del texto cuando está enfocado
-            unfocusedTextColor = colorResource(id = R.color.blue100),
-            //cursorColor = colorResource(id = R.color.blue100)// Cambia el color del borde cuando no está enfocado
-        )
-
-        */
+        leadingIcon = if (leadingIcon != null) {
+            {
+                Icon(
+                    imageVector = leadingIcon,
+                    contentDescription = leadingIcon.name,
+                )
+            }
+        } else null,
+       maxLines = maxLines
     )
 }

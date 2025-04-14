@@ -78,7 +78,7 @@ fun NavigationWrapper(context : Context){
                         }
                     }
                 },
-                navigateToCreatePet = {
+                navigateToAddPet = {
                     navController.navigate(AddPet)
                 }
             )
