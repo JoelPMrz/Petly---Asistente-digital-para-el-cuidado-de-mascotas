@@ -40,7 +40,6 @@ fun PasswordOutlinedTextField(value: String, onUserChange: (String) -> Unit) {
             Text(
                 text = "Contraseña", fontWeight = FontWeight.Medium,
                 fontStyle = FontStyle.Italic,
-                color = colorResource(id = R.color.blue100)
             )
         },
         singleLine = true,
@@ -52,23 +51,14 @@ fun PasswordOutlinedTextField(value: String, onUserChange: (String) -> Unit) {
                 contentDescription = "Lock",
                 modifier = Modifier.clickable {
                     passwordHidden = !passwordHidden
-                },
-                tint = colorResource(id = R.color.blue100)
+                }
             )
         },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Lock,
-                contentDescription = "Lock icon",
-                tint = colorResource(id = R.color.blue100)
+                contentDescription = "Lock icon"
             )
-        },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = colorResource(id = R.color.blue50),  // Cambia el color de fondo
-            focusedBorderColor = colorResource(id = R.color.blue100), // Cambia el color del borde cuando está enfocado
-            unfocusedBorderColor = colorResource(id = R.color.blue50), // Cambia el color del borde cuando no está enfocado
-            focusedTextColor = colorResource(id = R.color.blue100), // Cambia el color del texto cuando está enfocado
-            unfocusedTextColor = colorResource(id = R.color.blue100),
-        )
+        }
     )
 }

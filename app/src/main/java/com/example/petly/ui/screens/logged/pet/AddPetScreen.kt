@@ -1,13 +1,22 @@
 package com.example.petly.ui.screens.logged.pet
 
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,12 +33,17 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Pets
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Male
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -54,6 +68,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
@@ -64,6 +80,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.ui.components.BaseOutlinedTextField
+import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import kotlinx.coroutines.launch
@@ -71,28 +89,22 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddPetScreen(
     analytics: AnalyticsManager,
-    navigateBack:() -> Unit,
+    navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-
     var name: String by remember { mutableStateOf("") }
     var type: String by remember { mutableStateOf("") }
     var gender: String by remember { mutableStateOf("") }
-    val newPet= Pet(
+    var expandedGender by remember { mutableStateOf(false) }
+
+    val newPet = Pet(
         name = name,
         type = type,
         gender = gender
     )
 
     Scaffold(
-        topBar = {
-            MyTopAppBar(
-                {
-                    navigateBack()
-                }
-            )
-        },
         bottomBar = { AddPetAppBar(newPet, petViewModel, snackBarHostState, navigateBack) },
         snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { paddingValues ->
@@ -101,32 +113,65 @@ fun AddPetScreen(
                 .fillMaxSize()
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
-            BaseOutlinedTextField(
-                value = name,
-                label = "Nombre",
-                leadingIcon = Icons.Default.Pets
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp)
+                    .height(170.dp)
+                    .background(
+                        color = Color.Blue,  // Cambia el color de fondo
+                        shape = RoundedCornerShape(12, 12, 50, 6)  // Bordes redondeados
+                    )
+                    .clip(RoundedCornerShape(16.dp))  // Asegura que el contenido también tenga bordes redondeados
             ) {
-                name = it
+                IconCircle(
+                    Icons.Rounded.ArrowBack,
+                    onClick = {
+                        navigateBack()
+                    },
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(35.dp)
+                )
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            BaseOutlinedTextField(
-                value = type,
-                placeHolder = "Perro",
-                label = "Tipo",
-                leadingIcon = Icons.Default.AutoMode
-            ) {
-                type = it
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            BaseOutlinedTextField(
-                value = gender,
-                placeHolder = "Macho",
-                label = "Género",
-                leadingIcon = Icons.Default.Transgender
-            ) {
-                gender = it
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 10.dp)
+            )
+            {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    BaseOutlinedTextField(
+                        modifier = Modifier.weight(1f),
+                        value = name,
+                        label = "Nombre",
+                        maxLines = 1
+                    ) {
+                        name = it
+                    }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                BaseOutlinedTextField(
+                    value = gender,
+                    placeHolder = "Macho",
+                    label = "Género",
+                    leadingIcon = Icons.Default.Transgender,
+                    maxLines = 1
+                ) {
+                    gender = it
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                BaseOutlinedTextField(
+                    value = type,
+                    placeHolder = "Perro",
+                    label = "Tipo",
+                    maxLines = 1
+                ) {
+                    type = it
+                }
             }
         }
     }
@@ -152,31 +197,24 @@ fun MyTopAppBar(onClickIcon: () -> Unit) {
             }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
             }
-        },
-        actions = {
-            IconButton(onClick = {
-
-            }) {
-                Icon(imageVector = Icons.Rounded.Add, contentDescription = "Add")
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+        }
     )
 }
+
 @Composable
 fun AddPetAppBar(
-    newPet : Pet,
+    newPet: Pet,
     petViewModel: PetViewModel,
-    snackBarHostState : SnackbarHostState,
-    navigateBack:()-> Unit
+    snackBarHostState: SnackbarHostState,
+    navigateBack: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     var enableCreatePet: Boolean by remember { mutableStateOf(true) }
-    NavigationBar(containerColor = Color.White, modifier = Modifier.padding(horizontal = 10.dp)) {
-
+    NavigationBar{
         Button(
             onClick = {
-                petViewModel.addPet(newPet,
+                petViewModel.addPet(
+                    newPet,
                     onSuccess = {
                         enableCreatePet = false
                         coroutineScope.launch {
@@ -190,17 +228,16 @@ fun AddPetAppBar(
                         coroutineScope.launch {
                             enableCreatePet = true
                             snackBarHostState.showSnackbar("No se ha podido crear")
-                            Log.d("Crear pet","Error: ${exception.message}" )
+                            Log.d("Crear pet", "Error: ${exception.message}")
                         }
                     }
                 )
             },
-            modifier = Modifier.fillMaxWidth().height(60.dp),
-            enabled = enableCreatePet,
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White,
-                containerColor = colorResource(id = R.color.blue100)
-            )
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(60.dp),
+            enabled = enableCreatePet
         ) {
             Text(
                 text = "Registrar",
@@ -214,9 +251,7 @@ fun AddPetAppBar(
 @Composable
 fun MyNavigationAppBar() {
     var index by remember { mutableIntStateOf(1) }
-    NavigationBar(
-        //containerColor = Color.White
-    ) {
+    NavigationBar{
 
         NavigationBarItem(
             selected = index == 0,
@@ -225,7 +260,7 @@ fun MyNavigationAppBar() {
                 Icon(
                     imageVector = if (index != 0) Icons.Outlined.CalendarMonth else Icons.Rounded.CalendarMonth,
                     contentDescription = "Favourite icon",
-                   // tint = if (index != 0) Color.LightGray else Color.Gray
+                    // tint = if (index != 0) Color.LightGray else Color.Gray
                 )
             },
             alwaysShowLabel = false,
@@ -263,17 +298,5 @@ fun MyNavigationAppBar() {
     }
 }
 
-@Composable
-fun MyFloatingActionButton() {
-    FloatingActionButton(
-        onClick = {
-
-        },
-        //containerColor = Color.White,
-        //contentColor = Color.Red
-    ) {
-        Icon(imageVector = Icons.Default.Add, contentDescription = "Add icon")
-    }
-}
 
 

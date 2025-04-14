@@ -13,7 +13,9 @@
     <string name="weight_form_placeholder_weight">20.0</string>
     <string name="optional">Opcional</string>
     <string name="edit_weight_title">Editar peso</string>
-    <string name="delete_weight_alert_title">¿Deseas eliminar este peso?</string>
-    <string name="delete_weight_alert_description">Al realizar esta acción, el peso se eliminará y no será posible recuperarlo</string>
+    <string name="delete_weight_alert_title">¿Eliminar este peso del listado?</string>
+    <string name="delete_weight_alert_description">Si eliminas este peso del listado de pesos, se eliminará permanentemente de todas las cuentas viculadas a la mascota %1$s</string>
     <string name="wheights_pets_title">"Pesos de "</string>
+    <string name="select_weght_unit_title_dialog">Seleccionar unidad de peso</string>
+    <string name="form_confirm_delete_btn">Eliminar</string>
 </resources>

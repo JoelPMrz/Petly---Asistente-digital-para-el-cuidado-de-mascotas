@@ -15,11 +15,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FabPosition
+import com.example.petly.ui.components.BaseFAB
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.Pet
+import com.example.petly.ui.screens.logged.pet.MyNavigationAppBar
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
@@ -46,40 +51,37 @@ fun HomeScreen(
     auth: AuthManager,
     navigateToPetDetail:(String)-> Unit,
     navigateBack:()-> Unit,
-    navigateToCreatePet:()-> Unit,
+    navigateToAddPet:()-> Unit,
     petViewModel: PetViewModel =  hiltViewModel()
 ) {
-
     val pets by petViewModel.petsState.collectAsState()
-    Surface {
+
+    Scaffold (
+        bottomBar = { MyNavigationAppBar() },
+        floatingActionButton = {
+            BaseFAB(
+                onClick = {
+                    navigateToAddPet()
+                },
+                imageVector = Icons.Rounded.Add
+            )
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "HOME SCREEN", fontSize = 25.sp)
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Si no hay mascotas, muestra un mensaje
             if (pets.isEmpty()) {
                 Text(text = "No tienes mascotas")
             } else {
-                // Si hay mascotas, muestra una lista
                 LazyColumn {
                     items(pets) { pet ->
                         Pet(pet, petViewModel, navigateToPetDetail)
                     }
                 }
             }
-
-            // Botón para crear una mascota
-            Button(onClick = {
-                navigateToCreatePet()
-            }) {
-                Text(text = "Crear mascota")
-            }
-
-            // Botón para cerrar sesión
             Button(onClick = {
                 auth.singOut()
                 navigateBack()
@@ -92,6 +94,7 @@ fun HomeScreen(
             petViewModel.getPets()
         }
     }
+
 }
 
 @Composable
@@ -136,6 +139,10 @@ fun Pet(pet: Pet, petViewModel: PetViewModel, navigateToPetDetail: (String)-> Un
         }
     }
 }
+
+
+
+
 
 
 
