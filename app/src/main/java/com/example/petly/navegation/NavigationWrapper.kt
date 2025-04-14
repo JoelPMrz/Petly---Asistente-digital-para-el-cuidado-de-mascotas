@@ -13,7 +13,6 @@ import com.example.petly.ui.screens.logged.UserDetailScreen
 import com.example.petly.ui.screens.logged.HomeScreen
 import com.example.petly.ui.screens.logged.pet.AddPetScreen
 import com.example.petly.ui.screens.logged.pet.PetDetailScreen
-import com.example.petly.ui.screens.logged.weight.AddWeightScreen
 import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
@@ -122,19 +121,6 @@ fun NavigationWrapper(context : Context){
             WeightsScreen(
                 analytics = analytics,
                 petId = petDetail.petId,
-                navigateBack = {
-                    navController.popBackStack()
-                }
-            )
-        }
-        composable<AddWeight> {backStackEntry->
-            val petDetail: AddWeight = backStackEntry.toRoute()
-            AddWeightScreen(
-                analytics = analytics,
-                petId = petDetail.petId,
-                navigateToAddWeight = {
-                    navController.navigate(AddWeight(petDetail.petId))
-                },
                 navigateBack = {
                     navController.popBackStack()
                 }

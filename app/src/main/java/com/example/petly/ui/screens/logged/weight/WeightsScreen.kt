@@ -417,7 +417,6 @@ fun AddWeightDialog(
                     onValueChange = { weightText = it },
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
-
                         Text(text = stringResource(R.string.weight_form_placeholder_weight))
                     },
                     label = {

@@ -1,6 +1,8 @@
 package com.example.petly.data.repository
 
 import com.example.petly.data.models.Pet
+import com.example.petly.data.models.fromFirestoreMap
+import com.example.petly.data.models.toFirestoreMap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
@@ -20,7 +22,7 @@ class PetRepository @Inject constructor(
     suspend fun addPet(pet: Pet) {
         if (userId() != null) {
             pet.owners = listOf(userId().toString())
-            val documentReference = firestore.collection("pets").add(pet).await()
+            val documentReference = firestore.collection("pets").add(pet.toFirestoreMap()).await()
             pet.id = documentReference.id
             updatePet(pet)
         } else {
@@ -32,7 +34,7 @@ class PetRepository @Inject constructor(
         val petRef = pet.id.let {
             firestore.collection("pets").document(it!!)
         }
-        petRef.set(pet).await()
+        petRef.set(pet.toFirestoreMap()).await()
     }
 
     suspend fun deletePet(petId: String) {
@@ -56,9 +58,11 @@ class PetRepository @Inject constructor(
                 snapshot?.let { querySnapshot ->
                     val pets = mutableListOf<Pet>()
                     for (document in querySnapshot.documents) {
-                        val pet = document.toObject(Pet::class.java)
-                        pet?.id = document.id
-                        pet?.let { pets.add(it) }
+                            val data = document.data
+                            val pet = fromFirestoreMap(data ?: emptyMap())
+                            pet.id = document.id
+                            pet.let { pets.add(it)
+                        }
                     }
                     trySend(pets).isSuccess
                 }
@@ -72,9 +76,10 @@ class PetRepository @Inject constructor(
     suspend fun getPetById(petId: String): Pet? {
         return try {
             val petDoc = firestore.collection("pets").document(petId).get().await()
+            val data = petDoc.data
             if (petDoc.exists()) {
-                val pet = petDoc.toObject(Pet::class.java)
-                pet?.id = petDoc.id
+                val pet = fromFirestoreMap(data ?: emptyMap())
+                pet.id = petDoc.id
                 pet
             } else {
                 null
