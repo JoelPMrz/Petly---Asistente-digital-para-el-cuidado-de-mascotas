@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,12 +43,11 @@ import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.ui.screens.logged.pet.MyNavigationAppBar
 import com.example.petly.ui.viewmodel.PetViewModel
-import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 
 @Composable
 fun HomeScreen(
-    analytics: AnalyticsManager,
+    //analytics: AnalyticsManager,
     auth: AuthManager,
     navigateToPetDetail:(String)-> Unit,
     navigateBack:()-> Unit,
@@ -74,7 +74,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Center
         ) {
             if (pets.isEmpty()) {
-                Text(text = "No tienes mascotas")
+                Text(text = stringResource(R.string.empty_pet_list))
             } else {
                 LazyColumn {
                     items(pets) { pet ->
@@ -86,7 +86,7 @@ fun HomeScreen(
                 auth.singOut()
                 navigateBack()
             }) {
-                Text(text = "Cerrar sesión")
+                Text(text = stringResource(R.string.sign_out))
             }
         }
 
@@ -105,20 +105,20 @@ fun Pet(pet: Pet, petViewModel: PetViewModel, navigateToPetDetail: (String)-> Un
             .clickable {
                 pet.id?.let { navigateToPetDetail(it) }
             },
-        elevation = CardDefaults.cardElevation(8.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
         shape = MaterialTheme.shapes.large
     ) {
         Row(modifier = Modifier.padding(8.dp)) {
             Image(
                 painter = painterResource(R.drawable.pet_predeterminado),
-                contentDescription = "Imagen de la mascota",
+                contentDescription = null,
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
                     .size(120.dp),
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.width(12.dp))
-            Column() {
+            Column{
                 Text(text = pet.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -130,10 +130,9 @@ fun Pet(pet: Pet, petViewModel: PetViewModel, navigateToPetDetail: (String)-> Un
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Button(onClick = {
-                    // Eliminar la mascota
                     pet.id?.let { petViewModel.deletePet(it) }
                 }) {
-                    Text(text = "Eliminar mascota")
+                    Text(text = stringResource(R.string.delete_pet_button))
                 }
             }
         }

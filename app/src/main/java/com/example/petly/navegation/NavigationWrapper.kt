@@ -65,7 +65,7 @@ fun NavigationWrapper(context : Context){
         }
         composable<Home> {
             HomeScreen(
-                analytics = analytics ,
+                //analytics = analytics ,
                 auth = authManager,
                 navigateToPetDetail = { petId ->
                     navController.navigate(PetDetail(petId = petId))
@@ -119,7 +119,7 @@ fun NavigationWrapper(context : Context){
         composable<Weights> {backStackEntry->
             val petDetail: Weights = backStackEntry.toRoute()
             WeightsScreen(
-                analytics = analytics,
+                //analytics = analytics,
                 petId = petDetail.petId,
                 navigateBack = {
                     navController.popBackStack()
