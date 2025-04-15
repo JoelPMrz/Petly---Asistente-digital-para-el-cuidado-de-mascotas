@@ -41,6 +41,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -137,7 +138,7 @@ fun LoginScreen(
             }
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = "Forgot password?", modifier = Modifier
+                text = stringResource(R.string.forgot_password), modifier = Modifier
                     .align(Alignment.End)
                     .clickable {
                         navigateToForgotPassword()
@@ -203,10 +204,10 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
-                Text(text = "Already have an account?")
+                Text(text = stringResource(R.string.have_an_account))
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
-                    text = "Sing up", modifier = Modifier.clickable {
+                    text = stringResource(R.string.sign_up), modifier = Modifier.clickable {
                         navigateToSingUp()
                 },
                     color = MaterialTheme.colorScheme.secondary,
