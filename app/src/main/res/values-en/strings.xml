@@ -6,4 +6,6 @@
     <string name="select_weght_unit_title_dialog">Seleccionar unidad de peso</string>
     <string name="sign_out">Cerrar sesión</string>
     <string name="delete_pet_button">Eliminar mascota</string>
+    <string name="forgot_password">Recuperar contraseña?</string>
+    <string name="sign_up">Iniciar sesión</string>
 </resources>
