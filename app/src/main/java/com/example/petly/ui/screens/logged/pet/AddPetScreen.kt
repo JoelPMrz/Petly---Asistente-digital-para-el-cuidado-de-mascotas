@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -161,7 +163,8 @@ fun AddPetScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Box(
@@ -222,9 +225,7 @@ fun AddPetScreen(
                         icon = Icons.Rounded.Male,
                         onClick = {
 
-                        },
-                        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                        }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     IconSquare(
@@ -234,7 +235,9 @@ fun AddPetScreen(
                         icon = Icons.Rounded.Female,
                         onClick = {
 
-                        }
+                        },
+                        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                     )
 
                 }
@@ -293,34 +296,9 @@ fun AddPetScreen(
                 ) {
                     microchipId = it
                 }
-
             }
         }
     }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyTopAppBar(onClickIcon: () -> Unit) {
-    TopAppBar(
-        title = {
-            Text(
-                "Registrar mascota",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W400,
-                fontStyle = FontStyle.Italic,
-                color = Color.DarkGray
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                onClickIcon()
-            }) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-            }
-        }
-    )
 }
 
 @Composable
@@ -333,7 +311,9 @@ fun AddPetAppBar(
     val coroutineScope = rememberCoroutineScope()
     var enableCreatePet: Boolean by remember { mutableStateOf(true) }
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = Color.Transparent
+    ) {
         Button(
             onClick = {
                 petViewModel.addPet(

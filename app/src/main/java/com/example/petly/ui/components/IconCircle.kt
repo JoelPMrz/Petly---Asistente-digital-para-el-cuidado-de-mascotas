@@ -20,8 +20,8 @@ fun IconCircle(
     icon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    backgroundColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primaryContainer,
-    contentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onPrimaryContainer
+    backgroundColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.secondaryContainer,
+    contentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onSecondaryContainer
 ) {
     Box(
         modifier = modifier

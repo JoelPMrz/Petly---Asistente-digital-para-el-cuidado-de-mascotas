@@ -18,7 +18,10 @@ data class Pet(
     var observers: List<String> = listOf(), // IDs de los ojeadores
     var vaccines: List<String>? = listOf(), // Lista de IDs de vacunas
     var reminders: List<String>? = listOf(), // Lista de IDs de recordatorios
+    var allergies: List<String>? = listOf(),
+    var medicalConditions: List<String>? = listOf(),
     var microchipId: String? = null,
+    var passportId: String? = null,
     var adoptionDate: LocalDate? = null,
     var sterilized: Boolean? = null
 )

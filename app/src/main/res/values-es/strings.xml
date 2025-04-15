@@ -6,7 +6,7 @@
     <string name="weight_form_label_date">Fecha</string>
     <string name="weight_form_label_note">Comentario</string>
     <string name="weight_form_placeholder_note">Escribe un comentario</string>
-    <string name="weight_form_label_weight">Peso</string>
+    <string name="weight_form_label_weight">Peso (%1$s)</string>
     <string name="weight_form_placeholder_date">12/03/2025</string>
     <string name="form_confirm_btn">Aceptar</string>
     <string name="form_cancel_btn">Cancelar</string>
@@ -18,4 +18,7 @@
     <string name="wheights_pets_title">"Pesos de "</string>
     <string name="select_weght_unit_title_dialog">Seleccionar unidad de peso</string>
     <string name="form_confirm_delete_btn">Eliminar</string>
+    <string name="empty_pet_list">No hay mascotas</string>
+    <string name="sign_out">Cerrar sesión</string>
+    <string name="delete_pet_button">Eliminar mascota</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.petly.ui.screens.logged.weight
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -17,12 +18,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowRight
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
-import androidx.compose.material.icons.rounded.ArrowRight
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
@@ -31,7 +32,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +48,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +58,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -68,7 +68,6 @@ import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.viewmodel.PetViewModel
-import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.parseDate
@@ -80,18 +79,19 @@ import kotlin.math.abs
 
 @Composable
 fun WeightsScreen(
-    analytics: AnalyticsManager,
+    //analytics: AnalyticsManager,
     petId: String,
     navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel(),
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
+    //val coroutineScope = rememberCoroutineScope()
     val petState by petViewModel.petState.collectAsState()
     val weights by weightViewModel.weightsState.collectAsState()
     var showAddWeightDialog by remember { mutableStateOf(false) }
     val petName = petState?.name
+    var selectedItemId by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(petId) {
         petViewModel.getPetById(petId)
@@ -116,30 +116,33 @@ fun WeightsScreen(
         floatingActionButtonPosition = FabPosition.End,
         snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(paddingValues)
+                .padding(horizontal = 30.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(30.dp)
-            ) {
+            item {
                 if (weights.isEmpty()) {
                     Text(text = "No tienes pesos")
-                } else {
-                    val sortedWeights = remember(key1 = weights) { weights.reversed() }
-                    LazyColumn(modifier = Modifier.padding(10.dp)) {
-                        items(sortedWeights, key = { it.id!! }) { weight ->
-                            Weight(weight, weights, petId, petName)
-                            Spacer(modifier = Modifier.height(10.dp))
-                        }
-                    }
                 }
             }
+
+            items(weights.reversed(), key = { it.id!! }) { weight ->
+                Weight(
+                    weight = weight,
+                    weights = weights,
+                    petId = petId,
+                    petName = petName,
+                    selectedItemId = selectedItemId,
+                    onSelectItem = { id ->
+                        selectedItemId = id
+                    }
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
         }
+
         if (showAddWeightDialog) {
             AddWeightDialog(
                 onDismiss = {
@@ -156,14 +159,15 @@ fun Weight(
     weight: Weight,
     weights: List<Weight>,
     petId: String,
-    petName : String?,
+    petName: String?,
+    selectedItemId: String?,
+    onSelectItem: (String?) -> Unit,
     weightViewModel: WeightViewModel = hiltViewModel(),
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    val isExpanded = selectedItemId == weight.id
     var showEditWeightDialog by remember { mutableStateOf(false) }
     var showDeleteWeightDialog by remember { mutableStateOf(false) }
-    var selectedItemId by remember { mutableStateOf<String?>(null) }
     val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
     val convertedWeight = convertWeight(weight.value, weight.unit, selectedUnit).truncate(2)
     val difference: Double? = weightViewModel.comparePreviousWeight(weight, weights, selectedUnit)
@@ -174,8 +178,7 @@ fun Weight(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        //selectedItemId = weight.id
-                        expanded = !expanded
+                        if(isExpanded) onSelectItem(null) else onSelectItem(weight.id)
                     }
                 )
             },
@@ -200,57 +203,67 @@ fun Weight(
                             Icon(
                                 imageVector = when {
                                     it < 0.0 -> Icons.Rounded.ArrowDropDown
-                                    it == 0.0 -> Icons.Rounded.ArrowRight
+                                    it == 0.0 -> Icons.AutoMirrored.Rounded.ArrowRight
                                     else -> Icons.Rounded.ArrowDropUp
                                 },
                                 contentDescription = "Arrow difference weight",
                                 tint = when {
-                                    it < 0.0 -> Color.Red
-                                    it == 0.0 -> Color.Blue
-                                    else -> Color.Green
+                                    it < 0.0 -> Color(0xFFFF6161)
+                                    it == 0.0 -> Color(0xFF6879FF)
+                                    else -> Color(0xFF58E561)
                                 }
                             )
-                            Text(text = "${abs(it)} $selectedUnit",fontSize = 13.sp)
+                            Text(text = "${abs(it)} $selectedUnit", fontSize = 13.sp)
                         }
                     }
                 }
             }
-            AnimatedVisibility(expanded) {
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            AnimatedVisibility(visible = isExpanded) {
                 Box {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = weight.notes ?: "No hay notas disponibles",
-                        fontSize = 12.sp
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
+                    if (!weight.notes.isNullOrEmpty()) {
+                        Text(
+                            text = weight.notes.toString(),
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Justify,
+                            lineHeight = 15.sp
+                        )
+                    }
                 }
             }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Box(
+                modifier = Modifier.fillMaxWidth().animateContentSize()
             ) {
                 Text(
+                    modifier = Modifier.align(Alignment.TopStart),
                     text = formatLocalDateToString(weight.date),
                     fontSize = 10.sp
                 )
-                AnimatedVisibility(expanded) {
-                    Row {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                ) {
+                    AnimatedVisibility(visible = isExpanded) {
                         IconCircle(
-                            Icons.Rounded.Delete,
+                            icon = Icons.Rounded.Delete,
                             onClick = {
                                 showDeleteWeightDialog = !showDeleteWeightDialog
-                                expanded = false
+                                onSelectItem(null)
                             }
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    AnimatedVisibility(visible = isExpanded) {
                         IconCircle(
-                            Icons.Rounded.Edit,
+                            icon = Icons.Rounded.Edit,
                             onClick = {
                                 showEditWeightDialog = !showEditWeightDialog
-                                expanded = false
+                                onSelectItem(null)
                             }
                         )
                     }
@@ -258,6 +271,7 @@ fun Weight(
             }
         }
     }
+
     if (showEditWeightDialog) {
         AddWeightDialog(
             onDismiss = {
@@ -267,13 +281,14 @@ fun Weight(
             weight = weight
         )
     }
+
     if (showDeleteWeightDialog) {
         DeleteWeightDialog(
             onDismiss = {
                 showDeleteWeightDialog = false
             },
             petId = petId,
-            petName = petName ,
+            petName = petName,
             weight = weight,
         )
     }
@@ -284,7 +299,7 @@ fun DeleteWeightDialog(
     onDismiss: () -> Unit,
     petId: String,
     weight: Weight,
-    petName : String?,
+    petName: String?,
     weightViewModel: WeightViewModel = hiltViewModel()
 ) {
     AlertDialog(
@@ -293,7 +308,12 @@ fun DeleteWeightDialog(
             Text(text = stringResource(R.string.delete_weight_alert_title))
         },
         text = {
-            Text(text = stringResource(R.string.delete_weight_alert_description, petName.toString()))
+            Text(
+                text = stringResource(
+                    R.string.delete_weight_alert_description,
+                    petName.toString()
+                )
+            )
         },
         confirmButton = {
             TextButton(
@@ -338,15 +358,19 @@ fun WeightsTopAppBar(
             IconButton(onClick = {
                 navigateBack()
             }) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Arrowback icon")
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Arrowback icon")
+
             }
         },
         actions = {
-            Text(text= selectedUnit)
+            Text(text = selectedUnit)
             IconButton(onClick = {
                 showUnitDialog = true
             }) {
-                Icon(painter  = painterResource(R.drawable.ic_weight_24dp), contentDescription = "Scale icon")
+                Icon(
+                    painter = painterResource(R.drawable.ic_weight_24dp),
+                    contentDescription = "Scale icon"
+                )
             }
             if (showUnitDialog) {
                 SelectWeightUnitDialog(
@@ -382,7 +406,7 @@ fun AddWeightDialog(
             note = it.notes ?: ""
             selectedDate.value = it.date
             dateText = formatLocalDateToString(it.date)
-        }?: run {
+        } ?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(selectedDate.value)
         }
@@ -421,7 +445,7 @@ fun AddWeightDialog(
                     },
                     label = {
                         Text(
-                            text = stringResource(R.string.weight_form_label_weight,selectedUnit),
+                            text = stringResource(R.string.weight_form_label_weight, selectedUnit),
                             fontWeight = FontWeight.Medium,
                             fontStyle = FontStyle.Italic,
                         )
@@ -430,7 +454,7 @@ fun AddWeightDialog(
                         Icon(
                             painter = painterResource(R.drawable.ic_weight_24dp),
                             contentDescription = null,
-                            modifier = Modifier.clickable{
+                            modifier = Modifier.clickable {
                                 showUnitDialog = true
                             }
                         )
@@ -441,7 +465,7 @@ fun AddWeightDialog(
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedTextField(
-                    value = dateText ,
+                    value = dateText,
                     onValueChange = { dateText = it },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -462,7 +486,7 @@ fun AddWeightDialog(
                         Icon(
                             imageVector = Icons.Rounded.CalendarToday,
                             contentDescription = Icons.Outlined.CalendarToday.name,
-                            modifier = Modifier.clickable{
+                            modifier = Modifier.clickable {
                                 openDatePicker.value = true
                             }
                         )
@@ -541,13 +565,12 @@ fun AddWeightDialog(
 }
 
 
-
 @Composable
 fun SelectWeightUnitDialog(
     onDismiss: () -> Unit,
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
-    val weightUnits = listOf("Kg", "Oz","Lb")
+    val weightUnits = listOf("Kg", "Gr", "Oz", "Lb")
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
