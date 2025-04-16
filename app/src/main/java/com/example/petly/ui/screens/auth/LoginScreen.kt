@@ -247,40 +247,6 @@ fun ButtonSingIn(onSingIn: () -> Unit) {
     }
 }
 
-@Composable
-fun ButtonGoogleSingIn(onSingIn: () -> Unit) {
-    Button(
-        onClick = {
-            onSingIn()
-        },
-    )
-    {
-        Icon(
-            imageVector = Icons.Filled.Android,
-            contentDescription = "Android",
-            modifier = Modifier.padding(end = 10.dp)
-        )
-        Text(text = "Continuar con Google", fontSize = 14.sp)
-    }
-}
-
-@Composable
-fun ButtonSignInAnonymously(onSingIn: () -> Unit) {
-    Button(
-        onClick = {
-            onSingIn()
-        },
-        modifier = Modifier.fillMaxWidth()
-    )
-    {
-        Icon(
-            imageVector = Icons.Default.NoAccounts,
-            contentDescription = "No accounts",
-            modifier = Modifier.padding(end = 10.dp)
-        )
-        Text(text = "Continuar como invitado", fontSize = 14.sp)
-    }
-}
 
 
 private suspend fun signInAnonymously(
