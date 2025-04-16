@@ -1,6 +1,14 @@
 package com.example.petly.ui.screens.logged.pet
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -84,6 +92,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.Pet
@@ -93,11 +103,13 @@ import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
+import com.example.petly.utils.createImageFile
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.parseDate
 import com.example.petly.utils.toTimestamp
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.Objects
 
 @Composable
 fun AddPetScreen(
@@ -105,7 +117,39 @@ fun AddPetScreen(
     navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
-    
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val file = context.createImageFile()
+    val uri = FileProvider.getUriForFile(
+        Objects.requireNonNull(context),
+        "com.example.petly" + ".provider", file
+    )
+    var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
+    val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()){
+        if(it){
+            Toast.makeText(context, "Permiso autorizado", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(context, "Permiso denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
+        if(it){
+            Toast.makeText(context, "Foto realizada", Toast.LENGTH_SHORT).show()
+            capturedImageUri = uri
+            capturedImageUri?.let { uri ->
+                scope.launch {
+
+                }
+            }
+        }else{
+            Toast.makeText(context, "La foto no se ha podido realizar", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
+
     val snackBarHostState = remember { SnackbarHostState() }
     var name: String by remember { mutableStateOf("") }
     var gender: String by remember { mutableStateOf("Male") }
@@ -194,7 +238,12 @@ fun AddPetScreen(
                 IconCircle(
                     Icons.Rounded.CameraAlt,
                     onClick = {
+                        val permissionCheckResult = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                        if(permissionCheckResult == PackageManager.PERMISSION_GRANTED){
 
+                        }else{
+                            permissionLauncher.launch(Manifest.permission.CAMERA)
+                        }
                     },
                     modifier = Modifier
                         .padding(10.dp)

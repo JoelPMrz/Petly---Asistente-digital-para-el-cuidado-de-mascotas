@@ -8,10 +8,9 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
 
-class CloudStorageManager(context : Context) {
+class CloudStorageManager() {
     private val storage = Firebase.storage
     private val storageRef = storage.reference
-    private val authManager = AuthManager(context)
 
     fun getStorageReference(petId: String): StorageReference{
         return storageRef.child("photos").child(petId)
