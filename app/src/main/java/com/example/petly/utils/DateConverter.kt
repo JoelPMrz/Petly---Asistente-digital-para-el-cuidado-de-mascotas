@@ -20,7 +20,7 @@ fun Timestamp.toLocalDate(): LocalDate {
 }
 
 fun parseDate(dateString: String): LocalDate {
-    Log.d("DateParsing", "Parsing date: $dateString")  // Log para ver qué se está pasando
+    Log.d("DateParsing", "Parsing date: $dateString")
     return try {
         val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
         LocalDate.parse(dateString, dateFormatter)

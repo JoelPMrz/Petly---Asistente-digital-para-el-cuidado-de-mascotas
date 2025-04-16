@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage.ktx)
 
     //Hilt
     implementation(libs.hilt.android)
