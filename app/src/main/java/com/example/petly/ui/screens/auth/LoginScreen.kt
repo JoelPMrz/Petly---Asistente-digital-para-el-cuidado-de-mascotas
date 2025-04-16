@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -101,7 +102,7 @@ fun LoginScreen(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(R.drawable.login_background),
+            painter = if(isSystemInDarkTheme()) painterResource(R.drawable.dark_login) else painterResource(R.drawable.login_background),
             contentDescription = "Background login",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -142,7 +143,10 @@ fun LoginScreen(
                     .align(Alignment.End)
                     .clickable {
                         navigateToForgotPassword()
-                    }
+                    },
+                color = MaterialTheme.colorScheme.secondary,
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp
             )
             Spacer(modifier = Modifier.height(20.dp))
             Box(
@@ -169,9 +173,9 @@ fun LoginScreen(
                 )
                 {
                     Icon(
-                        imageVector = Icons.Filled.Android,
+                        painter = painterResource(R.drawable.ic_google_24),
                         contentDescription = "Android",
-                        modifier = Modifier.padding(end = 10.dp),
+                        modifier = Modifier.padding(end = 10.dp).size(24.dp),
                         tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     Text(text = "Google", fontSize = 15.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
@@ -190,9 +194,9 @@ fun LoginScreen(
                 )
                 {
                     Icon(
-                        imageVector = Icons.Default.NoAccounts,
+                        painter = painterResource(R.drawable.ic_incognito),
                         contentDescription = "No accounts",
-                        modifier = Modifier.padding(end = 10.dp),
+                        modifier = Modifier.padding(end = 10.dp).size(24.dp),
                         tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     Text(text = "Invitado", fontSize = 15.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
@@ -204,14 +208,15 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
-                Text(text = stringResource(R.string.have_an_account))
-                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = stringResource(R.string.not_create_account), fontSize = 15.sp)
+                Spacer(modifier = Modifier.width(2.dp))
                 Text(
-                    text = stringResource(R.string.sign_up), modifier = Modifier.clickable {
+                    text = stringResource(R.string.create_account), modifier = Modifier.clickable {
                         navigateToSingUp()
                 },
                     color = MaterialTheme.colorScheme.secondary,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 )
             }
 

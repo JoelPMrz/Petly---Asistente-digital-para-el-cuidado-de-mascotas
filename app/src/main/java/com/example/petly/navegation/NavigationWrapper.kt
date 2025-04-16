@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser
 @Composable
 fun NavigationWrapper(context : Context){
     val navController = rememberNavController()
+
     val analytics = AnalyticsManager(context)
     val authManager = AuthManager(context)
     val user: FirebaseUser? = authManager.getCurrentUser()

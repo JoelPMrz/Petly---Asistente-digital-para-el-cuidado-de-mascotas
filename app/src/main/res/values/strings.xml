@@ -21,7 +21,9 @@
     <string name="empty_pet_list">No hay mascotas</string>
     <string name="sign_out">Cerrar sesión</string>
     <string name="delete_pet_button">Eliminar mascota</string>
-    <string name="forgot_password">Recuperar contraseña?</string>
+    <string name="forgot_password">Olvidaste la contraseña?</string>
     <string name="have_an_account">Ya tienes una cuenta?</string>
     <string name="sign_up">Iniciar sesión</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="not_create_account">Aun no tienes cuenta?</string>
 </resources>

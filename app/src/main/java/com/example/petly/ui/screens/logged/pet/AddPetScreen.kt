@@ -78,6 +78,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -104,6 +105,7 @@ fun AddPetScreen(
     navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
+    
     val snackBarHostState = remember { SnackbarHostState() }
     var name: String by remember { mutableStateOf("") }
     var gender: String by remember { mutableStateOf("Male") }
