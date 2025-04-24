@@ -16,12 +16,13 @@ import com.example.petly.ui.screens.logged.pet.PetDetailScreen
 import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
+import com.example.petly.utils.CloudStorageManager
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
 fun NavigationWrapper(context : Context){
     val navController = rememberNavController()
-
+    val storage = CloudStorageManager()
     val analytics = AnalyticsManager(context)
     val authManager = AuthManager(context)
     val user: FirebaseUser? = authManager.getCurrentUser()

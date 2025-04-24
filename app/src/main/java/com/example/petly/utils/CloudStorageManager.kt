@@ -2,33 +2,31 @@ package com.example.petly.utils
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
 
 class CloudStorageManager() {
-    private val storage = Firebase.storage
+    private val storage = FirebaseStorage.getInstance()
     private val storageRef = storage.reference
 
-    fun getStorageReference(petId: String): StorageReference{
-        return storageRef.child("photos").child(petId)
+    fun getStorageReference(petId: String): StorageReference {
+        return storageRef.child("photos").child("pets").child(petId)
     }
 
-    suspend fun uploadFile(fileName: String, filePath: Uri, petId: String){
-        val fileRef = getStorageReference(petId).child(fileName)
-        val uploadTask = fileRef.putFile(filePath)
-        uploadTask.await()
-    }
+    suspend fun uploadFile(fileName: String, filePath: Uri, petId: String): String {
+        val fileRef = Firebase.storage.reference
+            .child("photos")
+            .child("pets")
+            .child(petId)
+            .child(fileName)
 
-    suspend fun getPetImages(petId: String): List<String>{
-        val imageUrls = mutableListOf<String>()
-        val listResult: ListResult = getStorageReference(petId).listAll().await()
-        for (item in listResult.items){
-            val url = item.downloadUrl.await().toString()
-            imageUrls.add(url)
-        }
-        return imageUrls
+        fileRef.putFile(filePath).await()
+        // Obtener la URL de la imagen subida
+        return fileRef.downloadUrl.await().toString()
     }
 }

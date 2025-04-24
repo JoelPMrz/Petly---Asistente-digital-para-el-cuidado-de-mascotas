@@ -13,7 +13,7 @@ data class Pet(
     var weights: List<String>? = listOf(),
     var gender: String = "",
     var birthDate: LocalDate? = null,
-    var photo: Int? = null,
+    var photo: String? = null,
     var owners: List<String> = listOf(),
     var observers: List<String> = listOf(), // IDs de los ojeadores
     var vaccines: List<String>? = listOf(), // Lista de IDs de vacunas
@@ -58,7 +58,7 @@ fun fromFirestoreMap(map: Map<String, Any?>): Pet {
         weights = map["weights"] as? List<String> ?: listOf(),
         gender = map["gender"] as? String ?: "",
         birthDate = birthTimestamp?.toLocalDate(),
-        photo = (map["photo"] as? Long)?.toInt(), // Firebase guarda Int como Long
+        photo = (map["photo"] as? String)?: "",
         owners = map["owners"] as? List<String> ?: listOf(),
         observers = map["observers"] as? List<String> ?: listOf(),
         vaccines = map["vaccines"] as? List<String>,

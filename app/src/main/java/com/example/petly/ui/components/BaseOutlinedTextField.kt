@@ -27,6 +27,7 @@ fun BaseOutlinedTextField(
     value: String,
     placeHolder: String? = null,
     label: String,
+    readOnly : Boolean = false,
     leadingIcon: ImageVector? = null,
     trailingIcon : ImageVector? = null,
     singleLine: Boolean? = false,
@@ -77,7 +78,8 @@ fun BaseOutlinedTextField(
                 } else null,
                 maxLines = maxLines,
                 singleLine = singleLine,
-                keyboardOptions = keyboardOptions ?: KeyboardOptions.Default
+                keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
+                readOnly = readOnly
             )
         }
     }
