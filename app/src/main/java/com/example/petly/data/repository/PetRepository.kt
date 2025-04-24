@@ -1,10 +1,14 @@
 package com.example.petly.data.repository
 
+import android.net.Uri
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.fromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap
+import com.example.petly.utils.CloudStorageManager
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -15,16 +19,57 @@ class PetRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val auth: FirebaseAuth
 ) {
+    val storage = CloudStorageManager()
 
     private fun userId() = auth.currentUser?.uid
 
-
-    suspend fun addPet(pet: Pet) {
+    suspend fun addPetWithImage(pet: Pet, imageUri: Uri, fileName: String): String {
         if (userId() != null) {
+            // 1. Crear documento en Firestore con id
+            val petRef = firestore.collection("pets").document()
+            val petId = petRef.id
+
+            pet.id = petId
             pet.owners = listOf(userId().toString())
-            val documentReference = firestore.collection("pets").add(pet.toFirestoreMap()).await()
-            pet.id = documentReference.id
-            updatePet(pet)
+
+            // 2. Subir imagen a carpeta /pets/{petId}
+            val fileRef = Firebase.storage.reference
+                .child("photos")
+                .child("pets")
+                .child(petId)
+                .child(fileName)
+
+            fileRef.putFile(imageUri).await()
+
+            // 3. Obtener URL y asignarla al pet
+            val imageUrl = fileRef.downloadUrl.await().toString()
+            pet.photo= imageUrl
+
+            // 4. Subir el documento pet con todo
+            petRef.set(pet.toFirestoreMap()).await()
+
+            return petId
+        } else {
+            throw Exception("User not authenticated")
+        }
+    }
+
+    suspend fun addPetWithoutImage(pet: Pet): String {
+        if (userId() != null) {
+            // 1. Crear documento en Firestore con id
+            val petRef = firestore.collection("pets").document()
+            val petId = petRef.id
+
+            pet.id = petId
+            pet.owners = listOf(userId().toString())
+
+            // 2. Asignar URL por defecto para la foto
+            pet.photo = "https://firebasestorage.googleapis.com/v0/b/petly-2d5c2.firebasestorage.app/o/photos%2Fpets%2Fdefault%2Fdefault_pet_profile_photo.jpg?alt=media&token=54986c7c-9707-4bb4-83fd-a87ca7855c6d"
+
+            // 3. Subir el documento pet con todo
+            petRef.set(pet.toFirestoreMap()).await()
+
+            return petId
         } else {
             throw Exception("User not authenticated")
         }

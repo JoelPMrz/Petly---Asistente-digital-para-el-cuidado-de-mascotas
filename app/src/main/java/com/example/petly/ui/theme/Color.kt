@@ -48,9 +48,7 @@ val surfaceContainerLight = Color(0xFFEDEDF4)
 val surfaceContainerHighLight = Color(0xFFE7E8EE)
 val surfaceContainerHighestLight = Color(0xFFE2E2E9)
 
-val incrementWeight = Color(0xFF6ED25F)
-val decrementWeight = Color(0xFFD25F5F)
-val equalWeight = Color(0xFF5F65D2)
+
 
 /*
 val primaryLightMediumContrast = Color(0xFF113665)
@@ -160,6 +158,7 @@ val surfaceContainerLowDark = Color(0xFF191C20)
 val surfaceContainerDark = Color(0xFF1D2024)
 val surfaceContainerHighDark = Color(0xFF282A2F)
 val surfaceContainerHighestDark = Color(0xFF33353A)
+
 
 /*
 val primaryDarkMediumContrast = Color(0xFFCCDDFF)

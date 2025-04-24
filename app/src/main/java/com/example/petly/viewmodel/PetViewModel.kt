@@ -1,5 +1,6 @@
 package com.example.petly.ui.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Pet
@@ -44,10 +45,21 @@ class PetViewModel @Inject constructor(
         }
     }
 
-    fun addPet(pet: Pet, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun addPetWithImage(pet: Pet, imageUri: Uri, fileName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         viewModelScope.launch {
             try {
-                petRepository.addPet(pet)
+                petRepository.addPetWithImage(pet, imageUri, fileName)
+                onSuccess()
+            } catch (e: Exception) {
+                onFailure(e)
+            }
+        }
+    }
+
+    fun addPetWithoutImage(pet : Pet, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+        viewModelScope.launch {
+            try {
+                petRepository.addPetWithoutImage(pet)
                 onSuccess()
             } catch (e: Exception) {
                 onFailure(e)
