@@ -8,6 +8,7 @@ import com.example.petly.utils.CloudStorageManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -25,14 +26,13 @@ class PetRepository @Inject constructor(
 
     suspend fun addPetWithImage(pet: Pet, imageUri: Uri, fileName: String): String {
         if (userId() != null) {
-            // 1. Crear documento en Firestore con id
+
             val petRef = firestore.collection("pets").document()
             val petId = petRef.id
 
             pet.id = petId
             pet.owners = listOf(userId().toString())
 
-            // 2. Subir imagen a carpeta /pets/{petId}
             val fileRef = Firebase.storage.reference
                 .child("photos")
                 .child("pets")
@@ -41,11 +41,9 @@ class PetRepository @Inject constructor(
 
             fileRef.putFile(imageUri).await()
 
-            // 3. Obtener URL y asignarla al pet
             val imageUrl = fileRef.downloadUrl.await().toString()
             pet.photo= imageUrl
 
-            // 4. Subir el documento pet con todo
             petRef.set(pet.toFirestoreMap()).await()
 
             return petId
@@ -56,17 +54,14 @@ class PetRepository @Inject constructor(
 
     suspend fun addPetWithoutImage(pet: Pet): String {
         if (userId() != null) {
-            // 1. Crear documento en Firestore con id
             val petRef = firestore.collection("pets").document()
             val petId = petRef.id
 
             pet.id = petId
             pet.owners = listOf(userId().toString())
 
-            // 2. Asignar URL por defecto para la foto
             pet.photo = "https://firebasestorage.googleapis.com/v0/b/petly-2d5c2.firebasestorage.app/o/photos%2Fpets%2Fdefault%2Fdefault_pet_profile_photo.jpg?alt=media&token=54986c7c-9707-4bb4-83fd-a87ca7855c6d"
 
-            // 3. Subir el documento pet con todo
             petRef.set(pet.toFirestoreMap()).await()
 
             return petId
@@ -93,6 +88,17 @@ class PetRepository @Inject constructor(
 
         for (doc in weightsQuery.documents) {
             doc.reference.delete().await()
+        }
+
+        val storageRef = FirebaseStorage.getInstance().reference.child("photos/pets/$petId/")
+        try {
+            val files = storageRef.listAll().await()
+
+            for (file in files.items) {
+                file.delete().await()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
