@@ -41,6 +41,7 @@ fun TypeDropdownSelector(
             label = "Especie",
             readOnly = true,
             maxLines = 1,
+            isRequired = true,
             trailingIcon = icon,
             onClickTrailingIcon = { expanded = !expanded }
         ) { }
