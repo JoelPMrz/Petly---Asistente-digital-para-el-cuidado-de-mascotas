@@ -13,6 +13,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,12 +50,15 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.CameraAlt
+import androidx.compose.material.icons.rounded.Cancel
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Female
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Male
 import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Transgender
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -93,6 +97,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -210,15 +215,14 @@ fun AddPetScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(rememberScrollState()),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .height(200.dp)
+                    .height(220.dp)
                     .background(
                         color = MaterialTheme.colorScheme.background,
                         shape = RoundedCornerShape(12)
@@ -230,7 +234,7 @@ fun AddPetScreen(
                         painter = rememberAsyncImagePainter(
                             model = capturedImageUri
                         ),
-                        contentDescription = "Foto tomada",
+                        contentDescription = stringResource(R.string.profile_pet_photo_description),
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
@@ -244,25 +248,22 @@ fun AddPetScreen(
                         .align(Alignment.TopStart)
                 )
 
-                if (capturedImageUri == Uri.EMPTY) {
-                    IconCircle(
-                        Icons.Rounded.CameraAlt,
-                        onClick = {
-                            showPhotoPicker = true
-                        },
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .size(135.dp)
-                            .align(Alignment.Center),
-                        sizeIcon = 50.dp
-                    )
-                }
+                IconCircle(
+                    icon = Icons.Rounded.CameraAlt,
+                    onClick = { showPhotoPicker = true },
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(if (capturedImageUri == Uri.EMPTY) 135.dp else 35.dp)
+                        .align(if (capturedImageUri == Uri.EMPTY) Alignment.Center else Alignment.TopEnd),
+                    sizeIcon = if (capturedImageUri == Uri.EMPTY) 50.dp else 24.dp
+                )
 
             }
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .padding(horizontal = 10.dp)
             ) {
                 BaseOutlinedTextField(
@@ -278,6 +279,7 @@ fun AddPetScreen(
                     IconSquare(
                         modifier = Modifier
                             .weight(1f)
+                            .height(40.dp)
                             .alpha(
                                 if (gender == "Male") 1.0f else 0.3f
                             ),
@@ -288,6 +290,7 @@ fun AddPetScreen(
                     IconSquare(
                         modifier = Modifier
                             .weight(1f)
+                            .height(40.dp)
                             .alpha(
                                 if (gender == "Transgender") 1.0f else 0.3f
                             ),
@@ -300,6 +303,7 @@ fun AddPetScreen(
                     IconSquare(
                         modifier = Modifier
                             .weight(1f)
+                            .height(40.dp)
                             .alpha(
                                 if (gender == "Female") 1.0f else 0.3f
                             ),
@@ -330,7 +334,7 @@ fun AddPetScreen(
 
                 BaseOutlinedTextField(
                     value = birthDateText,
-                    label = "Nacimiento",
+                    label = "Fecha de nacimiento",
                     trailingIcon = Icons.Rounded.CalendarMonth,
                     onClickTrailingIcon = { openBirthDatePicker.value = true },
                     maxLines = 1
@@ -340,11 +344,47 @@ fun AddPetScreen(
 
                 BaseOutlinedTextField(
                     value = adoptionDateText,
-                    label = "Adopción",
+                    label = "Fecha de adopción",
                     trailingIcon = Icons.Rounded.CalendarMonth,
                     onClickTrailingIcon = { openAdoptionDatePicker.value = true },
                     maxLines = 1
                 ) { adoptionDateText = it }
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                BaseOutlinedTextField(
+                    value = microchipId,
+                    placeHolder = "941000023456789",
+                    label = "Microchip",
+                    maxLines = 1,
+                ) { microchipId = it }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12))
+                        .background(
+                            if (sterilized) MaterialTheme.colorScheme.primaryContainer
+                            else MaterialTheme.colorScheme.errorContainer
+                        )
+                        .clickable { sterilized = !sterilized }
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                ) {
+                    Icon(
+                        imageVector = if (sterilized) Icons.Rounded.CheckCircle else Icons.Rounded.Cancel,
+                        contentDescription = null,
+                        tint = if (sterilized) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (sterilized) "Esterilizado" else "No esterilizado",
+                        color = if (sterilized) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
 
             }
         }

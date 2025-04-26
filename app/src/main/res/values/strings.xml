@@ -27,4 +27,7 @@
     <string name="create_account">Crear cuenta</string>
     <string name="not_create_account">Aun no tienes cuenta?</string>
     <string name="title_photoPickerBottomSheet">Selecciona una opción</string>
+    <string name="camera">Cámara</string>
+    <string name="gallery">Galería</string>
+    <string name="profile_pet_photo_description">Imagen de perfil de la mascota</string>
 </resources>

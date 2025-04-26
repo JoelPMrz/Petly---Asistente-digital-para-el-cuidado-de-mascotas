@@ -47,7 +47,7 @@ fun BaseOutlinedTextField(
                     .fillMaxWidth(),
                 placeholder = {
                     if (!placeHolder.isNullOrEmpty()) {
-                        Text(text = placeHolder)
+                        Text(text = placeHolder, fontWeight = FontWeight.ExtraLight)
                     }
                 },
                 label = {
