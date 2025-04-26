@@ -119,6 +119,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.UUID
 import androidx.core.net.toUri
+import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.utils.TypeDropdownSelector
 
 @Composable
@@ -128,33 +129,8 @@ fun AddPetScreen(
     petViewModel: PetViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
-    val file = context.createImageFile()
-    val uri = FileProvider.getUriForFile(
-        Objects.requireNonNull(context),
-        "com.example.petly.provider", file
-    )
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
-    // Lanzador de cámara
-    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
-        if (it) {
-            Toast.makeText(context, "Foto realizada", Toast.LENGTH_SHORT).show()
-            capturedImageUri = uri
-        } else {
-            Toast.makeText(context, "La foto no se ha podido realizar", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    // Solicitar permisos de cámara
-    val permissionLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                Toast.makeText(context, "Permiso autorizado", Toast.LENGTH_SHORT).show()
-                cameraLauncher.launch(uri)
-            } else {
-                Toast.makeText(context, "Permiso denegado", Toast.LENGTH_SHORT).show()
-            }
-        }
+    var showPhotoPicker by remember { mutableStateOf(false) }
 
     val snackBarHostState = remember { SnackbarHostState() }
     var name: String by remember { mutableStateOf("") }
@@ -209,6 +185,17 @@ fun AddPetScreen(
         )
     }
 
+    if(showPhotoPicker){
+        PhotoPickerBottomSheet(
+            onImageSelected = { uri ->
+                capturedImageUri = uri
+            },
+            onDismiss = {
+                showPhotoPicker = false
+            }
+        )
+    }
+
     Scaffold(
         bottomBar = {
             AddPetAppBar(
@@ -227,7 +214,6 @@ fun AddPetScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Caja para mostrar la foto
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -239,7 +225,7 @@ fun AddPetScreen(
                     )
                     .clip(RoundedCornerShape(16.dp))
             ) {
-                if(capturedImageUri != Uri.EMPTY){
+                if (capturedImageUri != Uri.EMPTY) {
                     Image(
                         painter = rememberAsyncImagePainter(
                             model = capturedImageUri
@@ -249,7 +235,6 @@ fun AddPetScreen(
                         contentScale = ContentScale.Crop
                     )
                 }
-                // Botón para volver atrás
                 IconCircle(
                     Icons.Rounded.ArrowBack,
                     onClick = navigateBack,
@@ -259,17 +244,11 @@ fun AddPetScreen(
                         .align(Alignment.TopStart)
                 )
 
-                if(capturedImageUri == Uri.EMPTY){
+                if (capturedImageUri == Uri.EMPTY) {
                     IconCircle(
                         Icons.Rounded.CameraAlt,
                         onClick = {
-                            val permissionCheck =
-                                ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                                cameraLauncher.launch(uri)
-                            } else {
-                                permissionLauncher.launch(Manifest.permission.CAMERA)
-                            }
+                            showPhotoPicker = true
                         },
                         modifier = Modifier
                             .padding(10.dp)
@@ -281,7 +260,6 @@ fun AddPetScreen(
 
             }
 
-            // Formulario de la mascota
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -290,7 +268,8 @@ fun AddPetScreen(
                 BaseOutlinedTextField(
                     value = name,
                     label = "Nombre",
-                    maxLines = 1
+                    maxLines = 1,
+                    isRequired = true,
                 ) { name = it }
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -305,7 +284,7 @@ fun AddPetScreen(
                         icon = Icons.Rounded.Male,
                         onClick = { gender = "Male" },
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(5.dp))
                     IconSquare(
                         modifier = Modifier
                             .weight(1f)
@@ -317,7 +296,7 @@ fun AddPetScreen(
                         backgroundColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(5.dp))
                     IconSquare(
                         modifier = Modifier
                             .weight(1f)
@@ -331,14 +310,14 @@ fun AddPetScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
                 TypeDropdownSelector(
                     type = type,
                     onTypeSelected = { type = it },
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
                 BaseOutlinedTextField(
                     value = breed,
@@ -347,29 +326,26 @@ fun AddPetScreen(
                     maxLines = 1
                 ) { breed = it }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
-                Row {
-                    BaseOutlinedTextField(
-                        modifier = Modifier.weight(1f),
-                        value = birthDateText,
-                        label = "Nacimiento",
-                        trailingIcon = Icons.Rounded.CalendarMonth,
-                        onClickTrailingIcon = { openBirthDatePicker.value = true },
-                        maxLines = 1
-                    ) { birthDateText = it }
+                BaseOutlinedTextField(
+                    value = birthDateText,
+                    label = "Nacimiento",
+                    trailingIcon = Icons.Rounded.CalendarMonth,
+                    onClickTrailingIcon = { openBirthDatePicker.value = true },
+                    maxLines = 1
+                ) { birthDateText = it }
 
-                    Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
-                    BaseOutlinedTextField(
-                        modifier = Modifier.weight(1f),
-                        value = adoptionDateText,
-                        label = "Adopción",
-                        trailingIcon = Icons.Rounded.CalendarMonth,
-                        onClickTrailingIcon = { openAdoptionDatePicker.value = true },
-                        maxLines = 1
-                    ) { adoptionDateText = it }
-                }
+                BaseOutlinedTextField(
+                    value = adoptionDateText,
+                    label = "Adopción",
+                    trailingIcon = Icons.Rounded.CalendarMonth,
+                    onClickTrailingIcon = { openAdoptionDatePicker.value = true },
+                    maxLines = 1
+                ) { adoptionDateText = it }
+
             }
         }
     }
@@ -391,10 +367,9 @@ fun AddPetAppBar(
     ) {
         Button(
             onClick = {
-                if (newPet.name == "") {
-                    Toast.makeText(context, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
-                } else if (newPet.type == "") {
-                    Toast.makeText(context, "El tipo es obligatorio", Toast.LENGTH_SHORT).show()
+                if (newPet.name.isEmpty() || newPet.type.isEmpty()) {
+                    Toast.makeText(context, "Completa los campos obligatorios", Toast.LENGTH_SHORT)
+                        .show()
                 } else {
                     enableCreatePet = false
                     if (capturedImageUri == Uri.EMPTY) {

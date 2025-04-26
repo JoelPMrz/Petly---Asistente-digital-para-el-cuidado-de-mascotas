@@ -51,6 +51,7 @@ fun IconSquare(
     icon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    sizeIcon : Dp = 24.dp,
     backgroundColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primaryContainer,
     contentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onPrimaryContainer
 ) {
@@ -64,6 +65,9 @@ fun IconSquare(
     ) {
         Icon(
             imageVector = icon,
+            modifier = Modifier.size(
+                sizeIcon
+            ),
             contentDescription = null,
             tint = contentColor
         )

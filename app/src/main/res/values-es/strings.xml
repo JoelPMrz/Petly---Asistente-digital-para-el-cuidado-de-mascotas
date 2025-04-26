@@ -26,4 +26,5 @@
     <string name="sign_up">Iniciar sesión</string>
     <string name="create_account">Crear cuenta</string>
     <string name="not_create_account">Aun no tienes cuenta?</string>
+    <string name="title_photoPickerBottomSheet">Selecciona una opción</string>
 </resources>
