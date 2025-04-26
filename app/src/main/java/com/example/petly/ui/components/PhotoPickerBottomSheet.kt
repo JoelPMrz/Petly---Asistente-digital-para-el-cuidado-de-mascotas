@@ -2,6 +2,7 @@ package com.example.petly.ui.components
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -31,7 +32,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.petly.R
@@ -64,6 +68,7 @@ fun PhotoPickerBottomSheet(
         } else {
             Toast.makeText(context, "Foto no realizada", Toast.LENGTH_SHORT).show()
         }
+        onDismiss()
     }
 
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -97,7 +102,7 @@ fun PhotoPickerBottomSheet(
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)
         ) {
-            Text(text = stringResource(R.string.title_photoPickerBottomSheet))
+            Text(text = stringResource(R.string.title_photoPickerBottomSheet), fontWeight = FontWeight.Medium)
             Spacer(Modifier.height(20.dp))
 
             Row(
@@ -109,24 +114,24 @@ fun PhotoPickerBottomSheet(
                     IconSquare(
                         icon = Icons.Rounded.PermMedia,
                         sizeIcon = 40.dp,
-                        modifier = Modifier.size(45.dp),
+                        modifier = Modifier.size(40.dp),
                         backgroundColor = Color.Transparent,
                         contentColor = MaterialTheme.colorScheme.primary,
                         onClick = {
                             galleryLauncher.launch("image/*")
                         }
                     )
-                    Spacer(Modifier.height(10.dp))
-                    Text(text = "Galería")
+                    Spacer(Modifier.height(5.dp))
+                    Text(text = stringResource(R.string.gallery),fontWeight = FontWeight.Light, fontSize = 12.sp)
                 }
 
-                Spacer(modifier = Modifier.width(60.dp))
+                Spacer(modifier = Modifier.width(50.dp))
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     IconSquare(
                         icon = Icons.Rounded.CameraAlt,
                         sizeIcon = 40.dp,
-                        modifier = Modifier.size(45.dp),
+                        modifier = Modifier.size(40.dp),
                         backgroundColor = Color.Transparent,
                         contentColor = MaterialTheme.colorScheme.primary,
                         onClick = {
@@ -136,15 +141,14 @@ fun PhotoPickerBottomSheet(
                             )
                             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                                 cameraLauncher.launch(cameraImageUri.value)
-                                onDismiss()
                             } else {
                                 shouldLaunchCamera.value = true
                                 permissionLauncher.launch(Manifest.permission.CAMERA)
                             }
                         }
                     )
-                    Spacer(Modifier.height(10.dp))
-                    Text(text = "Cámara")
+                    Spacer(Modifier.height(5.dp))
+                    Text(text = stringResource(R.string.camera), fontWeight = FontWeight.Light, fontSize = 12.sp)
                 }
             }
         }
