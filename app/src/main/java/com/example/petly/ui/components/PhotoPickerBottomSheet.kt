@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,7 +39,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.petly.R
 import com.example.petly.utils.createImageFile
-import java.util.Objects
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,24 +47,19 @@ fun PhotoPickerBottomSheet(
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
-    val file = context.createImageFile()
-    val uri = FileProvider.getUriForFile(
-        Objects.requireNonNull(context),
-        "com.example.petly.provider",
-        file
-    )
-
-    val cameraImageUri = remember { mutableStateOf(uri) }
+    val cameraImageUri = remember { mutableStateOf<Uri?>(null) }
     val shouldLaunchCamera = remember { mutableStateOf(false) }
 
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
         if (success) {
-            onImageSelected(cameraImageUri.value)
-            Toast.makeText(context, "Foto realizada", Toast.LENGTH_SHORT).show()
+            cameraImageUri.value?.let { uri ->
+                onImageSelected(uri)
+                Toast.makeText(context, context.getString(R.string.photo_taken), Toast.LENGTH_SHORT).show()
+            }
         } else {
-            Toast.makeText(context, "Foto no realizada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.photo_not_taken), Toast.LENGTH_SHORT).show()
         }
         onDismiss()
     }
@@ -76,8 +69,8 @@ fun PhotoPickerBottomSheet(
     ) { uriGallery ->
         uriGallery?.let {
             onImageSelected(it)
+            Toast.makeText(context, context.getString(R.string.selected_photo), Toast.LENGTH_SHORT).show()
             onDismiss()
-            Toast.makeText(context, "Foto seleccionada", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -85,13 +78,21 @@ fun PhotoPickerBottomSheet(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted && shouldLaunchCamera.value) {
-            cameraLauncher.launch(cameraImageUri.value)
-            Toast.makeText(context, "Permiso de cámara aceptado", Toast.LENGTH_SHORT).show()
+            val file = context.createImageFile()
+            val uri = FileProvider.getUriForFile(
+                context,
+                "com.example.petly.provider",
+                file
+            )
+            cameraImageUri.value = uri
+            cameraLauncher.launch(uri)
+            shouldLaunchCamera.value = false
         } else {
-            Toast.makeText(context, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.camera_permission_denied), Toast.LENGTH_SHORT).show()
         }
-        onDismiss()
+
     }
+
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() }
@@ -140,7 +141,14 @@ fun PhotoPickerBottomSheet(
                                 Manifest.permission.CAMERA
                             )
                             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                                cameraLauncher.launch(cameraImageUri.value)
+                                val file = context.createImageFile()
+                                val uri = FileProvider.getUriForFile(
+                                    context,
+                                    "com.example.petly.provider",
+                                    file
+                                )
+                                cameraImageUri.value = uri
+                                cameraLauncher.launch(uri)
                             } else {
                                 shouldLaunchCamera.value = true
                                 permissionLauncher.launch(Manifest.permission.CAMERA)
