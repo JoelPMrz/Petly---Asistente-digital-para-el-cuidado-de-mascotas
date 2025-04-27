@@ -325,8 +325,8 @@ fun AddPetScreen(
 
                 BaseOutlinedTextField(
                     value = breed,
-                    placeHolder = "Carlino",
-                    label = "Raza",
+                    placeHolder = stringResource(R.string.carlino),
+                    label = stringResource(R.string.breed),
                     maxLines = 1
                 ) { breed = it }
 
@@ -334,7 +334,7 @@ fun AddPetScreen(
 
                 BaseOutlinedTextField(
                     value = birthDateText,
-                    label = "Fecha de nacimiento",
+                    label = stringResource(R.string.birthdayDate),
                     trailingIcon = Icons.Rounded.CalendarMonth,
                     onClickTrailingIcon = { openBirthDatePicker.value = true },
                     maxLines = 1
@@ -344,7 +344,7 @@ fun AddPetScreen(
 
                 BaseOutlinedTextField(
                     value = adoptionDateText,
-                    label = "Fecha de adopción",
+                    label = stringResource(R.string.adoptionDate),
                     trailingIcon = Icons.Rounded.CalendarMonth,
                     onClickTrailingIcon = { openAdoptionDatePicker.value = true },
                     maxLines = 1
@@ -355,7 +355,7 @@ fun AddPetScreen(
                 BaseOutlinedTextField(
                     value = microchipId,
                     placeHolder = "941000023456789",
-                    label = "Microchip",
+                    label = stringResource(R.string.microchip),
                     maxLines = 1,
                 ) { microchipId = it }
 
@@ -380,7 +380,7 @@ fun AddPetScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = if (sterilized) "Esterilizado" else "No esterilizado",
+                        text = if (sterilized) stringResource(R.string.sterilized) else stringResource(R.string.not_sterilized),
                         color = if (sterilized) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer,
                         style = MaterialTheme.typography.bodyMedium
                     )

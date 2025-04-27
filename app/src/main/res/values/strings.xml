@@ -30,4 +30,17 @@
     <string name="camera">Cámara</string>
     <string name="gallery">Galería</string>
     <string name="profile_pet_photo_description">Imagen de perfil de la mascota</string>
+    <string name="camera_permission_denied">Permiso de cámara denegado</string>
+    <string name="selected_photo">Foto seleccionada</string>
+    <string name="photo_not_taken">Foto no realizada</string>
+    <string name="photo_taken">Foto realizada</string>
+    <string name="type">Especie</string>
+    <string name="dog">Perro</string>
+    <string name="breed">Raza</string>
+    <string name="carlino">Carlino</string>
+    <string name="birthdayDate">Fecha de nacimiento</string>
+    <string name="adoptionDate">Fecha de adopción</string>
+    <string name="microchip">Microchip</string>
+    <string name="sterilized">Esterilizado</string>
+    <string name="not_sterilized">No esterilizado</string>
 </resources>

@@ -23,7 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
 
 @Composable
@@ -37,8 +39,8 @@ fun TypeDropdownSelector(
     Box {
         BaseOutlinedTextField(
             value = type,
-            placeHolder = "Perro",
-            label = "Especie",
+            placeHolder = stringResource(R.string.dog),
+            label = stringResource(R.string.type),
             readOnly = true,
             maxLines = 1,
             isRequired = true,
