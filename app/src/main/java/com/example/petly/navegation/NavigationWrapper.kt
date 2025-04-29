@@ -6,13 +6,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.screens.auth.ForgotPasswordScreen
 import com.example.petly.ui.screens.auth.LoginScreen
 import com.example.petly.ui.screens.auth.SingUpScreen
 import com.example.petly.ui.screens.logged.UserDetailScreen
 import com.example.petly.ui.screens.logged.HomeScreen
+import com.example.petly.ui.screens.logged.calendar.CalendarScreen
 import com.example.petly.ui.screens.logged.pet.AddPetScreen
 import com.example.petly.ui.screens.logged.pet.PetDetailScreen
+import com.example.petly.ui.screens.logged.user.UserScreen
 import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
@@ -81,6 +84,59 @@ fun NavigationWrapper(context : Context){
                 },
                 navigateToAddPet = {
                     navController.navigate(AddPet)
+                },
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateToCalendar = {
+                    navController.navigate(Calendar){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateToUser = {
+                    navController.navigate(User){
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable<Calendar>{
+            CalendarScreen(
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateToCalendar = {
+                    navController.navigate(Calendar){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateToUser = {
+                    navController.navigate(User){
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable<User>{
+            UserScreen(
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateToCalendar = {
+                    navController.navigate(Calendar){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateToUser = {
+                    navController.navigate(User){
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
             )
         }
