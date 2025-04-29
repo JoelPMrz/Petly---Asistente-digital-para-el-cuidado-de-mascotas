@@ -6,13 +6,22 @@ import kotlinx.serialization.Serializable
 object Login
 
 @Serializable
-object Home
-
-@Serializable
 object ForgotPassword
 
 @Serializable
 object SingUp
+
+@Serializable
+object NavigationAppBar
+
+@Serializable
+object Home
+
+@Serializable
+object Calendar
+
+@Serializable
+object User
 
 @Serializable
 object AddPet

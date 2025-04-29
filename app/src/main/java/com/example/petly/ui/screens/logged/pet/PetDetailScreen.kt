@@ -1,9 +1,12 @@
 package com.example.petly.ui.screens.logged.pet
 
 
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +23,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.MonitorWeight
@@ -60,8 +65,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.petly.R
 import com.example.petly.data.models.Weight
+import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.formatLocalDateToString
@@ -71,75 +79,133 @@ import com.example.petly.viewmodel.WeightViewModel
 fun PetDetailScreen(
     analytics: AnalyticsManager,
     petId: String,
-    navigateBack:()-> Unit,
-    navigateToWeights:(String)-> Unit,
-    navigateToAddWeight:(String)-> Unit,
-    petViewModel: PetViewModel =  hiltViewModel(),
+    navigateBack: () -> Unit,
+    navigateToWeights: (String) -> Unit,
+    navigateToAddWeight: (String) -> Unit,
+    petViewModel: PetViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel()
-){
+) {
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     val petState by petViewModel.petState.collectAsState()
     val weights by weightViewModel.weightsState.collectAsState()
     var weight by remember { mutableStateOf<Weight?>(null) }
+    var showPhotoPicker by remember { mutableStateOf(false) }
 
 
     LaunchedEffect(petId) {
         petViewModel.getPetById(petId)
         weightViewModel.getWeights(petId)
     }
-    LaunchedEffect(weights){
+    LaunchedEffect(weights) {
         weight = weights.lastOrNull()
     }
 
     Scaffold(
-        topBar = {
-            PetDetailTopAppBar(
-                {
-                    navigateBack()
-                }
-            )
-        },
-        bottomBar = { MyNavigationAppBar() },
         snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-        ){
-            Image(
-                painter = painterResource(R.drawable.pet_predeterminado),
-                contentDescription = "Imagen de la mascota",
+                .padding(horizontal = 10.dp)
+        ) {
+
+            Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp))
-                    .fillMaxWidth(),
-                contentScale = ContentScale.Crop
-            )
+                    .fillMaxWidth()
+                    .height(220.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.background,
+                        shape = RoundedCornerShape(12)
+                    )
+                    .clip(RoundedCornerShape(16.dp))
+            ) {
+
+                Image(
+                    painter = painterResource(R.drawable.pet_predeterminado),
+                    contentDescription = stringResource(R.string.profile_pet_photo_description),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable{
+                            showPhotoPicker = true
+                        },
+                    contentScale = ContentScale.Crop
+                )
+
+                IconCircle(
+                    Icons.Rounded.ArrowBack,
+                    onClick = navigateBack,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(35.dp)
+                        .align(Alignment.TopStart)
+                )
+
+                IconCircle(
+                    icon = Icons.Rounded.Edit,
+                    onClick = {  },
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(35.dp)
+                        .align(Alignment.TopEnd),
+                    sizeIcon = 24.dp
+                )
+
+            }
+
             Spacer(modifier = Modifier.height(10.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
-                    text= petState?.name ?: "",
+                    text = petState?.name ?: "",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text= petState?.birthDate.toString(),
+                    text = petState?.birthDate.toString(),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500
                 )
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-            Weigths(weight, petId, navigateToWeights, navigateToAddWeight)
+
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                Weigths(weight, petId, Modifier.weight(1f), navigateToWeights, navigateToAddWeight)
+                Spacer(Modifier.width(30.dp))
+                Weigths(weight, petId, Modifier.weight(1f), navigateToWeights, navigateToAddWeight)
+            }
+
         }
+    }
+
+    if (showPhotoPicker) {
+        PhotoPickerBottomSheet(
+            onImageSelected = { uri ->
+
+            },
+            onDismiss = {
+                showPhotoPicker = false
+            }
+        )
     }
 }
 
 @Composable
-fun Weigths(weight: Weight?, petId: String, navigateToWeights:(String)->Unit, navigateToAddWeights:(String)-> Unit){
+fun Weigths(
+    weight: Weight?,
+    petId: String,
+    modifier: Modifier,
+    navigateToWeights: (String) -> Unit,
+    navigateToAddWeights: (String) -> Unit
+) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .width(100.dp)
             .clickable {
                 navigateToWeights(petId)
@@ -153,52 +219,27 @@ fun Weigths(weight: Weight?, petId: String, navigateToWeights:(String)->Unit, na
 
          */
     ) {
-        Column(modifier = Modifier.padding(8.dp)){
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-                Row(){
+        Column(modifier = Modifier.padding(8.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row() {
                     Icon(
                         imageVector = Icons.Outlined.MonitorWeight,
                         contentDescription = "Weight icon",
                         //tint = colorResource(id = R.color.blue100)
                     )
                     Spacer(modifier = Modifier.width(5.dp))
-                    Text(text= "Peso", fontWeight = FontWeight.W500)
+                    Text(text = "Peso", fontWeight = FontWeight.W500)
                 }
-                Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = "Back", modifier = Modifier.padding(top = 4.dp))
+                Icon(
+                    imageVector = Icons.Rounded.ChevronRight,
+                    contentDescription = "Back",
+                    modifier = Modifier.padding(top = 4.dp)
+                )
             }
             Text(text = weight?.value?.toString() ?: "Agregar un peso")
         }
     }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PetDetailTopAppBar(onClickIcon: (String) -> Unit) {
-    TopAppBar(
-        title = {
-            Text(
-                stringResource(R.string.pet_detail_screen_title),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W400,
-                fontStyle = FontStyle.Italic,
-                //color = Color.DarkGray
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                onClickIcon("Atrás")
-            }) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-            }
-        },
-        actions = {
-            IconButton(onClick = {
-                onClickIcon("Menú desplegado")
-            }) {
-                Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit pet")
-            }
-        },
-        //colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
-    )
 }

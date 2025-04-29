@@ -4,6 +4,7 @@ import com.example.petly.utils.toLocalDate
 import com.example.petly.utils.toTimestamp
 import java.time.LocalDate
 import com.google.firebase.Timestamp
+import java.time.Period
 
 data class Pet(
     var id: String? = "",
@@ -69,3 +70,20 @@ fun fromFirestoreMap(map: Map<String, Any?>): Pet {
     )
 }
 
+fun Pet.getAge(): String {
+    val birthDate = this.birthDate ?: return "Fecha desconocida"
+    val today = LocalDate.now()
+
+    val period = Period.between(birthDate, today)
+
+    val years = period.years
+    val months = period.months
+    val days = period.days
+
+    val parts = mutableListOf<String>()
+    if (years > 0) parts.add("$years ${if (years == 1) "año" else "años"}")
+    if (months > 0) parts.add("$months ${if (months == 1) "mes" else "meses"}")
+    if (days > 0 || parts.isEmpty()) parts.add("$days ${if (days == 1) "día" else "días"}")
+
+    return parts.joinToString(", ")
+}
