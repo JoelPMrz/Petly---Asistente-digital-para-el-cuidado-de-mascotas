@@ -52,7 +52,7 @@ class PetRepository @Inject constructor(
         }
     }
 
-    suspend fun addPetWithoutImage(pet: Pet): String {
+    suspend fun addPet(pet: Pet): String {
         if (userId() != null) {
             val petRef = firestore.collection("pets").document()
             val petId = petRef.id
@@ -76,6 +76,40 @@ class PetRepository @Inject constructor(
         }
         petRef.set(pet.toFirestoreMap()).await()
     }
+
+    suspend fun updatePetProfilePhoto(petId: String, newPhotoUri: Uri) {
+        if (userId() != null) {
+            try {
+                val fileRef = FirebaseStorage.getInstance().reference
+                    .child("photos")
+                    .child("pets")
+                    .child(petId)
+                    .child("profile_pet_photo.jpg")
+
+                fileRef.putFile(newPhotoUri).await()
+
+                val imageUrl = fileRef.downloadUrl.await().toString()
+
+                val petRef = firestore.collection("pets").document(petId)
+                val petDoc = petRef.get().await()
+
+                if (petDoc.exists()) {
+                    val pet = fromFirestoreMap(petDoc.data ?: emptyMap())
+                    pet.id = petId
+                    pet.photo = imageUrl
+                    petRef.set(pet.toFirestoreMap()).await()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                throw Exception("Error al actualizar la foto de perfil de la mascota")
+            }
+        } else {
+            throw Exception("User not authenticated")
+        }
+    }
+
+
 
     suspend fun deletePet(petId: String) {
         val petRef = firestore.collection("pets").document(petId)

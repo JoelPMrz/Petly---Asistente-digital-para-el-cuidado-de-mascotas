@@ -71,16 +71,8 @@ fun NavigationWrapper(context : Context){
         composable<Home> {
             HomeScreen(
                 //analytics = analytics ,
-                auth = authManager,
                 navigateToPetDetail = { petId ->
                     navController.navigate(PetDetail(petId = petId))
-                },
-                navigateBack = {
-                    navController.navigate(Login){
-                        popUpTo<Home>{
-                            inclusive = true
-                        }
-                    }
                 },
                 navigateToAddPet = {
                     navController.navigate(AddPet)
@@ -123,6 +115,7 @@ fun NavigationWrapper(context : Context){
         }
         composable<User>{
             UserScreen(
+                auth = authManager,
                 navigateToHome = {
                     navController.navigate(Home){
                         popUpTo(0) { inclusive = true }
@@ -136,6 +129,13 @@ fun NavigationWrapper(context : Context){
                 navigateToUser = {
                     navController.navigate(User){
                         popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateBack = {
+                    navController.navigate(Login){
+                        popUpTo<Home>{
+                            inclusive = true
+                        }
                     }
                 }
             )
@@ -167,11 +167,7 @@ fun NavigationWrapper(context : Context){
                 },
                 navigateToWeights = {
                     navController.navigate(Weights(petDetail.petId))
-                },
-                navigateToAddWeight = {
-                    navController.navigate(AddWeight(petDetail.petId))
                 }
-
             )
         }
         composable<Weights> {backStackEntry->

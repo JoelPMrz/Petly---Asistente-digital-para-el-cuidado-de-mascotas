@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun IconCircle(
     icon: ImageVector,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     sizeIcon : Dp = 24.dp,
     backgroundColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.secondaryContainer,
@@ -29,10 +29,12 @@ fun IconCircle(
 ) {
     Box(
         modifier = modifier
+            .then(
+                if (onClick != null) Modifier.clickable { onClick() } else Modifier
+            )
             .size(30.dp)
             .clip(CircleShape)
-            .background(backgroundColor)
-            .clickable { onClick() },
+            .background(backgroundColor),
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -49,7 +51,7 @@ fun IconCircle(
 @Composable
 fun IconSquare(
     icon: ImageVector,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     sizeIcon : Dp = 24.dp,
     backgroundColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primaryContainer,
@@ -57,10 +59,12 @@ fun IconSquare(
 ) {
     Box(
         modifier = modifier
+            .then(
+                if (onClick != null) Modifier.clickable { onClick() } else Modifier
+            )
             .size(30.dp)
             .clip(RoundedCornerShape(4.dp))
-            .background(backgroundColor)
-            .clickable { onClick() },
+            .background(backgroundColor),
         contentAlignment = Alignment.Center
     ) {
         Icon(

@@ -2,6 +2,9 @@ package com.example.petly.ui.screens.logged.pet
 
 
 import android.net.Uri
+import android.util.Log
+import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,29 +54,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.petly.R
 import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
+import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
+import com.example.petly.utils.truncate
+import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.WeightViewModel
 
 @Composable
@@ -81,16 +95,17 @@ fun PetDetailScreen(
     petId: String,
     navigateBack: () -> Unit,
     navigateToWeights: (String) -> Unit,
-    navigateToAddWeight: (String) -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
-    weightViewModel: WeightViewModel = hiltViewModel()
+    weightViewModel: WeightViewModel = hiltViewModel(),
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
     val petState by petViewModel.petState.collectAsState()
     val weights by weightViewModel.weightsState.collectAsState()
     var weight by remember { mutableStateOf<Weight?>(null) }
     var showPhotoPicker by remember { mutableStateOf(false) }
+    var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
 
 
     LaunchedEffect(petId) {
@@ -121,17 +136,30 @@ fun PetDetailScreen(
                     )
                     .clip(RoundedCornerShape(16.dp))
             ) {
-
-                Image(
-                    painter = painterResource(R.drawable.pet_predeterminado),
-                    contentDescription = stringResource(R.string.profile_pet_photo_description),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable{
-                            showPhotoPicker = true
-                        },
-                    contentScale = ContentScale.Crop
-                )
+                if (capturedImageUri != Uri.EMPTY) {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            model = capturedImageUri
+                        ),
+                        contentDescription = stringResource(R.string.profile_pet_photo_description),
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }else{
+                    AsyncImage(
+                        model = petState?.photo,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(R.drawable.pet_predeterminado),
+                        error = painterResource(R.drawable.pet_predeterminado),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable {
+                                showPhotoPicker = true
+                            }
+                    )
+                }
 
                 IconCircle(
                     Icons.Rounded.ArrowBack,
@@ -144,7 +172,7 @@ fun PetDetailScreen(
 
                 IconCircle(
                     icon = Icons.Rounded.Edit,
-                    onClick = {  },
+                    onClick = { },
                     modifier = Modifier
                         .padding(10.dp)
                         .size(35.dp)
@@ -175,10 +203,10 @@ fun PetDetailScreen(
 
             Row(
                 modifier = Modifier.fillMaxWidth()
-            ){
-                Weigths(weight, petId, Modifier.weight(1f), navigateToWeights, navigateToAddWeight)
-                Spacer(Modifier.width(30.dp))
-                Weigths(weight, petId, Modifier.weight(1f), navigateToWeights, navigateToAddWeight)
+            ) {
+                Weigths(weight, petId, Modifier.weight(1f), navigateToWeights)
+                Spacer(Modifier.width(10.dp))
+                Weigths(weight, petId, Modifier.weight(1f), navigateToWeights)
             }
 
         }
@@ -187,7 +215,12 @@ fun PetDetailScreen(
     if (showPhotoPicker) {
         PhotoPickerBottomSheet(
             onImageSelected = { uri ->
-
+                capturedImageUri = uri
+                petViewModel.updatePetProfilePhoto(petId, capturedImageUri, onSuccess = {
+                    Toast.makeText(context, "Foto actualizada",  Toast.LENGTH_SHORT).show()
+                }, onFailure = {
+                    Toast.makeText(context, "No se ha actualizado",  Toast.LENGTH_SHORT).show()
+                })
             },
             onDismiss = {
                 showPhotoPicker = false
@@ -202,44 +235,61 @@ fun Weigths(
     petId: String,
     modifier: Modifier,
     navigateToWeights: (String) -> Unit,
-    navigateToAddWeights: (String) -> Unit
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        preferencesViewModel.reloadUnitPreference()
+    }
+
+    val selectedUnit by preferencesViewModel.selectedUnit.collectAsState()
+    var convertedWeight by remember { mutableStateOf("Agregar un peso") }
+    var dateString by remember { mutableStateOf("") }
+
+    LaunchedEffect(weight, selectedUnit) {
+        if (weight != null) {
+            convertedWeight =
+                convertWeight(weight.value, weight.unit, selectedUnit).truncate(2).toString()
+            dateString = formatLocalDateToString(weight.date)
+        } else {
+            convertedWeight = "Agregar un peso"
+            dateString = ""
+        }
+    }
+
     Card(
         modifier = modifier
             .width(100.dp)
-            .clickable {
-                navigateToWeights(petId)
-            },
-        elevation = CardDefaults.cardElevation(8.dp),
-        shape = MaterialTheme.shapes.large,
-        /*
-        colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.white)
-        )
-
-         */
+            .defaultMinSize(minHeight = 120.dp)
+            .clickable { navigateToWeights(petId) },
+        elevation = CardDefaults.cardElevation(4.dp),
+        shape = MaterialTheme.shapes.extraLarge,
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row() {
-                    Icon(
-                        imageVector = Icons.Outlined.MonitorWeight,
-                        contentDescription = "Weight icon",
-                        //tint = colorResource(id = R.color.blue100)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "Peso", fontWeight = FontWeight.W500)
-                }
-                Icon(
-                    imageVector = Icons.Rounded.ChevronRight,
-                    contentDescription = "Back",
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-            Text(text = weight?.value?.toString() ?: "Agregar un peso")
+        Column(modifier = Modifier.padding(12.dp).fillMaxWidth()) {
+            IconCircle(
+                icon = Icons.Outlined.MonitorWeight,
+                modifier = Modifier.size(30.dp),
+                sizeIcon = 20.dp,
+                backgroundColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                contentColor = MaterialTheme.colorScheme.secondaryContainer
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Peso actual", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(
+                text = "$convertedWeight $selectedUnit",
+                fontSize = 14.sp,
+                modifier = Modifier.align(Alignment.Start)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = dateString,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Light,
+                modifier = Modifier.align(Alignment.End)
+            )
         }
     }
 }
+
+
+
+
