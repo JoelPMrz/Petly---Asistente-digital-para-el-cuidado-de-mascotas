@@ -22,4 +22,5 @@ class PreferencesRepository @Inject constructor(
     fun setDarkModeState(isDark: Boolean) {
         sharedPreferencesManager.saveBoolean("is_dark_mode", isDark)
     }
+
 }

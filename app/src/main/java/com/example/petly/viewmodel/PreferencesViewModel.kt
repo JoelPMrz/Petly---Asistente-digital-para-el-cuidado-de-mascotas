@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PreferencesViewModel @Inject constructor(
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository,
 ) : ViewModel() {
 
 
@@ -27,5 +27,9 @@ class PreferencesViewModel @Inject constructor(
     fun setDarkMode(isDark: Boolean) {
         preferencesRepository.setDarkModeState(isDark)
         _isDarkMode.value = isDark
+    }
+
+    fun reloadUnitPreference() {
+        _selectedUnit.value = preferencesRepository.getSelectedUnit()
     }
 }

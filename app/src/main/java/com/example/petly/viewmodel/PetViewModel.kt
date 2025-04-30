@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Pet
 import com.example.petly.data.repository.PetRepository
-import com.example.petly.utils.AnalyticsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,25 +47,45 @@ class PetViewModel @Inject constructor(
             }
         }
     }
-
-    fun addPetWithImage(pet: Pet, imageUri: Uri, fileName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    //Ya no es necesario
+    //Las mascotas se crean con imagen preterminada y posteriormente se actualiza
+    //la imagen en hilo secundario (proceso más rapido)
+    fun addPetWithImage(
+        pet: Pet,
+        imageUri: Uri,
+        fileName: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 petRepository.addPetWithImage(pet, imageUri, fileName)
-                onSuccess()
+                withContext(Dispatchers.Main) {
+                    onSuccess()
+                }
             } catch (e: Exception) {
-                onFailure(e)
+                withContext(Dispatchers.Main) {
+                    onFailure(e)
+                }
             }
         }
     }
 
-    fun addPetWithoutImage(pet : Pet, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+    fun addPet(
+        pet: Pet,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         viewModelScope.launch {
             try {
-                petRepository.addPetWithoutImage(pet)
-                onSuccess()
+                petRepository.addPet(pet)
+                withContext(Dispatchers.Main) {
+                    onSuccess()
+                }
             } catch (e: Exception) {
-                onFailure(e)
+                withContext(Dispatchers.Main) {
+                    onFailure(e)
+                }
             }
         }
     }
@@ -76,6 +99,33 @@ class PetViewModel @Inject constructor(
             }
         }
     }
+
+    private var uploadJob: Job? = null // Mantenemos un Job manualmente
+
+    fun updatePetProfilePhoto(
+        petId: String,
+        newPhotoUri: Uri,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        uploadJob?.cancel()
+        uploadJob = CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val newPhotoUrl = petRepository.updatePetProfilePhoto(petId, newPhotoUri)
+                withContext(Dispatchers.Main) {
+                    _petState.value?.let {
+                        _petState.value = it.copy(photo = newPhotoUrl.toString())
+                    }
+                    onSuccess()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onFailure(e)
+                }
+            }
+        }
+    }
+
 
     fun deletePet(petId: String) {
         viewModelScope.launch {

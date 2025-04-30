@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -28,12 +29,15 @@ import androidx.compose.material.icons.rounded.Transgender
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import com.example.petly.ui.components.BaseFAB
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -41,14 +45,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
+import coil.request.ImageResult
 import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.getAge
@@ -60,9 +70,7 @@ import com.example.petly.utils.AuthManager
 @Composable
 fun HomeScreen(
     //analytics: AnalyticsManager,
-    auth: AuthManager,
     navigateToPetDetail:(String)-> Unit,
-    navigateBack:()-> Unit,
     navigateToAddPet:()-> Unit,
     navigateToHome: () -> Unit,
     navigateToCalendar: () -> Unit,
@@ -72,8 +80,13 @@ fun HomeScreen(
     val pets by petViewModel.petsState.collectAsState()
     val state = rememberPagerState(initialPage = 0) { pets.size +1 }
 
+    LaunchedEffect(Unit) {
+        petViewModel.getPets()
+    }
+
     Scaffold (
         bottomBar = { MyNavigationAppBar(navigateToHome,navigateToCalendar,navigateToUser, 1) },
+        topBar = { HomeTopAppBar() },
         floatingActionButton = {
             BaseFAB(
                 onClick = {
@@ -85,7 +98,7 @@ fun HomeScreen(
         floatingActionButtonPosition = FabPosition.End
     ) { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(paddingValues),
+            modifier = Modifier.fillMaxSize().padding(paddingValues).padding(top = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             HorizontalPager(
@@ -96,32 +109,18 @@ fun HomeScreen(
                 snapPosition = SnapPosition.Start
             ) { page ->
                 if (pets.isEmpty() && page == 0) {
-                    Text(text = stringResource(R.string.empty_pet_list))
+                    AddPetCard(navigateToAddPet)
                 } else if (page < pets.size) {
-                    val pet = pets[page]
-
                     Pet(
-                        pet = pet,
+                        pet = pets[page],
                         navigateToPetDetail = navigateToPetDetail,
                     )
                 } else {
                     AddPetCard(navigateToAddPet)
                 }
             }
-
-            Button(onClick = {
-                auth.singOut()
-                navigateBack()
-            }) {
-                Text(text = stringResource(R.string.sign_out))
-            }
-        }
-
-        LaunchedEffect(Unit) {
-            petViewModel.getPets()
         }
     }
-
 }
 
 @Composable
@@ -132,24 +131,29 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
             .clickable {
                 pet.id?.let { navigateToPetDetail(it) }
             },
-        elevation = CardDefaults.cardElevation(2.dp),
-        shape = MaterialTheme.shapes.large
+        elevation = CardDefaults.cardElevation(4.dp),
+        shape = MaterialTheme.shapes.extraLarge
     ) {
-        Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
-            Image(
-                painter = painterResource(R.drawable.pet_predeterminado),
+        Column(Modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(pet.photo)
+                    .placeholder(R.drawable.pet_predeterminado)
+                    .error(R.drawable.pet_predeterminado)
+                    .build(),
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(175.dp),
-                contentScale = ContentScale.Crop
+                    .height(200.dp)
             )
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = (-15).dp)
-                    .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                    .background(MaterialTheme.colorScheme.surface)
+                    .offset(y = (-25).dp)
+                    .clip(RoundedCornerShape( 30.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .padding(start = 16.dp, end= 16.dp, top = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -158,7 +162,7 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
                 ) {
                     Text(
                         text = pet.name,
-                        fontSize = 20.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.width(5.dp))
@@ -168,7 +172,6 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
                             "Female" -> Icons.Rounded.Female
                             else -> Icons.Rounded.Transgender
                         },
-                        onClick = { },
                         modifier = Modifier.size(20.dp),
                         backgroundColor = when (pet.gender) {
                             "Male" -> MaterialTheme.colorScheme.primaryContainer
@@ -191,35 +194,81 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
 
 @Composable
 fun AddPetCard(
-    navigateToAddPet:()-> Unit
-){
+    navigateToAddPet: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
                 navigateToAddPet()
             },
-        elevation = CardDefaults.cardElevation(2.dp),
-        shape = MaterialTheme.shapes.large
+        elevation = CardDefaults.cardElevation(4.dp),
+        shape = MaterialTheme.shapes.extraLarge
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Image(
-                painter = painterResource(R.drawable.pet_predeterminado),
+        Column(
+            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .placeholder(R.drawable.pet_predeterminado)
+                    .error(R.drawable.pet_predeterminado)
+                    .build(),
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(175.dp)
-                    .clip(RoundedCornerShape(12.dp)),
-                contentScale = ContentScale.Crop
+                    .height(200.dp)
             )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column{
-                Text(text = "Añade una nuev amascota")
 
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(y = (-25).dp)
+                    .clip(RoundedCornerShape(30.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                    .padding(start = 16.dp, end = 16.dp, top = 10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Añadir",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "nueva mascota")
             }
         }
     }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeTopAppBar(
+) {
+    TopAppBar(
+        title = {},
+        navigationIcon = {
+            Image(
+                painter = painterResource(R.drawable.profile_placeholder),
+                contentDescription = "User profile",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .clickable {  }
+            )
+        },
+        actions = {},
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent,
+            scrolledContainerColor = Color.Transparent,
+            navigationIconContentColor = MaterialTheme.colorScheme.onBackground
+        )
+    )
+}
+
 
 
 

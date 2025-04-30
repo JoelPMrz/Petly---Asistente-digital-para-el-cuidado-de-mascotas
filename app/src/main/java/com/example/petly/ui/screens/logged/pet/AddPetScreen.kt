@@ -164,7 +164,6 @@ fun AddPetScreen(
         microchipId = microchipId
     )
 
-    // Picker de fecha de nacimiento
     if (openBirthDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedBirthDate.value,
@@ -177,7 +176,6 @@ fun AddPetScreen(
         )
     }
 
-    // Picker de fecha de adopción
     if (openAdoptionDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedAdoptionDate.value,
@@ -399,9 +397,9 @@ fun AddPetAppBar(
     navigateBack: () -> Unit,
     capturedImageUri: Uri,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    var enableCreatePet: Boolean by remember { mutableStateOf(true) }
+    var enableCreatePet by remember { mutableStateOf(true) }
     val context = LocalContext.current
+
     NavigationBar(
         containerColor = Color.Transparent
     ) {
@@ -412,43 +410,31 @@ fun AddPetAppBar(
                         .show()
                 } else {
                     enableCreatePet = false
-                    if (capturedImageUri == Uri.EMPTY) {
-                        petViewModel.addPetWithoutImage(
-                            pet = newPet,
-                            onSuccess = {
-                                navigateBack()
-                            },
-                            onFailure = {
-                                enableCreatePet = true
+                    petViewModel.addPet(
+                        pet = newPet,
+                        onSuccess = {
+                            Toast.makeText(context, "Bienvenido ${newPet.name}", Toast.LENGTH_SHORT).show()
+                            if (capturedImageUri != Uri.EMPTY) {
+                                newPet.id?.let {
+                                    petViewModel.updatePetProfilePhoto(
+                                        petId = it,
+                                        newPhotoUri = capturedImageUri,
+                                        onSuccess = {
+                                        },
+                                        onFailure = { e ->
+                                            Toast.makeText(context, "Imagen de ${newPet.name} no registrada", Toast.LENGTH_LONG).show()
+                                        }
+                                    )
+                                }
                             }
-                        )
-                    } else {
-                        val fileName = "profile_pet_photo.jpg"
-                        petViewModel.addPetWithImage(
-                            pet = newPet,
-                            imageUri = capturedImageUri,
-                            fileName = fileName,
-                            onSuccess = {
-                                navigateBack()
-                                Toast.makeText(
-                                    context,
-                                    "Bienvenido ${newPet.name}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            },
-                            onFailure = { e ->
-                                enableCreatePet = true
-                                Toast.makeText(
-                                    context,
-                                    "No se ha podido registrar",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                Log.e("AddPet", "Error al crear el pet: ${e.localizedMessage}")
-                            }
-                        )
-                    }
+                            navigateBack()
+                        },
+                        onFailure = { e ->
+                            enableCreatePet = true
+                            Toast.makeText(context, "No se pudo registrar la mascota", Toast.LENGTH_SHORT).show()
+                        }
+                    )
                 }
-
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -463,6 +449,7 @@ fun AddPetAppBar(
         }
     }
 }
+
 
 
 
