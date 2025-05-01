@@ -62,6 +62,7 @@ import coil.request.ImageResult
 import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.getAge
+import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.viewmodel.PetViewModel
@@ -145,6 +146,8 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(1.dp)
+                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
                     .height(200.dp)
             )
 
@@ -166,13 +169,14 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.width(5.dp))
-                    IconSquare(
+                    IconCircle(
                         icon = when (pet.gender) {
                             "Male" -> Icons.Rounded.Male
                             "Female" -> Icons.Rounded.Female
                             else -> Icons.Rounded.Transgender
                         },
-                        modifier = Modifier.size(20.dp),
+                        modifier = Modifier.size(25.dp),
+                        sizeIcon = 20.dp,
                         backgroundColor = when (pet.gender) {
                             "Male" -> MaterialTheme.colorScheme.primaryContainer
                             "Female" -> MaterialTheme.colorScheme.tertiaryContainer

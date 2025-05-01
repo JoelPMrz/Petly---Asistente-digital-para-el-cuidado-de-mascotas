@@ -16,15 +16,17 @@ data class Pet(
     var birthDate: LocalDate? = null,
     var photo: String? = null,
     var owners: List<String> = listOf(),
-    var observers: List<String> = listOf(), // IDs de los ojeadores
-    var vaccines: List<String>? = listOf(), // Lista de IDs de vacunas
-    var reminders: List<String>? = listOf(), // Lista de IDs de recordatorios
+    var observers: List<String> = listOf(),
+    var vaccines: List<String>? = listOf(),
+    var reminders: List<String>? = listOf(),
     var allergies: List<String>? = listOf(),
     var medicalConditions: List<String>? = listOf(),
     var microchipId: String? = null,
+    var microchipDate: LocalDate? = null,
     var passportId: String? = null,
     var adoptionDate: LocalDate? = null,
-    var sterilized: Boolean? = null
+    var sterilized: Boolean? = false,
+    var sterilizedDate: LocalDate? = null,
 )
 
 fun Pet.toFirestoreMap(): Map<String, Any?> {
@@ -43,13 +45,17 @@ fun Pet.toFirestoreMap(): Map<String, Any?> {
         "reminders" to reminders,
         "microchipId" to microchipId,
         "adoptionDate" to adoptionDate?.toTimestamp(),
-        "sterilized" to sterilized
+        "sterilized" to sterilized,
+        "microchipDate" to microchipDate?.toTimestamp(),
+        "sterilizedDate" to sterilizedDate?.toTimestamp(),
     )
 }
 
 fun fromFirestoreMap(map: Map<String, Any?>): Pet {
     val birthTimestamp = map["birthDate"] as? Timestamp
     val adoptionTimestamp = map["adoptionDate"] as? Timestamp
+    val microchipTimestamp = map["microchipDate"] as? Timestamp
+    val sterilizedTimestamp = map["sterilizedDate"] as? Timestamp
 
     return Pet(
         id = map["id"] as? String,
@@ -62,11 +68,13 @@ fun fromFirestoreMap(map: Map<String, Any?>): Pet {
         photo = (map["photo"] as? String)?: "",
         owners = map["owners"] as? List<String> ?: listOf(),
         observers = map["observers"] as? List<String> ?: listOf(),
-        vaccines = map["vaccines"] as? List<String>,
-        reminders = map["reminders"] as? List<String>,
+        vaccines = map["vaccines"] as? List<String> ?: listOf(),
+        reminders = map["reminders"] as? List<String> ?: listOf(),
         microchipId = map["microchipId"] as? String,
+        microchipDate = microchipTimestamp?.toLocalDate(),
         adoptionDate = adoptionTimestamp?.toLocalDate(),
-        sterilized = map["sterilized"] as? Boolean
+        sterilized = map["sterilized"] as? Boolean,
+        sterilizedDate = sterilizedTimestamp?.toLocalDate()
     )
 }
 
