@@ -125,7 +125,6 @@ fun PetDetailScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 10.dp)
         ) {
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -160,7 +159,6 @@ fun PetDetailScreen(
                             }
                     )
                 }
-
                 IconCircle(
                     Icons.Rounded.ArrowBack,
                     onClick = navigateBack,
@@ -169,7 +167,6 @@ fun PetDetailScreen(
                         .size(35.dp)
                         .align(Alignment.TopStart)
                 )
-
                 IconCircle(
                     icon = Icons.Rounded.Edit,
                     onClick = { },
@@ -179,9 +176,7 @@ fun PetDetailScreen(
                         .align(Alignment.TopEnd),
                     sizeIcon = 24.dp
                 )
-
             }
-
             Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -198,9 +193,7 @@ fun PetDetailScreen(
                     fontWeight = FontWeight.W500
                 )
             }
-
             Spacer(modifier = Modifier.height(10.dp))
-
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -208,7 +201,8 @@ fun PetDetailScreen(
                 Spacer(Modifier.width(10.dp))
                 Weigths(weight, petId, Modifier.weight(1f), navigateToWeights)
             }
-
+            Spacer(Modifier.height(10.dp))
+            Weigths(weight, petId, Modifier.fillMaxWidth(), navigateToWeights)
         }
     }
 
