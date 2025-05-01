@@ -167,6 +167,11 @@ fun NavigationWrapper(context : Context){
                 },
                 navigateToWeights = {
                     navController.navigate(Weights(petDetail.petId))
+                },
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
             )
         }

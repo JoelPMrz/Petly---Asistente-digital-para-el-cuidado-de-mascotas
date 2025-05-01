@@ -4,6 +4,7 @@ import androidx.annotation.Px
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,7 +41,7 @@ fun IconCircle(
         Icon(
             modifier = Modifier.size(
                 sizeIcon
-            ),
+            ).padding(2.dp),
             imageVector = icon,
             contentDescription = null,
             tint = contentColor,

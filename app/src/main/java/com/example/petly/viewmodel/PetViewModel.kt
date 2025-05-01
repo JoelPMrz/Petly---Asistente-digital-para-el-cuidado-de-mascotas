@@ -47,6 +47,7 @@ class PetViewModel @Inject constructor(
             }
         }
     }
+
     //Ya no es necesario
     //Las mascotas se crean con imagen preterminada y posteriormente se actualiza
     //la imagen en hilo secundario (proceso más rapido)
@@ -127,13 +128,18 @@ class PetViewModel @Inject constructor(
     }
 
 
-    fun deletePet(petId: String) {
+    fun deletePet(
+        petId: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 petRepository.deletePet(petId)
                 getPets()
+                onSuccess()
             } catch (e: Exception) {
-
+                onFailure(e)
             }
         }
     }

@@ -161,7 +161,8 @@ fun AddPetScreen(
         breed = breed,
         birthDate = (parseDate(birthDateText)),
         adoptionDate = parseDate(adoptionDateText),
-        microchipId = microchipId
+        microchipId = microchipId,
+        sterilized = sterilized
     )
 
     if (openBirthDatePicker.value) {
@@ -383,7 +384,6 @@ fun AddPetScreen(
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-
             }
         }
     }

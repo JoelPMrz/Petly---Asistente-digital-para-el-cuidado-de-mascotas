@@ -6,6 +6,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.Locale
 
 fun LocalDate.toTimestamp(): Timestamp {
     val instant = this.atStartOfDay(ZoneId.systemDefault()).toInstant()
@@ -31,6 +32,6 @@ fun parseDate(dateString: String): LocalDate {
 }
 
 fun formatLocalDateToString(localDate: LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("es", "ES"))
     return localDate.format(formatter)
 }
