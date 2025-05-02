@@ -34,15 +34,22 @@ fun BaseOutlinedTextField(
     leadingIcon: ImageVector? = null,
     trailingIcon : ImageVector? = null,
     singleLine: Boolean? = false,
+    maxLength: Int? = null,
     keyboardOptions : KeyboardOptions? = null,
     onClickTrailingIcon: (() -> Unit)? = null,
+    isError: Boolean = false,
     onUserChange: (String) -> Unit
 ) {
     if (singleLine != null && maxLines != null) {
         Box(modifier = modifier) {
             OutlinedTextField(
                 value = value,
-                onValueChange = { onUserChange(it) },
+                onValueChange = { newValue ->
+                    // Si se pasa maxLength, solo permite ingresar el texto hasta el límite
+                    if (maxLength == null || newValue.length <= maxLength) {
+                        onUserChange(newValue)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth(),
                 placeholder = {
@@ -76,28 +83,29 @@ fun BaseOutlinedTextField(
                         )
                     }
                 },
-                maxLines = maxLines,
-                singleLine = singleLine,
+                maxLines = maxLines,  // Mantener maxLines tal como estaba
+                singleLine = singleLine,  // Mantener singleLine tal como estaba
                 keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
-                readOnly = readOnly
+                readOnly = readOnly,
+                isError = isError
             )
 
             if (isRequired) {
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding( top = 8.dp)
+                        .padding(top = 8.dp)
                         .size(18.dp)
                         .background(
-                            color = if(value.isNotEmpty()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
-                            shape = RoundedCornerShape(0,14,0,100)
+                            color = if (value.isNotEmpty()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
+                            shape = RoundedCornerShape(0, 14, 0, 100)
                         ),
                     contentAlignment = Alignment.TopEnd
                 ) {
                     Text(
                         text = "*",
                         modifier = Modifier.padding(end = 3.dp),
-                        color = if(value.isNotEmpty())MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer,
+                        color = if (value.isNotEmpty()) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer,
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
