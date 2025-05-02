@@ -42,4 +42,5 @@
     <string name="microchip">Microchip</string>
     <string name="sterilized">Esterilizado</string>
     <string name="not_sterilized">No esterilizado</string>
+    <string name="sterilizedDate">Fecha de esterilización</string>
 </resources>

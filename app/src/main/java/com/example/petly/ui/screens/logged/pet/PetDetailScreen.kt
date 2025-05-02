@@ -6,6 +6,10 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Space
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,6 +18,7 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
@@ -38,7 +43,10 @@ import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.CameraAlt
+import androidx.compose.material.icons.rounded.Cancel
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
@@ -51,6 +59,7 @@ import androidx.compose.material.icons.rounded.PersonAddAlt1
 import androidx.compose.material.icons.rounded.PersonOff
 import androidx.compose.material.icons.rounded.Transgender
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -62,6 +71,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -103,6 +113,8 @@ import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.Weight
 import com.example.petly.data.models.getAge
+import com.example.petly.ui.components.BaseDatePicker
+import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.PhotoPickerBottomSheet
@@ -113,6 +125,8 @@ import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.truncate
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.WeightViewModel
+import java.time.LocalDate
+import androidx.compose.animation.expandVertically as expandVertically1
 
 @Composable
 fun PetDetailScreen(
@@ -129,13 +143,13 @@ fun PetDetailScreen(
     val context = LocalContext.current
     var expandedMenu by remember { mutableStateOf(false) }
     var showDeletePetDialog by remember { mutableStateOf(false) }
+    var showEditSterilizedState by remember { mutableStateOf(false) }
     val petState by petViewModel.petState.collectAsState()
     val weights by weightViewModel.weightsState.collectAsState()
     var weight by remember { mutableStateOf<Weight?>(null) }
     var showPhotoPicker by remember { mutableStateOf(false) }
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
-
-
+    
 
     LaunchedEffect(petId) {
         petViewModel.getPetById(petId)
@@ -305,33 +319,47 @@ fun PetDetailScreen(
                 ) {
                     Spacer(modifier = Modifier.height(5.dp))
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Max)
                     ) {
                         BirthdayCard(
                             pet = petState,
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
                             onClick = { }
                         )
                         Spacer(Modifier.width(10.dp))
                         AdoptionCard(
                             pet = petState,
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
                             onClick = { }
                         )
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Max)
                     ) {
                         SterilizedCard(
                             pet = petState,
-                            modifier = Modifier.weight(1f),
-                            onClick = { }
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
+                            onClick = {
+                                showEditSterilizedState = true
+                            }
                         )
                         Spacer(Modifier.width(10.dp))
                         MicrochipCard(
                             pet = petState,
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
                             onClick = { }
                         )
                     }
@@ -371,6 +399,15 @@ fun PetDetailScreen(
         )
     }
 
+    if(showEditSterilizedState){
+        EditSterilizedStateBottomSheet(
+            pet = petState,
+            onDismiss = {
+                showEditSterilizedState = false
+            }
+        )
+    }
+
 }
 
 @Composable
@@ -382,7 +419,7 @@ fun BirthdayCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 80.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(4.dp),
         shape = MaterialTheme.shapes.extraLarge,
@@ -402,17 +439,19 @@ fun BirthdayCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = "Edad", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = pet?.getAge() ?: "Agregar edad",
+                text = pet?.getAge() ?: "Sin identificar",
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )
             Spacer(modifier = Modifier.height(5.dp))
-            Text(
-                text = pet?.birthDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.align(Alignment.End)
-            )
+            if(pet?.birthDate != null){
+                Text(
+                    text = pet.birthDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
         }
     }
 }
@@ -426,7 +465,7 @@ fun SterilizedCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 80.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(4.dp),
         shape = MaterialTheme.shapes.extraLarge,
@@ -451,12 +490,14 @@ fun SterilizedCard(
                 modifier = Modifier.align(Alignment.Start)
             )
             Spacer(modifier = Modifier.height(5.dp))
-            Text(
-                text = pet?.sterilizedDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.align(Alignment.End)
-            )
+            if (pet?.sterilized == true){
+                Text(
+                    text =pet.sterilizedDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
         }
     }
 }
@@ -470,7 +511,7 @@ fun MicrochipCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 80.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(4.dp),
         shape = MaterialTheme.shapes.extraLarge,
@@ -490,17 +531,19 @@ fun MicrochipCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = "Microchip", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = pet?.microchipId ?: "Agregar identificador",
+                text = pet?.microchipId.takeUnless { it.isNullOrBlank() } ?: "Sin identificar",
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )
             Spacer(modifier = Modifier.height(5.dp))
-            Text(
-                text = pet?.microchipDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.align(Alignment.End)
-            )
+            if(!pet?.microchipId.isNullOrBlank()){
+                Text(
+                    text = pet?.microchipDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
         }
     }
 }
@@ -514,7 +557,7 @@ fun AdoptionCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 80.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(4.dp),
         shape = MaterialTheme.shapes.extraLarge,
@@ -534,7 +577,7 @@ fun AdoptionCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = "Adopción", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = pet?.adoptionDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
+                text = pet?.adoptionDate?.let { formatLocalDateToString(it) } ?: "Fecha desconocida",
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )
@@ -574,6 +617,7 @@ fun Weigths(
         modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 120.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
             .clickable { navigateToWeights(petId) },
         elevation = CardDefaults.cardElevation(4.dp),
         shape = MaterialTheme.shapes.extraLarge,
@@ -667,7 +711,7 @@ fun DeletePetDialog(
                             it,
                             onSuccess = {
                                 navigateToHome()
-                                Toast.makeText(context, "$petName Eliminado", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "$petName eliminado", Toast.LENGTH_SHORT).show()
                             },
                             onFailure = {
                                 Toast.makeText(context, "No se ha podido eliminar", Toast.LENGTH_SHORT).show()
@@ -689,6 +733,123 @@ fun DeletePetDialog(
             }
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditSterilizedStateBottomSheet(
+    onDismiss: () -> Unit,
+    pet : Pet?,
+    petViewModel: PetViewModel = hiltViewModel()
+){
+    var sterilized by remember { mutableStateOf(pet?.sterilized?: false) }
+    val openDatePicker = remember { mutableStateOf(false) }
+    val selectedSterilizedDate = remember { mutableStateOf(pet?.sterilizedDate ) }
+    var sterilizedDateText by remember { mutableStateOf(pet?.sterilizedDate?.let { formatLocalDateToString(it) } ?: "") }
+    var enableButton by remember { mutableStateOf(true) }
+
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() }
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth().animateContentSize()
+                    .padding(start = 15.dp, end = 15.dp,  bottom = 60.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "Estado de esterilización")
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12))
+                        .background(
+                            if (sterilized) MaterialTheme.colorScheme.primaryContainer
+                            else MaterialTheme.colorScheme.errorContainer
+                        )
+                        .clickable {
+                            sterilized = !sterilized
+                            if(!sterilized){
+                                selectedSterilizedDate.value = null
+                                sterilizedDateText = ""
+                            }
+                        }
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                ) {
+                    Icon(
+                        imageVector = if (sterilized ) Icons.Rounded.CheckCircle else Icons.Rounded.Cancel,
+                        contentDescription = null,
+                        tint = if (sterilized ) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (sterilized ) stringResource(R.string.sterilized) else stringResource(R.string.not_sterilized),
+                        color = if (sterilized) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                AnimatedVisibility(
+                    visible = sterilized,
+                    enter = expandVertically1() + fadeIn(),
+                    exit = shrinkVertically()
+                ) {
+                    BaseOutlinedTextField(
+                        value = sterilizedDateText,
+                        label = stringResource(R.string.sterilizedDate),
+                        trailingIcon = Icons.Rounded.CalendarMonth,
+                        onClickTrailingIcon = { openDatePicker.value = true },
+                        maxLines = 1,
+                        readOnly = true
+                    ) {
+                        sterilizedDateText = it
+                    }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            Button(
+                onClick = {
+                    pet?.id?.let {
+                        petViewModel.updateSterilizedInfo(
+                            petId = it,
+                            sterilized = sterilized,
+                            sterilizedDate = selectedSterilizedDate.value,
+                            onSuccess = {
+                                enableButton =false
+                                onDismiss()
+                            },
+                            onFailure = {
+
+                            }
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 5.dp)
+                    .height(60.dp)
+                    .align(Alignment.BottomCenter),
+                enabled = enableButton
+            ) {
+                Text(text = "Guardar")
+            }
+        }
+    }
+    if(openDatePicker.value){
+        BaseDatePicker(
+            initialDate = selectedSterilizedDate.value ?: LocalDate.now(),
+            onDismissRequest = { openDatePicker.value = false },
+            onDateSelected = { date ->
+                selectedSterilizedDate.value = date
+                sterilizedDateText = formatLocalDateToString(date)
+                openDatePicker.value = false
+            }
+        )
+    }
 }
 
 

@@ -79,7 +79,7 @@ fun fromFirestoreMap(map: Map<String, Any?>): Pet {
 }
 
 fun Pet.getAge(): String {
-    val birthDate = this.birthDate ?: return "Fecha desconocida"
+    val birthDate = this.birthDate ?: return "Sin identificar"
     val today = LocalDate.now()
 
     val period = Period.between(birthDate, today)

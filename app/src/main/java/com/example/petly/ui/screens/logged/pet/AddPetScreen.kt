@@ -144,11 +144,11 @@ fun AddPetScreen(
     var breed: String by remember { mutableStateOf("") }
 
     val openBirthDatePicker = remember { mutableStateOf(false) }
-    val selectedBirthDate = remember { mutableStateOf(LocalDate.now()) }
+    val selectedBirthDate = remember { mutableStateOf<LocalDate?>(null) }
     var birthDateText by remember { mutableStateOf("") }
 
     val openAdoptionDatePicker = remember { mutableStateOf(false) }
-    val selectedAdoptionDate = remember { mutableStateOf(LocalDate.now()) }
+    val selectedAdoptionDate = remember { mutableStateOf<LocalDate?>(null) }
     var adoptionDateText by remember { mutableStateOf("") }
 
     var microchipId by remember { mutableStateOf("") }
@@ -159,15 +159,15 @@ fun AddPetScreen(
         type = type,
         gender = gender,
         breed = breed,
-        birthDate = (parseDate(birthDateText)),
-        adoptionDate = parseDate(adoptionDateText),
+        birthDate = birthDateText.takeIf{ it.isNotBlank()}?.let { parseDate(it) },
+        adoptionDate = adoptionDateText.takeIf { it.isNotBlank() }?.let { parseDate(it) },
         microchipId = microchipId,
         sterilized = sterilized
     )
 
     if (openBirthDatePicker.value) {
         BaseDatePicker(
-            initialDate = selectedBirthDate.value,
+            initialDate = selectedBirthDate.value ?: LocalDate.now(),
             onDismissRequest = { openBirthDatePicker.value = false },
             onDateSelected = { date ->
                 selectedBirthDate.value = date
@@ -179,7 +179,7 @@ fun AddPetScreen(
 
     if (openAdoptionDatePicker.value) {
         BaseDatePicker(
-            initialDate = selectedAdoptionDate.value,
+            initialDate = selectedAdoptionDate.value ?: LocalDate.now(),
             onDismissRequest = { openAdoptionDatePicker.value = false },
             onDateSelected = { date ->
                 selectedAdoptionDate.value = date
@@ -254,7 +254,7 @@ fun AddPetScreen(
                         .padding(10.dp)
                         .size(if (capturedImageUri == Uri.EMPTY) 135.dp else 35.dp)
                         .align(if (capturedImageUri == Uri.EMPTY) Alignment.Center else Alignment.TopEnd),
-                    sizeIcon = if (capturedImageUri == Uri.EMPTY) 50.dp else 24.dp
+                    sizeIcon = if (capturedImageUri == Uri.EMPTY) 80.dp else 24.dp
                 )
 
             }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,9 +42,9 @@ class PetViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val pet = petRepository.getPetById(petId)
-                _petState.value = pet // Actualizar el estado con la mascota obtenida
+                _petState.value = pet
             } catch (e: Exception) {
-                _petState.value = null // Si ocurre un error, puedes asignar null
+                _petState.value = null
             }
         }
     }
@@ -101,7 +102,7 @@ class PetViewModel @Inject constructor(
         }
     }
 
-    private var uploadJob: Job? = null // Mantenemos un Job manualmente
+    private var uploadJob: Job? = null
 
     fun updatePetProfilePhoto(
         petId: String,
@@ -117,12 +118,31 @@ class PetViewModel @Inject constructor(
                     _petState.value?.let {
                         _petState.value = it.copy(photo = newPhotoUrl.toString())
                     }
+                    getPetById(petId)
                     onSuccess()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     onFailure(e)
                 }
+            }
+        }
+    }
+
+    fun updateSterilizedInfo(
+        petId: String,
+        sterilized: Boolean,
+        sterilizedDate : LocalDate?,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        viewModelScope.launch {
+            try {
+                petRepository.updateSterilizationInfo(petId,sterilized,sterilizedDate)
+                getPetById(petId)
+                onSuccess()
+            }catch (e: Exception){
+                onFailure(e)
             }
         }
     }

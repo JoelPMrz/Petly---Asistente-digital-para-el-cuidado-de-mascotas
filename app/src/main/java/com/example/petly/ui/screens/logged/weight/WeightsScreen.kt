@@ -51,6 +51,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
@@ -175,10 +176,15 @@ fun Weight(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(MaterialTheme.shapes.extraLarge)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
                         if(isExpanded) onSelectItem(null) else onSelectItem(weight.id)
+                    },
+                    onLongPress = {
+                        showDeleteWeightDialog = !showDeleteWeightDialog
+                        onSelectItem(null)
                     }
                 )
             },
@@ -359,7 +365,6 @@ fun WeightsTopAppBar(
                 navigateBack()
             }) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Arrowback icon")
-
             }
         },
         actions = {
