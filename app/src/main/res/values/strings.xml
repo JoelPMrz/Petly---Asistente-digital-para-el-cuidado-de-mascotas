@@ -45,4 +45,5 @@
     <string name="not_sterilized">No esterilizado</string>
     <string name="delete_pet_alert_description">Si eliminas esta mascota, se eliminará permanentemente de todas las cuentas viculadas a la mascota %1$s</string>
     <string name="delete_pet_alert_title">¿Eliminar esta mascota?</string>
+    <string name="sterilizedDate">Fecha de esterilización</string>
 </resources>

@@ -5,6 +5,7 @@ import com.example.petly.data.models.Pet
 import com.example.petly.data.models.fromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap
 import com.example.petly.utils.CloudStorageManager
+import com.example.petly.utils.toTimestamp
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,6 +15,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDate
 import javax.inject.Inject
 
 class PetRepository @Inject constructor(
@@ -75,6 +77,15 @@ class PetRepository @Inject constructor(
             firestore.collection("pets").document(it!!)
         }
         petRef.set(pet.toFirestoreMap()).await()
+    }
+
+    suspend fun updateSterilizationInfo(petId: String, sterilized: Boolean, sterilizedDate: LocalDate?) {
+        val petRef = firestore.collection("pets").document(petId)
+        val updateMap = mapOf(
+            "sterilized" to sterilized,
+            "sterilizedDate" to sterilizedDate?.toTimestamp()
+        )
+        petRef.update(updateMap).await()
     }
 
     suspend fun updatePetProfilePhoto(petId: String, newPhotoUri: Uri) {

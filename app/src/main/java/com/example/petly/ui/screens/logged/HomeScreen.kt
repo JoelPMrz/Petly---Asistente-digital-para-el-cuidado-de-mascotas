@@ -1,8 +1,10 @@
 package com.example.petly.ui.screens.logged
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,13 +26,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Female
+import androidx.compose.material.icons.rounded.FileDownload
+import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material.icons.rounded.Male
+import androidx.compose.material.icons.rounded.Segment
+import androidx.compose.material.icons.rounded.Sort
 import androidx.compose.material.icons.rounded.Transgender
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.Icon
 import com.example.petly.ui.components.BaseFAB
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -42,10 +49,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
@@ -65,6 +77,7 @@ import com.example.petly.data.models.getAge
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.MyNavigationAppBar
+import com.example.petly.ui.screens.logged.pet.DeletePetDialog
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 
@@ -88,6 +101,7 @@ fun HomeScreen(
     Scaffold (
         bottomBar = { MyNavigationAppBar(navigateToHome,navigateToCalendar,navigateToUser, 1) },
         topBar = { HomeTopAppBar() },
+        /*
         floatingActionButton = {
             BaseFAB(
                 onClick = {
@@ -97,11 +111,41 @@ fun HomeScreen(
             )
         },
         floatingActionButtonPosition = FabPosition.End
+
+         */
     ) { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(paddingValues).padding(top = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize().padding(paddingValues).padding(top = 0.dp),
         ) {
+            Row (
+                Modifier.fillMaxWidth().padding(start = 30.dp, end = 40.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text= "Mascotas",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 22.sp
+                )
+                Row{
+                    IconCircle(
+                        onClick = {
+                            navigateToAddPet()
+                        },
+                        icon = Icons.Rounded.Add
+                    )
+                    Spacer(Modifier.width(5.dp))
+                    IconCircle(
+                        modifier = Modifier.clickable {
+
+                        },
+                        icon = Icons.Rounded.FilterAlt
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(10.dp))
             HorizontalPager(
                 state = state,
                 modifier = Modifier.fillMaxWidth(),
@@ -125,12 +169,22 @@ fun HomeScreen(
 }
 
 @Composable
-fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
+fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit, petViewModel: PetViewModel = hiltViewModel()) {
+    val context = LocalContext.current
+    var showDeletePetDialog by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                pet.id?.let { navigateToPetDetail(it) }
+            .clip(MaterialTheme.shapes.extraLarge)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        pet.id?.let { navigateToPetDetail(it) }
+                    },
+                    onLongPress = {
+                        showDeletePetDialog = true
+                    }
+                )
             },
         elevation = CardDefaults.cardElevation(4.dp),
         shape = MaterialTheme.shapes.extraLarge
@@ -194,6 +248,14 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
             }
         }
     }
+    if(showDeletePetDialog){
+        DeletePetDialog(
+            context = context,
+            onDismiss = {showDeletePetDialog = false},
+            navigateToHome = {},
+            pet = pet
+        )
+    }
 }
 
 @Composable
@@ -203,6 +265,7 @@ fun AddPetCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(MaterialTheme.shapes.extraLarge)
             .clickable {
                 navigateToAddPet()
             },
