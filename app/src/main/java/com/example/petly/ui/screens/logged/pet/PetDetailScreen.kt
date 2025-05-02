@@ -84,6 +84,7 @@ import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.formatLocalDateToString
+import com.example.petly.utils.isValidMicrochipId
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
 import androidx.compose.animation.expandVertically as expandVertically1
@@ -715,11 +716,10 @@ fun EditMicrochipBottomSheet(
     val selectedMicrochipDate = remember { mutableStateOf(pet?.microchipDate) }
     var microchipDateText by remember {
         mutableStateOf(pet?.microchipDate?.let {
-            formatLocalDateToString(
-                it
-            )
+            formatLocalDateToString(it)
         } ?: "")
     }
+    var isValidated by remember { mutableStateOf(true) }  // Validación del microchip
     var enableButton by remember { mutableStateOf(true) }
 
     ModalBottomSheet(
@@ -740,14 +740,26 @@ fun EditMicrochipBottomSheet(
                 Text(text = "Datos del microchip")
                 Spacer(modifier = Modifier.height(10.dp))
                 BaseOutlinedTextField(
-                    value = microchipId.toString(),
+                    value = microchipId,
                     placeHolder = "941000023456789",
                     label = stringResource(R.string.microchip_identifier),
                     maxLines = 1,
+                    maxLength = 12,
+                    isError = !isValidated
                 ) { microchipId = it }
-                Spacer(modifier = Modifier.height(10.dp))
+
                 AnimatedVisibility(
-                    visible = microchipId.isNotBlank(),
+                    visible = !isValidated,
+                    enter = expandVertically1() + fadeIn(),
+                    exit = shrinkVertically()
+                ) {
+                    Text(stringResource(R.string.invalid_microchip), color = MaterialTheme.colorScheme.error)
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                AnimatedVisibility(
+                    visible = isValidMicrochipId(microchipId),
                     enter = expandVertically1() + fadeIn(),
                     exit = shrinkVertically()
                 ) {
@@ -757,28 +769,32 @@ fun EditMicrochipBottomSheet(
                         trailingIcon = Icons.Rounded.CalendarMonth,
                         onClickTrailingIcon = { openDatePicker.value = true },
                         maxLines = 1,
+                        isError = false,
                         readOnly = true
-                    ) {
-                        microchipDateText = it
-                    }
+                    ) { microchipDateText = it }
                 }
+
                 Spacer(modifier = Modifier.height(20.dp))
             }
             Button(
                 onClick = {
-                    pet?.id?.let {
-                        petViewModel.updateMicrochipInfo(
-                            petId = it,
-                            microchipId = microchipId,
-                            microchipDate = selectedMicrochipDate.value,
-                            onSuccess = {
-                                enableButton = false
-                                onDismiss()
-                            },
-                            onFailure = {
-
-                            }
-                        )
+                    if (isValidMicrochipId(microchipId)) {
+                        pet?.id?.let {
+                            petViewModel.updateMicrochipInfo(
+                                petId = it,
+                                microchipId = microchipId,
+                                microchipDate = selectedMicrochipDate.value,
+                                onSuccess = {
+                                    enableButton = false
+                                    onDismiss()
+                                },
+                                onFailure = {
+                                    // Analytics
+                                }
+                            )
+                        }
+                    } else {
+                        isValidated = false
                     }
                 },
                 modifier = Modifier
@@ -792,6 +808,7 @@ fun EditMicrochipBottomSheet(
             }
         }
     }
+
     if (openDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedMicrochipDate.value ?: LocalDate.now(),
