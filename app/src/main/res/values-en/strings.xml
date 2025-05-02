@@ -43,4 +43,9 @@
     <string name="sterilized">Esterilizado</string>
     <string name="not_sterilized">No esterilizado</string>
     <string name="sterilizedDate">Fecha de esterilización</string>
+    <string name="pet_not_exists_dialog_description">No es posible realizar acciones sobre esta mascota. En caso de no haber eliminado la mascota, comprueba que cualquier dueño asociado a esta no haya realizado la acción</string>
+    <string name="pet_not_exists_dialog_title">Mascota no encontrada</string>
+    <string name="understood">Entendido</string>
+    <string name="microchipDate">Fecha de implantación</string>
+    <string name="microchip_identifier">Identificador</string>
 </resources>

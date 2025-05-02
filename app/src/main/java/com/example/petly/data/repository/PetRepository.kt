@@ -88,6 +88,19 @@ class PetRepository @Inject constructor(
         petRef.update(updateMap).await()
     }
 
+    suspend fun updateMicrochipInfo(
+        petId: String,
+        microchipId: String,
+        microchipDate: LocalDate?
+    ) {
+        val petRef = firestore.collection("pets").document(petId)
+        val updateMap = mapOf(
+            "microchipId" to microchipId,
+            "microchipDate" to microchipDate?.toTimestamp()
+        )
+        petRef.update(updateMap).await()
+    }
+
     suspend fun updatePetProfilePhoto(petId: String, newPhotoUri: Uri) {
         if (userId() != null) {
             try {
