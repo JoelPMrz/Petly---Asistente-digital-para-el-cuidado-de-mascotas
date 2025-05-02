@@ -49,6 +49,21 @@ class PetViewModel @Inject constructor(
         }
     }
 
+    fun doesPetExist(petId: String, exists: () -> Unit, notExists: () -> Unit, onFailure: (Exception) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val pet = petRepository.getPetById(petId)
+                if(pet != null){
+                    exists()
+                }else{
+                    notExists()
+                }
+            } catch (e: Exception) {
+                onFailure(e)
+            }
+        }
+    }
+
     //Ya no es necesario
     //Las mascotas se crean con imagen preterminada y posteriormente se actualiza
     //la imagen en hilo secundario (proceso más rapido)
@@ -142,6 +157,24 @@ class PetViewModel @Inject constructor(
                 getPetById(petId)
                 onSuccess()
             }catch (e: Exception){
+                onFailure(e)
+            }
+        }
+    }
+
+    fun updateMicrochipInfo(
+        petId: String,
+        microchipId: String,
+        microchipDate: LocalDate?,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                petRepository.updateMicrochipInfo(petId, microchipId, microchipDate)
+                getPetById(petId)
+                onSuccess()
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
