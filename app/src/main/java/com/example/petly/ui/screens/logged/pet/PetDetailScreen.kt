@@ -64,7 +64,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -86,6 +85,7 @@ import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.formatLocalDateToString
+import com.example.petly.utils.getAgeFromDate
 import com.example.petly.utils.isMicrochipIdValid
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
@@ -105,6 +105,7 @@ fun PetDetailScreen(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     var expandedMenu by remember { mutableStateOf(false) }
+    var showEditBirthDate by remember { mutableStateOf(false) }
     var showEditMicrochip by remember { mutableStateOf(false) }
     var showPetNotExistsDialog by remember { mutableStateOf(false) }
     var showDeletePetDialog by remember { mutableStateOf(false) }
@@ -331,7 +332,7 @@ fun PetDetailScreen(
                                 petViewModel.doesPetExist(
                                     petId = petId,
                                     exists = {
-                                        //Dialogo editar cumpleaños
+                                        showEditBirthDate = true
                                     },
                                     notExists = {
                                         showPetNotExistsDialog = true
@@ -480,6 +481,15 @@ fun PetDetailScreen(
         )
     }
 
+    if(showEditBirthDate){
+        EditBirthDateBottomSheet(
+            pet =petState,
+            onDismiss = {
+                showEditBirthDate = false
+            }
+        )
+    }
+
     if(showEditMicrochip){
         EditMicrochipBottomSheet(
             pet = petState,
@@ -578,6 +588,118 @@ fun DeletePetDialog(
     )
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditBirthDateBottomSheet(
+    onDismiss: () -> Unit,
+    pet: Pet?,
+    petViewModel: PetViewModel = hiltViewModel()
+) {
+
+    val openDatePicker = remember { mutableStateOf(false) }
+    val selectedBirthdate = remember { mutableStateOf(pet?.birthDate) }
+    val age = getAgeFromDate(selectedBirthdate.value)
+    var birthdateText by remember {
+        mutableStateOf(pet?.birthDate?.let {
+            formatLocalDateToString(
+                it
+            )
+        } ?: "")
+    }
+    var enableButton by remember { mutableStateOf(true) }
+
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
+                    .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = stringResource(R.string.edit_birthdate_title), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                HorizontalDivider(
+                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    1.dp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                BaseOutlinedTextField(
+                    value = birthdateText,
+                    label = stringResource(R.string.birthdayDate),
+                    trailingIcon = Icons.Rounded.CalendarMonth,
+                    onClickTrailingIcon = { openDatePicker.value = true },
+                    maxLines = 1,
+                    readOnly = true
+                ) {
+                    birthdateText = it
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+
+                AnimatedVisibility(
+                    visible = birthdateText.isNotBlank(),
+                    enter = expandVertically1() + fadeIn(),
+                    exit = shrinkVertically()
+                ) {
+                    BaseOutlinedTextField(
+                        value = age ?: "",
+                        label = stringResource(R.string.age),
+                        maxLines = 1,
+                        readOnly = true
+                    ) { }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            Button(
+                onClick = {
+                    pet?.id?.let {
+                        petViewModel.updateBirthdate(
+                            petId = it,
+                            birthDate = selectedBirthdate.value,
+                            onSuccess = {
+                                enableButton = false
+                                onDismiss()
+                            },
+                            onFailure = {
+
+                            }
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 5.dp)
+                    .height(60.dp)
+                    .align(Alignment.BottomCenter),
+                enabled = enableButton
+            ) {
+                Text(
+                    text = if(pet?.birthDate == null) stringResource(R.string.save) else stringResource(R.string.edit)
+                )
+            }
+        }
+    }
+    if (openDatePicker.value) {
+        BaseDatePicker(
+            initialDate = selectedBirthdate.value ?: LocalDate.now(),
+            title = stringResource(R.string.birthdayDate),
+            maxDate = LocalDate.now(),
+            onDismissRequest = { openDatePicker.value = false },
+            onDateSelected = { date ->
+                selectedBirthdate.value = date
+                birthdateText = formatLocalDateToString(date)
+                openDatePicker.value = false
+            }
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditSterilizedStateBottomSheet(
@@ -612,7 +734,7 @@ fun EditSterilizedStateBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(R.string.edit_sterilized_state_title), fontWeight = FontWeight.SemiBold)
+                Text(text = stringResource(R.string.edit_sterilized_state_title), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 HorizontalDivider(
                     Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
                     1.dp
@@ -700,6 +822,7 @@ fun EditSterilizedStateBottomSheet(
     if (openDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedSterilizedDate.value ?: LocalDate.now(),
+            title = stringResource(R.string.sterilizedDate),
             onDismissRequest = { openDatePicker.value = false },
             onDateSelected = { date ->
                 selectedSterilizedDate.value = date
@@ -743,7 +866,7 @@ fun EditMicrochipBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(R.string.edit_microchip_title), fontWeight = FontWeight.SemiBold)
+                Text(text = stringResource(R.string.edit_microchip_title), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 HorizontalDivider(
                     Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
                     1.dp
@@ -814,7 +937,7 @@ fun EditMicrochipBottomSheet(
                     .align(Alignment.BottomCenter),
                 enabled = enableButton
             ) {
-                Text(text = stringResource(R.string.save))
+                Text(text = if(pet?.microchipId.isNullOrBlank()) stringResource(R.string.save) else stringResource(R.string.edit))
             }
         }
     }
@@ -822,6 +945,7 @@ fun EditMicrochipBottomSheet(
     if (openDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedMicrochipDate.value ?: LocalDate.now(),
+            title = stringResource(R.string.microchipDate),
             onDismissRequest = { openDatePicker.value = false },
             onDateSelected = { date ->
                 selectedMicrochipDate.value = date

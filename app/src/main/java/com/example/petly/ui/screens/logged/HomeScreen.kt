@@ -73,13 +73,13 @@ import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.example.petly.R
 import com.example.petly.data.models.Pet
-import com.example.petly.data.models.getAge
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.screens.logged.pet.DeletePetDialog
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
+import com.example.petly.utils.getAgeFromDate
 
 @Composable
 fun HomeScreen(
@@ -244,7 +244,7 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = pet.getAge())
+                Text(text = getAgeFromDate(pet.birthDate) ?: stringResource(R.string.unidentified))
             }
         }
     }

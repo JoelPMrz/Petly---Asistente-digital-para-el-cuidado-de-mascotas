@@ -3,6 +3,7 @@ package com.example.petly.utils
 import android.util.Log
 import com.google.firebase.Timestamp
 import java.time.LocalDate
+import java.time.Period
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -34,4 +35,22 @@ fun parseDate(dateString: String): LocalDate {
 fun formatLocalDateToString(localDate: LocalDate): String {
     val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("es", "ES"))
     return localDate.format(formatter)
+}
+
+fun getAgeFromDate(birthDate: LocalDate?): String? {
+    if (birthDate == null) return null
+
+    val today = LocalDate.now()
+    val period = Period.between(birthDate, today)
+
+    val years = period.years
+    val months = period.months
+    val days = period.days
+
+    val parts = mutableListOf<String>()
+    if (years > 0) parts.add("$years ${if (years == 1) "año" else "años"}")
+    if (months > 0) parts.add("$months ${if (months == 1) "mes" else "meses"}")
+    if (days > 0 || parts.isEmpty()) parts.add("$days ${if (days == 1) "día" else "días"}")
+
+    return parts.joinToString(", ")
 }

@@ -144,6 +144,23 @@ class PetViewModel @Inject constructor(
         }
     }
 
+    fun updateBirthdate(
+        petId : String,
+        birthDate : LocalDate?,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        viewModelScope.launch {
+            try {
+                petRepository.updateBirthdate(petId,birthDate)
+                getPetById(petId)
+                onSuccess()
+            }catch (e:Exception){
+                onFailure(e)
+            }
+        }
+    }
+
     fun updateSterilizedInfo(
         petId: String,
         sterilized: Boolean,
