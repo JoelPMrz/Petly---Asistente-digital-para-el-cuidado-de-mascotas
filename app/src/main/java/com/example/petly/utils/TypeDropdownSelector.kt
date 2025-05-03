@@ -3,14 +3,17 @@ package com.example.petly.utils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,18 +22,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
 
 @Composable
 fun TypeDropdownSelector(
     type: String,
+    incompleteType: Boolean,
     onTypeSelected: (String) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val icon = if (expanded) Icons.Rounded.ArrowDropUp else Icons.Rounded.ArrowDropDown
+
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
+    val density = LocalDensity.current
 
     Box {
         BaseOutlinedTextField(
@@ -40,68 +51,43 @@ fun TypeDropdownSelector(
             readOnly = true,
             maxLines = 1,
             isRequired = true,
+            isError = incompleteType,
             trailingIcon = icon,
-            onClickTrailingIcon = { expanded = !expanded }
+            onClickTrailingIcon = { expanded = !expanded },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
+                }
         ) { }
 
+        Spacer(Modifier.height(10.dp))
+
+
         DropdownMenu(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-                .height(200.dp),
             expanded = expanded,
             onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(density) { textFieldSize.width.toDp() })
+                .background(MaterialTheme.colorScheme.background)
+                .height(160.dp)
         ) {
-
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                speciesOptions.forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            onTypeSelected(option)
-                            expanded = false
-                        }
-                    )
-                }
+            speciesOptions.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        onTypeSelected(option)
+                        expanded = false
+                    }
+                )
             }
         }
     }
 }
 
-
-
 val speciesOptions = listOf(
-    "Araña",
-    "Burro",
-    "Caballo",
-    "Cabra",
-    "Camaleón",
-    "Cangrejo",
-    "Cerdo",
-    "Chinchilla",
-    "Cobaya",
-    "Conejo",
-    "Erizo",
-    "Escorpión",
-    "Ferret",
-    "Gallina",
-    "Gato",
-    "Gecko",
-    "Hámster",
-    "Hurón",
-    "Iguana",
-    "Lagarto",
-    "Oveja",
-    "Paloma",
-    "Pato",
-    "Pájaro",
-    "Pez",
-    "Perro",
-    "Rata",
-    "Ratón",
-    "Serpiente",
-    "Tortuga"
+    "Araña", "Burro", "Caballo", "Cabra", "Camaleón", "Cangrejo", "Cerdo",
+    "Chinchilla", "Cobaya", "Conejo", "Erizo", "Escorpión", "Ferret", "Gallina",
+    "Gato", "Gecko", "Hámster", "Hurón", "Iguana", "Lagarto", "Oveja", "Paloma",
+    "Pato", "Pájaro", "Pez", "Perro", "Rata", "Ratón", "Serpiente", "Tortuga"
 )
