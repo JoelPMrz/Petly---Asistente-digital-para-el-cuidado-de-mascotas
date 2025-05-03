@@ -113,6 +113,7 @@ fun AddPetScreen(
     if (openBirthDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedBirthDate.value ?: LocalDate.now(),
+            title = stringResource(R.string.birthdayDate),
             onDismissRequest = { openBirthDatePicker.value = false },
             onDateSelected = { date ->
                 selectedBirthDate.value = date
@@ -125,6 +126,7 @@ fun AddPetScreen(
     if (openAdoptionDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedAdoptionDate.value ?: LocalDate.now(),
+            title = stringResource(R.string.adoptionDate),
             onDismissRequest = { openAdoptionDatePicker.value = false },
             onDateSelected = { date ->
                 selectedAdoptionDate.value = date

@@ -55,4 +55,9 @@
     <string name="edit_microchip_title">Datos del microchip</string>
     <string name="edit_sterilized_state_title">Estado de esterilización</string>
     <string name="save">Guardar</string>
+    <string name="default_datePicker_title">Selecciona una fecha</string>
+    <string name="edit">Editar</string>
+    <string name="edit_birthdate_title">Edad y fecha de nacimiento</string>
+    <string name="unidentified">Sin identificar</string>
+    <string name="age">Edad</string>
 </resources>
