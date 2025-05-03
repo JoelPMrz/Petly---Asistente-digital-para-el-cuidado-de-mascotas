@@ -45,7 +45,6 @@ fun BaseOutlinedTextField(
             OutlinedTextField(
                 value = value,
                 onValueChange = { newValue ->
-                    // Si se pasa maxLength, solo permite ingresar el texto hasta el límite
                     if (maxLength == null || newValue.length <= maxLength) {
                         onUserChange(newValue)
                     }
@@ -83,8 +82,8 @@ fun BaseOutlinedTextField(
                         )
                     }
                 },
-                maxLines = maxLines,  // Mantener maxLines tal como estaba
-                singleLine = singleLine,  // Mantener singleLine tal como estaba
+                maxLines = maxLines,
+                singleLine = singleLine,
                 keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
                 readOnly = readOnly,
                 isError = isError
@@ -97,7 +96,7 @@ fun BaseOutlinedTextField(
                         .padding(top = 8.dp)
                         .size(18.dp)
                         .background(
-                            color = if (value.isNotEmpty()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
+                            color = if (!isError) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
                             shape = RoundedCornerShape(0, 14, 0, 100)
                         ),
                     contentAlignment = Alignment.TopEnd
@@ -105,7 +104,7 @@ fun BaseOutlinedTextField(
                     Text(
                         text = "*",
                         modifier = Modifier.padding(end = 3.dp),
-                        color = if (value.isNotEmpty()) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer,
+                        color = if (!isError) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer,
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )

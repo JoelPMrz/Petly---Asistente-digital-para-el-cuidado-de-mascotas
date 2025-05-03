@@ -44,6 +44,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -63,6 +64,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -84,7 +86,7 @@ import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.formatLocalDateToString
-import com.example.petly.utils.isValidMicrochipId
+import com.example.petly.utils.isMicrochipIdValid
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
 import androidx.compose.animation.expandVertically as expandVertically1
@@ -610,7 +612,11 @@ fun EditSterilizedStateBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Estado de esterilización")
+                Text(text = stringResource(R.string.edit_sterilized_state_title), fontWeight = FontWeight.SemiBold)
+                HorizontalDivider(
+                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    1.dp
+                )
                 Spacer(modifier = Modifier.height(10.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -687,7 +693,7 @@ fun EditSterilizedStateBottomSheet(
                     .align(Alignment.BottomCenter),
                 enabled = enableButton
             ) {
-                Text(text = "Guardar")
+                Text(text = stringResource(R.string.save))
             }
         }
     }
@@ -719,7 +725,7 @@ fun EditMicrochipBottomSheet(
             formatLocalDateToString(it)
         } ?: "")
     }
-    var isValidated by remember { mutableStateOf(true) }  // Validación del microchip
+    var isValidated by remember { mutableStateOf(true) }
     var enableButton by remember { mutableStateOf(true) }
 
     ModalBottomSheet(
@@ -737,29 +743,33 @@ fun EditMicrochipBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Datos del microchip")
+                Text(text = stringResource(R.string.edit_microchip_title), fontWeight = FontWeight.SemiBold)
+                HorizontalDivider(
+                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    1.dp
+                )
                 Spacer(modifier = Modifier.height(10.dp))
-                BaseOutlinedTextField(
-                    value = microchipId,
-                    placeHolder = "941000023456789",
-                    label = stringResource(R.string.microchip_identifier),
-                    maxLines = 1,
-                    maxLength = 12,
-                    isError = !isValidated
-                ) { microchipId = it }
+                Column(Modifier.fillMaxWidth()){
+                    BaseOutlinedTextField(
+                        value = microchipId,
+                        placeHolder = "941000023456789",
+                        label = stringResource(R.string.microchip_identifier),
+                        maxLines = 1,
+                        maxLength = 12,
+                        isError = !isValidated
+                    ) { microchipId = it }
 
-                AnimatedVisibility(
-                    visible = !isValidated,
-                    enter = expandVertically1() + fadeIn(),
-                    exit = shrinkVertically()
-                ) {
-                    Text(stringResource(R.string.invalid_microchip), color = MaterialTheme.colorScheme.error)
+                    AnimatedVisibility(
+                        visible = !isValidated,
+                        enter = expandVertically1() + fadeIn(),
+                        exit = shrinkVertically()
+                    ) {
+                        Text(stringResource(R.string.invalid_microchip), color = MaterialTheme.colorScheme.error)
+                    }
                 }
-
                 Spacer(modifier = Modifier.height(10.dp))
-
                 AnimatedVisibility(
-                    visible = isValidMicrochipId(microchipId),
+                    visible = isMicrochipIdValid(microchipId),
                     enter = expandVertically1() + fadeIn(),
                     exit = shrinkVertically()
                 ) {
@@ -778,7 +788,7 @@ fun EditMicrochipBottomSheet(
             }
             Button(
                 onClick = {
-                    if (isValidMicrochipId(microchipId)) {
+                    if (isMicrochipIdValid(microchipId)) {
                         pet?.id?.let {
                             petViewModel.updateMicrochipInfo(
                                 petId = it,
@@ -804,7 +814,7 @@ fun EditMicrochipBottomSheet(
                     .align(Alignment.BottomCenter),
                 enabled = enableButton
             ) {
-                Text(text = "Guardar")
+                Text(text = stringResource(R.string.save))
             }
         }
     }

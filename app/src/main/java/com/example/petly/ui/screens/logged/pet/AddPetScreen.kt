@@ -1,25 +1,18 @@
 package com.example.petly.ui.screens.logged.pet
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContract
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,63 +20,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoMode
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Pets
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Transgender
-import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Pets
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Female
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Male
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Transgender
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -92,18 +49,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.petly.R
@@ -114,18 +65,12 @@ import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
-import com.example.petly.utils.CloudStorageManager
-import com.example.petly.utils.createImageFile
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.parseDate
-import com.example.petly.utils.toTimestamp
-import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.Objects
-import java.util.UUID
-import androidx.core.net.toUri
 import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.utils.TypeDropdownSelector
+import com.example.petly.utils.isMicrochipIdValidOrEmpty
 
 @Composable
 fun AddPetScreen(
@@ -139,8 +84,10 @@ fun AddPetScreen(
 
     val snackBarHostState = remember { SnackbarHostState() }
     var name: String by remember { mutableStateOf("") }
+    var incompleteName by remember { mutableStateOf(false) }
     var gender: String by remember { mutableStateOf("Male") }
     var type: String by remember { mutableStateOf("") }
+    var incompleteType by remember { mutableStateOf(false) }
     var breed: String by remember { mutableStateOf("") }
 
     val openBirthDatePicker = remember { mutableStateOf(false) }
@@ -152,6 +99,7 @@ fun AddPetScreen(
     var adoptionDateText by remember { mutableStateOf("") }
 
     var microchipId by remember { mutableStateOf("") }
+    var invalidMicrochipId by remember { mutableStateOf(false) }
     var sterilized by remember { mutableStateOf(false) }
 
     val newPet = Pet(
@@ -206,7 +154,16 @@ fun AddPetScreen(
                 newPet = newPet,
                 petViewModel = petViewModel,
                 navigateBack = navigateBack,
-                capturedImageUri = capturedImageUri
+                capturedImageUri = capturedImageUri,
+                incompleteName = {
+                    incompleteName = it
+                },
+                incompleteType = {
+                    incompleteType = it
+                },
+                invalidMicrochipId = {
+                    invalidMicrochipId = it
+                }
             )
         },
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -269,6 +226,8 @@ fun AddPetScreen(
                     value = name,
                     label = "Nombre",
                     maxLines = 1,
+                    maxLength = 25,
+                    isError = incompleteName,
                     isRequired = true,
                 ) { name = it }
 
@@ -317,6 +276,7 @@ fun AddPetScreen(
 
                 TypeDropdownSelector(
                     type = type,
+                    incompleteType = incompleteType,
                     onTypeSelected = { type = it },
                 )
 
@@ -326,6 +286,7 @@ fun AddPetScreen(
                     value = breed,
                     placeHolder = stringResource(R.string.carlino),
                     label = stringResource(R.string.breed),
+                    maxLength = 22,
                     maxLines = 1
                 ) { breed = it }
 
@@ -350,13 +311,22 @@ fun AddPetScreen(
                 ) { adoptionDateText = it }
 
                 Spacer(modifier = Modifier.height(5.dp))
+                Column(Modifier.fillMaxWidth()){
+                    BaseOutlinedTextField(
+                        value = microchipId,
+                        placeHolder = "941000023456789",
+                        label = stringResource(R.string.microchip),
+                        isError = invalidMicrochipId,
+                        maxLines = 1,
+                    ) { microchipId = it }
 
-                BaseOutlinedTextField(
-                    value = microchipId,
-                    placeHolder = "941000023456789",
-                    label = stringResource(R.string.microchip),
-                    maxLines = 1,
-                ) { microchipId = it }
+                    AnimatedVisibility(
+                        visible = invalidMicrochipId
+                    ) {
+                        Text(stringResource(R.string.invalid_microchip), color = MaterialTheme.colorScheme.error)
+                    }
+                }
+
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -394,6 +364,9 @@ fun AddPetScreen(
 fun AddPetAppBar(
     newPet: Pet,
     petViewModel: PetViewModel,
+    incompleteName:(Boolean) -> Unit,
+    incompleteType:(Boolean) -> Unit,
+    invalidMicrochipId: (Boolean) -> Unit,
     navigateBack: () -> Unit,
     capturedImageUri: Uri,
 ) {
@@ -405,10 +378,15 @@ fun AddPetAppBar(
     ) {
         Button(
             onClick = {
-                if (newPet.name.isEmpty() || newPet.type.isEmpty()) {
-                    Toast.makeText(context, "Completa los campos obligatorios", Toast.LENGTH_SHORT)
-                        .show()
+                if (newPet.name.isBlank() || newPet.type.isBlank() || !isMicrochipIdValidOrEmpty(newPet.microchipId)) {
+                    if (newPet.name.isBlank()) incompleteName(true) else incompleteName(false)
+                    if (newPet.type.isBlank()) incompleteType(true) else incompleteType(false)
+                    if(!isMicrochipIdValidOrEmpty(newPet.microchipId))invalidMicrochipId(true) else invalidMicrochipId(false)
+                    return@Button
                 } else {
+                    invalidMicrochipId(false)
+                    incompleteName(false)
+                    incompleteType(false)
                     enableCreatePet = false
                     petViewModel.addPet(
                         pet = newPet,
