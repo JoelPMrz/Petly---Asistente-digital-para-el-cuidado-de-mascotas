@@ -169,7 +169,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit, petViewModel: PetViewModel = hiltViewModel()) {
+fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
     val context = LocalContext.current
     var showDeletePetDialog by remember { mutableStateOf(false) }
     Card(

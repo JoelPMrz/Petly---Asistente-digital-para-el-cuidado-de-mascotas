@@ -49,4 +49,7 @@
     <string name="microchipDate">Fecha de implantación</string>
     <string name="microchip_identifier">Identificador</string>
     <string name="invalid_microchip">Debe contener 12 números</string>
+    <string name="edit_microchip_title">Datos del microchip</string>
+    <string name="edit_sterilized_state_title">Estado de esterilización</string>
+    <string name="save">Guardar</string>
 </resources>

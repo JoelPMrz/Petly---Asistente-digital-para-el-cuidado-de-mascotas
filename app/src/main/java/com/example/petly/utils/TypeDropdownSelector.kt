@@ -27,6 +27,7 @@ import com.example.petly.ui.components.BaseOutlinedTextField
 @Composable
 fun TypeDropdownSelector(
     type: String,
+    incompleteType : Boolean,
     onTypeSelected: (String) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -40,6 +41,7 @@ fun TypeDropdownSelector(
             readOnly = true,
             maxLines = 1,
             isRequired = true,
+            isError = incompleteType,
             trailingIcon = icon,
             onClickTrailingIcon = { expanded = !expanded }
         ) { }
