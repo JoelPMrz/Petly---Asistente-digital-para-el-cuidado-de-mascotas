@@ -280,8 +280,6 @@ fun AddPetScreen(
                     onTypeSelected = { type = it },
                 )
 
-                Spacer(modifier = Modifier.height(5.dp))
-
                 BaseOutlinedTextField(
                     value = breed,
                     placeHolder = stringResource(R.string.carlino),
