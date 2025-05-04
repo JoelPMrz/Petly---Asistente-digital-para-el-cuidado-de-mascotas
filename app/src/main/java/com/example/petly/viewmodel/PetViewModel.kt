@@ -49,13 +49,18 @@ class PetViewModel @Inject constructor(
         }
     }
 
-    fun doesPetExist(petId: String, exists: () -> Unit, notExists: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun doesPetExist(
+        petId: String,
+        exists: () -> Unit,
+        notExists: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 val pet = petRepository.getPetById(petId)
-                if(pet != null){
+                if (pet != null) {
                     exists()
-                }else{
+                } else {
                     notExists()
                 }
             } catch (e: Exception) {
@@ -145,17 +150,34 @@ class PetViewModel @Inject constructor(
     }
 
     fun updateBirthdate(
-        petId : String,
-        birthDate : LocalDate?,
+        petId: String,
+        birthDate: LocalDate?,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
-                petRepository.updateBirthdate(petId,birthDate)
+                petRepository.updateBirthdate(petId, birthDate)
                 getPetById(petId)
                 onSuccess()
-            }catch (e:Exception){
+            } catch (e: Exception) {
+                onFailure(e)
+            }
+        }
+    }
+
+    fun updateAdoptionDate(
+        petId: String,
+        adoptionDate: LocalDate?,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                petRepository.updateAdoptionDate(petId, adoptionDate)
+                getPetById(petId)
+                onSuccess()
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -164,16 +186,16 @@ class PetViewModel @Inject constructor(
     fun updateSterilizedInfo(
         petId: String,
         sterilized: Boolean,
-        sterilizedDate : LocalDate?,
+        sterilizedDate: LocalDate?,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
-                petRepository.updateSterilizationInfo(petId,sterilized,sterilizedDate)
+                petRepository.updateSterilizationInfo(petId, sterilized, sterilizedDate)
                 getPetById(petId)
                 onSuccess()
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }

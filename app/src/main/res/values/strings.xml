@@ -60,4 +60,12 @@
     <string name="edit_birthdate_title">Edad y fecha de nacimiento</string>
     <string name="unidentified">Sin identificar</string>
     <string name="age">Edad</string>
+    <string name="time">Tiempo</string>
+    <string name="adoption">Adopción</string>
+    <string name="add_date">Agregar fecha</string>
+    <string name="updated_photo">Foto actualizada</string>
+    <string name="not_updated_photo">No se pudo actualizar</string>
+    <string name="delete">Eliminar</string>
+    <string name="deleted_pet">%1$s eliminado</string>
+    <string name="not_deleted_pet">No se puedo eliminar</string>
 </resources>

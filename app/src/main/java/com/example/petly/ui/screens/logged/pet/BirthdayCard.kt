@@ -54,7 +54,7 @@ fun BirthdayCard(
                 contentColor = MaterialTheme.colorScheme.secondaryContainer
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Edad", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = stringResource(R.string.age), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
                 text = getAgeFromDate(pet?.birthDate) ?: stringResource(R.string.unidentified),
                 fontSize = 14.sp,
@@ -63,7 +63,7 @@ fun BirthdayCard(
             Spacer(modifier = Modifier.height(5.dp))
             if (pet?.birthDate != null) {
                 Text(
-                    text = pet.birthDate?.let { formatLocalDateToString(it) } ?: "Agregar fecha",
+                    text = pet.birthDate?.let { formatLocalDateToString(it) } ?: stringResource(R.string.add_date),
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.align(Alignment.End)

@@ -87,6 +87,14 @@ class PetRepository @Inject constructor(
         petRef.update(updateMap).await()
     }
 
+    suspend fun updateAdoptionDate(petId: String, adoptionDate: LocalDate?){
+        val petRef = firestore.collection("pets").document(petId)
+        val updateMap = mapOf(
+            "adoptionDate" to adoptionDate?.toTimestamp()
+        )
+        petRef.update(updateMap).await()
+    }
+
     suspend fun updateSterilizationInfo(petId: String, sterilized: Boolean, sterilizedDate: LocalDate?) {
         val petRef = firestore.collection("pets").document(petId)
         val updateMap = mapOf(
