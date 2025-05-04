@@ -1,6 +1,7 @@
 package com.example.petly.ui.viewmodel
 
 import android.net.Uri
+import androidx.core.app.GrammaticalInflectionManagerCompat.GrammaticalGender
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Pet
@@ -146,6 +147,26 @@ class PetViewModel @Inject constructor(
                     onFailure(e)
                 }
             }
+        }
+    }
+
+    fun updateBasicData(
+        petId: String,
+        name: String,
+        type: String,
+        breed: String?,
+        gender: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        try {
+            viewModelScope.launch {
+                petRepository.updateBasicData(petId, name, type, breed, gender)
+                getPetById(petId)
+                onSuccess()
+            }
+        }catch (e:Exception){
+            onFailure(e)
         }
     }
 

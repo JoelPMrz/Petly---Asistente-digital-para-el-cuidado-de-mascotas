@@ -223,7 +223,7 @@ fun AddPetScreen(
             ) {
                 BaseOutlinedTextField(
                     value = name,
-                    label = "Nombre",
+                    label = stringResource(R.string.name),
                     maxLines = 1,
                     maxLength = 25,
                     isError = incompleteName,
