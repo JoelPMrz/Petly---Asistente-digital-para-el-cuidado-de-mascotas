@@ -68,4 +68,6 @@
     <string name="delete">Eliminar</string>
     <string name="deleted_pet">%1$s eliminado</string>
     <string name="not_deleted_pet">No se puedo eliminar</string>
+    <string name="edit_basic_data_title">Datos principales</string>
+    <string name="name">Nombre</string>
 </resources>

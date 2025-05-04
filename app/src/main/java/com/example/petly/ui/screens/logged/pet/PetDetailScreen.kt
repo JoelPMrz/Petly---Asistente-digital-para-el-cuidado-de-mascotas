@@ -63,6 +63,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -80,13 +81,16 @@ import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.PetNotExistsDialog
 import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
+import com.example.petly.utils.TypeDropdownSelector
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.getAgeFromDate
 import com.example.petly.utils.isMicrochipIdValid
+import com.example.petly.utils.isMicrochipIdValidOrEmpty
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
 import androidx.compose.animation.expandVertically as expandVertically1
@@ -105,6 +109,7 @@ fun PetDetailScreen(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     var expandedMenu by remember { mutableStateOf(false) }
+    var showEditBasicData by remember { mutableStateOf(false) }
     var showEditBirthDate by remember { mutableStateOf(false) }
     var showEditAdoptionDate by remember { mutableStateOf(false) }
     var showEditMicrochip by remember { mutableStateOf(false) }
@@ -236,7 +241,7 @@ fun PetDetailScreen(
                             expandedMenu = false
                         },
                         onEdit = {
-                            //llevar a la vista de edit
+                            showEditBasicData = true
                             expandedMenu = false
                         },
                         onDelete = {
@@ -445,9 +450,17 @@ fun PetDetailScreen(
             onImageSelected = { uri ->
                 capturedImageUri = uri
                 petViewModel.updatePetProfilePhoto(petId, capturedImageUri, onSuccess = {
-                    Toast.makeText(context, context.getString(R.string.updated_photo), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.updated_photo),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }, onFailure = {
-                    Toast.makeText(context, context.getString(R.string.not_updated_photo), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.not_updated_photo),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 })
             },
             onDismiss = {
@@ -473,6 +486,18 @@ fun PetDetailScreen(
         )
     }
 
+    if (showEditBasicData) {
+        EditBasicDataBottomSheet(
+            pet = petState,
+            onDismiss = {
+                showEditBasicData = false
+            },
+            notExists = {
+                showPetNotExistsDialog = true
+            }
+        )
+    }
+
     if (showEditSterilizedState) {
         EditSterilizedStateBottomSheet(
             pet = petState,
@@ -482,25 +507,25 @@ fun PetDetailScreen(
         )
     }
 
-    if(showEditBirthDate){
+    if (showEditBirthDate) {
         EditBirthDateBottomSheet(
-            pet =petState,
+            pet = petState,
             onDismiss = {
                 showEditBirthDate = false
             }
         )
     }
 
-    if(showEditAdoptionDate){
+    if (showEditAdoptionDate) {
         EditAdoptionDateBottomSheet(
-            pet =petState,
+            pet = petState,
             onDismiss = {
                 showEditAdoptionDate = false
             }
         )
     }
 
-    if(showEditMicrochip){
+    if (showEditMicrochip) {
         EditMicrochipBottomSheet(
             pet = petState,
             onDismiss = {
@@ -569,7 +594,11 @@ fun DeletePetDialog(
                             it,
                             onSuccess = {
                                 navigateToHome()
-                                Toast.makeText(context, context.getString(R.string.deleted_pet, petName ), Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.deleted_pet, petName),
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             },
                             onFailure = {
@@ -596,6 +625,155 @@ fun DeletePetDialog(
             }
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditBasicDataBottomSheet(
+    onDismiss: () -> Unit,
+    notExists: () -> Unit,
+    pet: Pet?,
+    petViewModel: PetViewModel = hiltViewModel()
+) {
+
+    var name by remember { mutableStateOf(pet?.name ?: "") }
+    var incompleteName by remember { mutableStateOf(false) }
+    var type by remember { mutableStateOf(pet?.type ?: "") }
+    var incompleteType by remember { mutableStateOf(false) }
+    var breed by remember { mutableStateOf(pet?.breed ?: "") }
+    var gender by remember { mutableStateOf(pet?.gender ?: "Male") }
+
+    var enableButton by remember { mutableStateOf(true) }
+
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
+                    .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.edit_basic_data_title),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                HorizontalDivider(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 15.dp),
+                    1.dp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                BaseOutlinedTextField(
+                    value = name,
+                    label = stringResource(R.string.name),
+                    maxLines = 1,
+                    maxLength = 25,
+                    isError = incompleteName,
+                    isRequired = true
+                ) {
+                    name = it
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    IconSquare(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(40.dp)
+                            .alpha(
+                                if (gender == "Male") 1.0f else 0.3f
+                            ),
+                        icon = Icons.Rounded.Male,
+                        onClick = { gender = "Male" },
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    IconSquare(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(40.dp)
+                            .alpha(
+                                if (gender == "Transgender") 1.0f else 0.3f
+                            ),
+                        icon = Icons.Rounded.Transgender,
+                        onClick = { gender = "Transgender" },
+                        backgroundColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    IconSquare(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(40.dp)
+                            .alpha(
+                                if (gender == "Female") 1.0f else 0.3f
+                            ),
+                        icon = Icons.Rounded.Female,
+                        onClick = { gender = "Female" },
+                        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                TypeDropdownSelector(
+                    type = type,
+                    incompleteType = incompleteType,
+                    onTypeSelected = { type = it },
+                )
+
+                BaseOutlinedTextField(
+                    value = breed,
+                    placeHolder = stringResource(R.string.carlino),
+                    label = stringResource(R.string.breed),
+                    maxLength = 22,
+                    maxLines = 1
+                ) { breed = it }
+            }
+            Button(
+                onClick = {
+                    pet?.id?.let {
+                        if (name.isBlank() || type.isBlank()) {
+                            incompleteName = name.isBlank()
+                            incompleteType = type.isBlank()
+                            return@Button
+                        } else {
+                            petViewModel.updateBasicData(
+                                petId = it,
+                                name = name,
+                                type = type,
+                                breed = breed,
+                                gender = gender,
+                                onSuccess = {
+                                    enableButton = false
+                                    onDismiss()
+                                },
+                                onFailure = {
+                                    //Analytics
+                                }
+                            )
+                        }
+                    }?: notExists()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 5.dp)
+                    .height(60.dp)
+                    .align(Alignment.BottomCenter),
+                enabled = enableButton
+            ) {
+                Text(
+                    text = stringResource(R.string.edit)
+                )
+            }
+        }
+    }
 }
 
 
@@ -634,9 +812,15 @@ fun EditBirthDateBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(R.string.edit_birthdate_title), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = stringResource(R.string.edit_birthdate_title),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 HorizontalDivider(
-                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 15.dp),
                     1.dp
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -690,7 +874,9 @@ fun EditBirthDateBottomSheet(
                 enabled = enableButton
             ) {
                 Text(
-                    text = if(pet?.birthDate == null) stringResource(R.string.save) else stringResource(R.string.edit)
+                    text = if (pet?.birthDate == null) stringResource(R.string.save) else stringResource(
+                        R.string.edit
+                    )
                 )
             }
         }
@@ -745,9 +931,15 @@ fun EditAdoptionDateBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(R.string.adoptionDate), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = stringResource(R.string.adoptionDate),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 HorizontalDivider(
-                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 15.dp),
                     1.dp
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -800,7 +992,9 @@ fun EditAdoptionDateBottomSheet(
                 enabled = enableButton
             ) {
                 Text(
-                    text = if(pet?.adoptionDate == null) stringResource(R.string.save) else stringResource(R.string.edit)
+                    text = if (pet?.adoptionDate == null) stringResource(R.string.save) else stringResource(
+                        R.string.edit
+                    )
                 )
             }
         }
@@ -854,9 +1048,15 @@ fun EditSterilizedStateBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(R.string.edit_sterilized_state_title), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = stringResource(R.string.edit_sterilized_state_title),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 HorizontalDivider(
-                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 15.dp),
                     1.dp
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -986,13 +1186,19 @@ fun EditMicrochipBottomSheet(
                     .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(R.string.edit_microchip_title), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = stringResource(R.string.edit_microchip_title),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 HorizontalDivider(
-                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 15.dp),
                     1.dp
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                Column(Modifier.fillMaxWidth()){
+                Column(Modifier.fillMaxWidth()) {
                     BaseOutlinedTextField(
                         value = microchipId,
                         placeHolder = "941000023456789",
@@ -1007,7 +1213,10 @@ fun EditMicrochipBottomSheet(
                         enter = expandVertically1() + fadeIn(),
                         exit = shrinkVertically()
                     ) {
-                        Text(stringResource(R.string.invalid_microchip), color = MaterialTheme.colorScheme.error)
+                        Text(
+                            stringResource(R.string.invalid_microchip),
+                            color = MaterialTheme.colorScheme.error
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.height(10.dp))
@@ -1057,7 +1266,11 @@ fun EditMicrochipBottomSheet(
                     .align(Alignment.BottomCenter),
                 enabled = enableButton
             ) {
-                Text(text = if(pet?.microchipId.isNullOrBlank()) stringResource(R.string.save) else stringResource(R.string.edit))
+                Text(
+                    text = if (pet?.microchipId.isNullOrBlank()) stringResource(R.string.save) else stringResource(
+                        R.string.edit
+                    )
+                )
             }
         }
     }
