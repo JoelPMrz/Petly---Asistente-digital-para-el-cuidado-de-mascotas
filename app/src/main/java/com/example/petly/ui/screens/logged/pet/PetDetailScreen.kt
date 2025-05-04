@@ -106,6 +106,7 @@ fun PetDetailScreen(
     val context = LocalContext.current
     var expandedMenu by remember { mutableStateOf(false) }
     var showEditBirthDate by remember { mutableStateOf(false) }
+    var showEditAdoptionDate by remember { mutableStateOf(false) }
     var showEditMicrochip by remember { mutableStateOf(false) }
     var showPetNotExistsDialog by remember { mutableStateOf(false) }
     var showDeletePetDialog by remember { mutableStateOf(false) }
@@ -353,7 +354,7 @@ fun PetDetailScreen(
                                 petViewModel.doesPetExist(
                                     petId = petId,
                                     exists = {
-                                        //Dialogo editar Adopcion
+                                        showEditAdoptionDate = true
                                     },
                                     notExists = {
                                         showPetNotExistsDialog = true
@@ -444,9 +445,9 @@ fun PetDetailScreen(
             onImageSelected = { uri ->
                 capturedImageUri = uri
                 petViewModel.updatePetProfilePhoto(petId, capturedImageUri, onSuccess = {
-                    Toast.makeText(context, "Foto actualizada", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.updated_photo), Toast.LENGTH_SHORT).show()
                 }, onFailure = {
-                    Toast.makeText(context, "No se ha actualizado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.not_updated_photo), Toast.LENGTH_SHORT).show()
                 })
             },
             onDismiss = {
@@ -490,6 +491,15 @@ fun PetDetailScreen(
         )
     }
 
+    if(showEditAdoptionDate){
+        EditAdoptionDateBottomSheet(
+            pet =petState,
+            onDismiss = {
+                showEditAdoptionDate = false
+            }
+        )
+    }
+
     if(showEditMicrochip){
         EditMicrochipBottomSheet(
             pet = petState,
@@ -515,13 +525,13 @@ fun DropdownPetMenu(
     ) {
 
         DropdownMenuItem(
-            text = { Text("Editar") },
+            text = { Text(stringResource(R.string.edit)) },
             leadingIcon = { Icon(Icons.Rounded.Edit, contentDescription = null) },
             onClick = { onEdit() }
         )
 
         DropdownMenuItem(
-            text = { Text("Eliminar") },
+            text = { Text(stringResource(R.string.delete)) },
             leadingIcon = { Icon(Icons.Rounded.Delete, contentDescription = null) },
             onClick = { onDelete() }
         )
@@ -559,13 +569,13 @@ fun DeletePetDialog(
                             it,
                             onSuccess = {
                                 navigateToHome()
-                                Toast.makeText(context, "$petName eliminado", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, context.getString(R.string.deleted_pet, petName ), Toast.LENGTH_SHORT)
                                     .show()
                             },
                             onFailure = {
                                 Toast.makeText(
                                     context,
-                                    "No se ha podido eliminar",
+                                    context.getString(R.string.not_deleted_pet),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -694,6 +704,116 @@ fun EditBirthDateBottomSheet(
             onDateSelected = { date ->
                 selectedBirthdate.value = date
                 birthdateText = formatLocalDateToString(date)
+                openDatePicker.value = false
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditAdoptionDateBottomSheet(
+    onDismiss: () -> Unit,
+    pet: Pet?,
+    petViewModel: PetViewModel = hiltViewModel()
+) {
+
+    val openDatePicker = remember { mutableStateOf(false) }
+    val selectedAdoptionDate = remember { mutableStateOf(pet?.adoptionDate) }
+    val time = getAgeFromDate(selectedAdoptionDate.value)
+    var adoptionDateText by remember {
+        mutableStateOf(pet?.adoptionDate?.let {
+            formatLocalDateToString(
+                it
+            )
+        } ?: "")
+    }
+    var enableButton by remember { mutableStateOf(true) }
+
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
+                    .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = stringResource(R.string.adoptionDate), fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                HorizontalDivider(
+                    Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 15.dp),
+                    1.dp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                BaseOutlinedTextField(
+                    value = adoptionDateText,
+                    label = stringResource(R.string.adoptionDate),
+                    trailingIcon = Icons.Rounded.CalendarMonth,
+                    onClickTrailingIcon = { openDatePicker.value = true },
+                    maxLines = 1,
+                    readOnly = true
+                ) {
+                    adoptionDateText = it
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                AnimatedVisibility(
+                    visible = adoptionDateText.isNotBlank(),
+                    enter = expandVertically1() + fadeIn(),
+                    exit = shrinkVertically()
+                ) {
+                    BaseOutlinedTextField(
+                        value = time ?: "",
+                        label = stringResource(R.string.time),
+                        maxLines = 1,
+                        readOnly = true
+                    ) { }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            Button(
+                onClick = {
+                    pet?.id?.let {
+                        petViewModel.updateAdoptionDate(
+                            petId = it,
+                            adoptionDate = selectedAdoptionDate.value,
+                            onSuccess = {
+                                enableButton = false
+                                onDismiss()
+                            },
+                            onFailure = {
+
+                            }
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 5.dp)
+                    .height(60.dp)
+                    .align(Alignment.BottomCenter),
+                enabled = enableButton
+            ) {
+                Text(
+                    text = if(pet?.adoptionDate == null) stringResource(R.string.save) else stringResource(R.string.edit)
+                )
+            }
+        }
+    }
+    if (openDatePicker.value) {
+        BaseDatePicker(
+            initialDate = selectedAdoptionDate.value ?: LocalDate.now(),
+            title = stringResource(R.string.adoptionDate),
+            maxDate = LocalDate.now(),
+            onDismissRequest = { openDatePicker.value = false },
+            onDateSelected = { date ->
+                selectedAdoptionDate.value = date
+                adoptionDateText = formatLocalDateToString(date)
                 openDatePicker.value = false
             }
         )
