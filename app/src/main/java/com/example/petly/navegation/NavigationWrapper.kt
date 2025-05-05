@@ -2,6 +2,10 @@ package com.example.petly.navegation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,15 +24,17 @@ import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.CloudStorageManager
+import com.example.petly.viewmodel.UserViewModel
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun NavigationWrapper(context : Context){
+fun NavigationWrapper(context : Context,userViewModel: UserViewModel = hiltViewModel()){
     val navController = rememberNavController()
     val storage = CloudStorageManager()
     val analytics = AnalyticsManager(context)
     val authManager = AuthManager(context)
     val user: FirebaseUser? = authManager.getCurrentUser()
+
 
     NavHost(navController = navController, startDestination = if(user == null)Login else Home){
         composable<Login> {
@@ -71,6 +77,7 @@ fun NavigationWrapper(context : Context){
         composable<Home> {
             HomeScreen(
                 //analytics = analytics ,
+                auth = authManager,
                 navigateToPetDetail = { petId ->
                     navController.navigate(PetDetail(petId = petId))
                 },
@@ -113,9 +120,10 @@ fun NavigationWrapper(context : Context){
                 }
             )
         }
-        composable<User>{
+        composable<User>{ backStackEntry->
             UserScreen(
                 auth = authManager,
+                userId = user?.uid,
                 navigateToHome = {
                     navController.navigate(Home){
                         popUpTo(0) { inclusive = true }
@@ -137,15 +145,6 @@ fun NavigationWrapper(context : Context){
                             inclusive = true
                         }
                     }
-                }
-            )
-        }
-        composable<UserDetail> {
-            UserDetailScreen(
-                analytics = analytics ,
-                auth =  authManager,
-                navigateBack = {
-                    navController.popBackStack()
                 }
             )
         }

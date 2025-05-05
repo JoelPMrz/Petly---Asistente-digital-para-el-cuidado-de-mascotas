@@ -21,13 +21,14 @@ class UserViewModel @Inject constructor(
     fun addUser(
         name: String?,
         email: String,
+        photo: String? = null,
         alreadyExist:() ->Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ){
         viewModelScope.launch {
             try {
-                userRepository.addUser(name, email, alreadyExist, onSuccess)
+                userRepository.addUser(name, email, photo, alreadyExist, onSuccess)
             }catch (e : Exception){
                 onFailure(e)
             }
@@ -43,5 +44,9 @@ class UserViewModel @Inject constructor(
                 _userState.value = null
             }
         }
+    }
+
+    fun clearUser() {
+        _userState.value = null
     }
 }

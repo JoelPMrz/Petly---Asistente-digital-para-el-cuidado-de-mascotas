@@ -32,6 +32,7 @@ import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.AuthRes
+import com.example.petly.utils.FirebaseConstants.DEFAULT_USER_PHOTO_URL
 import com.example.petly.viewmodel.UserViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
@@ -109,6 +110,7 @@ private suspend fun signUp(
                 userViewModel.addUser(
                     name,
                     email,
+                    photo = DEFAULT_USER_PHOTO_URL,
                     onSuccess = {
                         navigateBack()
                         Toast.makeText(context, "Registro completado", Toast.LENGTH_SHORT).show()

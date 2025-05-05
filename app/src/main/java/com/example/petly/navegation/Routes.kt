@@ -31,8 +31,6 @@ data class PetDetail(
     val petId : String
 )
 
-@Serializable
-object UserDetail
 
 @Serializable
 data class Weights(

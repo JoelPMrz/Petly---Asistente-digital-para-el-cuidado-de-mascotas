@@ -65,4 +65,11 @@
     <string name="not_deleted_pet">No se puedo eliminar</string>
     <string name="edit_basic_data_title">Datos principales</string>
     <string name="name">Nombre</string>
+    <string name="edit_user_profile">Editar perfil</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="light_mode">Modo claro</string>
+    <string name="clear_cache">Limpiar caché</string>
+    <string name="profile">Perfil</string>
+    <string name="settings">Configuraciones</string>
 </resources>

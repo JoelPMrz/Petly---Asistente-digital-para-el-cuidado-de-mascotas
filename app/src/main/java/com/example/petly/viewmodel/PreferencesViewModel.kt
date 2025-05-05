@@ -29,6 +29,8 @@ class PreferencesViewModel @Inject constructor(
         _isDarkMode.value = isDark
     }
 
+
+
     fun reloadUnitPreference() {
         _selectedUnit.value = preferencesRepository.getSelectedUnit()
     }

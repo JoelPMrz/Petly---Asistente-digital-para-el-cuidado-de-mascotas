@@ -85,6 +85,7 @@ fun LoginScreen(
                         userViewModel.addUser(
                             name = account.data.displayName,
                             email = account.data.email ?: "",
+                            photo = account.data.photoUrl.toString(),
                             onSuccess = {
                                 Toast.makeText(context, "Bienvenido ${account.data.displayName} ", Toast.LENGTH_SHORT).show()
                                 navigateToHome()

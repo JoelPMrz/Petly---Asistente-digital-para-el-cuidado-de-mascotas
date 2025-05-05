@@ -5,6 +5,7 @@ import com.example.petly.data.models.Pet
 import com.example.petly.data.models.PetfromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap
 import com.example.petly.utils.CloudStorageManager
+import com.example.petly.utils.FirebaseConstants.DEFAULT_PET_PHOTO_URL
 import com.example.petly.utils.toTimestamp
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -62,7 +63,8 @@ class PetRepository @Inject constructor(
             pet.id = petId
             pet.owners = listOf(userId().toString())
 
-            pet.photo = "https://firebasestorage.googleapis.com/v0/b/petly-2d5c2.firebasestorage.app/o/photos%2Fpets%2Fdefault%2Fdefault_pet_profile_photo.jpg?alt=media&token=54986c7c-9707-4bb4-83fd-a87ca7855c6d"
+            pet.photo = DEFAULT_PET_PHOTO_URL
+
 
             petRef.set(pet.toFirestoreMap()).await()
 

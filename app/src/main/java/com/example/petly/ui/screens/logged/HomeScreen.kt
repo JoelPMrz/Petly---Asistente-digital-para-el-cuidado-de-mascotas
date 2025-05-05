@@ -3,6 +3,7 @@ package com.example.petly.ui.screens.logged
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.snapping.SnapPosition
@@ -73,6 +74,7 @@ import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.example.petly.R
 import com.example.petly.data.models.Pet
+import com.example.petly.navegation.User
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.MyNavigationAppBar
@@ -80,27 +82,39 @@ import com.example.petly.ui.screens.logged.pet.DeletePetDialog
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.getAgeFromDate
+import com.example.petly.viewmodel.UserViewModel
 
 @Composable
 fun HomeScreen(
     //analytics: AnalyticsManager,
+    auth: AuthManager,
     navigateToPetDetail:(String)-> Unit,
     navigateToAddPet:()-> Unit,
     navigateToHome: () -> Unit,
     navigateToCalendar: () -> Unit,
     navigateToUser: () -> Unit,
-    petViewModel: PetViewModel =  hiltViewModel()
+    petViewModel: PetViewModel =  hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
     val pets by petViewModel.petsState.collectAsState()
     val state = rememberPagerState(initialPage = 0) { pets.size +1 }
+    val userState by userViewModel.userState.collectAsState()
+
+    LaunchedEffect(true) {
+        val uid = auth.getCurrentUser()?.uid
+        if (uid != null) {
+            userViewModel.getUserById(uid)
+        }
+    }
 
     LaunchedEffect(Unit) {
         petViewModel.getPets()
     }
 
+
     Scaffold (
         bottomBar = { MyNavigationAppBar(navigateToHome,navigateToCalendar,navigateToUser, 1) },
-        topBar = { HomeTopAppBar() },
+        topBar = { HomeTopAppBar(userState?.photo, navigateToUser) },
         /*
         floatingActionButton = {
             BaseFAB(
@@ -312,20 +326,43 @@ fun AddPetCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopAppBar(
+    photo : String?,
+    navigateToUser: () -> Unit,
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
     TopAppBar(
         title = {},
         navigationIcon = {
-            Image(
-                painter = painterResource(R.drawable.profile_placeholder),
-                contentDescription = "User profile",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .clickable {  }
-            )
+            if (photo != null) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(photo)
+                        .placeholder(R.drawable.default_user_profile_foto)
+                        .error(R.drawable.default_user_profile_foto)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .size(35.dp)
+                        .clip(CircleShape)
+                        .border(width = 1.dp, color = Color.Gray.copy(alpha = 0.5f), shape = CircleShape)
+                        .clickable { navigateToUser() }
+                )
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.default_user_profile_foto),
+                    contentDescription = "User profile",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .size(35.dp)
+                        .clip(CircleShape)
+                        .border(width = 1.dp, color = Color.Gray.copy(alpha = 0.5f), shape = CircleShape)
+                        .clickable { navigateToUser() }
+                )
+            }
+
         },
         actions = {},
         colors = TopAppBarDefaults.topAppBarColors(

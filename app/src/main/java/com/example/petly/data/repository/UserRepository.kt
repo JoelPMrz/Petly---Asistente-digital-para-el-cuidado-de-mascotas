@@ -2,14 +2,24 @@ package com.example.petly.data.repository
 
 import com.example.petly.data.models.User
 import com.example.petly.data.models.UserfromFirestoreMap
+import com.example.petly.data.models.toFirestoreMap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val firestore: FirebaseFirestore, private val auth: FirebaseAuth) {
+class UserRepository @Inject constructor(
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth
+) {
 
-    suspend fun addUser(name: String?, email: String, alreadyExists:() -> Unit, onSuccess: () -> Unit) {
+    suspend fun addUser(
+        name: String?,
+        email: String,
+        photo: String?,
+        alreadyExists:() -> Unit,
+        onSuccess: () -> Unit
+    ) {
         val uid = auth.currentUser?.uid ?: return
         val userDocument = firestore.collection("users").document(uid)
 
@@ -19,8 +29,9 @@ class UserRepository @Inject constructor(private val firestore: FirebaseFirestor
                 id = uid,
                 name = name,
                 email = email,
+                photo = photo
             )
-            userDocument.set(user).await()
+            userDocument.set(user.toFirestoreMap()).await()
             onSuccess()
         }else{
             alreadyExists()
