@@ -4,7 +4,6 @@ import com.example.petly.utils.toLocalDate
 import com.example.petly.utils.toTimestamp
 import java.time.LocalDate
 import com.google.firebase.Timestamp
-import java.time.Period
 
 data class Pet(
     var id: String? = "",
@@ -51,7 +50,7 @@ fun Pet.toFirestoreMap(): Map<String, Any?> {
     )
 }
 
-fun fromFirestoreMap(map: Map<String, Any?>): Pet {
+fun PetfromFirestoreMap(map: Map<String, Any?>): Pet {
     val birthTimestamp = map["birthDate"] as? Timestamp
     val adoptionTimestamp = map["adoptionDate"] as? Timestamp
     val microchipTimestamp = map["microchipDate"] as? Timestamp

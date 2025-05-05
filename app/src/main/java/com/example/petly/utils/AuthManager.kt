@@ -2,8 +2,14 @@ package com.example.petly.utils
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
+import com.example.petly.data.models.User
+import com.example.petly.data.repository.UserRepository
+import com.example.petly.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -11,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -91,6 +98,50 @@ class AuthManager(private val context: Context) {
     fun signInWithGoogle(googleSignInLauncher : ActivityResultLauncher<Intent>){
         val signInIntent = googleSignInClient.signInIntent
         googleSignInLauncher.launch(signInIntent)
+    }
+
+    suspend fun signInAnonymously(
+        auth: AuthManager,
+        analytics: AnalyticsManager,
+        navigateToHome: () -> Unit
+    ) {
+        when (val result = auth.signInAnonymously()) {
+            is AuthRes.Success -> {
+                analytics.logButtonClicked("Click: Continuar como inviatdo")
+                navigateToHome()
+
+            }
+
+            is AuthRes.Error -> {
+                analytics.logError("Error SignIn Inconginito: ${result.errorMessage}")
+            }
+        }
+    }
+
+    suspend fun signInEmailPassword(
+        email: String,
+        password: String,
+        auth: AuthManager,
+        analytics: AnalyticsManager,
+        context: Context,
+        navigateToHome: () -> Unit
+    ) {
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            when (val result = auth.signInWithEmailPassword(email, password)) {
+                is AuthRes.Success -> {
+                    analytics.logButtonClicked("Click: Iniciar sesión correo y contraseña")
+                    navigateToHome()
+                }
+
+                is AuthRes.Error -> {
+                    analytics.logButtonClicked("Error SignIn: ${result.errorMessage}")
+                    Toast.makeText(context, "Error SignIn: ${result.errorMessage}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        } else {
+            Toast.makeText(context, "Existen campos vacios", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
