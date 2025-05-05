@@ -46,12 +46,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.AuthRes
+import com.example.petly.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
@@ -62,10 +64,10 @@ fun LoginScreen(
     auth: AuthManager,
     navigateToHome:()-> Unit,
     navigateToForgotPassword:()-> Unit,
-    navigateToSingUp:()-> Unit
+    navigateToSingUp:()-> Unit,
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    var name: String by remember { mutableStateOf("") }
     var email: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
@@ -80,8 +82,21 @@ fun LoginScreen(
                 scope.launch {
                     val fireUser = auth.signInWithGoogleCredential(credential)
                     if (fireUser != null) {
-                        Toast.makeText(context, "Bienvenido", Toast.LENGTH_SHORT).show()
-                        navigateToHome()
+                        userViewModel.addUser(
+                            name = account.data.displayName,
+                            email = account.data.email ?: "",
+                            onSuccess = {
+                                Toast.makeText(context, "Bienvenido ${account.data.displayName} ", Toast.LENGTH_SHORT).show()
+                                navigateToHome()
+                            },
+                            onFailure = {
+                                Toast.makeText(context, "Error al crear el usuario", Toast.LENGTH_SHORT).show()
+                            },
+                            alreadyExist = {
+                                Toast.makeText(context, "Bienvenido de nuevo", Toast.LENGTH_SHORT).show()
+                                navigateToHome()
+                            }
+                        )
                     }
                 }
             }
@@ -115,14 +130,6 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            BaseOutlinedTextField(
-                value = name,
-                label = "Nombre",
-                leadingIcon = Icons.Default.Person,
-                maxLines = 1
-            ) {
-                name = it
-            }
             Spacer(modifier = Modifier.height(20.dp))
             BaseOutlinedTextField(
                 value = email,
@@ -155,7 +162,7 @@ fun LoginScreen(
             ) {
                 ButtonSingIn {
                     scope.launch {
-                        signInEmailPassword(email, password, auth, analytics, context, navigateToHome)
+                        auth.signInEmailPassword(email, password, auth, analytics, context, navigateToHome)
                     }
                 }
             }
@@ -184,7 +191,7 @@ fun LoginScreen(
                 Button(
                     onClick = {
                         scope.launch {
-                            signInAnonymously(auth, analytics, context, navigateToHome)
+                            auth.signInAnonymously(auth, analytics, navigateToHome)
                         }
                     },
                     modifier = Modifier
@@ -249,48 +256,4 @@ fun ButtonSingIn(onSingIn: () -> Unit) {
 
 
 
-private suspend fun signInAnonymously(
-    auth: AuthManager,
-    analytics: AnalyticsManager,
-    context: Context,
-    navigateToHome: () -> Unit
-) {
-    when (val result = auth.signInAnonymously()) {
-        is AuthRes.Success -> {
-            analytics.logButtonClicked("Click: Continuar como inviatdo")
-            navigateToHome()
 
-        }
-
-        is AuthRes.Error -> {
-            analytics.logError("Error SignIn Inconginito: ${result.errorMessage}")
-        }
-    }
-}
-
-
-private suspend fun signInEmailPassword(
-    email: String,
-    password: String,
-    auth: AuthManager,
-    analytics: AnalyticsManager,
-    context: Context,
-    navigateToHome: () -> Unit
-) {
-    if (email.isNotEmpty() && password.isNotEmpty()) {
-        when (val result = auth.signInWithEmailPassword(email, password)) {
-            is AuthRes.Success -> {
-                analytics.logButtonClicked("Click: Iniciar sesión correo y contraseña")
-                navigateToHome()
-            }
-
-            is AuthRes.Error -> {
-                analytics.logButtonClicked("Error SignIn: ${result.errorMessage}")
-                Toast.makeText(context, "Error SignIn: ${result.errorMessage}", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
-    } else {
-        Toast.makeText(context, "Existen campos vacios", Toast.LENGTH_SHORT).show()
-    }
-}

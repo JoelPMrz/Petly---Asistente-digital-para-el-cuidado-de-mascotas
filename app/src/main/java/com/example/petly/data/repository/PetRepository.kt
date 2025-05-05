@@ -2,7 +2,7 @@ package com.example.petly.data.repository
 
 import android.net.Uri
 import com.example.petly.data.models.Pet
-import com.example.petly.data.models.fromFirestoreMap
+import com.example.petly.data.models.PetfromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap
 import com.example.petly.utils.CloudStorageManager
 import com.example.petly.utils.toTimestamp
@@ -151,7 +151,7 @@ class PetRepository @Inject constructor(
                 val petDoc = petRef.get().await()
 
                 if (petDoc.exists()) {
-                    val pet = fromFirestoreMap(petDoc.data ?: emptyMap())
+                    val pet = PetfromFirestoreMap(petDoc.data ?: emptyMap())
                     pet.id = petId
                     pet.photo = imageUrl
                     petRef.set(pet.toFirestoreMap()).await()
@@ -201,7 +201,7 @@ class PetRepository @Inject constructor(
                     val pets = mutableListOf<Pet>()
                     for (document in querySnapshot.documents) {
                             val data = document.data
-                            val pet = fromFirestoreMap(data ?: emptyMap())
+                            val pet = PetfromFirestoreMap(data ?: emptyMap())
                             pet.id = document.id
                             pet.let { pets.add(it)
                         }
@@ -220,7 +220,7 @@ class PetRepository @Inject constructor(
             val petDoc = firestore.collection("pets").document(petId).get().await()
             val data = petDoc.data
             if (petDoc.exists()) {
-                val pet = fromFirestoreMap(data ?: emptyMap())
+                val pet = PetfromFirestoreMap(data ?: emptyMap())
                 pet.id = petDoc.id
                 pet
             } else {

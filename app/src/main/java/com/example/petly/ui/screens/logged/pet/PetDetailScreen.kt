@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -53,6 +54,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -92,6 +94,7 @@ import com.example.petly.utils.getAgeFromDate
 import com.example.petly.utils.isMicrochipIdValid
 import com.example.petly.utils.isMicrochipIdValidOrEmpty
 import com.example.petly.viewmodel.WeightViewModel
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 import androidx.compose.animation.expandVertically as expandVertically1
 
@@ -129,6 +132,15 @@ fun PetDetailScreen(
     }
     LaunchedEffect(weights) {
         weight = weights.lastOrNull()
+    }
+
+    petState?.id?.let {
+        petViewModel.doesPetExist(
+            petId = it,
+            exists = {},
+            notExists = { showPetNotExistsDialog = true },
+            onFailure = {}
+        )
     }
 
     Scaffold(
@@ -491,9 +503,6 @@ fun PetDetailScreen(
             pet = petState,
             onDismiss = {
                 showEditBasicData = false
-            },
-            notExists = {
-                showPetNotExistsDialog = true
             }
         )
     }
@@ -631,7 +640,6 @@ fun DeletePetDialog(
 @Composable
 fun EditBasicDataBottomSheet(
     onDismiss: () -> Unit,
-    notExists: () -> Unit,
     pet: Pet?,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
@@ -644,9 +652,11 @@ fun EditBasicDataBottomSheet(
     var gender by remember { mutableStateOf(pet?.gender ?: "Male") }
 
     var enableButton by remember { mutableStateOf(true) }
+    val sheetState = rememberModalBottomSheetState()
 
     ModalBottomSheet(
-        onDismissRequest = { onDismiss() }
+        onDismissRequest = { onDismiss() },
+        sheetState = sheetState
     ) {
         Box(
             modifier = Modifier
@@ -656,10 +666,11 @@ fun EditBasicDataBottomSheet(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState( ))
                     .animateContentSize()
-                    .padding(start = 15.dp, end = 15.dp, bottom = 60.dp),
+                    .padding(start = 15.dp, end = 15.dp, bottom = 80.dp), // más padding para el botón
                 horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            ){
                 Text(
                     text = stringResource(R.string.edit_basic_data_title),
                     fontWeight = FontWeight.SemiBold,
@@ -727,7 +738,7 @@ fun EditBasicDataBottomSheet(
                     incompleteType = incompleteType,
                     onTypeSelected = { type = it },
                 )
-
+                Spacer(modifier = Modifier.height(10.dp))
                 BaseOutlinedTextField(
                     value = breed,
                     placeHolder = stringResource(R.string.carlino),
@@ -759,7 +770,7 @@ fun EditBasicDataBottomSheet(
                                 }
                             )
                         }
-                    }?: notExists()
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

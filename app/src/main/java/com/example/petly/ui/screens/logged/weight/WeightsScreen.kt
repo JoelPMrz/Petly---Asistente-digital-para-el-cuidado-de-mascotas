@@ -1,5 +1,6 @@
 package com.example.petly.ui.screens.logged.weight
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
@@ -54,6 +55,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -88,6 +90,7 @@ fun WeightsScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     //val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
     val petState by petViewModel.petState.collectAsState()
     val weights by weightViewModel.weightsState.collectAsState()
     var showAddWeightDialog by remember { mutableStateOf(false) }
@@ -109,7 +112,14 @@ fun WeightsScreen(
         floatingActionButton = {
             BaseFAB(
                 onClick = {
-                    showAddWeightDialog = !showAddWeightDialog
+                    petState?.id?.let {
+                        petViewModel.doesPetExist(
+                            petId = it,
+                            exists = { showAddWeightDialog = !showAddWeightDialog },
+                            notExists = { Toast.makeText(context, "La mascota no existe", Toast.LENGTH_SHORT).show() },
+                            onFailure = {}
+                        )
+                    }
                 },
                 imageVector = Icons.Rounded.Add
             )

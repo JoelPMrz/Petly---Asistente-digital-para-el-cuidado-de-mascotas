@@ -159,14 +159,14 @@ class PetViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ){
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 petRepository.updateBasicData(petId, name, type, breed, gender)
                 getPetById(petId)
                 onSuccess()
+            } catch (e: Exception) {
+                onFailure(e)
             }
-        }catch (e:Exception){
-            onFailure(e)
         }
     }
 
