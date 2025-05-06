@@ -77,4 +77,9 @@
     <string name="clear_cache">Limpiar caché</string>
     <string name="profile">Perfil</string>
     <string name="settings">Configuraciones</string>
+    <string name="key">Clave</string>
+    <string name="invitation_key">Clave de invitación</string>
+    <string name="invitations">Invitaciones</string>
+    <string name="language">Lenguaje</string>
+    <string name="update_password">Cambiar contraseña</string>
 </resources>

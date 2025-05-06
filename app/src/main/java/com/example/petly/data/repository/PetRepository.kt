@@ -146,17 +146,15 @@ class PetRepository @Inject constructor(
                     .child("profile_pet_photo.jpg")
 
                 fileRef.putFile(newPhotoUri).await()
-
                 val imageUrl = fileRef.downloadUrl.await().toString()
 
                 val petRef = firestore.collection("pets").document(petId)
                 val petDoc = petRef.get().await()
 
                 if (petDoc.exists()) {
-                    val pet = PetfromFirestoreMap(petDoc.data ?: emptyMap())
-                    pet.id = petId
-                    pet.photo = imageUrl
-                    petRef.set(pet.toFirestoreMap()).await()
+                    petRef.update("photo", imageUrl).await()
+                } else {
+                    throw Exception("Mascota no encontrada")
                 }
 
             } catch (e: Exception) {
@@ -167,6 +165,7 @@ class PetRepository @Inject constructor(
             throw Exception("User not authenticated")
         }
     }
+
 
 
 

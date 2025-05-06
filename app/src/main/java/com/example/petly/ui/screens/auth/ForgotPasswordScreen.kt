@@ -29,7 +29,9 @@ import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.AuthRes
+import com.google.firebase.auth.EmailAuthProvider
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @Composable
 fun ForgotPasswordScreen(
@@ -85,5 +87,32 @@ suspend fun resetPassword(
             analytics.logError(error = "Reset password error: $email: ${res.errorMessage}")
             Toast.makeText(context, "Error al enviar el correo", Toast.LENGTH_SHORT).show()
         }
+    }
+}
+
+suspend fun changePassword(
+    currentPassword: String,
+    newPassword: String,
+    auth: AuthManager,
+    context: Context,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
+    val user = auth.getCurrentUser()
+    val email = user?.email
+
+    if (user != null && !email.isNullOrEmpty()) {
+        val credential = EmailAuthProvider.getCredential(email, currentPassword)
+
+        try {
+            user.reauthenticate(credential).await()
+            user.updatePassword(newPassword).await()
+            Toast.makeText(context, "Contraseña actualizada", Toast.LENGTH_SHORT).show()
+            onSuccess()
+        } catch (e: Exception) {
+            onError("Error: ${e.localizedMessage}")
+        }
+    } else {
+        onError("Usuario no autenticado")
     }
 }
