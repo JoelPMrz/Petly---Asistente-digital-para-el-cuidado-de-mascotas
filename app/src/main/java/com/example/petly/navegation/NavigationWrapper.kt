@@ -2,19 +2,14 @@ package com.example.petly.navegation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.screens.auth.ForgotPasswordScreen
 import com.example.petly.ui.screens.auth.LoginScreen
 import com.example.petly.ui.screens.auth.SingUpScreen
-import com.example.petly.ui.screens.logged.UserDetailScreen
 import com.example.petly.ui.screens.logged.HomeScreen
 import com.example.petly.ui.screens.logged.calendar.CalendarScreen
 import com.example.petly.ui.screens.logged.pet.AddPetScreen
@@ -24,11 +19,10 @@ import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.CloudStorageManager
-import com.example.petly.viewmodel.UserViewModel
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun NavigationWrapper(context : Context,userViewModel: UserViewModel = hiltViewModel()){
+fun NavigationWrapper(context : Context){
     val navController = rememberNavController()
     val storage = CloudStorageManager()
     val analytics = AnalyticsManager(context)
@@ -123,7 +117,6 @@ fun NavigationWrapper(context : Context,userViewModel: UserViewModel = hiltViewM
         composable<User>{ backStackEntry->
             UserScreen(
                 auth = authManager,
-                userId = user?.uid,
                 navigateToHome = {
                     navController.navigate(Home){
                         popUpTo(0) { inclusive = true }

@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -92,7 +91,6 @@ import com.example.petly.utils.TypeDropdownSelector
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.getAgeFromDate
 import com.example.petly.utils.isMicrochipIdValid
-import com.example.petly.utils.isMicrochipIdValidOrEmpty
 import com.example.petly.viewmodel.WeightViewModel
 import kotlinx.coroutines.delay
 import java.time.LocalDate
