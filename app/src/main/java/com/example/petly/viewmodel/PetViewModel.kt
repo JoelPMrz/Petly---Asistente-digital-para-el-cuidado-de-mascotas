@@ -1,7 +1,6 @@
 package com.example.petly.ui.viewmodel
 
 import android.net.Uri
-import androidx.core.app.GrammaticalInflectionManagerCompat.GrammaticalGender
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Pet
@@ -28,13 +27,33 @@ class PetViewModel @Inject constructor(
     private val _petState = MutableStateFlow<Pet?>(null)
     val petState: StateFlow<Pet?> get() = _petState
 
+    private val _observedPetsState = MutableStateFlow<List<Pet>>(emptyList())
+    val observedPetsState: StateFlow<List<Pet>> get() = _observedPetsState
+
     fun getPets() {
         viewModelScope.launch {
             try {
                 petRepository.getPetsFlow().collect { pets ->
-                    _petsState.value = pets
+                    if (_petsState.value != pets) {
+                        _petsState.value = pets
+                    }
                 }
             } catch (e: Exception) {
+                //
+            }
+        }
+    }
+
+    fun getObservedPets() {
+        viewModelScope.launch {
+            try {
+                petRepository.getObservedPetsFlow().collect { pets ->
+                    if (_observedPetsState.value != pets) {
+                        _observedPetsState.value = pets
+                    }
+                }
+            } catch (e: Exception) {
+                //
             }
         }
     }
@@ -119,6 +138,7 @@ class PetViewModel @Inject constructor(
                 petRepository.updatePet(pet)
                 getPets()
             } catch (e: Exception) {
+                //
             }
         }
     }

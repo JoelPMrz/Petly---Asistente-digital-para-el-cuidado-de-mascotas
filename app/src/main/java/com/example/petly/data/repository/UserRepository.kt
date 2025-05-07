@@ -1,7 +1,6 @@
 package com.example.petly.data.repository
 
 import android.net.Uri
-import com.example.petly.data.models.PetfromFirestoreMap
 import com.example.petly.data.models.User
 import com.example.petly.data.models.UserfromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap

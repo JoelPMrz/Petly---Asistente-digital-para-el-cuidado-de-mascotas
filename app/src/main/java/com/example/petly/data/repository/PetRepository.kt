@@ -2,7 +2,7 @@ package com.example.petly.data.repository
 
 import android.net.Uri
 import com.example.petly.data.models.Pet
-import com.example.petly.data.models.PetfromFirestoreMap
+import com.example.petly.data.models.petfromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap
 import com.example.petly.utils.CloudStorageManager
 import com.example.petly.utils.FirebaseConstants.DEFAULT_PET_PHOTO_URL
@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class PetRepository @Inject constructor(
@@ -27,6 +28,7 @@ class PetRepository @Inject constructor(
 
     private fun userId() = auth.currentUser?.uid
 
+    //No se está usando
     suspend fun addPetWithImage(pet: Pet, imageUri: Uri, fileName: String): String {
         if (userId() != null) {
 
@@ -61,9 +63,10 @@ class PetRepository @Inject constructor(
             val petId = petRef.id
 
             pet.id = petId
+            pet.creatorOwner = userId().toString()
             pet.owners = listOf(userId().toString())
-
             pet.photo = DEFAULT_PET_PHOTO_URL
+            pet.createdAt = LocalDateTime.now()
 
 
             petRef.set(pet.toFirestoreMap()).await()
@@ -202,9 +205,31 @@ class PetRepository @Inject constructor(
                     val pets = mutableListOf<Pet>()
                     for (document in querySnapshot.documents) {
                             val data = document.data
-                            val pet = PetfromFirestoreMap(data ?: emptyMap())
+                            val pet = petfromFirestoreMap(data ?: emptyMap())
                             pet.id = document.id
                             pet.let { pets.add(it)
+                        }
+                    }
+                    trySend(pets).isSuccess
+                }
+            }
+            awaitClose { subscription.remove() }
+        } else {
+            throw Exception("User not authenticated")
+        }
+    }
+
+    fun getObservedPetsFlow(): Flow<List<Pet>> = callbackFlow {
+        if (userId() != null) {
+            val petRefs = firestore.collection("pets").whereArrayContains("observers", userId().toString())
+            val subscription = petRefs.addSnapshotListener { snapshot, _ ->
+                snapshot?.let { querySnapshot ->
+                    val pets = mutableListOf<Pet>()
+                    for (document in querySnapshot.documents) {
+                        val data = document.data
+                        val pet = petfromFirestoreMap(data ?: emptyMap())
+                        pet.id = document.id
+                        pet.let { pets.add(it)
                         }
                     }
                     trySend(pets).isSuccess
@@ -221,7 +246,7 @@ class PetRepository @Inject constructor(
             val petDoc = firestore.collection("pets").document(petId).get().await()
             val data = petDoc.data
             if (petDoc.exists()) {
-                val pet = PetfromFirestoreMap(data ?: emptyMap())
+                val pet = petfromFirestoreMap(data ?: emptyMap())
                 pet.id = petDoc.id
                 pet
             } else {

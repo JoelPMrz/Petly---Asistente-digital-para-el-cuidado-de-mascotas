@@ -1,9 +1,11 @@
 package com.example.petly.data.models
 
 import com.example.petly.utils.toLocalDate
+import com.example.petly.utils.toLocalDateTime
 import com.example.petly.utils.toTimestamp
 import java.time.LocalDate
 import com.google.firebase.Timestamp
+import java.time.LocalDateTime
 
 data class Pet(
     var id: String? = "",
@@ -14,6 +16,7 @@ data class Pet(
     var gender: String = "",
     var birthDate: LocalDate? = null,
     var photo: String? = null,
+    var creatorOwner : String = "",
     var owners: List<String> = listOf(),
     var observers: List<String> = listOf(),
     var vaccines: List<String>? = listOf(),
@@ -26,6 +29,7 @@ data class Pet(
     var adoptionDate: LocalDate? = null,
     var sterilized: Boolean? = false,
     var sterilizedDate: LocalDate? = null,
+    var createdAt : LocalDateTime? = LocalDateTime.now()
 )
 
 fun Pet.toFirestoreMap(): Map<String, Any?> {
@@ -38,6 +42,7 @@ fun Pet.toFirestoreMap(): Map<String, Any?> {
         "gender" to gender,
         "birthDate" to birthDate?.toTimestamp(),
         "photo" to photo,
+        "creatorOwner" to creatorOwner,
         "owners" to owners,
         "observers" to observers,
         "vaccines" to vaccines,
@@ -47,14 +52,16 @@ fun Pet.toFirestoreMap(): Map<String, Any?> {
         "sterilized" to sterilized,
         "microchipDate" to microchipDate?.toTimestamp(),
         "sterilizedDate" to sterilizedDate?.toTimestamp(),
+        "createdAt" to createdAt?.toTimestamp()
     )
 }
 
-fun PetfromFirestoreMap(map: Map<String, Any?>): Pet {
+fun petfromFirestoreMap(map: Map<String, Any?>): Pet {
     val birthTimestamp = map["birthDate"] as? Timestamp
     val adoptionTimestamp = map["adoptionDate"] as? Timestamp
     val microchipTimestamp = map["microchipDate"] as? Timestamp
     val sterilizedTimestamp = map["sterilizedDate"] as? Timestamp
+    val createdAt = map ["createdAt"] as? Timestamp
 
     return Pet(
         id = map["id"] as? String,
@@ -65,6 +72,7 @@ fun PetfromFirestoreMap(map: Map<String, Any?>): Pet {
         gender = map["gender"] as? String ?: "",
         birthDate = birthTimestamp?.toLocalDate(),
         photo = (map["photo"] as? String)?: "",
+        creatorOwner = map["creatorOwner"] as? String ?: "",
         owners = map["owners"] as? List<String> ?: listOf(),
         observers = map["observers"] as? List<String> ?: listOf(),
         vaccines = map["vaccines"] as? List<String> ?: listOf(),
@@ -73,7 +81,8 @@ fun PetfromFirestoreMap(map: Map<String, Any?>): Pet {
         microchipDate = microchipTimestamp?.toLocalDate(),
         adoptionDate = adoptionTimestamp?.toLocalDate(),
         sterilized = map["sterilized"] as? Boolean,
-        sterilizedDate = sterilizedTimestamp?.toLocalDate()
+        sterilizedDate = sterilizedTimestamp?.toLocalDate(),
+        createdAt = createdAt?.toLocalDateTime()
     )
 }
 
