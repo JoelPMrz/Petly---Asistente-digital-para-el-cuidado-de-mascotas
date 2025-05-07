@@ -19,7 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,7 +32,12 @@ import com.example.petly.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordOutlinedTextField(value: String, onUserChange: (String) -> Unit) {
+fun PasswordOutlinedTextField(
+    value: String,
+    label : String? = null,
+    leadingIcon : ImageVector? = null,
+    onUserChange: (String) -> Unit
+) {
     var passwordHidden: Boolean by remember { mutableStateOf(true) }
     OutlinedTextField(
         value = value,
@@ -38,7 +45,7 @@ fun PasswordOutlinedTextField(value: String, onUserChange: (String) -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         label = {
             Text(
-                text = "Contraseña", fontWeight = FontWeight.Medium,
+                text = label ?: stringResource(R.string.password), fontWeight = FontWeight.Medium,
                 fontStyle = FontStyle.Italic,
             )
         },
@@ -56,7 +63,7 @@ fun PasswordOutlinedTextField(value: String, onUserChange: (String) -> Unit) {
         },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Default.Lock,
+                imageVector =  leadingIcon ?: Icons.Default.Lock,
                 contentDescription = "Lock icon"
             )
         }

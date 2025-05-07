@@ -17,10 +17,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -650,101 +653,100 @@ fun EditBasicDataBottomSheet(
     var gender by remember { mutableStateOf(pet?.gender ?: "Male") }
 
     var enableButton by remember { mutableStateOf(true) }
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     ModalBottomSheet(
-        onDismissRequest = { onDismiss() },
-        sheetState = sheetState
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp)
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier
+            Text(
+                text = stringResource(R.string.edit_basic_data_title),
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            HorizontalDivider(
+                Modifier
                     .fillMaxWidth()
-                    .verticalScroll(rememberScrollState( ))
-                    .animateContentSize()
-                    .padding(start = 15.dp, end = 15.dp, bottom = 80.dp), // más padding para el botón
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Text(
-                    text = stringResource(R.string.edit_basic_data_title),
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                HorizontalDivider(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp, horizontal = 15.dp),
-                    1.dp
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                BaseOutlinedTextField(
-                    value = name,
-                    label = stringResource(R.string.name),
-                    maxLines = 1,
-                    maxLength = 25,
-                    isError = incompleteName,
-                    isRequired = true
-                ) {
-                    name = it
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    IconSquare(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(40.dp)
-                            .alpha(
-                                if (gender == "Male") 1.0f else 0.3f
-                            ),
-                        icon = Icons.Rounded.Male,
-                        onClick = { gender = "Male" },
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    IconSquare(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(40.dp)
-                            .alpha(
-                                if (gender == "Transgender") 1.0f else 0.3f
-                            ),
-                        icon = Icons.Rounded.Transgender,
-                        onClick = { gender = "Transgender" },
-                        backgroundColor = MaterialTheme.colorScheme.errorContainer,
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    IconSquare(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(40.dp)
-                            .alpha(
-                                if (gender == "Female") 1.0f else 0.3f
-                            ),
-                        icon = Icons.Rounded.Female,
-                        onClick = { gender = "Female" },
-                        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                TypeDropdownSelector(
-                    type = type,
-                    incompleteType = incompleteType,
-                    onTypeSelected = { type = it },
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                BaseOutlinedTextField(
-                    value = breed,
-                    placeHolder = stringResource(R.string.carlino),
-                    label = stringResource(R.string.breed),
-                    maxLength = 22,
-                    maxLines = 1
-                ) { breed = it }
+                    .padding(vertical = 10.dp, horizontal = 15.dp),
+                1.dp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BaseOutlinedTextField(
+                value = name,
+                label = stringResource(R.string.name),
+                maxLines = 1,
+                maxLength = 25,
+                isError = incompleteName,
+                isRequired = true
+            ) {
+                name = it
             }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                IconSquare(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+                        .alpha(
+                            if (gender == "Male") 1.0f else 0.3f
+                        ),
+                    icon = Icons.Rounded.Male,
+                    onClick = { gender = "Male" },
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                IconSquare(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+                        .alpha(
+                            if (gender == "Transgender") 1.0f else 0.3f
+                        ),
+                    icon = Icons.Rounded.Transgender,
+                    onClick = { gender = "Transgender" },
+                    backgroundColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                IconSquare(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+                        .alpha(
+                            if (gender == "Female") 1.0f else 0.3f
+                        ),
+                    icon = Icons.Rounded.Female,
+                    onClick = { gender = "Female" },
+                    backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            TypeDropdownSelector(
+                type = type,
+                incompleteType = incompleteType,
+                onTypeSelected = { type = it },
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BaseOutlinedTextField(
+                value = breed,
+                placeHolder = stringResource(R.string.carlino),
+                label = stringResource(R.string.breed),
+                maxLength = 22,
+                maxLines = 1
+            ) { breed = it }
+            Spacer(modifier = Modifier.height(20.dp))
             Button(
                 onClick = {
                     pet?.id?.let {
@@ -772,15 +774,14 @@ fun EditBasicDataBottomSheet(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 5.dp)
-                    .height(60.dp)
-                    .align(Alignment.BottomCenter),
+                    .height(60.dp),
                 enabled = enableButton
             ) {
                 Text(
                     text = stringResource(R.string.edit)
                 )
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

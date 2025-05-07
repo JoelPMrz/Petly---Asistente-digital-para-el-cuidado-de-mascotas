@@ -82,4 +82,12 @@
     <string name="invitations">Invitaciones</string>
     <string name="language">Lenguaje</string>
     <string name="update_password">Cambiar contraseña</string>
+    <string name="password">Contraseña</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="reset_password">Recuperar contraseña</string>
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="associed_email">Correo asociado</string>
+    <string name="send_mail">Enviar correo</string>
+    <string name="log_out_alert_title">¿Deseas cerrar sesión?</string>
+    <string name="log_out_alert_description">Al cerrar aceptar el cierre de sesión, la cuenta actual perderá el acceso hasta que inicies sesión nuevamente</string>
 </resources>

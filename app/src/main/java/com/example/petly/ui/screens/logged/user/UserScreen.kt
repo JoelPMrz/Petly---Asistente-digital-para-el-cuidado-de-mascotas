@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,12 +30,14 @@ import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.HowToReg
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.LightMode
+import androidx.compose.material.icons.rounded.LockReset
 import androidx.compose.material.icons.rounded.Logout
+import androidx.compose.material.icons.rounded.Mail
+import androidx.compose.material.icons.rounded.MailLock
 import androidx.compose.material.icons.rounded.MarkEmailUnread
 import androidx.compose.material.icons.rounded.NotificationsActive
-import androidx.compose.material.icons.rounded.Password
-import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VpnKey
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -43,6 +48,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -76,10 +82,11 @@ import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.ui.components.PhotoPickerBottomSheet
-import com.example.petly.ui.screens.auth.changePassword
 import com.example.petly.utils.AuthManager
+import com.example.petly.utils.clearAppCache
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -95,8 +102,10 @@ fun UserScreen(
     val context = LocalContext.current
     val userState by userViewModel.userState.collectAsState()
     var showCode by remember { mutableStateOf(false) }
+    var logOutAlertDialog by remember { mutableStateOf(false) }
     var showPhotoPicker by remember { mutableStateOf(false) }
     var showUpdatePassword by remember { mutableStateOf(false) }
+    var showResetPassword by remember { mutableStateOf(false) }
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
     val isDarkMode by preferencesViewModel.isDarkMode.collectAsState()
 
@@ -214,14 +223,21 @@ fun UserScreen(
                     },
                     modifier = Modifier,
                     title = stringResource(R.string.update_password),
-                    icon = Icons.Rounded.Password
+                    icon = Icons.Rounded.LockReset
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 ProfileCard(
                     onClick = {
-                        auth.singOut()
-                        navigateBack()
-                        userViewModel.clearUser()
+                        showResetPassword = true
+                    },
+                    modifier = Modifier,
+                    title = stringResource(R.string.reset_password),
+                    icon = Icons.Rounded.MailLock
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                ProfileCard(
+                    onClick = {
+                        logOutAlertDialog = true
                     },
                     modifier = Modifier,
                     title = stringResource(R.string.sign_out),
@@ -266,13 +282,25 @@ fun UserScreen(
                 Spacer(modifier = Modifier.height(10.dp))
                 ProfileCard(
                     onClick = {
-
+                        clearAppCache(context)
                     },
                     modifier = Modifier,
                     title = stringResource(R.string.clear_cache),
                     icon = Icons.Rounded.CleaningServices
                 )
             }
+        }
+
+        if(logOutAlertDialog){
+            LogOutDialog(
+                onDismiss = {
+                    logOutAlertDialog = false
+                },
+                navigateBack = {
+                    navigateBack()
+                },
+                auth = auth
+            )
         }
 
         if (showCode) {
@@ -292,6 +320,16 @@ fun UserScreen(
                 auth = auth
             )
         }
+
+        if (showResetPassword) {
+            ResetPasswordBottomSheet(
+                onDismiss = {
+                    showResetPassword = false
+                },
+                auth = auth
+            )
+        }
+
 
         if (showPhotoPicker) {
             PhotoPickerBottomSheet(
@@ -325,14 +363,11 @@ fun UserScreen(
 
 @Composable
 fun ProfileCard(
-    userViewModel: UserViewModel = hiltViewModel(),
     onClick: () -> Unit,
     modifier: Modifier,
     title: String,
     icon: ImageVector
 ) {
-    val userState by userViewModel.userState.collectAsState()
-
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -432,45 +467,51 @@ fun UpdatePasswordBottomSheet(
     onDismiss: () -> Unit,
     auth: AuthManager
 ) {
-    var password by remember { mutableStateOf("") }
-    var newPassword by remember { mutableStateOf("") }
-    var repeatNewPassword by remember { mutableStateOf("") }
-
-    var enableButton by remember { mutableStateOf(true) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val sheetState = rememberModalBottomSheetState()
+    var password by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
+    var repeatNewPassword by remember { mutableStateOf("") }
+    var enableButton by remember { mutableStateOf(true) }
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     ModalBottomSheet(
-        onDismissRequest = { onDismiss() },
-        sheetState = sheetState
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 15.dp, vertical = 20.dp),
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.invitation_key),
+                text = stringResource(R.string.update_password),
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             HorizontalDivider(
-                Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp),
-                1.dp
+                thickness = 1.dp
             )
-            Spacer(modifier = Modifier.height(10.dp))
+
             PasswordOutlinedTextField(value = password) { password = it }
             Spacer(modifier = Modifier.height(10.dp))
-            PasswordOutlinedTextField(value = newPassword) { newPassword = it }
+            PasswordOutlinedTextField(value = newPassword, label = stringResource(R.string.new_password), leadingIcon = Icons.Rounded.LockReset) { newPassword = it }
             Spacer(modifier = Modifier.height(10.dp))
-            PasswordOutlinedTextField(value = repeatNewPassword) { repeatNewPassword = it }
-            Spacer(modifier = Modifier.height(20.dp)) // Espacio entre campos y botón
+            PasswordOutlinedTextField(value = repeatNewPassword, label = stringResource(R.string.new_password),  leadingIcon = Icons.Rounded.LockReset) { repeatNewPassword = it }
+
+            Spacer(modifier = Modifier.height(20.dp))
 
             Button(
                 onClick = {
@@ -485,7 +526,7 @@ fun UpdatePasswordBottomSheet(
 
                     enableButton = false
                     scope.launch {
-                        changePassword(
+                        auth.changePassword(
                             currentPassword = password,
                             newPassword = newPassword,
                             auth = auth,
@@ -503,15 +544,131 @@ fun UpdatePasswordBottomSheet(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp),
+                    .height(56.dp),
                 enabled = enableButton
             ) {
                 Text(text = stringResource(R.string.edit))
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
-
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ResetPasswordBottomSheet(
+    onDismiss: () -> Unit,
+    auth: AuthManager
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    val email by remember { mutableStateOf(auth.getCurrentUser()?.email ?: "Cuenta sin correo vinculado") }
+    var enableButton by remember { mutableStateOf(true) }
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.recover_password),
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp),
+                thickness = 1.dp
+            )
+            BaseOutlinedTextField(
+                value = email,
+                label = stringResource(R.string.associed_email),
+                leadingIcon = Icons.Rounded.Mail,
+                maxLines = 1,
+                readOnly = true
+            ) {
+
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(
+                onClick = {
+                    enableButton = false
+                    scope.launch {
+                        auth.resetPasswordFlow(email,auth,context)
+                        delay(20_000)
+                        enableButton = true
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                enabled = enableButton
+            ) {
+                Text(text = stringResource(R.string.send_mail))
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
+@Composable
+fun LogOutDialog(
+    onDismiss: () -> Unit,
+    navigateBack: () -> Unit,
+    auth : AuthManager,
+    userViewModel: UserViewModel = hiltViewModel()
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(text = stringResource(R.string.log_out_alert_title))
+        },
+        text = {
+            Text(
+                text = stringResource(
+                    R.string.log_out_alert_description,
+                )
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onDismiss()
+                    auth.singOut()
+                    navigateBack()
+                    userViewModel.clearUser()
+                }
+            ) {
+                Text(text = stringResource(R.string.form_confirm_btn))
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(R.string.form_cancel_btn))
+            }
+        }
+    )
+}
+
 
 
 

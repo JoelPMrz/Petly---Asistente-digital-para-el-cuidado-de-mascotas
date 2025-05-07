@@ -4,12 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
-import com.example.petly.data.models.User
-import com.example.petly.data.repository.UserRepository
-import com.example.petly.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,8 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -144,7 +139,26 @@ class AuthManager(private val context: Context) {
         }
     }
 
+    suspend fun resetPasswordFlow(
+        email: String,
+        auth: AuthManager,
+        //analytics: AnalyticsManager,
+        context: Context,
+        navigateTo: () -> Unit = {}
+    ) {
+        when (val res = auth.resetPassword(email)) {
+            is AuthRes.Success -> {
+                //analytics.logButtonClicked(buttonName = "Reset password $email")
+                Toast.makeText(context, "Correo enviado a $email", Toast.LENGTH_SHORT).show()
+                navigateTo()
+            }
 
+            is AuthRes.Error -> {
+                //analytics.logError(error = "Reset password error: $email: ${res.errorMessage}")
+                Toast.makeText(context, "Error al enviar el correo", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     suspend fun resetPassword(email: String): AuthRes<Unit?>{
         return try{
@@ -154,6 +168,35 @@ class AuthManager(private val context: Context) {
             AuthRes.Error(e.message ?: "Error al restablecer la contraseña")
         }
     }
+
+    suspend fun changePassword(
+        currentPassword: String,
+        newPassword: String,
+        auth: AuthManager,
+        context: Context,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val user = auth.getCurrentUser()
+        val email = user?.email
+
+        if (user != null && !email.isNullOrEmpty()) {
+            val credential = EmailAuthProvider.getCredential(email, currentPassword)
+
+            try {
+                user.reauthenticate(credential).await()
+                user.updatePassword(newPassword).await()
+                Toast.makeText(context, "Contraseña actualizada", Toast.LENGTH_SHORT).show()
+                onSuccess()
+            } catch (e: Exception) {
+                onError("Error: ${e.localizedMessage}")
+            }
+        } else {
+            onError("Usuario no autenticado")
+        }
+    }
+
+
 
     fun singOut(){
         auth.signOut()
