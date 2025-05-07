@@ -3,6 +3,7 @@ package com.example.petly.utils
 import android.util.Log
 import com.google.firebase.Timestamp
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.Period
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -19,6 +20,18 @@ fun Timestamp.toLocalDate(): LocalDate {
         .toInstant()
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
+}
+
+fun LocalDateTime.toTimestamp(): Timestamp {
+    val instant = this.atZone(ZoneId.systemDefault()).toInstant()
+    return Timestamp(Date.from(instant))
+}
+
+fun Timestamp.toLocalDateTime(): LocalDateTime {
+    return this.toDate()
+        .toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDateTime()
 }
 
 fun parseDate(dateString: String): LocalDate {
