@@ -26,6 +26,54 @@ class UserViewModel @Inject constructor(
     private val _userState = MutableStateFlow<User?>(null)
     val userState: StateFlow<User?> get() = _userState
 
+    fun getUserById(userId: String) {
+        viewModelScope.launch {
+            try {
+                val user = userRepository.getUserById(userId)
+                _userState.value = user
+            } catch (e: Exception) {
+                _userState.value = null
+            }
+        }
+    }
+
+
+    private val _createdOwnerState = MutableStateFlow<User?>(null)
+    val createdOwnerState: StateFlow<User?> get() = _createdOwnerState
+
+    fun getCreatedOwner(userId: String) {
+        viewModelScope.launch {
+            try {
+                val user = userRepository.getUserById(userId)
+                _createdOwnerState.value = user
+            } catch (e: Exception) {
+                _createdOwnerState.value = null
+            }
+        }
+    }
+
+    private val _ownersState = MutableStateFlow<List<User>>(emptyList())
+    val ownersState: StateFlow<List<User>> get() = _ownersState
+
+    private val _observersState = MutableStateFlow<List<User>>(emptyList())
+    val observersState: StateFlow<List<User>> get() = _observersState
+
+    fun getUsersByRole(petId: String, roleField: String) {
+        viewModelScope.launch {
+            try {
+                userRepository.getUsersFromPetByRoleFlow(petId, roleField).collect { users ->
+                    when (roleField) {
+                        "owners" -> if (_ownersState.value != users) _ownersState.value = users
+                        "observers" -> if (_observersState.value != users) _observersState.value = users
+                    }
+                }
+            } catch (e: Exception) {
+                //
+            }
+        }
+    }
+
+
     fun addUser(
         name: String?,
         email: String,
@@ -99,16 +147,7 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun getUserById(userId: String) {
-        viewModelScope.launch {
-            try {
-                val user = userRepository.getUserById(userId)
-                _userState.value = user
-            } catch (e: Exception) {
-                _userState.value = null
-            }
-        }
-    }
+
 
     fun clearUser() {
         _userState.value = null

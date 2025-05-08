@@ -17,7 +17,7 @@ fun User.toFirestoreMap(): Map<String, Any?> {
 }
 
 
-fun UserfromFirestoreMap(map: Map<String, Any?>): User {
+fun userfromFirestoreMap(map: Map<String, Any?>): User {
     return User(
         id = map["id"] as? String ?: "",
         name = map["name"] as? String,

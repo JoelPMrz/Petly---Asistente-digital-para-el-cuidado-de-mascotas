@@ -531,6 +531,57 @@ fun PetDetailScreen(
                         )
                     }
                     Spacer(modifier = Modifier.height(10.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Max)
+                    ) {
+                        PeopleLinkedCard(
+                            pet = petState,
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
+                            onClick = {
+                                petViewModel.doesPetExist(
+                                    petId = petId,
+                                    exists = {
+
+                                    },
+                                    notExists = {
+                                        showPetNotExistsDialog = true
+                                    },
+                                    onFailure = {
+                                        //Analytics
+                                    }
+                                )
+                            },
+                            role = "owners"
+                        )
+                        Spacer(Modifier.width(10.dp))
+                        PeopleLinkedCard(
+                            pet = petState,
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
+                            onClick = {
+                                petViewModel.doesPetExist(
+                                    petId = petId,
+                                    exists = {
+
+                                    },
+                                    notExists = {
+                                        showPetNotExistsDialog = true
+                                    },
+                                    onFailure = {
+                                        //Analytics
+                                    }
+                                )
+                            },
+                            role = "observers"
+                        )
+
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                     WeigthCard(
                         weight,
                         petId,
