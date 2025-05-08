@@ -177,41 +177,43 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 30.dp, end = 40.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Mascotas observables",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 22.sp
-                )
-                Row {
-                    IconCircle(
-                        modifier = Modifier.clickable {
+            if(observablePets.isNotEmpty()){
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 30.dp, end = 40.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Mascotas observables",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp
+                    )
+                    Row {
+                        IconCircle(
+                            modifier = Modifier.clickable {
 
-                        },
-                        icon = Icons.Rounded.FilterAlt
+                            },
+                            icon = Icons.Rounded.FilterAlt
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+                HorizontalPager(
+                    state = observablePetsPagerState,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(start = 25.dp, end = 40.dp),
+                    pageSpacing = 16.dp,
+                    snapPosition = SnapPosition.Start
+                ) { page ->
+                    Pet(
+                        pet = observablePets[page],
+                        navigateToPetDetail = navigateToPetDetail,
                     )
                 }
-            }
-
-            Spacer(Modifier.height(10.dp))
-            HorizontalPager(
-                state = observablePetsPagerState,
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(start = 25.dp, end = 40.dp),
-                pageSpacing = 16.dp,
-                snapPosition = SnapPosition.Start
-            ) { page ->
-                Pet(
-                    pet = observablePets[page],
-                    navigateToPetDetail = navigateToPetDetail,
-                )
             }
         }
     }
