@@ -1,6 +1,5 @@
 package com.example.petly.ui.screens.logged
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,28 +20,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Female
-import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material.icons.rounded.Male
-import androidx.compose.material.icons.rounded.Segment
-import androidx.compose.material.icons.rounded.Sort
 import androidx.compose.material.icons.rounded.Transgender
-import androidx.compose.material3.Button
+import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.Icon
-import com.example.petly.ui.components.BaseFAB
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -56,11 +49,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -69,14 +60,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
-import coil.request.ImageResult
 import com.example.petly.R
 import com.example.petly.data.models.Pet
-import com.example.petly.navegation.User
 import com.example.petly.ui.components.IconCircle
-import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.screens.logged.pet.DeletePetDialog
 import com.example.petly.ui.viewmodel.PetViewModel
@@ -88,17 +75,19 @@ import com.example.petly.viewmodel.UserViewModel
 fun HomeScreen(
     //analytics: AnalyticsManager,
     auth: AuthManager,
-    navigateToPetDetail:(String)-> Unit,
-    navigateToAddPet:()-> Unit,
+    navigateToPetDetail: (String) -> Unit,
+    navigateToAddPet: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToCalendar: () -> Unit,
     navigateToUser: () -> Unit,
-    petViewModel: PetViewModel =  hiltViewModel(),
+    petViewModel: PetViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel()
 ) {
     val pets by petViewModel.petsState.collectAsState()
-    val state = rememberPagerState(initialPage = 0) { pets.size +1 }
+    val petsPagerState = rememberPagerState(initialPage = 0) { pets.size + 1 }
     val userState by userViewModel.userState.collectAsState()
+    val observablePets by petViewModel.observedPetsState.collectAsState()
+    val observablePetsPagerState = rememberPagerState(initialPage = 0) { observablePets.size }
 
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
@@ -109,11 +98,12 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         petViewModel.getPets()
+        petViewModel.getObservedPets()
     }
 
 
-    Scaffold (
-        bottomBar = { MyNavigationAppBar(navigateToHome,navigateToCalendar,navigateToUser, 1) },
+    Scaffold(
+        bottomBar = { MyNavigationAppBar(navigateToHome, navigateToCalendar, navigateToUser, 1) },
         topBar = { HomeTopAppBar(userState?.photo, navigateToUser) },
         /*
         floatingActionButton = {
@@ -129,20 +119,26 @@ fun HomeScreen(
          */
     ) { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(paddingValues).padding(top = 0.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
+                .padding(vertical = 10.dp),
         ) {
-            Row (
-                Modifier.fillMaxWidth().padding(start = 30.dp, end = 40.dp),
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 40.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text= "Mascotas",
+                    text = "Mascotas",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 22.sp
                 )
-                Row{
+                Row {
                     IconCircle(
                         onClick = {
                             navigateToAddPet()
@@ -161,10 +157,10 @@ fun HomeScreen(
 
             Spacer(Modifier.height(10.dp))
             HorizontalPager(
-                state = state,
+                state = petsPagerState,
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(start = 25.dp, end = 40.dp) ,
-                pageSpacing = 16.dp ,
+                contentPadding = PaddingValues(start = 25.dp, end = 40.dp),
+                pageSpacing = 16.dp,
                 snapPosition = SnapPosition.Start
             ) { page ->
                 if (pets.isEmpty() && page == 0) {
@@ -178,12 +174,51 @@ fun HomeScreen(
                     AddPetCard(navigateToAddPet)
                 }
             }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 40.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Mascotas observables",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 22.sp
+                )
+                Row {
+                    IconCircle(
+                        modifier = Modifier.clickable {
+
+                        },
+                        icon = Icons.Rounded.FilterAlt
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(10.dp))
+            HorizontalPager(
+                state = observablePetsPagerState,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(start = 25.dp, end = 40.dp),
+                pageSpacing = 16.dp,
+                snapPosition = SnapPosition.Start
+            ) { page ->
+                Pet(
+                    pet = observablePets[page],
+                    navigateToPetDetail = navigateToPetDetail,
+                )
+            }
         }
     }
 }
 
 @Composable
-fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
+fun Pet(pet: Pet, navigateToPetDetail: (String) -> Unit) {
     val context = LocalContext.current
     var showDeletePetDialog by remember { mutableStateOf(false) }
     Card(
@@ -223,9 +258,9 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = (-25).dp)
-                    .clip(RoundedCornerShape( 30.dp))
+                    .clip(RoundedCornerShape(30.dp))
                     .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                    .padding(start = 16.dp, end= 16.dp, top = 10.dp),
+                    .padding(start = 16.dp, end = 16.dp, top = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
@@ -262,10 +297,10 @@ fun Pet(pet: Pet, navigateToPetDetail: (String)-> Unit) {
             }
         }
     }
-    if(showDeletePetDialog){
+    if (showDeletePetDialog) {
         DeletePetDialog(
             context = context,
-            onDismiss = {showDeletePetDialog = false},
+            onDismiss = { showDeletePetDialog = false },
             navigateToHome = {},
             pet = pet
         )
@@ -326,7 +361,7 @@ fun AddPetCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopAppBar(
-    photo : String?,
+    photo: String?,
     navigateToUser: () -> Unit,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
@@ -346,7 +381,11 @@ fun HomeTopAppBar(
                         .padding(8.dp)
                         .size(35.dp)
                         .clip(CircleShape)
-                        .border(width = 1.dp, color = Color.Gray.copy(alpha = 0.5f), shape = CircleShape)
+                        .border(
+                            width = 1.dp,
+                            color = Color.Gray.copy(alpha = 0.5f),
+                            shape = CircleShape
+                        )
                         .clickable { navigateToUser() }
                 )
             } else {
@@ -358,7 +397,11 @@ fun HomeTopAppBar(
                         .padding(8.dp)
                         .size(35.dp)
                         .clip(CircleShape)
-                        .border(width = 1.dp, color = Color.Gray.copy(alpha = 0.5f), shape = CircleShape)
+                        .border(
+                            width = 1.dp,
+                            color = Color.Gray.copy(alpha = 0.5f),
+                            shape = CircleShape
+                        )
                         .clickable { navigateToUser() }
                 )
             }
@@ -366,8 +409,7 @@ fun HomeTopAppBar(
         },
         actions = {},
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
-            scrolledContainerColor = Color.Transparent,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.95f),
             navigationIconContentColor = MaterialTheme.colorScheme.onBackground
         )
     )

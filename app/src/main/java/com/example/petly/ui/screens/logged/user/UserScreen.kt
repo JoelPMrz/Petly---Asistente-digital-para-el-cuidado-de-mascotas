@@ -2,6 +2,7 @@ package com.example.petly.ui.screens.logged.user
 
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -12,17 +13,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.Bedtime
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.CleaningServices
@@ -76,14 +83,18 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.petly.R
+import com.example.petly.data.models.PetInvitation
 import com.example.petly.data.models.User
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.ui.components.PhotoPickerBottomSheet
+import com.example.petly.ui.screens.logged.weight.Weight
+import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.clearAppCache
+import com.example.petly.viewmodel.PetInvitationViewModel
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
 import kotlinx.coroutines.delay
@@ -208,14 +219,7 @@ fun UserScreen(
                     icon = Icons.Rounded.VpnKey
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                ProfileCard(
-                    onClick = {
-
-                    },
-                    modifier = Modifier,
-                    title = stringResource(R.string.invitations),
-                    icon = Icons.Rounded.MarkEmailUnread
-                )
+                InvitationsCard()
                 Spacer(modifier = Modifier.height(10.dp))
                 ProfileCard(
                     onClick = {
@@ -399,6 +403,218 @@ fun ProfileCard(
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,
                 contentDescription = null
+            )
+        }
+    }
+}
+
+@Composable
+fun InvitationsCard(
+    petInvitationViewModel: PetInvitationViewModel = hiltViewModel()
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val petInvitations by petInvitationViewModel.petInvitationsState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        petInvitationViewModel.getPetInvitations()
+    }
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.extraLarge)
+            .clickable { expanded = !expanded },
+        elevation = CardDefaults.cardElevation(4.dp),
+        shape = MaterialTheme.shapes.extraLarge,
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconCircle(
+                    icon = Icons.Rounded.MarkEmailUnread,
+                    modifier = Modifier.size(30.dp),
+                    sizeIcon = 20.dp,
+                    backgroundColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.secondaryContainer
+                )
+                Spacer(modifier = Modifier.width(20.dp))
+                Text(text = stringResource(R.string.invitations), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            }
+            Icon(
+                imageVector = if (expanded) Icons.Rounded.ArrowDropUp else Icons.Rounded.ArrowDropDown,
+                contentDescription = null
+            )
+        }
+
+        AnimatedVisibility(visible = expanded) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 300.dp) // Ajusta el valor según lo que necesites
+            ) {
+                if (petInvitations.isEmpty()) {
+                    Text(
+                        text = "No tienes invitaciones",
+                        modifier = Modifier
+                            .padding(start = 30.dp, bottom = 12.dp)
+                            .fillMaxWidth()
+                    )
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 30.dp, vertical = 8.dp)
+                    ) {
+                        items(petInvitations, key = { it.id }) { petInvitation ->
+                            InvitationItem(petInvitation)
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun InvitationItem(
+    invitation: PetInvitation,
+    petViewModel: PetViewModel = hiltViewModel(),
+    petInvitationViewModel: PetInvitationViewModel = hiltViewModel()
+) {
+
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {  }
+            .padding(vertical = 8.dp)
+    ) {
+        Text(
+            text = "Mascota: ${invitation.petName}",
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "Invitado por: ${invitation.fromUserName}",
+            style = MaterialTheme.typography.bodySmall
+        )
+        Text(
+            text = "Rol: ${invitation.role}",
+            style = MaterialTheme.typography.bodySmall
+        )
+        Button(
+            onClick = {
+                when(invitation.role){
+                    "creator" -> {
+                        petViewModel.updateCreatorOwner(
+                            invitation.petId,
+                            invitation.toUserId,
+                            isCurrentCreatorOwner = {
+                                petInvitationViewModel.deletePetInvitation(
+                                    petInvitationId = invitation.id,
+                                    onSuccess = {
+                                        Toast.makeText(context,"Suigues siendo creador", Toast.LENGTH_SHORT).show()
+                                    },
+                                    onFailure = {
+                                        //
+                                    }
+                                )
+                            },
+                            onSuccess = {
+                                petInvitationViewModel.deletePetInvitation(
+                                    petInvitationId = invitation.id,
+                                    onSuccess = {
+                                        Toast.makeText(context,"Ahora eres creador", Toast.LENGTH_SHORT).show()
+                                    },
+                                    onFailure = {
+
+                                    }
+                                )
+                            },
+                            onFailure = {
+                                Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    }
+                    "owner" -> {
+                        petViewModel.addPetOwner(
+                            invitation.petId,
+                            invitation.toUserId,
+                            existsYet = {
+                                petInvitationViewModel.deletePetInvitation(
+                                    petInvitationId = invitation.id,
+                                    onSuccess = {
+                                        Toast.makeText(context,"Suigues siendo owner", Toast.LENGTH_SHORT).show()
+                                    },
+                                    onFailure = {
+                                        //
+                                    }
+                                )
+                            },
+                            onSuccess = {
+                                petInvitationViewModel.deletePetInvitation(
+                                    petInvitationId = invitation.id,
+                                    onSuccess = {
+                                        Toast.makeText(context,"Ahora eres owner", Toast.LENGTH_SHORT).show()
+                                    },
+                                    onFailure = {
+
+                                    }
+                                )
+                            },
+                            onFailure = {
+                                Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    }
+                    "observer" -> {
+                        petViewModel.addPetObserver(
+                            invitation.petId,
+                            invitation.toUserId,
+                            existsYet = {
+                                petInvitationViewModel.deletePetInvitation(
+                                    petInvitationId = invitation.id,
+                                    onSuccess = {
+                                        Toast.makeText(context,"Sigues siendo observador", Toast.LENGTH_SHORT).show()
+                                    },
+                                    onFailure = {
+                                        //
+                                    }
+                                )
+                            },
+                            onSuccess = {
+                                petInvitationViewModel.deletePetInvitation(
+                                    petInvitationId = invitation.id,
+                                    onSuccess = {
+                                        Toast.makeText(context,"Ahora eres observardor", Toast.LENGTH_SHORT).show()
+                                    },
+                                    onFailure = {
+
+                                    }
+                                )
+                            },
+                            onFailure = {
+                                Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    }
+                    else -> {
+                        Toast.makeText(context,"Invitación erronea", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        ) {
+            Text(
+                text = " Aceptar ser ${invitation.role} "
             )
         }
     }
