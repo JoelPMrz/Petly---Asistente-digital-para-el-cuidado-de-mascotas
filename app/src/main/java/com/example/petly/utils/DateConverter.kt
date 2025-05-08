@@ -50,6 +50,11 @@ fun formatLocalDateToString(localDate: LocalDate): String {
     return localDate.format(formatter)
 }
 
+fun formatLocalDateTimeToString(localDateTime: LocalDateTime): String {
+    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("es", "ES"))
+    return localDateTime.format(formatter)
+}
+
 fun getAgeFromDate(birthDate: LocalDate?): String? {
     if (birthDate == null) return null
 
