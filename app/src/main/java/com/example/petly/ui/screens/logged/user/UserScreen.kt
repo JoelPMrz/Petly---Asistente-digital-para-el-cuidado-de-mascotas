@@ -219,7 +219,11 @@ fun UserScreen(
                     icon = Icons.Rounded.VpnKey
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                InvitationsCard()
+                InvitationsCard(
+                    navigateToHome = {
+                        navigateToHome()
+                    }
+                )
                 Spacer(modifier = Modifier.height(10.dp))
                 ProfileCard(
                     onClick = {
@@ -295,7 +299,7 @@ fun UserScreen(
             }
         }
 
-        if(logOutAlertDialog){
+        if (logOutAlertDialog) {
             LogOutDialog(
                 onDismiss = {
                     logOutAlertDialog = false
@@ -410,6 +414,7 @@ fun ProfileCard(
 
 @Composable
 fun InvitationsCard(
+    navigateToHome: () -> Unit,
     petInvitationViewModel: PetInvitationViewModel = hiltViewModel()
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -445,7 +450,11 @@ fun InvitationsCard(
                     contentColor = MaterialTheme.colorScheme.secondaryContainer
                 )
                 Spacer(modifier = Modifier.width(20.dp))
-                Text(text = stringResource(R.string.invitations), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                Text(
+                    text = stringResource(R.string.invitations),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
+                )
             }
             Icon(
                 imageVector = if (expanded) Icons.Rounded.ArrowDropUp else Icons.Rounded.ArrowDropDown,
@@ -473,7 +482,7 @@ fun InvitationsCard(
                             .padding(horizontal = 30.dp, vertical = 8.dp)
                     ) {
                         items(petInvitations, key = { it.id }) { petInvitation ->
-                            InvitationItem(petInvitation)
+                            InvitationItem(petInvitation, navigateToHome = navigateToHome)
                             Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
@@ -487,6 +496,7 @@ fun InvitationsCard(
 @Composable
 fun InvitationItem(
     invitation: PetInvitation,
+    navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     petInvitationViewModel: PetInvitationViewModel = hiltViewModel()
 ) {
@@ -496,7 +506,7 @@ fun InvitationItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {  }
+            .clickable { }
             .padding(vertical = 8.dp)
     ) {
         Text(
@@ -513,109 +523,137 @@ fun InvitationItem(
         )
         Button(
             onClick = {
-                when(invitation.role){
-                    "creator" -> {
-                        petViewModel.updateCreatorOwner(
-                            invitation.petId,
-                            invitation.toUserId,
-                            isCurrentCreatorOwner = {
-                                petInvitationViewModel.deletePetInvitation(
-                                    petInvitationId = invitation.id,
-                                    onSuccess = {
-                                        Toast.makeText(context,"Suigues siendo creador", Toast.LENGTH_SHORT).show()
+                petViewModel.doesPetExist(
+                    invitation.petId,
+                    exists = {
+                        when(invitation.role){
+                            "creator" -> {
+                                petViewModel.updateCreatorOwner(
+                                    invitation.petId,
+                                    invitation.toUserId,
+                                    isCurrentCreatorOwner = {
+                                        petInvitationViewModel.deletePetInvitation(
+                                            petInvitationId = invitation.id,
+                                            onSuccess = {
+                                                Toast.makeText(context,"Suigues siendo creador", Toast.LENGTH_SHORT).show()
+                                            },
+                                            onFailure = {
+                                                //
+                                            }
+                                        )
                                     },
-                                    onFailure = {
-                                        //
-                                    }
-                                )
-                            },
-                            onSuccess = {
-                                petInvitationViewModel.deletePetInvitation(
-                                    petInvitationId = invitation.id,
                                     onSuccess = {
-                                        Toast.makeText(context,"Ahora eres creador", Toast.LENGTH_SHORT).show()
-                                    },
-                                    onFailure = {
+                                        petInvitationViewModel.deletePetInvitation(
+                                            petInvitationId = invitation.id,
+                                            onSuccess = {
+                                                Toast.makeText(context,"Ahora eres creador", Toast.LENGTH_SHORT).show()
+                                            },
+                                            onFailure = {
 
+                                            }
+                                        )
+                                    },
+                                    onFailure = {
+                                        Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
                                     }
                                 )
-                            },
-                            onFailure = {
-                                Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
                             }
-                        )
-                    }
-                    "owner" -> {
-                        petViewModel.addPetOwner(
-                            invitation.petId,
-                            invitation.toUserId,
-                            existsYet = {
-                                petInvitationViewModel.deletePetInvitation(
-                                    petInvitationId = invitation.id,
-                                    onSuccess = {
-                                        Toast.makeText(context,"Suigues siendo owner", Toast.LENGTH_SHORT).show()
+                            "owner" -> {
+                                petViewModel.addPetOwner(
+                                    invitation.petId,
+                                    invitation.toUserId,
+                                    existsYet = {
+                                        petInvitationViewModel.deletePetInvitation(
+                                            petInvitationId = invitation.id,
+                                            onSuccess = {
+                                                Toast.makeText(context,"Suigues siendo owner", Toast.LENGTH_SHORT).show()
+                                            },
+                                            onFailure = {
+                                                //
+                                            }
+                                        )
                                     },
-                                    onFailure = {
-                                        //
-                                    }
-                                )
-                            },
-                            onSuccess = {
-                                petInvitationViewModel.deletePetInvitation(
-                                    petInvitationId = invitation.id,
                                     onSuccess = {
-                                        Toast.makeText(context,"Ahora eres owner", Toast.LENGTH_SHORT).show()
-                                    },
-                                    onFailure = {
+                                        petInvitationViewModel.deletePetInvitation(
+                                            petInvitationId = invitation.id,
+                                            onSuccess = {
+                                                Toast.makeText(context,"Ahora eres owner", Toast.LENGTH_SHORT).show()
+                                            },
+                                            onFailure = {
 
+                                            }
+                                        )
+                                    },
+                                    onFailure = {
+                                        Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
                                     }
                                 )
-                            },
-                            onFailure = {
-                                Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
                             }
-                        )
-                    }
-                    "observer" -> {
-                        petViewModel.addPetObserver(
-                            invitation.petId,
-                            invitation.toUserId,
-                            existsYet = {
-                                petInvitationViewModel.deletePetInvitation(
-                                    petInvitationId = invitation.id,
-                                    onSuccess = {
-                                        Toast.makeText(context,"Sigues siendo observador", Toast.LENGTH_SHORT).show()
+                            "observer" -> {
+                                petViewModel.addPetObserver(
+                                    invitation.petId,
+                                    invitation.toUserId,
+                                    existsYet = {
+                                        petInvitationViewModel.deletePetInvitation(
+                                            petInvitationId = invitation.id,
+                                            onSuccess = {
+                                                Toast.makeText(context,"Sigues siendo observador", Toast.LENGTH_SHORT).show()
+                                            },
+                                            onFailure = {
+                                                //
+                                            }
+                                        )
                                     },
-                                    onFailure = {
-                                        //
-                                    }
-                                )
-                            },
-                            onSuccess = {
-                                petInvitationViewModel.deletePetInvitation(
-                                    petInvitationId = invitation.id,
                                     onSuccess = {
-                                        Toast.makeText(context,"Ahora eres observardor", Toast.LENGTH_SHORT).show()
-                                    },
-                                    onFailure = {
+                                        petInvitationViewModel.deletePetInvitation(
+                                            petInvitationId = invitation.id,
+                                            onSuccess = {
+                                                Toast.makeText(context,"Ahora eres observardor", Toast.LENGTH_SHORT).show()
+                                            },
+                                            onFailure = {
 
+                                            }
+                                        )
+                                    },
+                                    onFailure = {
+                                        Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
                                     }
                                 )
-                            },
-                            onFailure = {
-                                Toast.makeText(context,"Ha sucedido un error", Toast.LENGTH_SHORT).show()
                             }
-                        )
+                            else -> {
+                                Toast.makeText(context,"Invitación erronea", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
+                    notExists = {
+                        Toast.makeText(context,"La mascota ya no existe", Toast.LENGTH_SHORT).show()
+                        navigateToHome()
+                    },
+                    onFailure = {
+                        //
                     }
-                    else -> {
-                        Toast.makeText(context,"Invitación erronea", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                )
             }
         ) {
             Text(
                 text = " Aceptar ser ${invitation.role} "
             )
+        }
+
+        Button(
+            onClick = {
+                petInvitationViewModel.deletePetInvitation(
+                    petInvitationId = invitation.id,
+                    onSuccess = {
+                        Toast.makeText(context,"Invitación rechazada", Toast.LENGTH_SHORT).show()
+                    },
+                    onFailure = {
+                        //
+                    }
+                )
+            }
+        ) {
+            Text("Rechazar")
         }
     }
 }
@@ -723,20 +761,33 @@ fun UpdatePasswordBottomSheet(
 
             PasswordOutlinedTextField(value = password) { password = it }
             Spacer(modifier = Modifier.height(10.dp))
-            PasswordOutlinedTextField(value = newPassword, label = stringResource(R.string.new_password), leadingIcon = Icons.Rounded.LockReset) { newPassword = it }
+            PasswordOutlinedTextField(
+                value = newPassword,
+                label = stringResource(R.string.new_password),
+                leadingIcon = Icons.Rounded.LockReset
+            ) { newPassword = it }
             Spacer(modifier = Modifier.height(10.dp))
-            PasswordOutlinedTextField(value = repeatNewPassword, label = stringResource(R.string.new_password),  leadingIcon = Icons.Rounded.LockReset) { repeatNewPassword = it }
+            PasswordOutlinedTextField(
+                value = repeatNewPassword,
+                label = stringResource(R.string.new_password),
+                leadingIcon = Icons.Rounded.LockReset
+            ) { repeatNewPassword = it }
 
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
                 onClick = {
                     if (newPassword != repeatNewPassword) {
-                        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT)
+                            .show()
                         return@Button
                     }
                     if (newPassword.length < 6) {
-                        Toast.makeText(context, "La nueva contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "La nueva contraseña debe tener al menos 6 caracteres",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return@Button
                     }
 
@@ -779,7 +830,11 @@ fun ResetPasswordBottomSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val email by remember { mutableStateOf(auth.getCurrentUser()?.email ?: "Cuenta sin correo vinculado") }
+    val email by remember {
+        mutableStateOf(
+            auth.getCurrentUser()?.email ?: "Cuenta sin correo vinculado"
+        )
+    }
     var enableButton by remember { mutableStateOf(true) }
 
     val sheetState = rememberModalBottomSheetState(
@@ -825,7 +880,7 @@ fun ResetPasswordBottomSheet(
                 onClick = {
                     enableButton = false
                     scope.launch {
-                        auth.resetPasswordFlow(email,auth,context)
+                        auth.resetPasswordFlow(email, auth, context)
                         delay(20_000)
                         enableButton = true
                     }
@@ -846,7 +901,7 @@ fun ResetPasswordBottomSheet(
 fun LogOutDialog(
     onDismiss: () -> Unit,
     navigateBack: () -> Unit,
-    auth : AuthManager,
+    auth: AuthManager,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
     AlertDialog(

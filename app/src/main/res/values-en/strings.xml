@@ -85,4 +85,7 @@
     <string name="send_mail">Enviar correo</string>
     <string name="log_out_alert_title">¿Deseas cerrar sesión?</string>
     <string name="log_out_alert_description">Al cerrar aceptar el cierre de sesión, la cuenta actual perderá el acceso hasta que inicies sesión nuevamente</string>
+    <string name="people_linked">Personas asociadas</string>
+    <string name="owners">Dueños</string>
+    <string name="observers">Acompañantes</string>
 </resources>

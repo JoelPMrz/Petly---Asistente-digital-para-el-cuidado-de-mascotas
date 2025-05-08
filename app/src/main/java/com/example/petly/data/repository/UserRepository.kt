@@ -2,12 +2,16 @@ package com.example.petly.data.repository
 
 import android.net.Uri
 import com.example.petly.data.models.User
-import com.example.petly.data.models.UserfromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap
+import com.example.petly.data.models.userfromFirestoreMap
 import com.example.petly.utils.FirebaseConstants.DEFAULT_USER_PHOTO_URL
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -30,7 +34,7 @@ class UserRepository @Inject constructor(
         if (!snapshot.exists()) {
             val user = User(
                 id = uid,
-                name = name,
+                name = name ?: "user$uid",
                 email = email,
                 photo = photo
             )
@@ -73,7 +77,7 @@ class UserRepository @Inject constructor(
             val userDoc = firestore.collection("users").document(userId).get().await()
             val data = userDoc.data
             if (userDoc.exists()) {
-                val user = UserfromFirestoreMap(data ?: emptyMap())
+                val user = userfromFirestoreMap(data ?: emptyMap())
                 user.id = userDoc.id
                 user
             } else {
@@ -82,5 +86,41 @@ class UserRepository @Inject constructor(
         } catch (e: Exception) {
             null
         }
+    }
+
+
+    fun getUsersFromPetByRoleFlow(petId: String, roleField: String): Flow<List<User>> = callbackFlow {
+        val petDocRef = firestore.collection("pets").document(petId)
+
+        val subscription = petDocRef.addSnapshotListener { snapshot, _ ->
+            snapshot?.let { documentSnapshot ->
+                val roleUserIds = documentSnapshot.get(roleField) as? List<String> ?: emptyList()
+
+                if (roleUserIds.isEmpty()) {
+                    trySend(emptyList()).isSuccess
+                    return@addSnapshotListener
+                }
+
+                // Corta si son más de 10 IDs, Firestore limitation
+                val userIds = roleUserIds.take(10)
+
+                firestore.collection("users")
+                    .whereIn(FieldPath.documentId(), userIds)
+                    .get()
+                    .addOnSuccessListener { usersSnapshot ->
+                        val users = usersSnapshot.documents.mapNotNull { doc ->
+                            val data = doc.data
+                            val user = userfromFirestoreMap(data ?: return@mapNotNull null)
+                            user.id = doc.id
+                            user
+                        }
+                        trySend(users).isSuccess
+                    }
+                    .addOnFailureListener {
+                        trySend(emptyList()).isSuccess
+                    }
+            }
+        }
+        awaitClose { subscription.remove() }
     }
 }

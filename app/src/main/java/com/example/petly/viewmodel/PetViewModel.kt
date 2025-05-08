@@ -178,7 +178,7 @@ class PetViewModel @Inject constructor(
         gender: String,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
                 petRepository.updateBasicData(petId, name, type, breed, gender)
@@ -266,20 +266,24 @@ class PetViewModel @Inject constructor(
         isCurrentCreatorOwner: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
                 val pet = petRepository.getPetById(petId)
                 val currentCreatorOwner = pet?.creatorOwner ?: ""
-                if(currentCreatorOwner == newCreatorOwnerId){
+                val currentObservers = pet?.observers ?: emptyList()
+
+                if (currentCreatorOwner == newCreatorOwnerId) {
                     isCurrentCreatorOwner()
-                }else{
+                } else {
+                    if (currentObservers.contains(newCreatorOwnerId)) {
+                        petRepository.deletePetObserver(petId, newCreatorOwnerId)
+                    }
                     petRepository.updatePetCreatorOwner(petId, newCreatorOwnerId)
                     getPetById(petId)
                     onSuccess()
                 }
-
-            }catch (e :Exception){
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -291,21 +295,25 @@ class PetViewModel @Inject constructor(
         existsYet: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
                 val pet = petRepository.getPetById(petId)
                 val currentOwners = pet?.owners ?: emptyList()
+                val currentObservers = pet?.observers ?: emptyList()
 
                 if (currentOwners.contains(userIdToAdd)) {
                     existsYet()
                 } else {
+                    if (currentObservers.contains(userIdToAdd)) {
+                        petRepository.deletePetObserver(petId, userIdToAdd)
+                    }
                     petRepository.addPetOwner(petId, userIdToAdd)
                     getPetById(petId)
                     getPets()
                     onSuccess()
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -317,33 +325,38 @@ class PetViewModel @Inject constructor(
         existsYet: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
                 val pet = petRepository.getPetById(petId)
                 val currentObservers = pet?.observers ?: emptyList()
+                val currentOwners = pet?.owners ?: emptyList()
 
                 if (currentObservers.contains(userIdToAdd)) {
                     existsYet()
                 } else {
+                    if (currentOwners.contains(userIdToAdd)) {
+                        petRepository.deletePetOwner(petId, userIdToAdd)
+                    }
                     petRepository.addPetObserver(petId, userIdToAdd)
                     getPetById(petId)
                     getObservedPets()
                     onSuccess()
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
     }
 
+
     fun deletePetObserver(
         petId: String,
         userIdToRemove: String,
-        notExistsYet: () -> String,
+        notExistsYet: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
                 val pet = petRepository.getPetById(petId)
@@ -357,7 +370,7 @@ class PetViewModel @Inject constructor(
                 } else {
                     notExistsYet()
                 }
-            }catch (e :Exception){
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -369,7 +382,7 @@ class PetViewModel @Inject constructor(
         notExistsYet: () -> String,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         viewModelScope.launch {
             try {
                 val pet = petRepository.getPetById(petId)
@@ -383,7 +396,7 @@ class PetViewModel @Inject constructor(
                 } else {
                     notExistsYet()
                 }
-            }catch (e :Exception){
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
