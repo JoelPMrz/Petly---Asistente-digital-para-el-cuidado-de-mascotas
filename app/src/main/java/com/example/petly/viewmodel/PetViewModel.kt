@@ -260,6 +260,135 @@ class PetViewModel @Inject constructor(
         }
     }
 
+    fun updateCreatorOwner(
+        petId: String,
+        newCreatorOwnerId: String,
+        isCurrentCreatorOwner: () -> Unit,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        viewModelScope.launch {
+            try {
+                val pet = petRepository.getPetById(petId)
+                val currentCreatorOwner = pet?.creatorOwner ?: ""
+                if(currentCreatorOwner == newCreatorOwnerId){
+                    isCurrentCreatorOwner()
+                }else{
+                    petRepository.updatePetCreatorOwner(petId, newCreatorOwnerId)
+                    getPetById(petId)
+                    onSuccess()
+                }
+
+            }catch (e :Exception){
+                onFailure(e)
+            }
+        }
+    }
+
+    fun addPetOwner(
+        petId: String,
+        userIdToAdd: String,
+        existsYet: () -> Unit,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        viewModelScope.launch {
+            try {
+                val pet = petRepository.getPetById(petId)
+                val currentOwners = pet?.owners ?: emptyList()
+
+                if (currentOwners.contains(userIdToAdd)) {
+                    existsYet()
+                } else {
+                    petRepository.addPetOwner(petId, userIdToAdd)
+                    getPetById(petId)
+                    getPets()
+                    onSuccess()
+                }
+            }catch (e: Exception){
+                onFailure(e)
+            }
+        }
+    }
+
+    fun addPetObserver(
+        petId: String,
+        userIdToAdd: String,
+        existsYet: () -> Unit,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        viewModelScope.launch {
+            try {
+                val pet = petRepository.getPetById(petId)
+                val currentObservers = pet?.observers ?: emptyList()
+
+                if (currentObservers.contains(userIdToAdd)) {
+                    existsYet()
+                } else {
+                    petRepository.addPetObserver(petId, userIdToAdd)
+                    getPetById(petId)
+                    getObservedPets()
+                    onSuccess()
+                }
+            }catch (e: Exception){
+                onFailure(e)
+            }
+        }
+    }
+
+    fun deletePetObserver(
+        petId: String,
+        userIdToRemove: String,
+        notExistsYet: () -> String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        viewModelScope.launch {
+            try {
+                val pet = petRepository.getPetById(petId)
+                val currentObservers = pet?.observers ?: emptyList()
+
+                if (currentObservers.contains(userIdToRemove)) {
+                    petRepository.deletePetObserver(petId, userIdToRemove)
+                    getPetById(petId)
+                    getObservedPets()
+                    onSuccess()
+                } else {
+                    notExistsYet()
+                }
+            }catch (e :Exception){
+                onFailure(e)
+            }
+        }
+    }
+
+    fun deletePetOwner(
+        petId: String,
+        userIdToRemove: String,
+        notExistsYet: () -> String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        viewModelScope.launch {
+            try {
+                val pet = petRepository.getPetById(petId)
+                val currentOwners = pet?.owners ?: emptyList()
+
+                if (currentOwners.contains(userIdToRemove)) {
+                    petRepository.deletePetOwner(petId, userIdToRemove)
+                    getPetById(petId)
+                    getPets()
+                    onSuccess()
+                } else {
+                    notExistsYet()
+                }
+            }catch (e :Exception){
+                onFailure(e)
+            }
+        }
+    }
+
 
     fun deletePet(
         petId: String,

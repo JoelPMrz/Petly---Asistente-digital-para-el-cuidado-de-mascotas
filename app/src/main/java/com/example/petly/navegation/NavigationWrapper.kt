@@ -152,6 +152,7 @@ fun NavigationWrapper(context : Context){
         composable<PetDetail> { backStackEntry->
             val petDetail: PetDetail = backStackEntry.toRoute()
             PetDetailScreen(
+                auth = authManager,
                 analytics = analytics ,
                 petId = petDetail.petId,
                 navigateBack = {

@@ -9,6 +9,7 @@ import com.example.petly.utils.FirebaseConstants.DEFAULT_PET_PHOTO_URL
 import com.example.petly.utils.toTimestamp
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
@@ -24,14 +25,12 @@ class PetRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val auth: FirebaseAuth
 ) {
-    val storage = CloudStorageManager()
 
     private fun userId() = auth.currentUser?.uid
 
     //No se está usando
     suspend fun addPetWithImage(pet: Pet, imageUri: Uri, fileName: String): String {
         if (userId() != null) {
-
             val petRef = firestore.collection("pets").document()
             val petId = petRef.id
 
@@ -169,8 +168,33 @@ class PetRepository @Inject constructor(
         }
     }
 
+    suspend fun addPetOwner(petId: String, userIdToAdd: String) {
+        val petRef = firestore.collection("pets").document(petId)
+        petRef.update("owners", FieldValue.arrayUnion(userIdToAdd)).await()
+    }
 
+    suspend fun addPetObserver(petId: String, userIdToAdd: String) {
+        val petRef = firestore.collection("pets").document(petId)
+        petRef.update("observers", FieldValue.arrayUnion(userIdToAdd)).await()
+    }
 
+    suspend fun updatePetCreatorOwner(petId: String, newCreatorId: String){
+        val petRef = firestore.collection("pets").document(petId)
+        val updateMap = mapOf(
+            "creatorOwner" to newCreatorId,
+        )
+        petRef.update(updateMap).await()
+    }
+
+    suspend fun deletePetOwner(petId: String, userIdToRemove: String) {
+        val petRef = firestore.collection("pets").document(petId)
+        petRef.update("owners", FieldValue.arrayRemove(userIdToRemove)).await()
+    }
+
+    suspend fun deletePetObserver(petId: String, userIdToRemove: String) {
+        val petRef = firestore.collection("pets").document(petId)
+        petRef.update("observers", FieldValue.arrayRemove(userIdToRemove)).await()
+    }
 
     suspend fun deletePet(petId: String) {
         val petRef = firestore.collection("pets").document(petId)
