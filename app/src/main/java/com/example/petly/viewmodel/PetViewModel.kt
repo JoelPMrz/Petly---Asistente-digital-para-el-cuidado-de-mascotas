@@ -1,10 +1,12 @@
 package com.example.petly.ui.viewmodel
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Pet
 import com.example.petly.data.repository.PetRepository
+import com.google.firebase.firestore.FirebaseFirestoreException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,6 +56,14 @@ class PetViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 //
+            }
+        }
+    }
+
+    fun getObservedPet(petId: String) {
+        viewModelScope.launch {
+            petRepository.getPetFlowById(petId).collect { pet ->
+                _petState.value = pet
             }
         }
     }
@@ -148,6 +158,7 @@ class PetViewModel @Inject constructor(
     fun updatePetProfilePhoto(
         petId: String,
         newPhotoUri: Uri,
+        notPermission: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -162,7 +173,11 @@ class PetViewModel @Inject constructor(
                     getPetById(petId)
                     onSuccess()
                 }
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     onFailure(e)
                 }
@@ -176,6 +191,7 @@ class PetViewModel @Inject constructor(
         type: String,
         breed: String?,
         gender: String,
+        notPermission: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -184,7 +200,11 @@ class PetViewModel @Inject constructor(
                 petRepository.updateBasicData(petId, name, type, breed, gender)
                 getPetById(petId)
                 onSuccess()
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -193,6 +213,7 @@ class PetViewModel @Inject constructor(
     fun updateBirthdate(
         petId: String,
         birthDate: LocalDate?,
+        notPermission: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -201,7 +222,11 @@ class PetViewModel @Inject constructor(
                 petRepository.updateBirthdate(petId, birthDate)
                 getPetById(petId)
                 onSuccess()
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -210,6 +235,7 @@ class PetViewModel @Inject constructor(
     fun updateAdoptionDate(
         petId: String,
         adoptionDate: LocalDate?,
+        notPermission: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -218,7 +244,11 @@ class PetViewModel @Inject constructor(
                 petRepository.updateAdoptionDate(petId, adoptionDate)
                 getPetById(petId)
                 onSuccess()
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -228,6 +258,7 @@ class PetViewModel @Inject constructor(
         petId: String,
         sterilized: Boolean,
         sterilizedDate: LocalDate?,
+        notPermission: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -236,7 +267,11 @@ class PetViewModel @Inject constructor(
                 petRepository.updateSterilizationInfo(petId, sterilized, sterilizedDate)
                 getPetById(petId)
                 onSuccess()
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -246,6 +281,7 @@ class PetViewModel @Inject constructor(
         petId: String,
         microchipId: String,
         microchipDate: LocalDate?,
+        notPermission: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -254,6 +290,10 @@ class PetViewModel @Inject constructor(
                 petRepository.updateMicrochipInfo(petId, microchipId, microchipDate)
                 getPetById(petId)
                 onSuccess()
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
             } catch (e: Exception) {
                 onFailure(e)
             }
@@ -405,6 +445,7 @@ class PetViewModel @Inject constructor(
 
     fun deletePet(
         petId: String,
+        notPermission: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -413,7 +454,11 @@ class PetViewModel @Inject constructor(
                 petRepository.deletePet(petId)
                 getPets()
                 onSuccess()
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }

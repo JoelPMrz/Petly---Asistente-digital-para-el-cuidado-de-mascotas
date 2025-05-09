@@ -394,6 +394,9 @@ fun AddPetAppBar(
                                     petViewModel.updatePetProfilePhoto(
                                         petId = it,
                                         newPhotoUri = capturedImageUri,
+                                        notPermission = {
+
+                                        },
                                         onSuccess = {
                                         },
                                         onFailure = { e ->

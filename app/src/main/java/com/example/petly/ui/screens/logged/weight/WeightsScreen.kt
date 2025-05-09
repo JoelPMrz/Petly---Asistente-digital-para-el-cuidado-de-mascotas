@@ -98,7 +98,7 @@ fun WeightsScreen(
     var selectedItemId by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(petId) {
-        petViewModel.getPetById(petId)
+        petViewModel.getObservedPet(petId)
         weightViewModel.getWeights(petId)
     }
 
@@ -318,6 +318,7 @@ fun DeleteWeightDialog(
     petName: String?,
     weightViewModel: WeightViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -334,7 +335,13 @@ fun DeleteWeightDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    weightViewModel.deleteWeight(petId, weight.id.toString())
+                    weightViewModel.deleteWeight(
+                        petId,
+                        weight.id.toString(),
+                        notPermission = {
+                            Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                        }
+                    )
                     onDismiss()
                 }
             ) {
@@ -406,6 +413,7 @@ fun AddWeightDialog(
     weightViewModel: WeightViewModel = hiltViewModel(),
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     var showUnitDialog by remember { mutableStateOf(false) }
     val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
     var weightText by remember { mutableStateOf("") }
@@ -551,9 +559,20 @@ fun AddWeightDialog(
                             notes = note
                         )
                         if (weight != null) {
-                            weightViewModel.updateWeight(newWeight)
+                            weightViewModel.updateWeight(
+                                newWeight,
+                                notPermission = {
+                                    Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                                }
+                            )
                         } else {
-                            weightViewModel.addWeight(petId, newWeight)
+                            weightViewModel.addWeight(
+                                petId,
+                                newWeight,
+                                notPermission = {
+                                    Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                                }
+                            )
                         }
                         onDismiss()
                     }
