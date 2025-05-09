@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Weight
 import com.example.petly.data.repository.WeightRepository
 import com.example.petly.utils.convertWeight
+import com.google.firebase.firestore.FirebaseFirestoreException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,21 +41,29 @@ class WeightViewModel @Inject constructor(
     }
 
 
-    fun addWeight(petId: String, weight: Weight) {
+    fun addWeight(petId: String, weight: Weight, notPermission: () -> Unit) {
         viewModelScope.launch {
             try {
                 weightRepository.addWeightToPet(petId, weight)
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 _errorState.value = "Error al agregar peso: ${e.message}"
             }
         }
     }
 
 
-    fun updateWeight(weight: Weight) {
+    fun updateWeight(weight: Weight, notPermission: () -> Unit) {
         viewModelScope.launch {
             try {
                 weightRepository.updateWeight(weight)
+            }catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                    notPermission()
+                }
             } catch (e: Exception) {
                 _errorState.value = "Error al actualizar peso: ${e.message}"
             }
@@ -62,11 +71,15 @@ class WeightViewModel @Inject constructor(
     }
 
 
-    fun deleteWeight(petId: String, weightId: String) {
+    fun deleteWeight(petId: String, weightId: String, notPermission: () -> Unit) {
         viewModelScope.launch {
             try {
                 weightRepository.deleteWeightFromPet(petId, weightId)
                 getWeights(petId)
+            }catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                    notPermission()
+                }
             } catch (e: Exception) {
                 _errorState.value = "Error al eliminar peso: ${e.message}"
             }

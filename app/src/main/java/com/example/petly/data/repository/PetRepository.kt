@@ -280,4 +280,19 @@ class PetRepository @Inject constructor(
             null
         }
     }
+
+    fun getPetFlowById(petId: String): Flow<Pet?> = callbackFlow {
+        val docRef = firestore.collection("pets").document(petId)
+        val listener = docRef.addSnapshotListener { snapshot, _ ->
+            val data = snapshot?.data
+            if (snapshot != null && snapshot.exists()) {
+                val pet = petfromFirestoreMap(data ?: emptyMap())
+                pet.id = snapshot.id
+                trySend(pet).isSuccess
+            } else {
+                trySend(null).isSuccess
+            }
+        }
+        awaitClose { listener.remove() }
+    }
 }

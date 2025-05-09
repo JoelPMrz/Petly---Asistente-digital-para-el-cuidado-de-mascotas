@@ -136,7 +136,7 @@ fun PetDetailScreen(
     val userState by userViewModel.userState.collectAsState()
 
     LaunchedEffect(petId) {
-        petViewModel.getPetById(petId)
+        petViewModel.getObservedPet(petId)
         weightViewModel.getWeights(petId)
     }
     LaunchedEffect(weights) {
@@ -357,17 +357,29 @@ fun PetDetailScreen(
                                 petId = petState!!.id!!,
                                 petName = petState!!.name,
                                 fromUserId = userState!!.id,
-                                fromUserName = userState!!.name ?:  "Sin identificar",
+                                fromUserName = userState!!.name ?: "Sin identificar",
                                 toUserId = "gTzHohgYkiUBy0uP5FC8v5XeK0K2",
                                 role = "owner",
                                 onUserNotFound = {
-                                    Toast.makeText(context, "El usuario ya es Owner", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "El usuario ya es Owner",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 onInvitationSent = {
-                                    Toast.makeText(context, "Invitación enviada", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Invitación enviada",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 onFailure = {
-                                    Toast.makeText(context, "No se puedo enviar la invitación", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "No se puedo enviar la invitación",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             )
                         },
@@ -382,17 +394,29 @@ fun PetDetailScreen(
                                 petId = petState!!.id!!,
                                 petName = petState!!.name,
                                 fromUserId = userState!!.id,
-                                fromUserName = userState!!.name ?:  "Sin identificar",
+                                fromUserName = userState!!.name ?: "Sin identificar",
                                 toUserId = "gTzHohgYkiUBy0uP5FC8v5XeK0K2",
                                 role = "observer",
                                 onUserNotFound = {
-                                    Toast.makeText(context, "El usuario ya es Owner", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "El usuario ya es Owner",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 onInvitationSent = {
-                                    Toast.makeText(context, "Invitación enviada", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Invitación enviada",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 onFailure = {
-                                    Toast.makeText(context, "No se puedo enviar la invitación", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "No se puedo enviar la invitación",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             )
                         },
@@ -407,17 +431,29 @@ fun PetDetailScreen(
                                 petId = petState!!.id!!,
                                 petName = petState!!.name,
                                 fromUserId = userState!!.id,
-                                fromUserName = userState!!.name ?:  "Sin identificar",
+                                fromUserName = userState!!.name ?: "Sin identificar",
                                 toUserId = "gTzHohgYkiUBy0uP5FC8v5XeK0K2",
                                 role = "creator",
                                 onUserNotFound = {
-                                    Toast.makeText(context, "El usuario ya es Owner", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "El usuario ya es Owner",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 onInvitationSent = {
-                                    Toast.makeText(context, "Invitación enviada", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Invitación enviada",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 onFailure = {
-                                    Toast.makeText(context, "No se puedo enviar la invitación", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "No se puedo enviar la invitación",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             )
                         },
@@ -611,19 +647,26 @@ fun PetDetailScreen(
         PhotoPickerBottomSheet(
             onImageSelected = { uri ->
                 capturedImageUri = uri
-                petViewModel.updatePetProfilePhoto(petId, capturedImageUri, onSuccess = {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.updated_photo),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }, onFailure = {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.not_updated_photo),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
+                petViewModel.updatePetProfilePhoto(
+                    petId = petId,
+                    newPhotoUri = capturedImageUri,
+                    notPermission = {
+                        Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                    },
+                    onSuccess = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.updated_photo),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    onFailure = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.not_updated_photo),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    })
             },
             onDismiss = {
                 showPhotoPicker = false
@@ -751,6 +794,13 @@ fun DeletePetDialog(
                     pet?.id?.let {
                         petViewModel.deletePet(
                             it,
+                            notPermission = {
+                                Toast.makeText(
+                                    context,
+                                    "Permiso denegado para observadores",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            },
                             onSuccess = {
                                 navigateToHome()
                                 Toast.makeText(
@@ -793,7 +843,7 @@ fun EditBasicDataBottomSheet(
     pet: Pet?,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
-
+    val context = LocalContext.current
     var name by remember { mutableStateOf(pet?.name ?: "") }
     var incompleteName by remember { mutableStateOf(false) }
     var type by remember { mutableStateOf(pet?.type ?: "") }
@@ -910,6 +960,13 @@ fun EditBasicDataBottomSheet(
                                 type = type,
                                 breed = breed,
                                 gender = gender,
+                                notPermission = {
+                                    Toast.makeText(
+                                        context,
+                                        "Permiso denegado para observadores",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                },
                                 onSuccess = {
                                     enableButton = false
                                     onDismiss()
@@ -943,7 +1000,7 @@ fun EditBirthDateBottomSheet(
     pet: Pet?,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
-
+    val context = LocalContext.current
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedBirthdate = remember { mutableStateOf(pet?.birthDate) }
     val age = getAgeFromDate(selectedBirthdate.value)
@@ -1015,6 +1072,13 @@ fun EditBirthDateBottomSheet(
                         petViewModel.updateBirthdate(
                             petId = it,
                             birthDate = selectedBirthdate.value,
+                            notPermission = {
+                                Toast.makeText(
+                                    context,
+                                    "Permiso denegado para observadores",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            },
                             onSuccess = {
                                 enableButton = false
                                 onDismiss()
@@ -1062,7 +1126,7 @@ fun EditAdoptionDateBottomSheet(
     pet: Pet?,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
-
+    val context = LocalContext.current
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedAdoptionDate = remember { mutableStateOf(pet?.adoptionDate) }
     val time = getAgeFromDate(selectedAdoptionDate.value)
@@ -1133,6 +1197,13 @@ fun EditAdoptionDateBottomSheet(
                         petViewModel.updateAdoptionDate(
                             petId = it,
                             adoptionDate = selectedAdoptionDate.value,
+                            notPermission = {
+                                Toast.makeText(
+                                    context,
+                                    "Permiso denegado para observadores",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            },
                             onSuccess = {
                                 enableButton = false
                                 onDismiss()
@@ -1180,6 +1251,7 @@ fun EditSterilizedStateBottomSheet(
     pet: Pet?,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     var sterilized by remember { mutableStateOf(pet?.sterilized ?: false) }
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedSterilizedDate = remember { mutableStateOf(pet?.sterilizedDate) }
@@ -1277,6 +1349,13 @@ fun EditSterilizedStateBottomSheet(
                             petId = it,
                             sterilized = sterilized,
                             sterilizedDate = selectedSterilizedDate.value,
+                            notPermission = {
+                                Toast.makeText(
+                                    context,
+                                    "Permiso denegado para observadores",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            },
                             onSuccess = {
                                 enableButton = false
                                 onDismiss()
@@ -1319,6 +1398,7 @@ fun EditMicrochipBottomSheet(
     pet: Pet?,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     var microchipId by remember { mutableStateOf(pet?.microchipId ?: "") }
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedMicrochipDate = remember { mutableStateOf(pet?.microchipDate) }
@@ -1405,6 +1485,13 @@ fun EditMicrochipBottomSheet(
                                 petId = it,
                                 microchipId = microchipId,
                                 microchipDate = selectedMicrochipDate.value,
+                                notPermission = {
+                                    Toast.makeText(
+                                        context,
+                                        "Permiso denegado para observadores",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                },
                                 onSuccess = {
                                     enableButton = false
                                     onDismiss()
