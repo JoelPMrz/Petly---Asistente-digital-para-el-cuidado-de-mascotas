@@ -146,7 +146,7 @@ fun PetDetailScreen(
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
         if (uid != null) {
-            userViewModel.getUserById(uid)
+            userViewModel.getUserFlowById(uid)
         }
     }
 

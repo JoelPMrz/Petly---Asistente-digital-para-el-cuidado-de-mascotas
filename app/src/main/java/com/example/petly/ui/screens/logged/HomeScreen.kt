@@ -92,7 +92,7 @@ fun HomeScreen(
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
         if (uid != null) {
-            userViewModel.getUserById(uid)
+            userViewModel.getUserFlowById(uid)
         }
     }
 
@@ -133,7 +133,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Mascotas",
+                    text = stringResource(R.string.pet),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 22.sp
@@ -186,7 +186,7 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Mascotas observables",
+                        text = stringResource(R.string.observed_pets),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 22.sp
@@ -365,7 +365,6 @@ fun AddPetCard(
 fun HomeTopAppBar(
     photo: String?,
     navigateToUser: () -> Unit,
-    userViewModel: UserViewModel = hiltViewModel()
 ) {
     TopAppBar(
         title = {},
@@ -411,8 +410,7 @@ fun HomeTopAppBar(
         },
         actions = {},
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.95f),
-            navigationIconContentColor = MaterialTheme.colorScheme.onBackground
+            containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.95f)
         )
     )
 }

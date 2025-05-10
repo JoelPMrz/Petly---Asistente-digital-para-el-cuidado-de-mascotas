@@ -41,7 +41,7 @@ class PetInvitationRepository @Inject constructor(
             fromUserName = fromUserName,
             toUserId =  toUserId,
             role = role,
-            status = "pending",
+            accepted = false,
             setAt = LocalDateTime.now()
         )
 

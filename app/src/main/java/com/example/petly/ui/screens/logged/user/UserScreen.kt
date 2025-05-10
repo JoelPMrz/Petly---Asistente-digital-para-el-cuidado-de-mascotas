@@ -1,5 +1,6 @@
 package com.example.petly.ui.screens.logged.user
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.widget.Space
 import android.widget.Toast
@@ -119,6 +120,7 @@ fun UserScreen(
     val userState by userViewModel.userState.collectAsState()
     var showCode by remember { mutableStateOf(false) }
     var logOutAlertDialog by remember { mutableStateOf(false) }
+    var showUserBasicData by remember { mutableStateOf(false) }
     var showPhotoPicker by remember { mutableStateOf(false) }
     var showUpdatePassword by remember { mutableStateOf(false) }
     var showResetPassword by remember { mutableStateOf(false) }
@@ -129,7 +131,7 @@ fun UserScreen(
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
         if (uid != null) {
-            userViewModel.getUserById(uid)
+            userViewModel.getUserFlowById(uid)
         }
     }
 
@@ -208,7 +210,7 @@ fun UserScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 ProfileCard(
                     onClick = {
-
+                        showUserBasicData = true
                     },
                     modifier = Modifier,
                     title = stringResource(R.string.edit_user_profile),
@@ -334,12 +336,23 @@ fun UserScreen(
             )
         }
 
-        if (showResetPassword) {
-            ResetPasswordBottomSheet(
+        if (showUpdatePassword) {
+            UpdatePasswordBottomSheet(
                 onDismiss = {
-                    showResetPassword = false
+                    showUpdatePassword = false
                 },
                 auth = auth
+            )
+        }
+
+
+
+        if (showUserBasicData) {
+            UpdateBasicDataBottomSheet(
+                onDismiss = {
+                    showUserBasicData = false
+                },
+               user = userState,
             )
         }
 
@@ -507,12 +520,10 @@ fun InvitationItem(
 
     val context = LocalContext.current
 
-        HorizontalDivider(
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 2.dp),
-            1.dp
-        )
+    HorizontalDivider(
+        Modifier.fillMaxWidth().padding(vertical = 2.dp),
+        1.dp
+    )
     Column(
         modifier = Modifier
             .padding(vertical = 2.dp, horizontal = 15.dp)
@@ -577,13 +588,16 @@ fun InvitationItem(
                                         petViewModel.updateCreatorOwner(
                                             invitation.petId,
                                             invitation.toUserId,
+                                            notPermission = {
+                                                Toast.makeText(context, "Permiso denegado para cambiar a creador", Toast.LENGTH_LONG).show()
+                                            },
                                             isCurrentCreatorOwner = {
                                                 petInvitationViewModel.deletePetInvitation(
                                                     invitation.id,
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Sigues siendo creador",
+                                                            "Sigues siendo creador de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -596,7 +610,7 @@ fun InvitationItem(
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Ahora eres creador",
+                                                            "Ahora eres creador de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -617,13 +631,16 @@ fun InvitationItem(
                                         petViewModel.addPetOwner(
                                             invitation.petId,
                                             invitation.toUserId,
+                                            notPermission = {
+                                                Toast.makeText(context, "Permiso denegado para cambiar a owner", Toast.LENGTH_LONG).show()
+                                            },
                                             existsYet = {
                                                 petInvitationViewModel.deletePetInvitation(
                                                     invitation.id,
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Sigues siendo owner",
+                                                            "Sigues siendo owner de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -636,7 +653,7 @@ fun InvitationItem(
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Ahora eres owner",
+                                                            "Ahora eres owner de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -657,13 +674,16 @@ fun InvitationItem(
                                         petViewModel.addPetObserver(
                                             invitation.petId,
                                             invitation.toUserId,
+                                            notPermission = {
+                                                Toast.makeText(context, "Permiso denegado para cambiar a observador", Toast.LENGTH_LONG).show()
+                                            },
                                             existsYet = {
                                                 petInvitationViewModel.deletePetInvitation(
                                                     invitation.id,
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Sigues siendo observador",
+                                                            "Sigues siendo observador de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -676,7 +696,7 @@ fun InvitationItem(
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Ahora eres observador",
+                                                            "Ahora eres observador de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -791,6 +811,77 @@ fun CodeBottomSheet(
 
                 }
             }
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UpdateBasicDataBottomSheet(
+    onDismiss: () -> Unit,
+    user: User?,
+    userViewModel: UserViewModel = hiltViewModel()
+) {
+    val scope = rememberCoroutineScope()
+    var enableButton by remember { mutableStateOf(true) }
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    var name by remember { mutableStateOf(user?.name ?: "") }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.edit_basic_data_title),
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp),
+                thickness = 1.dp
+            )
+            BaseOutlinedTextField(
+                value = name,
+                label = stringResource(R.string.name),
+                maxLines = 1,
+                maxLength = 25
+            ) { name = it }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                onClick = {
+                    enableButton = false
+                    scope.launch {
+                        user?.id?.let{
+                            userViewModel.updateUserBasicData(it, name,)
+                        }
+                        onDismiss()
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                enabled = enableButton
+            ) {
+                Text(text = stringResource(R.string.edit))
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

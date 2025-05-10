@@ -195,7 +195,7 @@ fun AddPetScreen(
                     )
                 }
                 IconCircle(
-                    Icons.Rounded.ArrowBack,
+                    icon = Icons.Rounded.ArrowBack,
                     onClick = navigateBack,
                     modifier = Modifier
                         .padding(10.dp)
