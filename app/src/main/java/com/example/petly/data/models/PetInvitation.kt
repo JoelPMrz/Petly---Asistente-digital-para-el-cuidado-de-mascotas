@@ -13,7 +13,7 @@ data class PetInvitation(
     val fromUserName: String,
     val toUserId: String,
     val role: String,
-    val status: String = "pending",
+    val accepted: Boolean = false,
     val setAt: LocalDateTime = LocalDateTime.now()
 )
 
@@ -26,7 +26,7 @@ fun PetInvitation.toFirestoreMap(): Map<String, Any?> {
         "fromUserName" to fromUserName,
         "toUserId" to toUserId,
         "role" to role,
-        "status" to status,
+        "accepted" to accepted,
         "setAt" to setAt.toTimestamp()
     )
 }
@@ -42,7 +42,7 @@ fun petPetInvitationFromFirestoreMap(map: Map<String, Any?>): PetInvitation {
         fromUserName = map["fromUserName"] as? String ?: "",
         toUserId = map["toUserId"] as? String ?: "",
         role = map["role"] as? String ?: "",
-        status = map["status"] as? String ?: "pending",
+        accepted = map["accepted"] as? Boolean ?: false,
         setAt = setAtTimestamp?.toLocalDateTime() ?: LocalDateTime.now()
     )
 }

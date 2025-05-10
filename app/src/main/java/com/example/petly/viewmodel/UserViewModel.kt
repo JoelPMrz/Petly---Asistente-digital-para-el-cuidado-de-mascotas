@@ -37,6 +37,14 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun getUserFlowById(userId: String) {
+        viewModelScope.launch {
+            userRepository.getUserByIdFlow(userId).collect { user ->
+                _userState.value = user
+            }
+        }
+    }
+
 
     private val _createdOwnerState = MutableStateFlow<User?>(null)
     val createdOwnerState: StateFlow<User?> get() = _createdOwnerState
@@ -119,7 +127,6 @@ class UserViewModel @Inject constructor(
                     _userState.value?.let {
                         _userState.value = it.copy(photo = newPhotoUrl.toString())
                     }
-                    getUserById(userId)
                     onSuccess()
                 }
             } catch (e: Exception) {
@@ -147,6 +154,18 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun updateUserBasicData(
+        userId: String,
+        name: String?
+    ){
+        viewModelScope.launch {
+            try {
+                userRepository.updateUserBasicData(userId, name)
+            }catch(e : Exception){
+
+            }
+        }
+    }
 
 
     fun clearUser() {

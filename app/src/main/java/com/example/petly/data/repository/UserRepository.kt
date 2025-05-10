@@ -8,10 +8,12 @@ import com.example.petly.utils.FirebaseConstants.DEFAULT_USER_PHOTO_URL
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -71,6 +73,19 @@ class UserRepository @Inject constructor(
         }
     }
 
+    suspend fun updateUserBasicData(
+        userId : String,
+        name: String?,
+    ){
+        val userRef = firestore.collection("users").document(userId)
+        val userDoc = userRef.get().await()
+        if (userDoc.exists()) {
+            userRef.update("name", name).await()
+        } else {
+            throw Exception("Usuario no encontrado")
+        }
+    }
+
 
     suspend fun getUserById(userId: String): User? {
         return try {
@@ -88,39 +103,72 @@ class UserRepository @Inject constructor(
         }
     }
 
+    fun getUserByIdFlow(userId: String): Flow<User?> = callbackFlow {
+        val listenerRegistration = firestore.collection("users")
+            .document(userId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    trySend(null)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    val user = userfromFirestoreMap(snapshot.data ?: emptyMap())
+                    user.id = snapshot.id
+                    trySend(user)
+                } else {
+                    trySend(null)
+                }
+            }
+
+        awaitClose {
+            listenerRegistration.remove()
+        }
+    }
+
 
     fun getUsersFromPetByRoleFlow(petId: String, roleField: String): Flow<List<User>> = callbackFlow {
         val petDocRef = firestore.collection("pets").document(petId)
 
-        val subscription = petDocRef.addSnapshotListener { snapshot, _ ->
+        var userListeners = listOf<ListenerRegistration>()
+
+        val petListener = petDocRef.addSnapshotListener { snapshot, _ ->
             snapshot?.let { documentSnapshot ->
                 val roleUserIds = documentSnapshot.get(roleField) as? List<String> ?: emptyList()
+
+                // Cancela los listeners anteriores si cambia la lista
+                userListeners.forEach { it.remove() }
+                userListeners = emptyList()
 
                 if (roleUserIds.isEmpty()) {
                     trySend(emptyList()).isSuccess
                     return@addSnapshotListener
                 }
 
-                // Corta si son más de 10 IDs, Firestore limitation
-                val userIds = roleUserIds.take(10)
+                val remaining = roleUserIds.size
+                val tempList = MutableList<User?>(remaining) { null }
 
-                firestore.collection("users")
-                    .whereIn(FieldPath.documentId(), userIds)
-                    .get()
-                    .addOnSuccessListener { usersSnapshot ->
-                        val users = usersSnapshot.documents.mapNotNull { doc ->
-                            val data = doc.data
-                            val user = userfromFirestoreMap(data ?: return@mapNotNull null)
-                            user.id = doc.id
-                            user
+                roleUserIds.forEachIndexed { index, userId ->
+                    val listener = firestore.collection("users").document(userId)
+                        .addSnapshotListener { userSnap, _ ->
+                            if (userSnap != null && userSnap.exists()) {
+                                val data = userSnap.data ?: return@addSnapshotListener
+                                val user = userfromFirestoreMap(data).apply { id = userSnap.id }
+                                tempList[index] = user
+
+                                if (tempList.none { it == null }) {
+                                    trySend(tempList.filterNotNull()).isSuccess
+                                }
+                            }
                         }
-                        trySend(users).isSuccess
-                    }
-                    .addOnFailureListener {
-                        trySend(emptyList()).isSuccess
-                    }
+
+                    userListeners = userListeners + listener
+                }
             }
         }
-        awaitClose { subscription.remove() }
+
+        awaitClose {
+            petListener.remove()
+            userListeners.forEach { it.remove() }
+        }
     }
 }

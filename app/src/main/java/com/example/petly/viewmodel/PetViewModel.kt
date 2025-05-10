@@ -303,6 +303,7 @@ class PetViewModel @Inject constructor(
     fun updateCreatorOwner(
         petId: String,
         newCreatorOwnerId: String,
+        notPermission: () -> Unit,
         isCurrentCreatorOwner: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
@@ -323,7 +324,11 @@ class PetViewModel @Inject constructor(
                     getPetById(petId)
                     onSuccess()
                 }
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -332,6 +337,7 @@ class PetViewModel @Inject constructor(
     fun addPetOwner(
         petId: String,
         userIdToAdd: String,
+        notPermission: () -> Unit,
         existsYet: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
@@ -353,6 +359,10 @@ class PetViewModel @Inject constructor(
                     getPets()
                     onSuccess()
                 }
+            }catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
             } catch (e: Exception) {
                 onFailure(e)
             }
@@ -362,6 +372,7 @@ class PetViewModel @Inject constructor(
     fun addPetObserver(
         petId: String,
         userIdToAdd: String,
+        notPermission: () -> Unit,
         existsYet: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
@@ -383,7 +394,11 @@ class PetViewModel @Inject constructor(
                     getObservedPets()
                     onSuccess()
                 }
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }
