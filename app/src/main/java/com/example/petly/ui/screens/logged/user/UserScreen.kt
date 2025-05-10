@@ -589,7 +589,13 @@ fun InvitationItem(
                                             invitation.petId,
                                             invitation.toUserId,
                                             notPermission = {
-                                                Toast.makeText(context, "Permiso denegado para cambiar a creador", Toast.LENGTH_LONG).show()
+                                                petInvitationViewModel.deletePetInvitation(
+                                                    invitation.id,
+                                                    onSuccess = {
+                                                        Toast.makeText(context, "Permiso denegado, el cambio debe realizarlo el creador", Toast.LENGTH_LONG).show()
+                                                    },
+                                                    onFailure = {}
+                                                )
                                             },
                                             isCurrentCreatorOwner = {
                                                 petInvitationViewModel.deletePetInvitation(
@@ -632,7 +638,13 @@ fun InvitationItem(
                                             invitation.petId,
                                             invitation.toUserId,
                                             notPermission = {
-                                                Toast.makeText(context, "Permiso denegado para cambiar a owner", Toast.LENGTH_LONG).show()
+                                                petInvitationViewModel.deletePetInvitation(
+                                                    invitation.id,
+                                                    onSuccess = {
+                                                        Toast.makeText(context, "Permiso denegado, el cambio debe realizarlo algún dueño", Toast.LENGTH_LONG).show()
+                                                    },
+                                                    onFailure = {}
+                                                )
                                             },
                                             existsYet = {
                                                 petInvitationViewModel.deletePetInvitation(
@@ -640,7 +652,7 @@ fun InvitationItem(
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Sigues siendo owner de ${invitation.petName}",
+                                                            "Sigues siendo dueño de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -653,7 +665,7 @@ fun InvitationItem(
                                                     onSuccess = {
                                                         Toast.makeText(
                                                             context,
-                                                            "Ahora eres owner de ${invitation.petName}",
+                                                            "Ahora eres dueño de ${invitation.petName}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     },
@@ -675,7 +687,14 @@ fun InvitationItem(
                                             invitation.petId,
                                             invitation.toUserId,
                                             notPermission = {
-                                                Toast.makeText(context, "Permiso denegado para cambiar a observador", Toast.LENGTH_LONG).show()
+                                                petInvitationViewModel.deletePetInvitation(
+                                                    invitation.id,
+                                                    onSuccess = {
+                                                        Toast.makeText(context, "Permiso denegado, el cambio debe realizarlo algún dueño", Toast.LENGTH_LONG).show()
+                                                    },
+                                                    onFailure = {}
+                                                )
+
                                             },
                                             existsYet = {
                                                 petInvitationViewModel.deletePetInvitation(
