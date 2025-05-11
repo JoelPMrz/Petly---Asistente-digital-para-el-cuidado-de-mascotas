@@ -35,27 +35,5 @@ fun Double.truncate(decimals: Int): Double {
     return kotlin.math.floor(this * factor) / factor
 }
 
-fun Weight.toFirestoreMap(): Map<String, Any?> {
-    return mapOf(
-        "id" to id,
-        "petId" to petId,
-        "value" to value,
-        "unit" to unit,
-        "date" to date.toTimestamp(),
-        "notes" to notes,
-    )
-}
 
-fun fromFirestoreMap(map: Map<String, Any?>): Weight {
-    val timestamp = map["date"] as? Timestamp
-
-    return Weight(
-        id = map["id"] as? String,
-        petId = map["petId"] as? String,
-        value = (map["value"] as? Number)?.toDouble() ?: 0.0,
-        unit = map["unit"] as? String ?: "Kg",
-        notes = map["notes"] as? String,
-        date = timestamp?.toLocalDate() ?: LocalDate.now()
-    )
-}
 

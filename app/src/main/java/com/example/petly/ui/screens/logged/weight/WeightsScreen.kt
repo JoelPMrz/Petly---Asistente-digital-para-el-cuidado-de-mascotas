@@ -78,6 +78,8 @@ import com.example.petly.utils.truncate
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import kotlin.math.abs
 
 @Composable
@@ -556,6 +558,7 @@ fun AddWeightDialog(
                             value = parsedWeight.truncate(2),
                             unit = selectedUnit,
                             date = parsedDate,
+                            time = LocalDateTime.of(parsedDate, LocalTime.now()),
                             notes = note
                         )
                         if (weight != null) {

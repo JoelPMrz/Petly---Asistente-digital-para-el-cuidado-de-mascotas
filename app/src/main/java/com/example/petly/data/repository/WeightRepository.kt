@@ -1,8 +1,8 @@
 package com.example.petly.data.repository
 
 import com.example.petly.data.models.Weight
-import com.example.petly.utils.fromFirestoreMap
-import com.example.petly.utils.toFirestoreMap
+import com.example.petly.data.models.toFirestoreMap
+import com.example.petly.data.models.weightFromFirestoreMap
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
@@ -28,18 +28,13 @@ class WeightRepository @Inject constructor(
                             val weights = mutableListOf<Weight>()
                             for (document in querySnapshot.documents) {
                                 val data = document.data
-                                val weight = fromFirestoreMap(data ?: emptyMap())
+                                val weight = weightFromFirestoreMap(data ?: emptyMap())
                                 weight.id = document.id
                                 weight.let { weights.add(it) }
                             }
                             val sortedWeights = weights
-                                .sortedWith(compareBy<Weight> { it.date }
-                                    .thenBy { it.id })
-                            /* Para ordenar por orden de registro
-                            val finalSortedWeights = weightsIds.mapNotNull { id ->
-                                sortedWeights.find { it.id == id }
-                            }
-                             */
+                                .sortedWith(compareBy<Weight> { it.time })
+
                             trySend(sortedWeights)
                         }
                     }
@@ -80,7 +75,7 @@ class WeightRepository @Inject constructor(
         val weightDoc = firestore.collection("weights").document(weightId).get().await()
         return if (weightDoc.exists()) {
             val data = weightDoc.data
-            val weight = fromFirestoreMap(data ?: emptyMap())
+            val weight = weightFromFirestoreMap(data ?: emptyMap())
             weight.id = weightDoc.id
             weight
         } else {
