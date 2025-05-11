@@ -1,6 +1,11 @@
 package com.example.petly.data.models
 
+import com.example.petly.utils.toLocalDate
+import com.example.petly.utils.toLocalDateTime
+import com.example.petly.utils.toTimestamp
+import com.google.firebase.Timestamp
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 data class Weight(
@@ -9,7 +14,7 @@ data class Weight(
     var value: Double = 0.0,
     var unit: String = "Kg",
     var date: LocalDate = LocalDate.now(),
-    var time: LocalTime = LocalTime.now(),
+    var time: LocalDateTime = LocalDateTime.now(),
     var notes: String? = null
 ){
     override fun toString(): String {
@@ -17,7 +22,33 @@ data class Weight(
     }
 }
 
+fun Weight.toFirestoreMap(): Map<String, Any?> {
+    return mapOf(
+        "id" to id,
+        "petId" to petId,
+        "value" to value,
+        "unit" to unit,
+        "date" to date.toTimestamp(),
+        "time" to time.toTimestamp(),
+        "notes" to notes
+    )
+}
 
+
+fun weightFromFirestoreMap(map: Map<String, Any?>): Weight {
+    val dateTimestamp = map["date"] as? Timestamp
+    val timeTimestamp = map["time"] as? Timestamp
+
+    return Weight(
+        id = map["id"] as? String,
+        petId = map["petId"] as? String,
+        value = (map["value"] as? Number)?.toDouble() ?: 0.0,
+        unit = map["unit"] as? String ?: "Kg",
+        date = dateTimestamp?.toLocalDate() ?: LocalDate.now(),
+        time = timeTimestamp?.toLocalDateTime() ?: LocalDateTime.now(),
+        notes = map["notes"] as? String
+    )
+}
 
 
 

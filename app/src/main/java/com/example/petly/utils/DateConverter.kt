@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.Period
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -15,16 +16,17 @@ fun LocalDate.toTimestamp(): Timestamp {
     return Timestamp(Date.from(instant))
 }
 
+
+fun LocalDateTime.toTimestamp(): Timestamp {
+    val instant = this.atZone(ZoneId.systemDefault()).toInstant()
+    return Timestamp(Date.from(instant))
+}
+
 fun Timestamp.toLocalDate(): LocalDate {
     return this.toDate()
         .toInstant()
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
-}
-
-fun LocalDateTime.toTimestamp(): Timestamp {
-    val instant = this.atZone(ZoneId.systemDefault()).toInstant()
-    return Timestamp(Date.from(instant))
 }
 
 fun Timestamp.toLocalDateTime(): LocalDateTime {
@@ -33,6 +35,7 @@ fun Timestamp.toLocalDateTime(): LocalDateTime {
         .atZone(ZoneId.systemDefault())
         .toLocalDateTime()
 }
+
 
 fun parseDate(dateString: String): LocalDate {
     Log.d("DateParsing", "Parsing date: $dateString")
