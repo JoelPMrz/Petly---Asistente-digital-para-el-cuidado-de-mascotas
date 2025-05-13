@@ -1,12 +1,14 @@
 package com.example.petly.ui.viewmodel
 
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Pet
 import com.example.petly.data.repository.PetRepository
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.functions.FirebaseFunctions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +16,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
@@ -95,30 +98,6 @@ class PetViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 onFailure(e)
-            }
-        }
-    }
-
-    //Ya no es necesario
-    //Las mascotas se crean con imagen preterminada y posteriormente se actualiza
-    //la imagen en hilo secundario (proceso más rapido)
-    fun addPetWithImage(
-        pet: Pet,
-        imageUri: Uri,
-        fileName: String,
-        onSuccess: () -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        viewModelScope.launch {
-            try {
-                petRepository.addPetWithImage(pet, imageUri, fileName)
-                withContext(Dispatchers.Main) {
-                    onSuccess()
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onFailure(e)
-                }
             }
         }
     }
@@ -313,12 +292,15 @@ class PetViewModel @Inject constructor(
                 val pet = petRepository.getPetById(petId)
                 val currentCreatorOwner = pet?.creatorOwner ?: ""
                 val currentObservers = pet?.observers ?: emptyList()
+                val currentOwners = pet?.owners ?: emptyList()
 
                 if (currentCreatorOwner == newCreatorOwnerId) {
                     isCurrentCreatorOwner()
                 } else {
                     if (currentObservers.contains(newCreatorOwnerId)) {
                         petRepository.deletePetObserver(petId, newCreatorOwnerId)
+                    }else if (!currentOwners.contains(newCreatorOwnerId)){
+                        petRepository.addPetOwner(petId, newCreatorOwnerId)
                     }
                     petRepository.updatePetCreatorOwner(petId, newCreatorOwnerId)
                     getPetById(petId)
@@ -350,15 +332,18 @@ class PetViewModel @Inject constructor(
 
                 if (currentOwners.contains(userIdToAdd)) {
                     existsYet()
+                    if (currentObservers.contains(userIdToAdd)) {
+                        petRepository.deletePetObserver(petId, userIdToAdd)
+                    }
                 } else {
                     if (currentObservers.contains(userIdToAdd)) {
                         petRepository.deletePetObserver(petId, userIdToAdd)
                     }
                     petRepository.addPetOwner(petId, userIdToAdd)
-                    getPetById(petId)
                     getPets()
                     onSuccess()
                 }
+                getPetById(petId)
             }catch (e: FirebaseFirestoreException) {
                 if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
                     notPermission()
@@ -385,15 +370,18 @@ class PetViewModel @Inject constructor(
 
                 if (currentObservers.contains(userIdToAdd)) {
                     existsYet()
+                    if (currentOwners.contains(userIdToAdd)) {
+                        petRepository.deletePetOwner(petId, userIdToAdd)
+                    }
                 } else {
                     if (currentOwners.contains(userIdToAdd)) {
                         petRepository.deletePetOwner(petId, userIdToAdd)
                     }
                     petRepository.addPetObserver(petId, userIdToAdd)
-                    getPetById(petId)
                     getObservedPets()
                     onSuccess()
                 }
+                getPetById(petId)
             } catch (e: FirebaseFirestoreException) {
                 if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
                     notPermission()
@@ -404,10 +392,10 @@ class PetViewModel @Inject constructor(
         }
     }
 
-
     fun deletePetObserver(
         petId: String,
         userIdToRemove: String,
+        notPermission: () -> Unit,
         notExistsYet: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
@@ -425,7 +413,11 @@ class PetViewModel @Inject constructor(
                 } else {
                     notExistsYet()
                 }
-            } catch (e: Exception) {
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
                 onFailure(e)
             }
         }
@@ -434,7 +426,8 @@ class PetViewModel @Inject constructor(
     fun deletePetOwner(
         petId: String,
         userIdToRemove: String,
-        notExistsYet: () -> String,
+        notPermission: () -> Unit,
+        notExistsYet: () -> Unit,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -451,12 +444,15 @@ class PetViewModel @Inject constructor(
                 } else {
                     notExistsYet()
                 }
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                    notPermission()
+                }
             } catch (e: Exception) {
                 onFailure(e)
             }
         }
     }
-
 
     fun deletePet(
         petId: String,
@@ -470,12 +466,13 @@ class PetViewModel @Inject constructor(
                 getPets()
                 onSuccess()
             } catch (e: FirebaseFirestoreException) {
-                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
                     notPermission()
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 onFailure(e)
             }
         }
     }
 }
+
