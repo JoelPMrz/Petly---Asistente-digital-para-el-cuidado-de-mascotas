@@ -133,7 +133,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(R.string.pet),
+                    text = if(pets.size <= 1) stringResource(R.string.pet) else stringResource(R.string.pets) ,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 22.sp
@@ -348,7 +348,7 @@ fun AddPetCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Añadir",
+                    text = stringResource(R.string.add),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )

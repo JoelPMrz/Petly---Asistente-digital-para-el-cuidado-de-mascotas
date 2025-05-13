@@ -95,4 +95,12 @@
     <string name="observers">Acompañantes</string>
     <string name="pet">Mascota</string>
     <string name="observed_pets">Mascotas observables</string>
+    <string name="pets">Mascotas</string>
+    <string name="invite_petOwner">Invitar a un dueño</string>
+    <string name="send">Enviar</string>
+    <string name="add">Añadir</string>
+    <string name="add_petOwner">Añadir un dueño</string>
+    <string name="update_creatorOwner">Editar creador</string>
+    <string name="creatorOwner">Creador</string>
+    <string name="add_petObserver">Añadir un acompañante</string>
 </resources>

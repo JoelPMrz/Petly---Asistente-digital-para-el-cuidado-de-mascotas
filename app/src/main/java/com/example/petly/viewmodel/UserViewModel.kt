@@ -26,16 +26,6 @@ class UserViewModel @Inject constructor(
     private val _userState = MutableStateFlow<User?>(null)
     val userState: StateFlow<User?> get() = _userState
 
-    fun getUserById(userId: String) {
-        viewModelScope.launch {
-            try {
-                val user = userRepository.getUserById(userId)
-                _userState.value = user
-            } catch (e: Exception) {
-                _userState.value = null
-            }
-        }
-    }
 
     fun getUserFlowById(userId: String) {
         viewModelScope.launch {
@@ -49,13 +39,34 @@ class UserViewModel @Inject constructor(
     private val _createdOwnerState = MutableStateFlow<User?>(null)
     val createdOwnerState: StateFlow<User?> get() = _createdOwnerState
 
-    fun getCreatedOwner(userId: String) {
+    fun getFlowCreatedOwner(userId: String) {
+        viewModelScope.launch {
+            try {
+                userRepository.getUserByIdFlow(userId).collect { user ->
+                    _createdOwnerState.value = user
+                }
+            } catch (e: Exception) {
+                _createdOwnerState.value = null
+            }
+        }
+    }
+
+    fun checkUserExists(
+        userId: String,
+        onSuccess: () -> Unit,
+        notExist: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 val user = userRepository.getUserById(userId)
-                _createdOwnerState.value = user
+                if(user != null){
+                    onSuccess()
+                }else{
+                    notExist()
+                }
             } catch (e: Exception) {
-                _createdOwnerState.value = null
+                onFailure(e)
             }
         }
     }

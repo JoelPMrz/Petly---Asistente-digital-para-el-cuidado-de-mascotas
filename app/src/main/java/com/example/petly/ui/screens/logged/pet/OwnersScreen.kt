@@ -1,0 +1,783 @@
+package com.example.petly.ui.screens.logged.pet
+
+import android.widget.Toast
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Group
+import androidx.compose.material.icons.outlined.PersonOff
+import androidx.compose.material.icons.outlined.SupervisorAccount
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.AdminPanelSettings
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowRightAlt
+import androidx.compose.material.icons.rounded.Female
+import androidx.compose.material.icons.rounded.Male
+import androidx.compose.material.icons.rounded.Pets
+import androidx.compose.material.icons.rounded.SwapHoriz
+import androidx.compose.material.icons.rounded.Sync
+import androidx.compose.material.icons.rounded.Transgender
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.petly.R
+import com.example.petly.data.models.Pet
+import com.example.petly.data.models.User
+import com.example.petly.ui.components.BaseOutlinedTextField
+import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.viewmodel.PetViewModel
+import com.example.petly.utils.AuthManager
+import com.example.petly.viewmodel.PetInvitationViewModel
+import com.example.petly.viewmodel.UserViewModel
+
+@Composable
+fun OwnersScreen(
+    auth: AuthManager,
+    petId: String,
+    navigateToHome: () -> Unit,
+    navigateBack: () -> Boolean,
+    petViewModel: PetViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel()
+) {
+    var userClicked by remember { mutableStateOf<User?>(null) }
+    var showUpdateCreatorOwner by remember { mutableStateOf(false) }
+    var showAddPetOwner by remember { mutableStateOf(false) }
+    var showUserClicked by remember { mutableStateOf(false) }
+    val currentUserState by userViewModel.userState.collectAsState()
+    val createdOwners by userViewModel.createdOwnerState.collectAsState()
+    val ownersState by userViewModel.ownersState.collectAsState()
+    val petState by petViewModel.petState.collectAsState()
+
+    LaunchedEffect(petId) {
+        petViewModel.getObservedPet(petId)
+        userViewModel.getUsersByRole(petId, "owners")
+    }
+
+    LaunchedEffect(petState?.creatorOwner) {
+        petState?.creatorOwner?.let { userViewModel.getFlowCreatedOwner(it) }
+    }
+
+    LaunchedEffect(true) {
+        val uid = auth.getCurrentUser()?.uid
+        if (uid != null) {
+            userViewModel.getUserFlowById(uid)
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            OwnersTopBar(navigateBack, petState)
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(horizontal = 20.dp, vertical = 10.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 2.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.owners),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp
+                )
+                IconCircle(
+                    onClick = {
+                        showAddPetOwner = true
+                    },
+                    icon = Icons.Rounded.Add
+                )
+            }
+            Spacer(Modifier.height(10.dp))
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                item {
+                    if (ownersState.isEmpty()) {
+                        Text(text = "No dispone de dueños")
+                    }
+                }
+
+                items(ownersState, key = { it.id }) { user ->
+                    OwnerCard(
+                        user = user,
+                        onClick = {
+                            if (user.id == createdOwners?.id) {
+                                showUpdateCreatorOwner = true
+                            } else {
+                                showUserClicked = true
+                            }
+
+                            userClicked = user
+                        },
+                        creatorOwner = createdOwners
+
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+            }
+        }
+    }
+
+    if (showUserClicked) {
+        EditOwnerBottomSheet(
+            onDismiss = { showUserClicked = false },
+            navigateToHome = { navigateToHome() },
+            user = userClicked,
+            pet = petState,
+            currentUser = currentUserState
+        )
+    }
+
+    if (showAddPetOwner) {
+        AddPetOwnerBottomSheet(
+            onDismiss = {
+                showAddPetOwner = false
+            },
+            pet = petState
+        )
+    }
+
+    if (showUpdateCreatorOwner) {
+        UpdatePetCreatorOwnerBottomSheet(
+            onDismiss = {
+                showUpdateCreatorOwner = false
+            },
+            pet = petState,
+            currentUser = currentUserState
+        )
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OwnersTopBar(navigateBack: () -> Boolean, pet: Pet?) {
+    TopAppBar(
+        modifier = Modifier.padding(start = 10.dp),
+        navigationIcon = {
+            IconCircle(
+                modifier = Modifier.size(35.dp),
+                icon = Icons.Rounded.ArrowBack,
+                onClick = {
+                    navigateBack()
+                }
+            )
+        },
+        title = {
+            Text(
+                modifier = Modifier.padding(start = 10.dp),
+                text = pet?.name ?: ""
+            )
+        }
+    )
+}
+
+@Composable
+fun OwnerCard(
+    onClick: () -> Unit,
+    creatorOwner: User?,
+    user: User?
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.extraLarge)
+            .clickable {
+                onClick()
+            },
+        elevation = CardDefaults.cardElevation(4.dp),
+        shape = MaterialTheme.shapes.extraLarge,
+    ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+
+            if (creatorOwner?.id == user?.id) {
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top =  10.dp, end = 20.dp)
+                        .size(18.dp),
+                    imageVector = Icons.Rounded.AdminPanelSettings,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+
+            Column {
+                Row(
+                    Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(user?.photo)
+                            .placeholder(R.drawable.default_user_profile_foto)
+                            .error(R.drawable.default_user_profile_foto)
+                            .build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(65.dp)
+                            .clip(CircleShape)
+                            .border(
+                                width = 1.dp,
+                                color = Color.Gray.copy(alpha = 0.5f),
+                                shape = CircleShape
+                            )
+                    )
+                    Column(modifier = Modifier.padding(start = 10.dp)) {
+                        Text(
+                            text = user?.name ?: "user${user?.id}",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Text(
+                            text = user?.email ?: "",
+                            fontSize = 12.sp,
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditOwnerBottomSheet(
+    onDismiss: () -> Unit,
+    navigateToHome: () -> Unit,
+    user: User?,
+    currentUser: User?,
+    pet: Pet?,
+    petViewModel: PetViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+
+    var enableButton by remember { mutableStateOf(true) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Gestionar a ${user?.name ?: "user${user?.id}"}",
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            HorizontalDivider(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp, horizontal = 15.dp),
+                1.dp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        enableButton = false
+                        pet?.id?.let {
+                            if (pet.creatorOwner == user?.id) {
+                                Toast.makeText(
+                                    context,
+                                    "Permiso denegado, no es posible cambiar el rol del creador",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                petViewModel.addPetObserver(
+                                    petId = it,
+                                    userIdToAdd = user!!.id,
+                                    notPermission = {
+                                        Toast.makeText(
+                                            context,
+                                            "Permiso denegado para acompañantes",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    },
+                                    existsYet = {
+                                        Toast.makeText(
+                                            context,
+                                            "Ya es acompañante",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    },
+                                    onSuccess = {
+                                        Toast.makeText(
+                                            context,
+                                            "Ahora es acompañante",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    },
+                                    onFailure = {
+                                        Toast.makeText(
+                                            context,
+                                            "No se ha podido cambiar el rol",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                )
+                            }
+                        }
+                        onDismiss()
+                    }
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    IconCircle(
+                        icon = Icons.Outlined.Group,
+                        backgroundColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.secondaryContainer
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        "Cambiar a acompañante",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                }
+            }
+            Spacer(Modifier.height(10.dp))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        enableButton = false
+                        if (pet?.creatorOwner == user?.id) {
+                            Toast.makeText(
+                                context,
+                                "Permiso denegado, no es posible eliminar al creador",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            pet?.id?.let {
+                                petViewModel.deletePetOwner(
+                                    petId = it,
+                                    userIdToRemove = user!!.id,
+                                    notPermission = {
+                                        Toast.makeText(
+                                            context,
+                                            "Permiso denegado para acompañantes",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    },
+                                    notExistsYet = {
+                                        Toast.makeText(
+                                            context,
+                                            "Ya no es dueño",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    },
+                                    onSuccess = {
+                                        if (user.id == currentUser?.id && !pet.observers.contains(
+                                                user.id
+                                            )
+                                        ) {
+                                            Toast.makeText(
+                                                context,
+                                                "Te has eliminado de dueños",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                            navigateToHome()
+                                        } else {
+                                            Toast.makeText(
+                                                context,
+                                                "Dueño eliminado",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    },
+                                    onFailure = {
+                                        Toast.makeText(
+                                            context,
+                                            "No se ha podido eliminar",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                )
+                            }
+                        }
+                        onDismiss()
+                    }
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    IconCircle(
+                        icon = Icons.Outlined.PersonOff,
+                        backgroundColor = MaterialTheme.colorScheme.onErrorContainer,
+                        contentColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        "Eliminar rol",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddPetOwnerBottomSheet(
+    onDismiss: () -> Unit,
+    pet: Pet?,
+    userViewModel: UserViewModel = hiltViewModel(),
+    petViewModel: PetViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+    var userId by remember { mutableStateOf("") }
+    var incompleteUser by remember { mutableStateOf(false) }
+
+    var enableButton by remember { mutableStateOf(true) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.add_petOwner),
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            HorizontalDivider(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp, horizontal = 15.dp),
+                1.dp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BaseOutlinedTextField(
+                value = userId,
+                label = stringResource(R.string.invitation_key),
+                maxLines = 1,
+                isError = incompleteUser,
+                isRequired = true
+            ) {
+                userId = it
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(
+                onClick = {
+                    enableButton = false
+                    if (userId.isBlank()) {
+                        incompleteUser = userId.isBlank()
+                        enableButton = true
+                        return@Button
+                    } else {
+                        pet?.id?.let {
+                            userViewModel.checkUserExists(
+                                userId = userId,
+                                onSuccess = {
+                                    petViewModel.addPetOwner(
+                                        petId = it,
+                                        userIdToAdd = userId,
+                                        notPermission = {
+                                            Toast.makeText(
+                                                context,
+                                                "Permiso denegado para acompañantes",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        },
+                                        existsYet = {
+                                            Toast.makeText(
+                                                context,
+                                                "Ya es dueño",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        },
+                                        onSuccess = {
+                                            if (pet.observers.contains(userId)) {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Nuevo dueño, dejó de ser acompañante",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            } else {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Nuevo dueño",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                        },
+                                        onFailure = {
+                                            Toast.makeText(
+                                                context,
+                                                "No se ha podido añadir",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    )
+                                },
+                                notExist = {
+                                    Toast.makeText(
+                                        context,
+                                        "El usuario no existe",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                },
+                                onFailure = {
+                                    Toast.makeText(
+                                        context,
+                                        "No se ha podido añadir",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            )
+
+                        }
+                    }
+                    onDismiss()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+                enabled = enableButton
+            ) {
+                Text(
+                    text = stringResource(R.string.add)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UpdatePetCreatorOwnerBottomSheet(
+    onDismiss: () -> Unit,
+    pet: Pet?,
+    currentUser: User?,
+    userViewModel: UserViewModel = hiltViewModel(),
+    petViewModel: PetViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+    var userId by remember { mutableStateOf("") }
+    var incompleteUser by remember { mutableStateOf(false) }
+
+    var enableButton by remember { mutableStateOf(true) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.update_creatorOwner),
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            HorizontalDivider(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp, horizontal = 15.dp),
+                1.dp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BaseOutlinedTextField(
+                value = userId,
+                label = stringResource(R.string.invitation_key),
+                maxLines = 1,
+                isError = incompleteUser,
+                isRequired = true
+            ) {
+                userId = it
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(
+                onClick = {
+                    enableButton = false
+                    if (userId.isBlank()) {
+                        incompleteUser = userId.isBlank()
+                        enableButton = true
+                        return@Button
+                    } else if (pet?.creatorOwner != currentUser?.id) {
+                        Toast.makeText(
+                            context,
+                            "Permiso denegado, autorizado para el creador",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        pet?.id?.let {
+                            userViewModel.checkUserExists(
+                                userId = userId,
+                                onSuccess = {
+                                    petViewModel.updateCreatorOwner(
+                                        petId = it,
+                                        newCreatorOwnerId = userId,
+                                        notPermission = {
+                                            Toast.makeText(
+                                                context,
+                                                "Permiso denegado, autorizado para el creador",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        },
+                                        isCurrentCreatorOwner = {
+                                            Toast.makeText(
+                                                context,
+                                                "Ya es creador",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        },
+                                        onSuccess = {
+                                            Toast.makeText(
+                                                context,
+                                                "Nuevo creador",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        },
+                                        onFailure = {
+                                            Toast.makeText(
+                                                context,
+                                                "No se ha podido cambiar",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    )
+                                },
+                                notExist = {
+                                    Toast.makeText(
+                                        context,
+                                        "El usuario no existe",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                },
+                                onFailure = {
+                                    Toast.makeText(
+                                        context,
+                                        "No se ha podido cambiar",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            )
+                        }
+                    }
+                    onDismiss()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+                enabled = enableButton
+            ) {
+                Text(
+                    text = stringResource(R.string.add)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}

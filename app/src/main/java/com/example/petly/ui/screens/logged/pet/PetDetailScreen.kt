@@ -3,7 +3,6 @@ package com.example.petly.ui.screens.logged.pet
 
 import android.content.Context
 import android.net.Uri
-import android.widget.Space
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -99,7 +98,6 @@ import com.example.petly.utils.isMicrochipIdValid
 import com.example.petly.viewmodel.PetInvitationViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.example.petly.viewmodel.WeightViewModel
-import kotlinx.coroutines.delay
 import java.time.LocalDate
 import androidx.compose.animation.expandVertically as expandVertically1
 
@@ -109,6 +107,8 @@ fun PetDetailScreen(
     auth: AuthManager,
     petId: String,
     navigateBack: () -> Unit,
+    navigateToOwners: (String) -> Unit,
+    navigateToObservers: (String) -> Unit,
     navigateToWeights: (String) -> Unit,
     navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
@@ -139,6 +139,7 @@ fun PetDetailScreen(
         petViewModel.getObservedPet(petId)
         weightViewModel.getWeights(petId)
     }
+
     LaunchedEffect(weights) {
         weight = weights.lastOrNull()
     }
@@ -344,125 +345,6 @@ fun PetDetailScreen(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(10.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Button(
-                        onClick = {
-                            petInvitationViewModel.addPetInvitation(
-                                petId = petState!!.id!!,
-                                petName = petState!!.name,
-                                fromUserId = userState!!.id,
-                                fromUserName = userState!!.name ?: "Sin identificar",
-                                toUserId = "gTzHohgYkiUBy0uP5FC8v5XeK0K2",
-                                role = "owner",
-                                onUserNotFound = {
-                                    Toast.makeText(
-                                        context,
-                                        "El usuario ya es Owner",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                },
-                                onInvitationSent = {
-                                    Toast.makeText(
-                                        context,
-                                        "Invitación enviada",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                },
-                                onFailure = {
-                                    Toast.makeText(
-                                        context,
-                                        "No se puedo enviar la invitación",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            )
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("owner")
-                    }
-                    Spacer(Modifier.width(5.dp))
-                    Button(
-                        onClick = {
-                            petInvitationViewModel.addPetInvitation(
-                                petId = petState!!.id!!,
-                                petName = petState!!.name,
-                                fromUserId = userState!!.id,
-                                fromUserName = userState!!.name ?: "Sin identificar",
-                                toUserId = "gTzHohgYkiUBy0uP5FC8v5XeK0K2",
-                                role = "observer",
-                                onUserNotFound = {
-                                    Toast.makeText(
-                                        context,
-                                        "El usuario ya es Owner",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                },
-                                onInvitationSent = {
-                                    Toast.makeText(
-                                        context,
-                                        "Invitación enviada",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                },
-                                onFailure = {
-                                    Toast.makeText(
-                                        context,
-                                        "No se puedo enviar la invitación",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            )
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("observer")
-                    }
-                    Spacer(Modifier.width(5.dp))
-                    Button(
-                        onClick = {
-                            petInvitationViewModel.addPetInvitation(
-                                petId = petState!!.id!!,
-                                petName = petState!!.name,
-                                fromUserId = userState!!.id,
-                                fromUserName = userState!!.name ?: "Sin identificar",
-                                toUserId = "gTzHohgYkiUBy0uP5FC8v5XeK0K2",
-                                role = "creator",
-                                onUserNotFound = {
-                                    Toast.makeText(
-                                        context,
-                                        "El usuario ya es Owner",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                },
-                                onInvitationSent = {
-                                    Toast.makeText(
-                                        context,
-                                        "Invitación enviada",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                },
-                                onFailure = {
-                                    Toast.makeText(
-                                        context,
-                                        "No se puedo enviar la invitación",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            )
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("creador")
-                    }
-                }
-
                 Spacer(modifier = Modifier.height(20.dp))
                 Column(
                     Modifier
@@ -581,7 +463,7 @@ fun PetDetailScreen(
                                 petViewModel.doesPetExist(
                                     petId = petId,
                                     exists = {
-
+                                        navigateToOwners(petId)
                                     },
                                     notExists = {
                                         showPetNotExistsDialog = true
@@ -603,7 +485,7 @@ fun PetDetailScreen(
                                 petViewModel.doesPetExist(
                                     petId = petId,
                                     exists = {
-
+                                        navigateToObservers(petId)
                                     },
                                     notExists = {
                                         showPetNotExistsDialog = true

@@ -38,12 +38,13 @@ data class Weights(
 )
 
 @Serializable
-data class AddWeight(
+data class Owners(
     val petId : String
 )
 
 @Serializable
-data class DetailWeight(
-    val petId : String,
-    val weightId : String
+data class Observers(
+    val petId : String
 )
+
+

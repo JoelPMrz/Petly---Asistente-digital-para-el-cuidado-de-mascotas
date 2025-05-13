@@ -2,7 +2,6 @@ package com.example.petly.navegation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,6 +12,8 @@ import com.example.petly.ui.screens.auth.SingUpScreen
 import com.example.petly.ui.screens.logged.HomeScreen
 import com.example.petly.ui.screens.logged.calendar.CalendarScreen
 import com.example.petly.ui.screens.logged.pet.AddPetScreen
+import com.example.petly.ui.screens.logged.pet.ObserversScreen
+import com.example.petly.ui.screens.logged.pet.OwnersScreen
 import com.example.petly.ui.screens.logged.pet.PetDetailScreen
 import com.example.petly.ui.screens.logged.user.UserScreen
 import com.example.petly.ui.screens.logged.weight.WeightsScreen
@@ -24,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser
 @Composable
 fun NavigationWrapper(context : Context){
     val navController = rememberNavController()
-    val storage = CloudStorageManager()
+    //val storage = CloudStorageManager()
     val analytics = AnalyticsManager(context)
     val authManager = AuthManager(context)
     val user: FirebaseUser? = authManager.getCurrentUser()
@@ -158,6 +159,12 @@ fun NavigationWrapper(context : Context){
                 navigateBack = {
                     navController.popBackStack()
                 },
+                navigateToOwners = {
+                    navController.navigate(Owners(petDetail.petId))
+                },
+                navigateToObservers ={
+                    navController.navigate(Observers(petDetail.petId))
+                },
                 navigateToWeights = {
                     navController.navigate(Weights(petDetail.petId))
                 },
@@ -178,5 +185,36 @@ fun NavigationWrapper(context : Context){
                 }
             )
         }
+        composable<Owners> {backStackEntry->
+            val petDetail: Owners = backStackEntry.toRoute()
+            OwnersScreen(
+                auth = authManager,
+                petId = petDetail.petId,
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable<Observers> {backStackEntry->
+            val petDetail: Observers = backStackEntry.toRoute()
+            ObserversScreen(
+                auth = authManager,
+                petId = petDetail.petId,
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }
+

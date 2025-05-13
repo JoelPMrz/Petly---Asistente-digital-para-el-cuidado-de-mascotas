@@ -226,12 +226,15 @@ fun UserScreen(
                     icon = Icons.Rounded.VpnKey
                 )
                 Spacer(modifier = Modifier.height(10.dp))
+                /*
                 InvitationsCard(
                     navigateToHome = {
                         navigateToHome()
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
+
+                 */
                 ProfileCard(
                     onClick = {
                         showUpdatePassword = true
@@ -484,7 +487,7 @@ fun InvitationsCard(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(max = 300.dp) // Ajusta el valor según lo que necesites
+                    .heightIn(max = 300.dp)
             ) {
                 if (petInvitations.isEmpty()) {
                     Text(
@@ -634,52 +637,7 @@ fun InvitationItem(
                                     }
 
                                     "owner" -> {
-                                        petViewModel.addPetOwner(
-                                            invitation.petId,
-                                            invitation.toUserId,
-                                            notPermission = {
-                                                petInvitationViewModel.deletePetInvitation(
-                                                    invitation.id,
-                                                    onSuccess = {
-                                                        Toast.makeText(context, "Permiso denegado, el cambio debe realizarlo algún dueño", Toast.LENGTH_LONG).show()
-                                                    },
-                                                    onFailure = {}
-                                                )
-                                            },
-                                            existsYet = {
-                                                petInvitationViewModel.deletePetInvitation(
-                                                    invitation.id,
-                                                    onSuccess = {
-                                                        Toast.makeText(
-                                                            context,
-                                                            "Sigues siendo dueño de ${invitation.petName}",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    },
-                                                    onFailure = { }
-                                                )
-                                            },
-                                            onSuccess = {
-                                                petInvitationViewModel.deletePetInvitation(
-                                                    invitation.id,
-                                                    onSuccess = {
-                                                        Toast.makeText(
-                                                            context,
-                                                            "Ahora eres dueño de ${invitation.petName}",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    },
-                                                    onFailure = { }
-                                                )
-                                            },
-                                            onFailure = {
-                                                Toast.makeText(
-                                                    context,
-                                                    "Ha sucedido un error",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                            }
-                                        )
+
                                     }
 
                                     "observer" -> {
@@ -833,6 +791,7 @@ fun CodeBottomSheet(
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateBasicDataBottomSheet(
