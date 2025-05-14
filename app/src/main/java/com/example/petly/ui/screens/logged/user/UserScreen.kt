@@ -1,6 +1,7 @@
 package com.example.petly.ui.screens.logged.user
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.widget.Space
 import android.widget.Toast
@@ -66,6 +67,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -292,6 +294,9 @@ fun UserScreen(
                 ProfileCard(
                     onClick = {
                         preferencesViewModel.setDarkMode(!isDarkMode)
+                        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+                        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        context.startActivity(intent)
                     },
                     modifier = Modifier,
                     title = if (isDarkMode) stringResource(R.string.dark_mode) else stringResource(R.string.light_mode),
@@ -339,12 +344,13 @@ fun UserScreen(
             )
         }
 
-        if (showUpdatePassword) {
-            UpdatePasswordBottomSheet(
+        if (showResetPassword) {
+            ResetPasswordBottomSheet(
                 onDismiss = {
-                    showUpdatePassword = false
+                    showResetPassword = false
                 },
-                auth = auth
+                auth = auth,
+
             )
         }
 
@@ -979,16 +985,27 @@ fun ResetPasswordBottomSheet(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val email by remember {
+    var email by remember {
         mutableStateOf(
             auth.getCurrentUser()?.email ?: "Cuenta sin correo vinculado"
         )
     }
+    var count by remember { mutableIntStateOf(20) }
     var enableButton by remember { mutableStateOf(true) }
 
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
+
+    LaunchedEffect(enableButton) {
+        if (!enableButton && count > 0) {
+            while (count > 0) {
+                delay(1000)
+                count -= 1
+            }
+            enableButton = true
+        }
+    }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -1019,18 +1036,21 @@ fun ResetPasswordBottomSheet(
                 value = email,
                 label = stringResource(R.string.associed_email),
                 leadingIcon = Icons.Rounded.Mail,
-                maxLines = 1,
-                readOnly = true
+                maxLines = 1
             ) {
-
+                email = it
             }
             Spacer(modifier = Modifier.height(20.dp))
             Button(
                 onClick = {
                     enableButton = false
-                    scope.launch {
-                        auth.resetPasswordFlow(email, auth, context)
-                        delay(20_000)
+                    if (email == auth.getCurrentUser()?.email) {
+                        scope.launch {
+                            auth.resetPasswordFlow(email, auth, context)
+                            count = 20
+                        }
+                    } else {
+                        Toast.makeText(context, "Correo no asociado a tu cuenta", Toast.LENGTH_SHORT).show()
                         enableButton = true
                     }
                 },
@@ -1039,12 +1059,15 @@ fun ResetPasswordBottomSheet(
                     .height(56.dp),
                 enabled = enableButton
             ) {
-                Text(text = stringResource(R.string.send_mail))
+                Text(
+                    text = if (enableButton) stringResource(R.string.send_mail) else "$count"
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
+
 
 @Composable
 fun LogOutDialog(
