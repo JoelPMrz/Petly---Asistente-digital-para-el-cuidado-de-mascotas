@@ -22,19 +22,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.PersonOff
-import androidx.compose.material.icons.outlined.SupervisorAccount
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AdminPanelSettings
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowRightAlt
-import androidx.compose.material.icons.rounded.Female
-import androidx.compose.material.icons.rounded.Male
-import androidx.compose.material.icons.rounded.Pets
-import androidx.compose.material.icons.rounded.SwapHoriz
-import androidx.compose.material.icons.rounded.Sync
-import androidx.compose.material.icons.rounded.Transgender
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -56,9 +48,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -76,7 +66,6 @@ import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
-import com.example.petly.viewmodel.PetInvitationViewModel
 import com.example.petly.viewmodel.UserViewModel
 
 @Composable
@@ -214,7 +203,7 @@ fun OwnersTopBar(navigateBack: () -> Boolean, pet: Pet?) {
         navigationIcon = {
             IconCircle(
                 modifier = Modifier.size(35.dp),
-                icon = Icons.Rounded.ArrowBack,
+                icon = Icons.AutoMirrored.Rounded.ArrowBack,
                 onClick = {
                     navigateBack()
                 }

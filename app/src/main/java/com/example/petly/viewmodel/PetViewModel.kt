@@ -1,14 +1,12 @@
 package com.example.petly.ui.viewmodel
 
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.Pet
 import com.example.petly.data.repository.PetRepository
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.storage.StorageException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +14,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
@@ -29,18 +26,32 @@ class PetViewModel @Inject constructor(
     private val _petsState = MutableStateFlow<List<Pet>>(emptyList())
     val petsState: StateFlow<List<Pet>> get() = _petsState
 
-    private val _petState = MutableStateFlow<Pet?>(null)
-    val petState: StateFlow<Pet?> get() = _petState
+    private val _ownerPetsState = MutableStateFlow<List<Pet>>(emptyList())
+    val ownerPetsState: StateFlow<List<Pet>> get() = _ownerPetsState
 
     private val _observedPetsState = MutableStateFlow<List<Pet>>(emptyList())
     val observedPetsState: StateFlow<List<Pet>> get() = _observedPetsState
 
-    fun getPets() {
+    fun getAllPets() {
         viewModelScope.launch {
             try {
-                petRepository.getPetsFlow().collect { pets ->
+                petRepository.getAllUserPetsFlow().collect { pets ->
                     if (_petsState.value != pets) {
                         _petsState.value = pets
+                    }
+                }
+            } catch (e: Exception) {
+                //
+            }
+        }
+    }
+
+    fun getOwnerPets() {
+        viewModelScope.launch {
+            try {
+                petRepository.getOwnerPetsFlow().collect { pets ->
+                    if (_ownerPetsState.value != pets) {
+                        _ownerPetsState.value = pets
                     }
                 }
             } catch (e: Exception) {
@@ -62,6 +73,9 @@ class PetViewModel @Inject constructor(
             }
         }
     }
+
+    private val _petState = MutableStateFlow<Pet?>(null)
+    val petState: StateFlow<Pet?> get() = _petState
 
     fun getObservedPet(petId: String) {
         viewModelScope.launch {
@@ -125,7 +139,7 @@ class PetViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 petRepository.updatePet(pet)
-                getPets()
+                getOwnerPets()
             } catch (e: Exception) {
                 //
             }
@@ -147,22 +161,39 @@ class PetViewModel @Inject constructor(
                 val newPhotoUrl = petRepository.updatePetProfilePhoto(petId, newPhotoUri)
                 withContext(Dispatchers.Main) {
                     _petState.value?.let {
-                        _petState.value = it.copy(photo = newPhotoUrl.toString())
+                        _petState.value = it.copy(photo = newPhotoUrl)
                     }
                     getPetById(petId)
                     onSuccess()
                 }
             } catch (e: FirebaseFirestoreException) {
-                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED ) {
-                    notPermission()
-                }
-            }catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    onFailure(e)
+                    if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                        notPermission()
+                    } else {
+                        onFailure(e)
+                    }
+                }
+            } catch (e: StorageException) {
+                withContext(Dispatchers.Main) {
+                    if (e.errorCode == StorageException.ERROR_NOT_AUTHORIZED) {
+                        notPermission()
+                    } else {
+                        onFailure(e)
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    if (e.message == "No permission to update photo") {
+                        notPermission()
+                    } else {
+                        onFailure(e)
+                    }
                 }
             }
         }
     }
+
 
     fun updateBasicData(
         petId: String,
@@ -340,7 +371,7 @@ class PetViewModel @Inject constructor(
                         petRepository.deletePetObserver(petId, userIdToAdd)
                     }
                     petRepository.addPetOwner(petId, userIdToAdd)
-                    getPets()
+                    getOwnerPets()
                     onSuccess()
                 }
                 getPetById(petId)
@@ -439,7 +470,7 @@ class PetViewModel @Inject constructor(
                 if (currentOwners.contains(userIdToRemove)) {
                     petRepository.deletePetOwner(petId, userIdToRemove)
                     getPetById(petId)
-                    getPets()
+                    getOwnerPets()
                     onSuccess()
                 } else {
                     notExistsYet()
@@ -463,7 +494,7 @@ class PetViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 petRepository.deletePet(petId)
-                getPets()
+                getOwnerPets()
                 onSuccess()
             } catch (e: FirebaseFirestoreException) {
                 if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {

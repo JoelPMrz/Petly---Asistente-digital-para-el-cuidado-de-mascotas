@@ -3,6 +3,7 @@ package com.example.petly.ui.screens.logged.pet
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -114,11 +115,9 @@ fun PetDetailScreen(
     petViewModel: PetViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    petInvitationViewModel: PetInvitationViewModel = hiltViewModel()
 ) {
 
     val snackBarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     var expandedMenu by remember { mutableStateOf(false) }
     var showEditBasicData by remember { mutableStateOf(false) }
@@ -133,7 +132,6 @@ fun PetDetailScreen(
     var weight by remember { mutableStateOf<Weight?>(null) }
     var showPhotoPicker by remember { mutableStateOf(false) }
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
-    val userState by userViewModel.userState.collectAsState()
 
     LaunchedEffect(petId) {
         petViewModel.getObservedPet(petId)
@@ -172,7 +170,6 @@ fun PetDetailScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(250.dp)
-                    .padding(horizontal = 2.dp)
                     .background(
                         color = MaterialTheme.colorScheme.background,
                         shape = RoundedCornerShape(20)
@@ -283,7 +280,7 @@ fun PetDetailScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .offset(y = (-20).dp)
+                    .offset(y = (-25).dp)
                     .background(
                         MaterialTheme.colorScheme.background,
                         RoundedCornerShape(30.dp)
@@ -299,6 +296,7 @@ fun PetDetailScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
+                        modifier = Modifier.weight(1f),
                         text = petState?.name ?: "",
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold
@@ -533,7 +531,7 @@ fun PetDetailScreen(
                     petId = petId,
                     newPhotoUri = capturedImageUri,
                     notPermission = {
-                        Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, context.getString(R.string.permission_denied_observer) , Toast.LENGTH_LONG).show()
                     },
                     onSuccess = {
                         Toast.makeText(
