@@ -98,4 +98,8 @@
     <string name="update_creatorOwner">Editar creador</string>
     <string name="creatorOwner">Creador</string>
     <string name="add_petObserver">Añadir un acompañante</string>
+    <string name="permission_denied_observer">Permiso denegado como acompañante</string>
+    <string name="new_pet">Nueva mascota</string>
+    <string name="owner">Dueño</string>
+    <string name="observer">Acompañante</string>
 </resources>

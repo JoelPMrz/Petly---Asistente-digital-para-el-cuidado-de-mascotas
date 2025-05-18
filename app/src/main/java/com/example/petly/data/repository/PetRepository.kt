@@ -4,7 +4,6 @@ import android.net.Uri
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.petfromFirestoreMap
 import com.example.petly.data.models.toFirestoreMap
-import com.example.petly.utils.CloudStorageManager
 import com.example.petly.utils.FirebaseConstants.DEFAULT_PET_PHOTO_URL
 import com.example.petly.utils.toTimestamp
 import com.google.firebase.Firebase
@@ -16,6 +15,7 @@ import com.google.firebase.storage.storage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -27,34 +27,6 @@ class PetRepository @Inject constructor(
 ) {
 
     private fun userId() = auth.currentUser?.uid
-
-    //No se está usando
-    suspend fun addPetWithImage(pet: Pet, imageUri: Uri, fileName: String): String {
-        if (userId() != null) {
-            val petRef = firestore.collection("pets").document()
-            val petId = petRef.id
-
-            pet.id = petId
-            pet.owners = listOf(userId().toString())
-
-            val fileRef = Firebase.storage.reference
-                .child("photos")
-                .child("pets")
-                .child(petId)
-                .child(fileName)
-
-            fileRef.putFile(imageUri).await()
-
-            val imageUrl = fileRef.downloadUrl.await().toString()
-            pet.photo= imageUrl
-
-            petRef.set(pet.toFirestoreMap()).await()
-
-            return petId
-        } else {
-            throw Exception("User not authenticated")
-        }
-    }
 
     suspend fun addPet(pet: Pet): String {
         if (userId() != null) {
@@ -138,34 +110,37 @@ class PetRepository @Inject constructor(
         petRef.update(updateMap).await()
     }
 
-    suspend fun updatePetProfilePhoto(petId: String, newPhotoUri: Uri) {
-        if (userId() != null) {
-            try {
-                val fileRef = FirebaseStorage.getInstance().reference
-                    .child("photos")
-                    .child("pets")
-                    .child(petId)
-                    .child("profile_pet_photo.jpg")
+    suspend fun updatePetProfilePhoto(petId: String, newPhotoUri: Uri): String {
+        val uid = userId() ?: throw Exception("User not authenticated")
 
-                fileRef.putFile(newPhotoUri).await()
-                val imageUrl = fileRef.downloadUrl.await().toString()
+        val petRef = firestore.collection("pets").document(petId)
+        val petDoc = petRef.get().await()
 
-                val petRef = firestore.collection("pets").document(petId)
-                val petDoc = petRef.get().await()
-
-                if (petDoc.exists()) {
-                    petRef.update("photo", imageUrl).await()
-                } else {
-                    throw Exception("Mascota no encontrada")
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                throw Exception("Error al actualizar la foto de perfil de la mascota")
-            }
-        } else {
-            throw Exception("User not authenticated")
+        if (!petDoc.exists()) {
+            throw Exception("Mascota no encontrada")
         }
+
+        val data = petDoc.data
+        val creatorOwner = data?.get("creatorOwner") as? String
+        val owners = data?.get("owners") as? List<*>
+
+        val isAuthorized = creatorOwner == uid || (owners?.contains(uid) == true)
+        if (!isAuthorized) {
+            throw Exception("No permission to update photo")
+        }
+
+        val fileRef = FirebaseStorage.getInstance().reference
+            .child("photos")
+            .child("pets")
+            .child(petId)
+            .child("profile_pet_photo.jpg")
+
+        fileRef.putFile(newPhotoUri).await()
+        val imageUrl = fileRef.downloadUrl.await().toString()
+
+        petRef.update("photo", imageUrl).await()
+
+        return imageUrl
     }
 
     suspend fun addPetOwner(petId: String, userIdToAdd: String) {
@@ -221,7 +196,7 @@ class PetRepository @Inject constructor(
         }
     }
 
-    fun getPetsFlow(): Flow<List<Pet>> = callbackFlow {
+    fun getOwnerPetsFlow(): Flow<List<Pet>> = callbackFlow {
         if (userId() != null) {
             val petRefs = firestore.collection("pets").whereArrayContains("owners", userId().toString())
             val subscription = petRefs.addSnapshotListener { snapshot, _ ->
@@ -263,6 +238,14 @@ class PetRepository @Inject constructor(
         } else {
             throw Exception("User not authenticated")
         }
+    }
+
+
+    fun getAllUserPetsFlow(): Flow<List<Pet>> = combine(
+        getOwnerPetsFlow(),
+        getObservedPetsFlow()
+    ) { ownedPets, observedPets ->
+        (ownedPets + observedPets).distinctBy { it.id }
     }
 
     suspend fun getPetById(petId: String): Pet? {

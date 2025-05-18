@@ -7,10 +7,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,15 +28,19 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.AdminPanelSettings
 import androidx.compose.material.icons.rounded.Female
 import androidx.compose.material.icons.rounded.FilterAlt
+import androidx.compose.material.icons.rounded.Group
 import androidx.compose.material.icons.rounded.Male
+import androidx.compose.material.icons.rounded.SupervisorAccount
 import androidx.compose.material.icons.rounded.Transgender
-import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,7 +49,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -83,11 +92,9 @@ fun HomeScreen(
     petViewModel: PetViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel()
 ) {
-    val pets by petViewModel.petsState.collectAsState()
-    val petsPagerState = rememberPagerState(initialPage = 0) { pets.size + 1 }
+    val petList by petViewModel.petsState.collectAsState()
+    val petsPagerState = rememberPagerState(initialPage = 0) { petList.size + 1 }
     val userState by userViewModel.userState.collectAsState()
-    val observablePets by petViewModel.observedPetsState.collectAsState()
-    val observablePetsPagerState = rememberPagerState(initialPage = 0) { observablePets.size }
 
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
@@ -97,26 +104,13 @@ fun HomeScreen(
     }
 
     LaunchedEffect(Unit) {
-        petViewModel.getPets()
-        petViewModel.getObservedPets()
+        petViewModel.getAllPets()
     }
 
 
     Scaffold(
         bottomBar = { MyNavigationAppBar(navigateToHome, navigateToCalendar, navigateToUser, 1) },
         topBar = { HomeTopAppBar(userState?.photo, navigateToUser) },
-        /*
-        floatingActionButton = {
-            BaseFAB(
-                onClick = {
-                    navigateToAddPet()
-                },
-                imageVector = Icons.Rounded.Add
-            )
-        },
-        floatingActionButtonPosition = FabPosition.End
-
-         */
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -133,7 +127,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if(pets.size <= 1) stringResource(R.string.pet) else stringResource(R.string.pets) ,
+                    text = if(petList.size <= 1) stringResource(R.string.pet) else stringResource(R.string.pets) ,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 22.sp
@@ -163,12 +157,13 @@ fun HomeScreen(
                 pageSpacing = 16.dp,
                 snapPosition = SnapPosition.Start
             ) { page ->
-                if (pets.isEmpty() && page == 0) {
+                if (petList.isEmpty() && page == 0) {
                     AddPetCard(navigateToAddPet)
-                } else if (page < pets.size) {
+                } else if (page < petList.size) {
                     Pet(
-                        pet = pets[page],
+                        pet = petList[page],
                         navigateToPetDetail = navigateToPetDetail,
+                        auth = auth
                     )
                 } else {
                     AddPetCard(navigateToAddPet)
@@ -177,52 +172,38 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            if(observablePets.isNotEmpty()){
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(start = 30.dp, end = 40.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.observed_pets),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 22.sp
-                    )
-                    Row {
-                        IconCircle(
-                            modifier = Modifier.clickable {
 
-                            },
-                            icon = Icons.Rounded.FilterAlt
-                        )
-                    }
-                }
-
-                Spacer(Modifier.height(10.dp))
-                HorizontalPager(
-                    state = observablePetsPagerState,
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(start = 25.dp, end = 40.dp),
-                    pageSpacing = 16.dp,
-                    snapPosition = SnapPosition.Start
-                ) { page ->
-                    Pet(
-                        pet = observablePets[page],
-                        navigateToPetDetail = navigateToPetDetail,
-                    )
-                }
-            }
         }
     }
 }
 
 @Composable
-fun Pet(pet: Pet, navigateToPetDetail: (String) -> Unit) {
+fun Pet(
+    pet: Pet,
+    auth: AuthManager,
+    navigateToPetDetail: (String) -> Unit,
+    userViewModel: UserViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
+    val currentUser by userViewModel.userState.collectAsState()
+    val userRol by remember(currentUser, pet) {
+        derivedStateOf {
+            when {
+                currentUser?.id == pet.creatorOwner -> 1
+                pet.owners.contains(currentUser?.id) -> 2
+                else -> 3
+            }
+        }
+    }
     var showDeletePetDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(true) {
+        val uid = auth.getCurrentUser()?.uid
+        if (uid != null) {
+            userViewModel.getUserFlowById(uid)
+        }
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -240,7 +221,12 @@ fun Pet(pet: Pet, navigateToPetDetail: (String) -> Unit) {
         elevation = CardDefaults.cardElevation(4.dp),
         shape = MaterialTheme.shapes.extraLarge
     ) {
-        Column(Modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+                .clip(MaterialTheme.shapes.extraLarge)
+        ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(pet.photo)
@@ -249,56 +235,62 @@ fun Pet(pet: Pet, navigateToPetDetail: (String) -> Unit) {
                     .build(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(1.dp)
-                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                    .height(200.dp)
+                modifier = Modifier.matchParentSize()
             )
-
-            Column(
+            Row(
                 modifier = Modifier
+                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .offset(y = (-25).dp)
-                    .clip(RoundedCornerShape(30.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                    .padding(start = 16.dp, end = 16.dp, top = 10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .height(IntrinsicSize.Min)
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .background(
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                            shape = RoundedCornerShape(24.dp)
+                        )
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
                         text = pet.name,
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    IconCircle(
-                        icon = when (pet.gender) {
-                            "Male" -> Icons.Rounded.Male
-                            "Female" -> Icons.Rounded.Female
-                            else -> Icons.Rounded.Transgender
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .background(
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                            shape = RoundedCornerShape(24.dp)
+                        )
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = when (userRol) {
+                            1 -> stringResource(R.string.creatorOwner)
+                            2 -> stringResource(R.string.owner)
+                            else -> stringResource(R.string.observer)
                         },
-                        modifier = Modifier.size(25.dp),
-                        sizeIcon = 20.dp,
-                        backgroundColor = when (pet.gender) {
-                            "Male" -> MaterialTheme.colorScheme.primaryContainer
-                            "Female" -> MaterialTheme.colorScheme.tertiaryContainer
-                            else -> MaterialTheme.colorScheme.errorContainer
-                        },
-                        contentColor = when (pet.gender) {
-                            "Male" -> MaterialTheme.colorScheme.onPrimaryContainer
-                            "Female" -> MaterialTheme.colorScheme.onTertiaryContainer
-                            else -> MaterialTheme.colorScheme.onErrorContainer
-                        }
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelMedium
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = getAgeFromDate(pet.birthDate) ?: stringResource(R.string.unidentified))
             }
         }
     }
+
     if (showDeletePetDialog) {
         DeletePetDialog(
             context = context,
@@ -308,6 +300,7 @@ fun Pet(pet: Pet, navigateToPetDetail: (String) -> Unit) {
         )
     }
 }
+
 
 @Composable
 fun AddPetCard(
@@ -335,7 +328,7 @@ fun AddPetCard(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(180.dp)
             )
 
             Column(
@@ -353,7 +346,7 @@ fun AddPetCard(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "nueva mascota")
+                Text(text = stringResource(R.string.new_pet))
             }
         }
     }

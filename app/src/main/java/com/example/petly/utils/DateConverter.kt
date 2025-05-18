@@ -36,6 +36,13 @@ fun Timestamp.toLocalDateTime(): LocalDateTime {
         .toLocalDateTime()
 }
 
+fun Timestamp.toLocalTime(): LocalTime {
+    return this.toDate()
+        .toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalTime()
+}
+
 
 fun parseDate(dateString: String): LocalDate {
     Log.d("DateParsing", "Parsing date: $dateString")
