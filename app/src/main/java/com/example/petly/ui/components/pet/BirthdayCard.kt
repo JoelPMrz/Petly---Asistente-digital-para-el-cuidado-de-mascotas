@@ -1,4 +1,4 @@
-package com.example.petly.ui.screens.logged.pet
+package com.example.petly.ui.components.pet
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

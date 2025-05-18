@@ -31,9 +31,13 @@ data class PetDetail(
     val petId : String
 )
 
-
 @Serializable
 data class Weights(
+    val petId : String
+)
+
+@Serializable
+data class VeterinaryVisits(
     val petId : String
 )
 

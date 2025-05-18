@@ -15,11 +15,11 @@ import com.example.petly.ui.screens.logged.pet.AddPetScreen
 import com.example.petly.ui.screens.logged.pet.ObserversScreen
 import com.example.petly.ui.screens.logged.pet.OwnersScreen
 import com.example.petly.ui.screens.logged.pet.PetDetailScreen
+import com.example.petly.ui.screens.logged.pet.VeterinaryVisitsScreen
 import com.example.petly.ui.screens.logged.user.UserScreen
 import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
-import com.example.petly.utils.CloudStorageManager
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
@@ -168,6 +168,9 @@ fun NavigationWrapper(context : Context){
                 navigateToWeights = {
                     navController.navigate(Weights(petDetail.petId))
                 },
+                navigateToVeterinaryVisits = {
+                    navController.navigate(VeterinaryVisits(petDetail.petId))
+                },
                 navigateToHome = {
                     navController.navigate(Home){
                         popUpTo(0) { inclusive = true }
@@ -178,6 +181,16 @@ fun NavigationWrapper(context : Context){
         composable<Weights> {backStackEntry->
             val petDetail: Weights = backStackEntry.toRoute()
             WeightsScreen(
+                //analytics = analytics,
+                petId = petDetail.petId,
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable<VeterinaryVisits> {backStackEntry->
+            val petDetail: VeterinaryVisits = backStackEntry.toRoute()
+           VeterinaryVisitsScreen(
                 //analytics = analytics,
                 petId = petDetail.petId,
                 navigateBack = {

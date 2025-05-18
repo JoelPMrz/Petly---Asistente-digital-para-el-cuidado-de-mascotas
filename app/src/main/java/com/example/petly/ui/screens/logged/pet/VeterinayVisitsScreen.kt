@@ -1,9 +1,8 @@
-package com.example.petly.ui.screens.logged.weight
+package com.example.petly.ui.screens.logged.pet
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,16 +17,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowRight
-import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
-import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.AlertDialog
@@ -36,9 +31,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -56,38 +49,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.Weight
-import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
-import com.example.petly.utils.parseDate
 import com.example.petly.utils.truncate
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.WeightViewModel
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 import kotlin.math.abs
 
 @Composable
-fun WeightsScreen(
+fun VeterinaryVisitsScreen(
     //analytics: AnalyticsManager,
     petId: String,
     navigateBack: () -> Unit,
@@ -110,9 +93,8 @@ fun WeightsScreen(
 
     Scaffold(
         topBar = {
-            WeightsTopAppBar(
+            VeterinaryVisitsTopAppBar(
                 navigateBack,
-                petState?.name ?: "Nombre no disponible"
             )
         },
         floatingActionButton = {
@@ -141,12 +123,12 @@ fun WeightsScreen(
         ) {
             item {
                 if (weights.isEmpty()) {
-                    Text(text = "No tienes pesos")
+                    Text(text = "No tienes citas")
                 }
             }
 
             items(weights.reversed(), key = { it.id!! }) { weight ->
-                Weight(
+                VeterinaryVisit(
                     weight = weight,
                     weights = weights,
                     petId = petId,
@@ -161,18 +143,13 @@ fun WeightsScreen(
         }
 
         if (showAddWeightDialog) {
-            AddWeightDialog(
-                onDismiss = {
-                    showAddWeightDialog = false
-                },
-                petId = petId
-            )
+
         }
     }
 }
 
 @Composable
-fun Weight(
+fun VeterinaryVisit(
     weight: Weight,
     weights: List<Weight>,
     petId: String,
@@ -183,8 +160,8 @@ fun Weight(
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val isExpanded = selectedItemId == weight.id
-    var showEditWeightDialog by remember { mutableStateOf(false) }
-    var showDeleteWeightDialog by remember { mutableStateOf(false) }
+    var showEditVeterinaryVisit by remember { mutableStateOf(false) }
+    var showDeleteVeterinaryVisit by remember { mutableStateOf(false) }
     val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
     val convertedWeight = convertWeight(weight.value, weight.unit, selectedUnit).truncate(2)
     val difference: Double? = weightViewModel.comparePreviousWeight(weight, weights, selectedUnit)
@@ -199,7 +176,7 @@ fun Weight(
                         if(isExpanded) onSelectItem(null) else onSelectItem(weight.id)
                     },
                     onLongPress = {
-                        showDeleteWeightDialog = !showDeleteWeightDialog
+                        showDeleteVeterinaryVisit = !showDeleteVeterinaryVisit
                         onSelectItem(null)
                     }
                 )
@@ -274,7 +251,7 @@ fun Weight(
                         IconCircle(
                             icon = Icons.Rounded.Delete,
                             onClick = {
-                                showDeleteWeightDialog = !showDeleteWeightDialog
+                                showDeleteVeterinaryVisit = false
                                 onSelectItem(null)
                             }
                         )
@@ -284,7 +261,7 @@ fun Weight(
                         IconCircle(
                             icon = Icons.Rounded.Edit,
                             onClick = {
-                                showEditWeightDialog = !showEditWeightDialog
+                                showEditVeterinaryVisit = false
                                 onSelectItem(null)
                             }
                         )
@@ -294,20 +271,14 @@ fun Weight(
         }
     }
 
-    if (showEditWeightDialog) {
-        AddWeightDialog(
-            onDismiss = {
-                showEditWeightDialog = false
-            },
-            petId = petId,
-            weight = weight
-        )
+    if (showEditVeterinaryVisit) {
+
     }
 
-    if (showDeleteWeightDialog) {
-        DeleteWeightDialog(
+    if (showDeleteVeterinaryVisit) {
+        DeleteVeterinaryVisitDialog(
             onDismiss = {
-                showDeleteWeightDialog = false
+                showDeleteVeterinaryVisit = false
             },
             petId = petId,
             petName = petName,
@@ -317,7 +288,7 @@ fun Weight(
 }
 
 @Composable
-fun DeleteWeightDialog(
+fun DeleteVeterinaryVisitDialog(
     onDismiss: () -> Unit,
     petId: String,
     weight: Weight,
@@ -369,20 +340,18 @@ fun DeleteWeightDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeightsTopAppBar(
+fun VeterinaryVisitsTopAppBar(
     navigateBack: () -> Unit,
-    petName: String,
-    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
-    var showUnitDialog by remember { mutableStateOf(false) }
-    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
+
     TopAppBar(
         modifier = Modifier.padding(horizontal = 10.dp),
         title = {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text  = stringResource(R.string.wheights_pets_title),
+                text = stringResource(R.string.veterinary_visits),
                 fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
             )
         },
         navigationIcon = {
@@ -395,256 +364,12 @@ fun WeightsTopAppBar(
             )
         },
         actions = {
-            Text(text = selectedUnit)
-            Spacer(Modifier.width(10.dp))
-            IconCircle(
-                modifier = Modifier.size(35.dp),
-                icon = ImageVector.vectorResource(id = R.drawable.ic_weight_24dp),
-                onClick = {
-                    showUnitDialog = true
-                }
-            )
 
-            if (showUnitDialog) {
-                SelectWeightUnitDialog(
-                    onDismiss = {
-                        showUnitDialog = false
-                    }
-                )
-            }
         },
     )
 }
 
-@Composable
-fun AddWeightDialog(
-    onDismiss: () -> Unit,
-    petId: String,
-    weight: Weight? = null,
-    weightViewModel: WeightViewModel = hiltViewModel(),
-    preferencesViewModel: PreferencesViewModel = hiltViewModel()
-) {
-    val context = LocalContext.current
-    var showUnitDialog by remember { mutableStateOf(false) }
-    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
-    var weightText by remember { mutableStateOf("") }
-    var note by remember { mutableStateOf("") }
-    val noteMaxLength = 100
-    val openDatePicker = remember { mutableStateOf(false) }
-    val selectedDate = remember { mutableStateOf(LocalDate.now()) }
-    var dateText by remember { mutableStateOf("") }
-
-    LaunchedEffect(key1 = weight) {
-        weight?.let {
-            weightText = it.value.toString()
-            note = it.notes ?: ""
-            selectedDate.value = it.date
-            dateText = formatLocalDateToString(it.date)
-        } ?: run {
-            selectedDate.value = LocalDate.now()
-            dateText = formatLocalDateToString(selectedDate.value)
-        }
-    }
-    if (openDatePicker.value) {
-        BaseDatePicker(
-            initialDate = selectedDate.value,
-            onDismissRequest = { openDatePicker.value = false },
-            onDateSelected = { date ->
-                selectedDate.value = date
-                dateText = formatLocalDateToString(date)
-                openDatePicker.value = false
-            }
-        )
-    }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                if (weight != null) {
-                    stringResource(R.string.edit_weight_title)
-                } else {
-                    stringResource(R.string.create_weight_title)
-                }
-
-            )
-        },
-        text = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = weightText,
-                    onValueChange = { weightText = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = {
-                        Text(text = stringResource(R.string.weight_form_placeholder_weight))
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.weight_form_label_weight, selectedUnit),
-                            fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic,
-                        )
-                    },
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_weight_24dp),
-                            contentDescription = null,
-                            modifier = Modifier.clickable {
-                                showUnitDialog = true
-                            }
-                        )
-                    },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                OutlinedTextField(
-                    value = dateText,
-                    onValueChange = { dateText = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            openDatePicker.value = true
-                        },
-                    placeholder = {
-                        Text(text = stringResource(R.string.weight_form_placeholder_date))
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.weight_form_label_date),
-                            fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic,
-                        )
-                    },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Rounded.CalendarToday,
-                            contentDescription = Icons.Outlined.CalendarToday.name,
-                            modifier = Modifier.clickable {
-                                openDatePicker.value = true
-                            }
-                        )
-                    },
-                    singleLine = true,
-                    readOnly = true
-
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                OutlinedTextField(
-                    value = note,
-                    onValueChange = { newText ->
-                        if (newText.length <= noteMaxLength) {
-                            note = newText
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = {
-                        Text(
-                            text = stringResource(R.string.weight_form_placeholder_note),
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.weight_form_label_note),
-                            fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic
-                        )
-                    },
-                    maxLines = 3,
-                )
-                Text(text = stringResource(R.string.optional))
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    val parsedWeight = weightText.toDoubleOrNull()
-                    val parsedDate = parseDate(dateText)
-                    if (parsedWeight != null) {
-                        val newWeight = Weight(
-                            id = weight?.id,
-                            petId = petId,
-                            value = parsedWeight.truncate(2),
-                            unit = selectedUnit,
-                            date = parsedDate,
-                            time = LocalDateTime.of(parsedDate, LocalTime.now()),
-                            notes = note
-                        )
-                        if (weight != null) {
-                            weightViewModel.updateWeight(
-                                newWeight,
-                                notPermission = {
-                                    Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
-                                }
-                            )
-                        } else {
-                            weightViewModel.addWeight(
-                                petId,
-                                newWeight,
-                                notPermission = {
-                                    Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
-                                }
-                            )
-                        }
-                        onDismiss()
-                    }
-                }
-            ) {
-                Text(text = stringResource(R.string.form_confirm_btn))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss
-            ) {
-                Text(text = stringResource(R.string.form_cancel_btn))
-            }
-        }
-    )
-    if (showUnitDialog) {
-        SelectWeightUnitDialog(
-            onDismiss = {
-                showUnitDialog = false
-            }
-        )
-    }
-}
 
 
-@Composable
-fun SelectWeightUnitDialog(
-    onDismiss: () -> Unit,
-    preferencesViewModel: PreferencesViewModel = hiltViewModel()
-) {
-    val weightUnits = listOf("Kg", "Gr", "Oz", "Lb")
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(text = stringResource(R.string.select_weght_unit_title_dialog))
-        },
-        text = {
-            Column {
-                weightUnits.forEach { unit ->
-                    Text(
-                        text = unit,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                preferencesViewModel.setSelectedUnit(unit)
-                                onDismiss()
-                            }
-                            .padding(8.dp)
-                    )
-                }
-            }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss
-            ) {
-                Text(text = stringResource(R.string.form_cancel_btn))
-            }
-        }
-    )
-}
+
+
