@@ -1,4 +1,4 @@
-package com.example.petly.ui.screens.logged.pet
+package com.example.petly.ui.components.pet
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.HealthAndSafety
+import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +26,7 @@ import com.example.petly.utils.formatLocalDateToString
 
 
 @Composable
-fun SterilizedCard(
+fun MicrochipCard(
     pet: Pet?,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
@@ -45,23 +45,23 @@ fun SterilizedCard(
                 .fillMaxWidth()
         ) {
             IconCircle(
-                icon = Icons.Outlined.HealthAndSafety,
+                icon = Icons.Outlined.Memory,
                 modifier = Modifier.size(30.dp),
                 sizeIcon = 20.dp,
                 backgroundColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 contentColor = MaterialTheme.colorScheme.secondaryContainer
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Estado", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = "Microchip", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = if (pet?.sterilized == true) "Esterilizado" else "No esteriliazo",
+                text = pet?.microchipId.takeUnless { it.isNullOrBlank() } ?: "Sin identificar",
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )
             Spacer(modifier = Modifier.height(5.dp))
-            if (pet?.sterilized == true) {
+            if (!pet?.microchipId.isNullOrBlank()) {
                 Text(
-                    text = pet.sterilizedDate?.let { formatLocalDateToString(it) }
+                    text = pet?.microchipDate?.let { formatLocalDateToString(it) }
                         ?: "Agregar fecha",
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Light,

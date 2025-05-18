@@ -1,5 +1,6 @@
 package com.example.petly.data.models
 
+import com.example.petly.navegation.VeterinaryVisits
 import com.example.petly.utils.toLocalDate
 import com.example.petly.utils.toLocalDateTime
 import com.example.petly.utils.toTimestamp
@@ -20,9 +21,8 @@ data class Pet(
     var owners: List<String> = listOf(),
     var observers: List<String> = listOf(),
     var vaccines: List<String>? = listOf(),
-    var reminders: List<String>? = listOf(),
     var allergies: List<String>? = listOf(),
-    var medicalConditions: List<String>? = listOf(),
+    var veterinaryVisits: List<String>? = listOf(),
     var microchipId: String? = null,
     var microchipDate: LocalDate? = null,
     var passportId: String? = null,
@@ -46,7 +46,7 @@ fun Pet.toFirestoreMap(): Map<String, Any?> {
         "owners" to owners,
         "observers" to observers,
         "vaccines" to vaccines,
-        "reminders" to reminders,
+        "veterinaryVisits" to veterinaryVisits,
         "microchipId" to microchipId,
         "adoptionDate" to adoptionDate?.toTimestamp(),
         "sterilized" to sterilized,
@@ -76,7 +76,7 @@ fun petfromFirestoreMap(map: Map<String, Any?>): Pet {
         owners = map["owners"] as? List<String> ?: listOf(),
         observers = map["observers"] as? List<String> ?: listOf(),
         vaccines = map["vaccines"] as? List<String> ?: listOf(),
-        reminders = map["reminders"] as? List<String> ?: listOf(),
+        veterinaryVisits = map["veterinaryVisits"]  as? List<String> ?: listOf(),
         microchipId = map["microchipId"] as? String,
         microchipDate = microchipTimestamp?.toLocalDate(),
         adoptionDate = adoptionTimestamp?.toLocalDate(),

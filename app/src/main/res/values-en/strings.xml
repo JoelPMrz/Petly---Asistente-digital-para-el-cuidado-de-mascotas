@@ -15,7 +15,7 @@
     <string name="edit_weight_title">Editar peso</string>
     <string name="delete_weight_alert_title">¿Eliminar este peso del listado?</string>
     <string name="delete_weight_alert_description">Si eliminas este peso del listado de pesos, se eliminará permanentemente de todas las cuentas viculadas a la mascota %1$s</string>
-    <string name="wheights_pets_title">"Pesos de "</string>
+    <string name="wheights_pets_title">"Pesos</string>
     <string name="select_weght_unit_title_dialog">Seleccionar unidad de peso</string>
     <string name="form_confirm_delete_btn">Eliminar</string>
     <string name="empty_pet_list">No hay mascotas</string>
@@ -102,4 +102,5 @@
     <string name="new_pet">Nueva mascota</string>
     <string name="owner">Dueño</string>
     <string name="observer">Acompañante</string>
+    <string name="veterinary_visits">Citas veterinarias</string>
 </resources>

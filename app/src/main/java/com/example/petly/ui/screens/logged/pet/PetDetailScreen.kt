@@ -3,7 +3,6 @@ package com.example.petly.ui.screens.logged.pet
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -64,7 +63,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -82,13 +80,21 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.petly.R
 import com.example.petly.data.models.Pet
+import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.IconSquare
-import com.example.petly.ui.components.PetNotExistsDialog
+import com.example.petly.ui.components.pet.PetNotExistsDialog
 import com.example.petly.ui.components.PhotoPickerBottomSheet
+import com.example.petly.ui.components.pet.AdoptionCard
+import com.example.petly.ui.components.pet.BirthdayCard
+import com.example.petly.ui.components.pet.MicrochipCard
+import com.example.petly.ui.components.pet.PeopleLinkedCard
+import com.example.petly.ui.components.pet.SterilizedCard
+import com.example.petly.ui.components.pet.VeterinaryVisitsCard
+import com.example.petly.ui.components.pet.WeigthCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
@@ -96,7 +102,6 @@ import com.example.petly.utils.TypeDropdownSelector
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.getAgeFromDate
 import com.example.petly.utils.isMicrochipIdValid
-import com.example.petly.viewmodel.PetInvitationViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
@@ -111,6 +116,7 @@ fun PetDetailScreen(
     navigateToOwners: (String) -> Unit,
     navigateToObservers: (String) -> Unit,
     navigateToWeights: (String) -> Unit,
+    navigateToVeterinaryVisits: (String) -> Unit,
     navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel(),
@@ -515,6 +521,14 @@ fun PetDetailScreen(
                                     //Analytics
                                 }
                             )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    VeterinaryVisitsCard(
+                        petId = petId,
+                        modifier = Modifier,
+                        onClick = {
+                            navigateToVeterinaryVisits(petId)
                         }
                     )
                     Spacer(modifier = Modifier.height(10.dp))

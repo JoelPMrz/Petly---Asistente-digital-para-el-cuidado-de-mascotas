@@ -1,4 +1,4 @@
-package com.example.petly.ui.components
+package com.example.petly.ui.components.pet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
