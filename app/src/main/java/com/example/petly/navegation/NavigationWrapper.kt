@@ -192,6 +192,7 @@ fun NavigationWrapper(context : Context){
             val petDetail: VeterinaryVisits = backStackEntry.toRoute()
            VeterinaryVisitsScreen(
                 //analytics = analytics,
+                auth =  authManager,
                 petId = petDetail.petId,
                 navigateBack = {
                     navController.popBackStack()

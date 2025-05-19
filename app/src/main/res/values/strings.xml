@@ -110,4 +110,15 @@
     <string name="veterinary_visits">Citas veterinarias</string>
     <string name="register_new_weight">Agregar primer peso</string>
     <string name="register_new_veterinay_visists">Agrega una visita</string>
+    <string name="edit_veterinay_vivist_title">Editar cita veterinaria</string>
+    <string name="create_veterinay_vivist_title">Nueva cita veterinaria</string>
+    <string name="concept">Concepto</string>
+    <string name="concept_placeholder">Desparasitación</string>
+    <string name="description">Descripción</string>
+    <string name="description_placeholder">Ir a poner la pipeta desparasitadora</string>
+    <string name="form_label_time">Tiempo</string>
+    <string name="veterinary">Veterinario</string>
+    <string name="veterinary_placeholder">Clínica Veterinaria Martínez</string>
+    <string name="error_create_veterinary_visit">Error al crear la visita</string>
+    <string name="error_edit_veterinary_visit">Error al editar la visita</string>
 </resources>
