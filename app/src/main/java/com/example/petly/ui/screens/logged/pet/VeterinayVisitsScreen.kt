@@ -61,6 +61,7 @@ import com.example.petly.R
 import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.BaseFAB
+import com.example.petly.ui.components.EmptyCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
@@ -123,7 +124,19 @@ fun VeterinaryVisitsScreen(
         ) {
             item {
                 if (weights.isEmpty()) {
-                    Text(text = "No tienes citas")
+                    EmptyCard(
+                        onClick = {
+                            petState?.id?.let {
+                                petViewModel.doesPetExist(
+                                    petId = it,
+                                    exists = { showAddWeightDialog = !showAddWeightDialog },
+                                    notExists = { Toast.makeText(context, "La mascota no existe", Toast.LENGTH_SHORT).show() },
+                                    onFailure = {}
+                                )
+                            }
+                        },
+                        text = stringResource(R.string.register_new_veterinay_visists)
+                    )
                 }
             }
 

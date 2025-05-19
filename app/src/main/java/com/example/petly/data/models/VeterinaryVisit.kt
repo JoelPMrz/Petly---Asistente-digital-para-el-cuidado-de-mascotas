@@ -17,6 +17,7 @@ data class VeterinaryVisit(
     var time: LocalTime = LocalTime.now(),
     var veterinary: String? = "",
     var createdBy: String = "",
+    var completed: Boolean = false
 )
 
 fun VeterinaryVisit.toFirestoreMap(): Map<String, Any?>{
@@ -28,7 +29,8 @@ fun VeterinaryVisit.toFirestoreMap(): Map<String, Any?>{
         "description" to description,
         "dateTime" to dateTime.toTimestamp(),
         "veterinary" to veterinary,
-        "createdBy" to createdBy
+        "createdBy" to createdBy,
+        "completed" to completed
     )
 }
 
@@ -45,6 +47,7 @@ fun veterinaryVisitFromFirebase(map: Map<String, Any?>): VeterinaryVisit {
         date = date,
         time = time,
         veterinary = map["veterinary"] as? String,
-        createdBy = map["createdBy"] as? String ?: ""
+        createdBy = map["createdBy"] as? String ?: "",
+        completed = map["completed"] as? Boolean ?: false
     )
 }

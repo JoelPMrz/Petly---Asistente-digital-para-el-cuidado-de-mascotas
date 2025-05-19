@@ -10,15 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MedicalInformation
-import androidx.compose.material.icons.outlined.MonitorWeight
-import androidx.compose.material.icons.rounded.MedicalInformation
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,14 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
-import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.IconCircle
-import com.example.petly.utils.convertWeight
-import com.example.petly.utils.formatLocalDateToString
-import com.example.petly.utils.truncate
-import com.example.petly.viewmodel.PreferencesViewModel
 
 @Composable
 fun VeterinaryVisitsCard(
@@ -46,7 +36,7 @@ fun VeterinaryVisitsCard(
     onClick: () -> Unit,
 ) {
 
-    var convertedWeight by remember { mutableStateOf("Agregar una visita") }
+    var convertedWeight by remember { mutableStateOf(null) }
     var dateString by remember { mutableStateOf("") }
     Card(
         modifier = modifier
@@ -72,7 +62,7 @@ fun VeterinaryVisitsCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = stringResource(R.string.veterinary_visits), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = convertedWeight,
+                text = convertedWeight ?: stringResource(R.string.register_new_veterinay_visists),
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )

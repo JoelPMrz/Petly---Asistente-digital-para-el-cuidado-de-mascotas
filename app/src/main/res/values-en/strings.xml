@@ -103,4 +103,6 @@
     <string name="owner">Dueño</string>
     <string name="observer">Acompañante</string>
     <string name="veterinary_visits">Citas veterinarias</string>
+    <string name="register_new_weight">Agregar primer peso</string>
+    <string name="register_new_veterinay_visists">Agrega una visita</string>
 </resources>

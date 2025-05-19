@@ -10,41 +10,47 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowRight
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
-import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -59,10 +65,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -74,6 +78,8 @@ import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.BaseFAB
+import com.example.petly.ui.components.BaseOutlinedTextField
+import com.example.petly.ui.components.EmptyCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
@@ -111,8 +117,7 @@ fun WeightsScreen(
     Scaffold(
         topBar = {
             WeightsTopAppBar(
-                navigateBack,
-                petState?.name ?: "Nombre no disponible"
+                navigateBack
             )
         },
         floatingActionButton = {
@@ -141,7 +146,19 @@ fun WeightsScreen(
         ) {
             item {
                 if (weights.isEmpty()) {
-                    Text(text = "No tienes pesos")
+                    EmptyCard(
+                        onClick = {
+                            petState?.id?.let {
+                                petViewModel.doesPetExist(
+                                    petId = it,
+                                    exists = { showAddWeightDialog = !showAddWeightDialog },
+                                    notExists = { Toast.makeText(context, "La mascota no existe", Toast.LENGTH_SHORT).show() },
+                                    onFailure = {}
+                                )
+                            }
+                        },
+                        text = stringResource(R.string.register_new_weight)
+                    )
                 }
             }
 
@@ -161,7 +178,7 @@ fun WeightsScreen(
         }
 
         if (showAddWeightDialog) {
-            AddWeightDialog(
+            AddWeightBottomSheet(
                 onDismiss = {
                     showAddWeightDialog = false
                 },
@@ -170,6 +187,8 @@ fun WeightsScreen(
         }
     }
 }
+
+
 
 @Composable
 fun Weight(
@@ -295,7 +314,7 @@ fun Weight(
     }
 
     if (showEditWeightDialog) {
-        AddWeightDialog(
+        AddWeightBottomSheet(
             onDismiss = {
                 showEditWeightDialog = false
             },
@@ -371,7 +390,6 @@ fun DeleteWeightDialog(
 @Composable
 fun WeightsTopAppBar(
     navigateBack: () -> Unit,
-    petName: String,
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     var showUnitDialog by remember { mutableStateOf(false) }
@@ -415,9 +433,9 @@ fun WeightsTopAppBar(
         },
     )
 }
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddWeightDialog(
+fun AddWeightBottomSheet(
     onDismiss: () -> Unit,
     petId: String,
     weight: Weight? = null,
@@ -425,26 +443,30 @@ fun AddWeightDialog(
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    var showUnitDialog by remember { mutableStateOf(false) }
     val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
     var weightText by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
     val noteMaxLength = 100
+    var showUnitDialog by remember { mutableStateOf(false) }
+
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedDate = remember { mutableStateOf(LocalDate.now()) }
     var dateText by remember { mutableStateOf("") }
 
-    LaunchedEffect(key1 = weight) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    LaunchedEffect(weight) {
         weight?.let {
             weightText = it.value.toString()
-            note = it.notes ?: ""
+            note = it.notes.orEmpty()
             selectedDate.value = it.date
             dateText = formatLocalDateToString(it.date)
         } ?: run {
             selectedDate.value = LocalDate.now()
-            dateText = formatLocalDateToString(selectedDate.value)
+            dateText = formatLocalDateToString(LocalDate.now())
         }
     }
+
     if (openDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedDate.value,
@@ -456,107 +478,93 @@ fun AddWeightDialog(
             }
         )
     }
-    AlertDialog(
+
+    if (showUnitDialog) {
+        SelectWeightUnitDialog(
+            onDismiss = { showUnitDialog = false }
+        )
+    }
+
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = {
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
-                if (weight != null) {
-                    stringResource(R.string.edit_weight_title)
-                } else {
-                    stringResource(R.string.create_weight_title)
-                }
-
+                text = stringResource(
+                    if (weight != null) R.string.edit_weight_title
+                    else R.string.create_weight_title
+                ),
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-        },
-        text = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = weightText,
-                    onValueChange = { weightText = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = {
-                        Text(text = stringResource(R.string.weight_form_placeholder_weight))
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.weight_form_label_weight, selectedUnit),
-                            fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic,
-                        )
-                    },
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_weight_24dp),
-                            contentDescription = null,
-                            modifier = Modifier.clickable {
-                                showUnitDialog = true
-                            }
-                        )
-                    },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            HorizontalDivider(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp),
+                thickness = 1.dp
+            )
 
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                OutlinedTextField(
-                    value = dateText,
-                    onValueChange = { dateText = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            openDatePicker.value = true
-                        },
-                    placeholder = {
-                        Text(text = stringResource(R.string.weight_form_placeholder_date))
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.weight_form_label_date),
-                            fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic,
-                        )
-                    },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Rounded.CalendarToday,
-                            contentDescription = Icons.Outlined.CalendarToday.name,
-                            modifier = Modifier.clickable {
-                                openDatePicker.value = true
-                            }
-                        )
-                    },
-                    singleLine = true,
-                    readOnly = true
-
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                OutlinedTextField(
-                    value = note,
-                    onValueChange = { newText ->
-                        if (newText.length <= noteMaxLength) {
-                            note = newText
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = {
-                        Text(
-                            text = stringResource(R.string.weight_form_placeholder_note),
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.weight_form_label_note),
-                            fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic
-                        )
-                    },
-                    maxLines = 3,
-                )
-                Text(text = stringResource(R.string.optional))
+            BaseOutlinedTextField(
+                value = weightText,
+                modifier = Modifier.fillMaxWidth(),
+                placeHolder = stringResource(R.string.weight_form_placeholder_weight),
+                label = stringResource(R.string.weight_form_label_weight, selectedUnit),
+                trailingIcon = ImageVector.vectorResource(id = R.drawable.ic_weight_24dp),
+                onClickTrailingIcon = {
+                showUnitDialog = true
+                },
+                maxLines = 1,
+                isRequired = true,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            ){
+                weightText = it
             }
-        },
-        confirmButton = {
-            TextButton(
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            BaseOutlinedTextField(
+                value = dateText,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { openDatePicker.value = true },
+                placeHolder = stringResource(R.string.weight_form_placeholder_date),
+                label = stringResource(R.string.weight_form_label_date),
+                trailingIcon = Icons.Outlined.CalendarToday,
+                maxLines = 2,
+                readOnly = true,
+                onClickTrailingIcon = {
+                    openDatePicker.value = true
+                },
+                isRequired = true
+            ){
+
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            BaseOutlinedTextField(
+                value = note,
+                modifier = Modifier.fillMaxWidth(),
+                placeHolder = stringResource(R.string.weight_form_placeholder_note),
+                label = stringResource(R.string.weight_form_label_note),
+                maxLines = 3
+            ){
+                if (it.length <= noteMaxLength) note = it
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
                 onClick = {
                     val parsedWeight = weightText.toDoubleOrNull()
                     val parsedDate = parseDate(dateText)
@@ -574,7 +582,7 @@ fun AddWeightDialog(
                             weightViewModel.updateWeight(
                                 newWeight,
                                 notPermission = {
-                                    Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context, context.getString(R.string.permission_denied_observer), Toast.LENGTH_LONG).show()
                                 }
                             )
                         } else {
@@ -582,33 +590,25 @@ fun AddWeightDialog(
                                 petId,
                                 newWeight,
                                 notPermission = {
-                                    Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context, context.getString(R.string.permission_denied_observer), Toast.LENGTH_LONG).show()
                                 }
                             )
                         }
                         onDismiss()
                     }
-                }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
             ) {
                 Text(text = stringResource(R.string.form_confirm_btn))
             }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss
-            ) {
-                Text(text = stringResource(R.string.form_cancel_btn))
-            }
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
-    )
-    if (showUnitDialog) {
-        SelectWeightUnitDialog(
-            onDismiss = {
-                showUnitDialog = false
-            }
-        )
     }
 }
+
 
 
 @Composable
