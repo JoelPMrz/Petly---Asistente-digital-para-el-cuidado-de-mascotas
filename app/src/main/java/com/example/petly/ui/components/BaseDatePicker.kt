@@ -5,6 +5,7 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -28,7 +29,7 @@ fun BaseDatePicker(
 ) {
     val zoneId = ZoneId.systemDefault()
 
-    val selectableDates = object : androidx.compose.material3.SelectableDates {
+    val selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
             val date = Instant.ofEpochMilli(utcTimeMillis)
                 .atZone(zoneId)

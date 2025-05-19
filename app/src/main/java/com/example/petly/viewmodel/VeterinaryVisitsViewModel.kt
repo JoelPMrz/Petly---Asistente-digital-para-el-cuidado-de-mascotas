@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.data.repository.VeterinaryVisitsRepository
+import com.google.firebase.firestore.FirebaseFirestoreException
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+@HiltViewModel
 class VeterinaryVisitsViewModel @Inject constructor(
     private val veterinaryVisitsRepository: VeterinaryVisitsRepository
 ) : ViewModel() {
@@ -49,22 +51,32 @@ class VeterinaryVisitsViewModel @Inject constructor(
         }
     }
 
-    fun addVeterinaryVisit(){
+    fun addVeterinaryVisit(petId: String,veterinaryVisit: VeterinaryVisit, notPermission : () -> Unit, onFailure : () -> Unit){
         viewModelScope.launch {
             try {
-
-            }catch (e: Exception){
-
+                veterinaryVisitsRepository.addVeterinaryVisitToPet(petId ,veterinaryVisit)
+            } catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                    notPermission()
+                }
+            }catch (e: Exception) {
+                onFailure()
+                _errorState.value = "Error al agregar peso: ${e.message}"
             }
         }
     }
 
-    fun updateVeterinaryVisit(){
+    fun updateVeterinaryVisit(veterinaryVisit: VeterinaryVisit, notPermission : () -> Unit, onFailure : () -> Unit){
         viewModelScope.launch {
             try {
-
-            }catch (e: Exception){
-
+                veterinaryVisitsRepository.updateVeterinaryVisit(veterinaryVisit)
+            }catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                    notPermission()
+                }
+            } catch (e: Exception) {
+                onFailure()
+                _errorState.value = "Error al actualizar peso: ${e.message}"
             }
         }
     }

@@ -475,7 +475,8 @@ fun AddWeightBottomSheet(
                 selectedDate.value = date
                 dateText = formatLocalDateToString(date)
                 openDatePicker.value = false
-            }
+            },
+            maxDate = LocalDate.now()
         )
     }
 

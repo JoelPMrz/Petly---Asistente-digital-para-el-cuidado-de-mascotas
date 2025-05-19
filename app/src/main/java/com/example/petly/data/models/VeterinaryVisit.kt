@@ -11,7 +11,7 @@ import java.time.LocalTime
 data class VeterinaryVisit(
     var id: String = "",
     var petId: String = "",
-    var title: String = "",
+    var concept: String = "",
     var description: String? = "",
     var date: LocalDate = LocalDate.now(),
     var time: LocalTime = LocalTime.now(),
@@ -25,7 +25,7 @@ fun VeterinaryVisit.toFirestoreMap(): Map<String, Any?>{
     return mapOf(
         "id" to id,
         "petId" to petId,
-        "title" to title,
+        "concept" to concept,
         "description" to description,
         "dateTime" to dateTime.toTimestamp(),
         "veterinary" to veterinary,
@@ -42,11 +42,11 @@ fun veterinaryVisitFromFirebase(map: Map<String, Any?>): VeterinaryVisit {
     return VeterinaryVisit(
         id = map["id"] as? String ?: "",
         petId = map["petId"] as? String ?: "",
-        title = map["title"] as? String ?: "",
-        description = map["description"] as? String,
+        concept = map["concept"] as? String ?: "",
+        description = map["description"] as? String ?: "",
         date = date,
         time = time,
-        veterinary = map["veterinary"] as? String,
+        veterinary = map["veterinary"] as? String ?: "",
         createdBy = map["createdBy"] as? String ?: "",
         completed = map["completed"] as? Boolean ?: false
     )

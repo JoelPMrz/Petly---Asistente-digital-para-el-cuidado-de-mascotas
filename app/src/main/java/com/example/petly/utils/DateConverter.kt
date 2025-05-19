@@ -55,9 +55,25 @@ fun parseDate(dateString: String): LocalDate {
     }
 }
 
+fun parseTime(timeString: String): LocalTime {
+    Log.d("TimeParsing", "Parsing time: $timeString")
+    return try {
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+        LocalTime.parse(timeString, timeFormatter)
+    } catch (e: Exception) {
+        Log.e("TimeParsing", "Error parsing time: ${e.message}")
+        LocalTime.now()
+    }
+}
+
 fun formatLocalDateToString(localDate: LocalDate): String {
     val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("es", "ES"))
     return localDate.format(formatter)
+}
+
+fun formatLocalTimeToString(localTime: LocalTime): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale("es", "ES"))
+    return localTime.format(formatter)
 }
 
 fun formatLocalDateTimeToString(localDateTime: LocalDateTime): String {
