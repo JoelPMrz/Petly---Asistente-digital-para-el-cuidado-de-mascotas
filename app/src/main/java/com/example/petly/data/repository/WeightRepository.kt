@@ -16,36 +16,26 @@ class WeightRepository @Inject constructor(
 ) {
 
     fun getWeightsFlow(petId: String): Flow<List<Weight>> = callbackFlow {
-        val petDocRef = firestore.collection("pets").document(petId)
-        val subscription = petDocRef.addSnapshotListener { snapshot, _ ->
-            snapshot?.let { it ->
-                val weightsIds = it.get("weights") as? List<String> ?: emptyList()
-                if (weightsIds.isNotEmpty()) {
-                    val weightsRefs = firestore.collection("weights")
-                        .whereIn("id", weightsIds)
-                    weightsRefs.addSnapshotListener { weightSnapshot, _ ->
-                        weightSnapshot?.let { querySnapshot ->
-                            val weights = mutableListOf<Weight>()
-                            for (document in querySnapshot.documents) {
-                                val data = document.data
-                                val weight = weightFromFirestoreMap(data ?: emptyMap())
-                                weight.id = document.id
-                                weight.let { weights.add(it) }
-                            }
-                            val sortedWeights = weights
-                                .sortedWith(compareBy<Weight> { it.time })
-
-                            trySend(sortedWeights)
-                        }
-                    }
-                } else {
-                    trySend(emptyList<Weight>())
+        val subscription = firestore.collection("weights")
+            .whereEqualTo("petId", petId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
                 }
+
+                val weights = snapshot?.documents?.mapNotNull { doc ->
+                    val weight = weightFromFirestoreMap(doc.data ?: return@mapNotNull null)
+                    weight.id = doc.id
+                    weight
+                }?.sortedBy { it.time } ?: emptyList()
+
+                trySend(weights)
             }
-        }
 
         awaitClose { subscription.remove() }
     }
+
 
 
     suspend fun addWeightToPet(petId: String, weight: Weight) {

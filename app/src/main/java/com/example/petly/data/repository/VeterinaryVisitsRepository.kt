@@ -18,34 +18,25 @@ class VeterinaryVisitsRepository @Inject constructor(
 ) {
 
     fun getVeterinaryVisitsFlow(petId: String): Flow<List<VeterinaryVisit>> = callbackFlow {
-        val veterinaryVisitRef = firestore.collection("veterinaryVisits").document(petId)
-        val subscription = veterinaryVisitRef.addSnapshotListener{ snapshot, _ ->
-            snapshot?.let {
-                val veterinaryVisitIds = it.get("veterinaryVisits")  as? List<String> ?: emptyList()
-                if(veterinaryVisitIds.isNotEmpty()){
-                    val veterinaryVisitRefs = firestore.collection("veterinaryVisits")
-                        .whereIn("id", veterinaryVisitIds)
-                    veterinaryVisitRefs.addSnapshotListener { veterinaryVisitSnapshot, _ ->
-                        veterinaryVisitSnapshot?.let { querySnapshot ->
-                            val veterinaryVisits = mutableListOf<VeterinaryVisit>()
-                            for (document in querySnapshot.documents) {
-                                val data = document.data
-                                val veterinaryVisit = veterinaryVisitFromFirebase(data ?: emptyMap())
-                                veterinaryVisit.id = document.id
-                                veterinaryVisit.let { veterinaryVisits.add(it) }
-                            }
-                            val sortedVeterinaryVisits = veterinaryVisits
-                                .sortedWith(compareBy<VeterinaryVisit> { it.time })
+        val query = firestore.collection("veterinaryVisits")
+            .whereEqualTo("petId", petId)
 
-                            trySend(sortedVeterinaryVisits)
-                        }
-                    }
-                } else {
-                    trySend(emptyList<VeterinaryVisit>())
-                }
+        val listener = query.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                close(error)
+                return@addSnapshotListener
             }
+
+            val visits = snapshot?.documents?.mapNotNull { doc ->
+                val visit = veterinaryVisitFromFirebase(doc.data ?: return@mapNotNull null)
+                visit.id = doc.id
+                visit
+            }?.sortedWith(compareBy({ it.date }, { it.time })) ?: emptyList()
+
+            trySend(visits).isSuccess
         }
-        awaitClose { subscription.remove() }
+
+        awaitClose { listener.remove() }
     }
 
     suspend fun addVeterinaryVisitToPet(petId: String, veterinaryVisit: VeterinaryVisit) {

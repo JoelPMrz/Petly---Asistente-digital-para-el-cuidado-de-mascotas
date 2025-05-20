@@ -81,14 +81,18 @@ class VeterinaryVisitsViewModel @Inject constructor(
         }
     }
 
-    fun deleteVeterinaryVisit(){
+    fun deleteVeterinaryVisit(petId: String, veterinaryVisitId: String, notPermission: () -> Unit){
         viewModelScope.launch {
             try {
-
-            }catch (e: Exception){
-
+                veterinaryVisitsRepository.deleteVeterinaryVisitFromPet(petId, veterinaryVisitId)
+                getVeterinaryVisitsFlow(petId)
+            }catch (e: FirebaseFirestoreException) {
+                if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                    notPermission()
+                }
+            } catch (e: Exception) {
+                _errorState.value = "Error al eliminar la cita: ${e.message}"
             }
         }
     }
-
 }
