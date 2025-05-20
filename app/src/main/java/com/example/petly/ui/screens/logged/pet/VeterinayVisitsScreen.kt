@@ -3,6 +3,7 @@ package com.example.petly.ui.screens.logged.pet
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -22,19 +23,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.automirrored.rounded.ArrowRight
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowDropDown
-import androidx.compose.material.icons.rounded.ArrowDropUp
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.Cancel
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -60,8 +60,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -72,7 +70,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.User
 import com.example.petly.data.models.VeterinaryVisit
-import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
@@ -81,24 +78,19 @@ import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseTimePicker
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
-import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.formatLocalTimeToString
 import com.example.petly.utils.parseDate
 import com.example.petly.utils.parseTime
-import com.example.petly.utils.truncate
-import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.example.petly.viewmodel.VeterinaryVisitsViewModel
-import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlin.math.abs
 
 @Composable
 fun VeterinaryVisitsScreen(
     //analytics: AnalyticsManager,
-    auth : AuthManager,
+    auth: AuthManager,
     petId: String,
     navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
@@ -111,11 +103,11 @@ fun VeterinaryVisitsScreen(
     val currentUserState by userViewModel.userState.collectAsState()
     val veterinaryVisits by veterinaryVisitsViewModel.veterinaryVisits.collectAsState()
     var showAddEditVeterinaryVisit by remember { mutableStateOf(false) }
-    var selectedItemId by remember { mutableStateOf<String?>(null) }
+    var itemSelected by remember { mutableStateOf<VeterinaryVisit?>(null) }
 
     LaunchedEffect(petId) {
         petViewModel.getObservedPet(petId)
-
+        veterinaryVisitsViewModel.getVeterinaryVisitsFlow(petId)
     }
 
     LaunchedEffect(true) {
@@ -168,7 +160,9 @@ fun VeterinaryVisitsScreen(
                             petState?.id?.let {
                                 petViewModel.doesPetExist(
                                     petId = it,
-                                    exists = { showAddEditVeterinaryVisit = !showAddEditVeterinaryVisit },
+                                    exists = {
+                                        showAddEditVeterinaryVisit = !showAddEditVeterinaryVisit
+                                    },
                                     notExists = {
                                         Toast.makeText(
                                             context,
@@ -185,8 +179,16 @@ fun VeterinaryVisitsScreen(
                 }
             }
 
-            items(veterinaryVisits.reversed(), key = { it.id }) { veterinaryVisit ->
-
+            items(veterinaryVisits, key = { it.id }) { veterinaryVisit ->
+                VeterinaryVisitCard(
+                    veterinaryVisit = veterinaryVisit,
+                    petId = petId,
+                    petName = petState?.name,
+                    onClick = {
+                        showAddEditVeterinaryVisit = true
+                        itemSelected = veterinaryVisit
+                    }
+                )
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }
@@ -197,44 +199,29 @@ fun VeterinaryVisitsScreen(
                     showAddEditVeterinaryVisit = false
                 },
                 petId = petId,
+                petName = petState?.name ?: "",
                 currentUser = currentUserState,
-                veterinaryVisit = null
+                veterinaryVisit = itemSelected
             )
         }
     }
 }
 
 @Composable
-fun VeterinaryVisit(
-    weight: Weight,
-    weights: List<Weight>,
+fun VeterinaryVisitCard(
+    veterinaryVisit: VeterinaryVisit,
     petId: String,
     petName: String?,
-    selectedItemId: String?,
-    onSelectItem: (String?) -> Unit,
-    weightViewModel: WeightViewModel = hiltViewModel(),
-    preferencesViewModel: PreferencesViewModel = hiltViewModel()
+    onClick: () -> Unit,
+    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
 ) {
-    val isExpanded = selectedItemId == weight.id
-    var showDeleteVeterinaryVisit by remember { mutableStateOf(false) }
-    val selectedUnit = preferencesViewModel.selectedUnit.collectAsState().value
-    val convertedWeight = convertWeight(weight.value, weight.unit, selectedUnit).truncate(2)
-    val difference: Double? = weightViewModel.comparePreviousWeight(weight, weights, selectedUnit)
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.extraLarge)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        if (isExpanded) onSelectItem(null) else onSelectItem(weight.id)
-                    },
-                    onLongPress = {
-                        showDeleteVeterinaryVisit = !showDeleteVeterinaryVisit
-                        onSelectItem(null)
-                    }
-                )
+            .clickable {
+                onClick()
             },
         elevation = CardDefaults.cardElevation(2.dp),
         shape = MaterialTheme.shapes.large
@@ -249,43 +236,18 @@ fun VeterinaryVisit(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "$convertedWeight $selectedUnit")
-
-                AnimatedVisibility(difference != null) {
-                    difference?.let {
-                        Row {
-                            Icon(
-                                imageVector = when {
-                                    it < 0.0 -> Icons.Rounded.ArrowDropDown
-                                    it == 0.0 -> Icons.AutoMirrored.Rounded.ArrowRight
-                                    else -> Icons.Rounded.ArrowDropUp
-                                },
-                                contentDescription = "Arrow difference weight",
-                                tint = when {
-                                    it < 0.0 -> Color(0xFFFF6161)
-                                    it == 0.0 -> Color(0xFF6879FF)
-                                    else -> Color(0xFF58E561)
-                                }
-                            )
-                            Text(text = "${abs(it)} $selectedUnit", fontSize = 13.sp)
-                        }
-                    }
-                }
+                Text(text = veterinaryVisit.concept)
             }
 
             Spacer(modifier = Modifier.height(5.dp))
 
-            AnimatedVisibility(visible = isExpanded) {
-                Box {
-                    if (!weight.notes.isNullOrEmpty()) {
-                        Text(
-                            text = weight.notes.toString(),
-                            fontSize = 12.sp,
-                            textAlign = TextAlign.Justify,
-                            lineHeight = 15.sp
-                        )
-                    }
-                }
+            if (!veterinaryVisit.description.isNullOrEmpty()) {
+                Text(
+                    text = veterinaryVisit.description.toString(),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Justify,
+                    lineHeight = 15.sp
+                )
             }
 
             Spacer(modifier = Modifier.height(5.dp))
@@ -293,71 +255,41 @@ fun VeterinaryVisit(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .animateContentSize()
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.TopStart),
-                    text = formatLocalDateToString(weight.date),
+                    text = formatLocalDateToString(veterinaryVisit.date),
                     fontSize = 10.sp
                 )
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                ) {
-                    AnimatedVisibility(visible = isExpanded) {
-                        IconCircle(
-                            icon = Icons.Rounded.Delete,
-                            onClick = {
-                                showDeleteVeterinaryVisit = false
-                                onSelectItem(null)
-                            }
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    AnimatedVisibility(visible = isExpanded) {
-                        IconCircle(
-                            icon = Icons.Rounded.Edit,
-                            onClick = {
-                                onSelectItem(null)
-                            }
-                        )
-                    }
-                }
+                Text(
+                    modifier = Modifier.align(Alignment.TopStart),
+                    text = formatLocalTimeToString(veterinaryVisit.time),
+                    fontSize = 10.sp
+                )
             }
         }
-    }
-    
-
-    if (showDeleteVeterinaryVisit) {
-        DeleteVeterinaryVisitDialog(
-            onDismiss = {
-                showDeleteVeterinaryVisit = false
-            },
-            petId = petId,
-            petName = petName,
-            weight = weight,
-        )
     }
 }
 
 @Composable
 fun DeleteVeterinaryVisitDialog(
     onDismiss: () -> Unit,
+    onDelete: () -> Unit,
     petId: String,
-    weight: Weight,
+    veterinaryVisit: VeterinaryVisit,
     petName: String?,
-    weightViewModel: WeightViewModel = hiltViewModel()
+    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = stringResource(R.string.delete_weight_alert_title))
+            Text(text = stringResource(R.string.delete_visit_alert_title))
         },
         text = {
             Text(
                 text = stringResource(
-                    R.string.delete_weight_alert_description,
+                    R.string.delete_visit_alert_description,
                     petName.toString()
                 )
             )
@@ -365,18 +297,19 @@ fun DeleteVeterinaryVisitDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    weightViewModel.deleteWeight(
+                    veterinaryVisitsViewModel.deleteVeterinaryVisit(
                         petId,
-                        weight.id.toString(),
+                        veterinaryVisit.id,
                         notPermission = {
                             Toast.makeText(
                                 context,
-                                "Permiso denegado para observadores",
+                                context.getString(R.string.permission_denied_observer),
                                 Toast.LENGTH_LONG
                             ).show()
                         }
                     )
                     onDismiss()
+                    onDelete()
                 }
             ) {
                 Text(text = stringResource(R.string.form_confirm_delete_btn))
@@ -431,13 +364,17 @@ fun VeterinaryVisitsTopAppBar(
 fun AddVeterinaryVisitBottomSheet(
     onDismiss: () -> Unit,
     petId: String,
-    currentUser : User?,
+    petName: String,
+    currentUser: User?,
     veterinaryVisit: VeterinaryVisit? = null,
+    petViewModel: PetViewModel = hiltViewModel(),
     veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     var concept by remember { mutableStateOf("") }
+    var isConceptError by remember { mutableStateOf(true) }
     var description by remember { mutableStateOf("") }
+    var isDescriptionError by remember { mutableStateOf(true) }
     var veterinary by remember { mutableStateOf("") }
     var completed by remember { mutableStateOf(false) }
 
@@ -449,7 +386,13 @@ fun AddVeterinaryVisitBottomSheet(
     val selectedTime = remember { mutableStateOf(LocalTime.now()) }
     var timeText by remember { mutableStateOf("") }
 
+    var showDeleteVeterinaryVisit by remember { mutableStateOf(false) }
+
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    LaunchedEffect(petId) {
+        petViewModel.getObservedPet(petId)
+    }
 
     LaunchedEffect(veterinaryVisit) {
         veterinaryVisit?.let { veterinaryVisit ->
@@ -528,7 +471,8 @@ fun AddVeterinaryVisitBottomSheet(
                 label = stringResource(R.string.concept),
                 maxLines = 2,
                 maxLength = 35,
-                isRequired = true
+                isRequired = true,
+                isError = isConceptError
             ) {
                 concept = it
             }
@@ -541,7 +485,8 @@ fun AddVeterinaryVisitBottomSheet(
                 placeHolder = stringResource(R.string.description_placeholder),
                 label = stringResource(R.string.description),
                 maxLines = 2,
-                maxLength = 130
+                maxLength = 130,
+                isError = isDescriptionError
             ) {
                 description = it
             }
@@ -596,56 +541,142 @@ fun AddVeterinaryVisitBottomSheet(
             ) {
 
             }
-            Spacer(modifier = Modifier.height(20.dp))
 
-            Button(
-                onClick = {
-                    val parsedDate = parseDate(dateText)
-                    val parseTime = parseTime(timeText)
-                    val newVeterinaryVisit = VeterinaryVisit(
-                        id = veterinaryVisit?.id ?: "" ,
-                        petId = petId,
-                        concept = concept,
-                        description =  description,
-                        date = parsedDate,
-                        time = parseTime,
-                        veterinary = veterinary,
-                        createdBy = currentUser?.id ?: context.getString(R.string.unidentified),
-                        completed = completed
-                    )
-                    if (veterinaryVisit != null) {
-                        veterinaryVisitsViewModel.updateVeterinaryVisit(
-                            veterinaryVisit = newVeterinaryVisit,
-                            notPermission = {
-                                Toast.makeText(context, context.getString(R.string.permission_denied_observer), Toast.LENGTH_LONG).show()
-                            },
-                            onFailure = {
-                                Toast.makeText(context, context.getString(R.string.error_edit_veterinary_visit), Toast.LENGTH_LONG).show()
-                            }
-                        )
-                    } else {
-                        veterinaryVisitsViewModel.addVeterinaryVisit(
-                            petId = petId,
-                            veterinaryVisit = newVeterinaryVisit,
-                            notPermission = {
-                                Toast.makeText(context, context.getString(R.string.permission_denied_observer), Toast.LENGTH_LONG).show()
-                            },
-                            onFailure = {
-                                Toast.makeText(context, context.getString(R.string.error_create_veterinary_visit), Toast.LENGTH_LONG).show()
-                            }
-                        )
-                    }
-                    onDismiss()
+            Spacer(modifier = Modifier.height(10.dp))
 
-                },
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
+                    .clip(RoundedCornerShape(12))
+                    .background(
+                        if (completed) MaterialTheme.colorScheme.primaryContainer
+                        else MaterialTheme.colorScheme.errorContainer
+                    )
+                    .clickable {
+                        completed = !completed
+                    }
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
             ) {
-                Text(text = stringResource(R.string.form_confirm_btn))
+                Icon(
+                    imageVector = if (completed) Icons.Rounded.CheckCircle else Icons.Rounded.Cancel,
+                    contentDescription = null,
+                    tint = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = if (completed) stringResource(R.string.completed) else stringResource(
+                        R.string.not_completed
+                    ),
+                    color = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer,
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                Modifier.fillMaxWidth()
+            ) {
+                Button(
+                    onClick = {
+                        val parsedDate = parseDate(dateText)
+                        val parseTime = parseTime(timeText)
+                        val newVeterinaryVisit = VeterinaryVisit(
+                            id = veterinaryVisit?.id ?: "",
+                            petId = petId,
+                            concept = concept,
+                            description = description,
+                            date = parsedDate,
+                            time = parseTime,
+                            veterinary = veterinary,
+                            createdBy = currentUser?.id ?: context.getString(R.string.unidentified),
+                            completed = completed
+                        )
+                        if (veterinaryVisit != null) {
+                            veterinaryVisitsViewModel.updateVeterinaryVisit(
+                                veterinaryVisit = newVeterinaryVisit,
+                                notPermission = {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.permission_denied_observer),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                },
+                                onFailure = {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.error_edit_veterinary_visit),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            )
+                        } else {
+                            veterinaryVisitsViewModel.addVeterinaryVisit(
+                                petId = petId,
+                                veterinaryVisit = newVeterinaryVisit,
+                                notPermission = {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.permission_denied_observer),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                },
+                                onFailure = {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.error_create_veterinary_visit),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            )
+                        }
+                        onDismiss()
 
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(60.dp)
+                ) {
+                    Text(
+                        text = if (veterinaryVisit == null) stringResource(R.string.add) else stringResource(
+                            R.string.edit
+                        )
+                    )
+                }
+
+                if (veterinaryVisit != null) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Button(
+                        onClick = {
+                            showDeleteVeterinaryVisit = true
+                        },
+                        modifier = Modifier
+                            .height(60.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                            containerColor = MaterialTheme.colorScheme.errorContainer
+                        )
+                    ) {
+                        Text(text = stringResource(R.string.delete))
+                    }
+                }
+            }
             Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+
+    if (showDeleteVeterinaryVisit) {
+        veterinaryVisit?.let {
+            DeleteVeterinaryVisitDialog(
+                onDismiss = {
+                    showDeleteVeterinaryVisit = false
+                },
+                onDelete = {
+                    onDismiss()
+                },
+                petId = petId,
+                petName = petName,
+                veterinaryVisit = it,
+            )
         }
     }
 }

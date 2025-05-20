@@ -115,4 +115,8 @@
     <string name="veterinary_placeholder">Clínica Veterinaria Martínez</string>
     <string name="error_create_veterinary_visit">Error al crear la visita</string>
     <string name="error_edit_veterinary_visit">Error al editar la visita</string>
+    <string name="delete_visit_alert_title">¿Eliminar esta visita veterinaria?</string>
+    <string name="delete_visit_alert_description">Si eliminas esta visita del listado de visitas veterinarias, se eliminará permanentemente de todas las cuentas viculadas a la mascota %1$s</string>
+    <string name="completed">Realizada</string>
+    <string name="not_completed">No realizada</string>
 </resources>
