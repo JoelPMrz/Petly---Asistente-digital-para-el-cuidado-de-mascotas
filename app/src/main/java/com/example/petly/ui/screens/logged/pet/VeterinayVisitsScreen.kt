@@ -1,8 +1,11 @@
 package com.example.petly.ui.screens.logged.pet
 
+import BaseTimePicker
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -24,14 +27,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.LocalHospital
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -60,9 +67,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +90,6 @@ import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.EmptyCard
 import com.example.petly.ui.components.BaseDatePicker
-import com.example.petly.ui.components.BaseTimePicker
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.formatLocalDateToString
@@ -182,8 +196,6 @@ fun VeterinaryVisitsScreen(
             items(veterinaryVisits, key = { it.id }) { veterinaryVisit ->
                 VeterinaryVisitCard(
                     veterinaryVisit = veterinaryVisit,
-                    petId = petId,
-                    petName = petState?.name,
                     onClick = {
                         showAddEditVeterinaryVisit = true
                         itemSelected = veterinaryVisit
@@ -210,12 +222,8 @@ fun VeterinaryVisitsScreen(
 @Composable
 fun VeterinaryVisitCard(
     veterinaryVisit: VeterinaryVisit,
-    petId: String,
-    petName: String?,
     onClick: () -> Unit,
-    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
 ) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -236,35 +244,80 @@ fun VeterinaryVisitCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = veterinaryVisit.concept)
+                Text(text = veterinaryVisit.concept, fontWeight = FontWeight.SemiBold)
             }
 
             Spacer(modifier = Modifier.height(5.dp))
 
             if (!veterinaryVisit.description.isNullOrEmpty()) {
-                Text(
-                    text = veterinaryVisit.description.toString(),
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Justify,
-                    lineHeight = 15.sp
-                )
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = veterinaryVisit.description.toString(),
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Justify,
+                        lineHeight = 15.sp
+                    )
+                }
+                Spacer(modifier = Modifier.height(5.dp))
             }
 
-            Spacer(modifier = Modifier.height(5.dp))
+            if (!veterinaryVisit.comment.isNullOrEmpty() ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    Text(
+                        text = veterinaryVisit.comment.toString(),
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Justify,
+                        lineHeight = 15.sp,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+            }
 
-            Box(
+
+            if (!veterinaryVisit.veterinary.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.height(5.dp))
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(18.dp),
+                            imageVector = Icons.Rounded.LocalHospital,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(
+                            text = veterinaryVisit.veterinary.toString(),
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Justify,
+                        )
+                    }
+
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+            }
+
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    modifier = Modifier.align(Alignment.TopStart),
                     text = formatLocalDateToString(veterinaryVisit.date),
-                    fontSize = 10.sp
+                    fontSize = 12.sp
                 )
+                Spacer(Modifier.width(5.dp))
                 Text(
-                    modifier = Modifier.align(Alignment.TopStart),
                     text = formatLocalTimeToString(veterinaryVisit.time),
-                    fontSize = 10.sp
+                    fontSize = 12.sp
                 )
             }
         }
@@ -371,20 +424,35 @@ fun AddVeterinaryVisitBottomSheet(
     veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     var concept by remember { mutableStateOf("") }
-    var isConceptError by remember { mutableStateOf(true) }
+    var isConceptError by remember { mutableStateOf(false) }
+    val conceptFocusRequester = remember { FocusRequester() }
+    var wasConceptTouched by remember { mutableStateOf(false) }
+
     var description by remember { mutableStateOf("") }
-    var isDescriptionError by remember { mutableStateOf(true) }
+    val descriptionFocusRequester = remember { FocusRequester() }
+
     var veterinary by remember { mutableStateOf("") }
+    val veterinaryFocusRequester = remember { FocusRequester() }
+
+    var comment by remember { mutableStateOf("") }
+    val commentFocusRequester = remember { FocusRequester() }
+
     var completed by remember { mutableStateOf(false) }
 
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedDate = remember { mutableStateOf(LocalDate.now()) }
     var dateText by remember { mutableStateOf("") }
+    val dateFocusRequester = remember { FocusRequester() }
 
     val openTimePicker = remember { mutableStateOf(false) }
     val selectedTime = remember { mutableStateOf(LocalTime.now()) }
     var timeText by remember { mutableStateOf("") }
+    val timeFocusRequester = remember { FocusRequester() }
 
     var showDeleteVeterinaryVisit by remember { mutableStateOf(false) }
 
@@ -403,6 +471,8 @@ fun AddVeterinaryVisitBottomSheet(
             dateText = formatLocalDateToString(veterinaryVisit.date)
             timeText = formatLocalTimeToString(veterinaryVisit.time)
             veterinary = veterinaryVisit.veterinary ?: ""
+            completed = veterinaryVisit.completed
+            comment = veterinaryVisit.comment ?: ""
         } ?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(LocalDate.now())
@@ -414,11 +484,15 @@ fun AddVeterinaryVisitBottomSheet(
     if (openDatePicker.value) {
         BaseDatePicker(
             initialDate = selectedDate.value,
-            onDismissRequest = { openDatePicker.value = false },
+            onDismissRequest = {
+                openDatePicker.value = false
+                timeFocusRequester.requestFocus()
+            },
             onDateSelected = { date ->
                 selectedDate.value = date
                 dateText = formatLocalDateToString(date)
                 openDatePicker.value = false
+                timeFocusRequester.requestFocus()
             }
         )
     }
@@ -426,11 +500,21 @@ fun AddVeterinaryVisitBottomSheet(
     if (openTimePicker.value) {
         BaseTimePicker(
             initialTime = selectedTime.value,
-            onDismissRequest = { openTimePicker.value = false },
+            onDismissRequest = {
+                openTimePicker.value = false
+                focusManager.clearFocus()
+                if(completed){
+                    commentFocusRequester.requestFocus()
+                }
+            },
             onTimeSelected = { time ->
                 selectedTime.value = time
                 timeText = formatLocalTimeToString(time)
                 openTimePicker.value = false
+                focusManager.clearFocus()
+                if(completed){
+                    commentFocusRequester.requestFocus()
+                }
             }
         )
     }
@@ -466,39 +550,77 @@ fun AddVeterinaryVisitBottomSheet(
 
             BaseOutlinedTextField(
                 value = concept,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(conceptFocusRequester)
+                    .onFocusChanged { focusState ->
+                        if (!focusState.isFocused) {
+                            if (wasConceptTouched) {
+                                isConceptError = concept.isBlank()
+                            }
+                        } else {
+                            wasConceptTouched = true
+                        }
+                    },
                 placeHolder = stringResource(R.string.concept_placeholder),
                 label = stringResource(R.string.concept),
                 maxLines = 2,
                 maxLength = 35,
                 isRequired = true,
-                isError = isConceptError
+                isError = isConceptError,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        descriptionFocusRequester.requestFocus()
+                    }
+                )
             ) {
                 concept = it
+                if (wasConceptTouched && it.isNotBlank()) {
+                    isConceptError = false
+                }
             }
+
 
             Spacer(modifier = Modifier.height(10.dp))
 
             BaseOutlinedTextField(
                 value = description,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(descriptionFocusRequester)
+                    ,
                 placeHolder = stringResource(R.string.description_placeholder),
                 label = stringResource(R.string.description),
                 maxLines = 2,
-                maxLength = 130,
-                isError = isDescriptionError
+                maxLength = 100,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        veterinaryFocusRequester.requestFocus()
+                    }
+                )
             ) {
                 description = it
             }
+
             Spacer(modifier = Modifier.height(10.dp))
 
             BaseOutlinedTextField(
                 value = veterinary,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(veterinaryFocusRequester),
                 placeHolder = stringResource(R.string.veterinary_placeholder),
                 label = stringResource(R.string.veterinary),
                 maxLines = 2,
-                maxLength = 25
+                maxLength = 25,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        dateFocusRequester.requestFocus()
+                    }
+                )
             ) {
                 veterinary = it
             }
@@ -508,11 +630,12 @@ fun AddVeterinaryVisitBottomSheet(
                 value = dateText,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .focusRequester(dateFocusRequester)
                     .clickable { openDatePicker.value = true },
                 placeHolder = dateText,
                 label = stringResource(R.string.weight_form_label_date),
                 trailingIcon = Icons.Outlined.CalendarToday,
-                maxLines = 2,
+                maxLines = 1,
                 readOnly = true,
                 onClickTrailingIcon = {
                     openDatePicker.value = true
@@ -528,11 +651,12 @@ fun AddVeterinaryVisitBottomSheet(
                 value = timeText,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .focusRequester(timeFocusRequester)
                     .clickable { openTimePicker.value = true },
                 placeHolder = timeText,
                 label = stringResource(R.string.form_label_time),
                 trailingIcon = Icons.Outlined.Schedule,
-                maxLines = 2,
+                maxLines = 1,
                 readOnly = true,
                 onClickTrailingIcon = {
                     openTimePicker.value = true
@@ -544,6 +668,36 @@ fun AddVeterinaryVisitBottomSheet(
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            AnimatedVisibility(
+                visible = completed,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically()
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    BaseOutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(commentFocusRequester),
+                        value = comment,
+                        label = stringResource(R.string.comment),
+                        maxLines = 2,
+                        maxLength = 150,
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                keyboardController?.hide()
+                            }
+                        )
+                    ) {
+                        comment = it
+                    }
+
+                    Spacer(Modifier.height(10.dp))
+                }
+            }
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -551,7 +705,7 @@ fun AddVeterinaryVisitBottomSheet(
                     .clip(RoundedCornerShape(12))
                     .background(
                         if (completed) MaterialTheme.colorScheme.primaryContainer
-                        else MaterialTheme.colorScheme.errorContainer
+                        else MaterialTheme.colorScheme.surfaceVariant
                     )
                     .clickable {
                         completed = !completed
@@ -561,14 +715,14 @@ fun AddVeterinaryVisitBottomSheet(
                 Icon(
                     imageVector = if (completed) Icons.Rounded.CheckCircle else Icons.Rounded.Cancel,
                     contentDescription = null,
-                    tint = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer
+                    tint = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = if (completed) stringResource(R.string.completed) else stringResource(
                         R.string.not_completed
                     ),
-                    color = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer,
+                    color = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -578,59 +732,65 @@ fun AddVeterinaryVisitBottomSheet(
             ) {
                 Button(
                     onClick = {
-                        val parsedDate = parseDate(dateText)
-                        val parseTime = parseTime(timeText)
-                        val newVeterinaryVisit = VeterinaryVisit(
-                            id = veterinaryVisit?.id ?: "",
-                            petId = petId,
-                            concept = concept,
-                            description = description,
-                            date = parsedDate,
-                            time = parseTime,
-                            veterinary = veterinary,
-                            createdBy = currentUser?.id ?: context.getString(R.string.unidentified),
-                            completed = completed
-                        )
-                        if (veterinaryVisit != null) {
-                            veterinaryVisitsViewModel.updateVeterinaryVisit(
-                                veterinaryVisit = newVeterinaryVisit,
-                                notPermission = {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.permission_denied_observer),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                },
-                                onFailure = {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.error_edit_veterinary_visit),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            )
-                        } else {
-                            veterinaryVisitsViewModel.addVeterinaryVisit(
+                        if(concept.isBlank()){
+                            isConceptError = true
+                            conceptFocusRequester.requestFocus()
+                            return@Button
+                        }else{
+                            val parsedDate = parseDate(dateText)
+                            val parseTime = parseTime(timeText)
+                            val newVeterinaryVisit = VeterinaryVisit(
+                                id = veterinaryVisit?.id ?: "",
                                 petId = petId,
-                                veterinaryVisit = newVeterinaryVisit,
-                                notPermission = {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.permission_denied_observer),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                },
-                                onFailure = {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.error_create_veterinary_visit),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                                concept = concept,
+                                description = description,
+                                date = parsedDate,
+                                time = parseTime,
+                                veterinary = veterinary,
+                                comment = if(completed) comment else "",
+                                createdBy = currentUser?.id ?: context.getString(R.string.unidentified),
+                                completed = completed
                             )
+                            if (veterinaryVisit != null) {
+                                veterinaryVisitsViewModel.updateVeterinaryVisit(
+                                    veterinaryVisit = newVeterinaryVisit,
+                                    notPermission = {
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.permission_denied_observer),
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    },
+                                    onFailure = {
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.error_edit_veterinary_visit),
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                )
+                            } else {
+                                veterinaryVisitsViewModel.addVeterinaryVisit(
+                                    petId = petId,
+                                    veterinaryVisit = newVeterinaryVisit,
+                                    notPermission = {
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.permission_denied_observer),
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    },
+                                    onFailure = {
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.error_create_veterinary_visit),
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                )
+                            }
+                            onDismiss()
                         }
-                        onDismiss()
-
                     },
                     modifier = Modifier
                         .weight(1f)

@@ -119,4 +119,5 @@
     <string name="delete_visit_alert_description">Si eliminas esta visita del listado de visitas veterinarias, se eliminará permanentemente de todas las cuentas viculadas a la mascota %1$s</string>
     <string name="completed">Realizada</string>
     <string name="not_completed">No realizada</string>
+    <string name="comment">Comentario</string>
 </resources>
