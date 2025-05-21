@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +37,7 @@ fun BaseOutlinedTextField(
     singleLine: Boolean? = false,
     maxLength: Int? = null,
     keyboardOptions : KeyboardOptions? = null,
+    keyboardActions: KeyboardActions? = null,
     onClickTrailingIcon: (() -> Unit)? = null,
     isError: Boolean = false,
     onUserChange: (String) -> Unit
@@ -85,6 +87,7 @@ fun BaseOutlinedTextField(
                 maxLines = maxLines,
                 singleLine = singleLine,
                 keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
+                keyboardActions = keyboardActions ?: KeyboardActions.Default,
                 readOnly = readOnly,
                 isError = isError
             )
