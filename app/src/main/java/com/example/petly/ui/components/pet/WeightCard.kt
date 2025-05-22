@@ -24,10 +24,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.petly.R
 import com.example.petly.data.models.Weight
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.utils.convertWeight
@@ -36,9 +38,8 @@ import com.example.petly.utils.truncate
 import com.example.petly.viewmodel.PreferencesViewModel
 
 @Composable
-fun WeigthCard(
+fun WeightCard(
     weight: Weight?,
-    petId: String,
     modifier: Modifier,
     onClick: () -> Unit,
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
@@ -46,9 +47,9 @@ fun WeigthCard(
     LaunchedEffect(Unit) {
         preferencesViewModel.reloadUnitPreference()
     }
-
+    val context = LocalContext.current
     val selectedUnit by preferencesViewModel.selectedUnit.collectAsState()
-    var convertedWeight by remember { mutableStateOf("Agregar un peso") }
+    var convertedWeight by remember { mutableStateOf("") }
     var dateString by remember { mutableStateOf("") }
 
     LaunchedEffect(weight, selectedUnit) {
@@ -57,7 +58,7 @@ fun WeigthCard(
                 convertWeight(weight.value, weight.unit, selectedUnit).truncate(2).toString()
             dateString = formatLocalDateToString(weight.date)
         } else {
-            convertedWeight = "Agregar un peso"
+            convertedWeight = context.getString(R.string.add_weight)
             dateString = ""
         }
     }
@@ -93,7 +94,7 @@ fun WeigthCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = dateString,
-                fontSize = 10.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier.align(Alignment.End)
             )

@@ -107,7 +107,7 @@
     <string name="new_pet">Nueva mascota</string>
     <string name="owner">Dueño</string>
     <string name="observer">Acompañante</string>
-    <string name="veterinary_visits">Citas veterinarias</string>
+    <string name="veterinary_visits">Próxima visita veterinaria</string>
     <string name="register_new_weight">Agregar primer peso</string>
     <string name="register_new_veterinay_visists">Agrega una visita</string>
     <string name="edit_veterinay_vivist_title">Editar cita veterinaria</string>
@@ -124,6 +124,8 @@
     <string name="delete_visit_alert_title">¿Eliminar esta visita veterinaria?</string>
     <string name="delete_visit_alert_description">Si eliminas esta visita del listado de visitas veterinarias, se eliminará permanentemente de todas las cuentas viculadas a la mascota %1$s</string>
     <string name="completed">Realizada</string>
-    <string name="not_completed">No realizada</string>
+    <string name="not_completed">Programada</string>
     <string name="comment">Comentario</string>
+    <string name="add_weight">Agregar un peso</string>
+    <string name="next_visit">Próxima visita</string>
 </resources>

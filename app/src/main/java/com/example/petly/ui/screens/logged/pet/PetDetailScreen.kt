@@ -94,7 +94,7 @@ import com.example.petly.ui.components.pet.MicrochipCard
 import com.example.petly.ui.components.pet.PeopleLinkedCard
 import com.example.petly.ui.components.pet.SterilizedCard
 import com.example.petly.ui.components.pet.VeterinaryVisitsCard
-import com.example.petly.ui.components.pet.WeigthCard
+import com.example.petly.ui.components.pet.WeightCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
@@ -103,8 +103,10 @@ import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.getAgeFromDate
 import com.example.petly.utils.isMicrochipIdValid
 import com.example.petly.viewmodel.UserViewModel
+import com.example.petly.viewmodel.VeterinaryVisitsViewModel
 import com.example.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
+import java.time.LocalDateTime
 import androidx.compose.animation.expandVertically as expandVertically1
 
 @Composable
@@ -120,6 +122,7 @@ fun PetDetailScreen(
     navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel(),
+    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
 ) {
 
@@ -134,18 +137,29 @@ fun PetDetailScreen(
     var showDeletePetDialog by remember { mutableStateOf(false) }
     var showEditSterilizedState by remember { mutableStateOf(false) }
     val petState by petViewModel.petState.collectAsState()
-    val weights by weightViewModel.weightsState.collectAsState()
+    val weightsList by weightViewModel.weightsState.collectAsState()
     var weight by remember { mutableStateOf<Weight?>(null) }
+    val veterinaryVisitsList by  veterinaryVisitsViewModel.veterinaryVisits.collectAsState()
+    var veterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
     var showPhotoPicker by remember { mutableStateOf(false) }
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
 
     LaunchedEffect(petId) {
         petViewModel.getObservedPet(petId)
         weightViewModel.getWeights(petId)
+        veterinaryVisitsViewModel.getVeterinaryVisitsFlow(petId)
     }
 
-    LaunchedEffect(weights) {
-        weight = weights.lastOrNull()
+    LaunchedEffect(weightsList) {
+        weight = weightsList.lastOrNull()
+    }
+
+    LaunchedEffect(veterinaryVisitsList) {
+        veterinaryVisit = veterinaryVisitsList
+            .map { visit -> visit to LocalDateTime.of(visit.date, visit.time) }
+            .filter { (_, dateTime) -> dateTime.isAfter(LocalDateTime.now()) }
+            .minByOrNull { (_, dateTime) -> dateTime }
+            ?.first
     }
 
     LaunchedEffect(true) {
@@ -504,9 +518,8 @@ fun PetDetailScreen(
 
                     }
                     Spacer(modifier = Modifier.height(10.dp))
-                    WeigthCard(
+                    WeightCard(
                         weight,
-                        petId,
                         Modifier.fillMaxWidth(),
                         onClick = {
                             petViewModel.doesPetExist(
@@ -525,7 +538,7 @@ fun PetDetailScreen(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     VeterinaryVisitsCard(
-                        petId = petId,
+                        veterinaryVisit = veterinaryVisit,
                         modifier = Modifier,
                         onClick = {
                             navigateToVeterinaryVisits(petId)

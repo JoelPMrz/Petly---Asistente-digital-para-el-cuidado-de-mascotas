@@ -15,6 +15,14 @@ class PreferencesRepository @Inject constructor(
         sharedPreferencesManager.saveString("selected_unit", unit)
     }
 
+    fun setFilterVeterinaryVisits(filter : String) {
+        sharedPreferencesManager.saveString("filer_veterinay_visits", filter)
+    }
+
+    fun getFilterVeterinaryVisits(): String {
+        return sharedPreferencesManager.getString("filer_veterinay_visits", "all")
+    }
+
     fun getDarkModeState(): Boolean {
         return sharedPreferencesManager.getBoolean("is_dark_mode", false)
     }
