@@ -219,7 +219,7 @@ fun AddPetScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 20.dp)
             ) {
                 BaseOutlinedTextField(
                     value = name,

@@ -71,6 +71,11 @@ fun formatLocalDateToString(localDate: LocalDate): String {
     return localDate.format(formatter)
 }
 
+fun formatLocalDateToStringWithDay(localDate: LocalDate): String {
+    val formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale("es", "ES"))
+    return localDate.format(formatter)
+}
+
 fun formatLocalTimeToString(localTime: LocalTime): String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale("es", "ES"))
     return localTime.format(formatter)

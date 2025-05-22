@@ -2,15 +2,9 @@ package com.example.petly.ui.screens.logged.pet
 
 import BaseTimePicker
 import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,12 +26,16 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.CalendarToday
+import androidx.compose.material.icons.outlined.EventAvailable
+import androidx.compose.material.icons.outlined.EventBusy
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.EventAvailable
+import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material.icons.rounded.LocalHospital
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -68,14 +66,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -90,15 +88,19 @@ import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.EmptyCard
 import com.example.petly.ui.components.BaseDatePicker
+import com.example.petly.ui.components.IconSquare
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.formatLocalDateToString
+import com.example.petly.utils.formatLocalDateToStringWithDay
 import com.example.petly.utils.formatLocalTimeToString
 import com.example.petly.utils.parseDate
 import com.example.petly.utils.parseTime
+import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.example.petly.viewmodel.VeterinaryVisitsViewModel
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Composable
@@ -109,7 +111,8 @@ fun VeterinaryVisitsScreen(
     navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
+    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel(),
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -117,7 +120,23 @@ fun VeterinaryVisitsScreen(
     val currentUserState by userViewModel.userState.collectAsState()
     val veterinaryVisits by veterinaryVisitsViewModel.veterinaryVisits.collectAsState()
     var showAddEditVeterinaryVisit by remember { mutableStateOf(false) }
+    var showFilterVeterinaryVisits by remember { mutableStateOf(false) }
     var itemSelected by remember { mutableStateOf<VeterinaryVisit?>(null) }
+    val selectedVisitFilter = preferencesViewModel.visitFilter.collectAsState().value
+
+    val filteredVisits = veterinaryVisits.filter { visit ->
+        val dateTime = LocalDateTime.of(visit.date, visit.time)
+        when (selectedVisitFilter) {
+            "next" -> dateTime.isAfter(LocalDateTime.now())
+            "previous" -> dateTime.isBefore(LocalDateTime.now())
+            "previous_not_attending" -> !visit.completed && dateTime.isBefore(LocalDateTime.now())
+            else -> true
+        }
+    }
+    val sortedVisits = when (selectedVisitFilter) {
+        "next" -> filteredVisits
+        else -> filteredVisits.reversed()
+    }
 
     LaunchedEffect(petId) {
         petViewModel.getObservedPet(petId)
@@ -135,6 +154,9 @@ fun VeterinaryVisitsScreen(
         topBar = {
             VeterinaryVisitsTopAppBar(
                 navigateBack,
+                onClickFilter = {
+                    showFilterVeterinaryVisits = true
+                }
             )
         },
         floatingActionButton = {
@@ -168,7 +190,7 @@ fun VeterinaryVisitsScreen(
                 .padding(horizontal = 30.dp)
         ) {
             item {
-                if (veterinaryVisits.isEmpty()) {
+                if (filteredVisits.isEmpty()) {
                     EmptyCard(
                         onClick = {
                             petState?.id?.let {
@@ -193,7 +215,7 @@ fun VeterinaryVisitsScreen(
                 }
             }
 
-            items(veterinaryVisits, key = { it.id }) { veterinaryVisit ->
+            items(sortedVisits, key = { it.id }) { veterinaryVisit ->
                 VeterinaryVisitCard(
                     veterinaryVisit = veterinaryVisit,
                     onClick = {
@@ -209,11 +231,20 @@ fun VeterinaryVisitsScreen(
             AddVeterinaryVisitBottomSheet(
                 onDismiss = {
                     showAddEditVeterinaryVisit = false
+                    itemSelected = null
                 },
                 petId = petId,
                 petName = petState?.name ?: "",
                 currentUser = currentUserState,
                 veterinaryVisit = itemSelected
+            )
+        }
+
+        if(showFilterVeterinaryVisits){
+            VeterinaryVisitsFilterBottomSheet(
+                onDismiss = {
+                    showFilterVeterinaryVisits = false
+                }
             )
         }
     }
@@ -222,8 +253,9 @@ fun VeterinaryVisitsScreen(
 @Composable
 fun VeterinaryVisitCard(
     veterinaryVisit: VeterinaryVisit,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
+    val dateTime = LocalDateTime.of(veterinaryVisit.date, veterinaryVisit.time)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -232,7 +264,14 @@ fun VeterinaryVisitCard(
                 onClick()
             },
         elevation = CardDefaults.cardElevation(2.dp),
-        shape = MaterialTheme.shapes.large
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = when{
+                !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.errorContainer
+                veterinaryVisit.completed -> MaterialTheme.colorScheme.primaryContainer
+                else -> MaterialTheme.colorScheme.surfaceVariant
+            }
+        )
     ) {
         Column(
             modifier = Modifier
@@ -263,21 +302,6 @@ fun VeterinaryVisitCard(
                 Spacer(modifier = Modifier.height(5.dp))
             }
 
-            if (!veterinaryVisit.comment.isNullOrEmpty() ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ){
-                    Text(
-                        text = veterinaryVisit.comment.toString(),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Justify,
-                        lineHeight = 15.sp,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                }
-                Spacer(modifier = Modifier.height(5.dp))
-            }
-
 
             if (!veterinaryVisit.veterinary.isNullOrEmpty()) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -287,11 +311,20 @@ fun VeterinaryVisitCard(
                     Row (
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
+                        IconCircle(
                             modifier = Modifier.size(18.dp),
-                            imageVector = Icons.Rounded.LocalHospital,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                            sizeIcon = 18.dp,
+                            icon = ImageVector.vectorResource(id = R.drawable.home_health_24dp),
+                            backgroundColor = when{
+                                !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.onErrorContainer
+                                veterinaryVisit.completed -> MaterialTheme.colorScheme.onPrimaryContainer
+                                else -> MaterialTheme.colorScheme.onSurfaceVariant
+                            }  ,
+                            contentColor = when{
+                                !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.errorContainer
+                                veterinaryVisit.completed -> MaterialTheme.colorScheme.primaryContainer
+                                else -> MaterialTheme.colorScheme.surfaceVariant
+                            }
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
@@ -300,7 +333,6 @@ fun VeterinaryVisitCard(
                             textAlign = TextAlign.Justify,
                         )
                     }
-
                 }
                 Spacer(modifier = Modifier.height(5.dp))
             }
@@ -311,7 +343,7 @@ fun VeterinaryVisitCard(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = formatLocalDateToString(veterinaryVisit.date),
+                    text = formatLocalDateToStringWithDay(veterinaryVisit.date),
                     fontSize = 12.sp
                 )
                 Spacer(Modifier.width(5.dp))
@@ -385,6 +417,7 @@ fun DeleteVeterinaryVisitDialog(
 @Composable
 fun VeterinaryVisitsTopAppBar(
     navigateBack: () -> Unit,
+    onClickFilter: () -> Unit
 ) {
 
     TopAppBar(
@@ -407,7 +440,13 @@ fun VeterinaryVisitsTopAppBar(
             )
         },
         actions = {
-
+            IconCircle(
+                modifier = Modifier.size(35.dp),
+                icon = Icons.Rounded.FilterAlt,
+                onClick = {
+                    onClickFilter()
+                }
+            )
         },
     )
 }
@@ -426,7 +465,6 @@ fun AddVeterinaryVisitBottomSheet(
     val context = LocalContext.current
 
     val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     var concept by remember { mutableStateOf("") }
     var isConceptError by remember { mutableStateOf(false) }
@@ -438,9 +476,6 @@ fun AddVeterinaryVisitBottomSheet(
 
     var veterinary by remember { mutableStateOf("") }
     val veterinaryFocusRequester = remember { FocusRequester() }
-
-    var comment by remember { mutableStateOf("") }
-    val commentFocusRequester = remember { FocusRequester() }
 
     var completed by remember { mutableStateOf(false) }
 
@@ -472,7 +507,6 @@ fun AddVeterinaryVisitBottomSheet(
             timeText = formatLocalTimeToString(veterinaryVisit.time)
             veterinary = veterinaryVisit.veterinary ?: ""
             completed = veterinaryVisit.completed
-            comment = veterinaryVisit.comment ?: ""
         } ?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(LocalDate.now())
@@ -503,18 +537,12 @@ fun AddVeterinaryVisitBottomSheet(
             onDismissRequest = {
                 openTimePicker.value = false
                 focusManager.clearFocus()
-                if(completed){
-                    commentFocusRequester.requestFocus()
-                }
             },
             onTimeSelected = { time ->
                 selectedTime.value = time
                 timeText = formatLocalTimeToString(time)
                 openTimePicker.value = false
                 focusManager.clearFocus()
-                if(completed){
-                    commentFocusRequester.requestFocus()
-                }
             }
         )
     }
@@ -529,7 +557,7 @@ fun AddVeterinaryVisitBottomSheet(
                 .fillMaxWidth()
                 .imePadding()
                 .navigationBarsPadding()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -634,7 +662,7 @@ fun AddVeterinaryVisitBottomSheet(
                     .clickable { openDatePicker.value = true },
                 placeHolder = dateText,
                 label = stringResource(R.string.weight_form_label_date),
-                trailingIcon = Icons.Outlined.CalendarToday,
+                trailingIcon = ImageVector.vectorResource(id = R.drawable.calendar_today_24dp),
                 maxLines = 1,
                 readOnly = true,
                 onClickTrailingIcon = {
@@ -655,7 +683,7 @@ fun AddVeterinaryVisitBottomSheet(
                     .clickable { openTimePicker.value = true },
                 placeHolder = timeText,
                 label = stringResource(R.string.form_label_time),
-                trailingIcon = Icons.Outlined.Schedule,
+                trailingIcon = ImageVector.vectorResource(id = R.drawable.calendar_clock_24dp),
                 maxLines = 1,
                 readOnly = true,
                 onClickTrailingIcon = {
@@ -667,36 +695,6 @@ fun AddVeterinaryVisitBottomSheet(
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-
-            AnimatedVisibility(
-                visible = completed,
-                enter = expandVertically() + fadeIn(),
-                exit = shrinkVertically()
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ){
-                    BaseOutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusRequester(commentFocusRequester),
-                        value = comment,
-                        label = stringResource(R.string.comment),
-                        maxLines = 2,
-                        maxLength = 150,
-                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                keyboardController?.hide()
-                            }
-                        )
-                    ) {
-                        comment = it
-                    }
-
-                    Spacer(Modifier.height(10.dp))
-                }
-            }
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -713,7 +711,7 @@ fun AddVeterinaryVisitBottomSheet(
                     .padding(horizontal = 16.dp, vertical = 12.dp)
             ) {
                 Icon(
-                    imageVector = if (completed) Icons.Rounded.CheckCircle else Icons.Rounded.Cancel,
+                    imageVector = if (completed) Icons.Rounded.EventAvailable else ImageVector.vectorResource(id = R.drawable.event_upcoming_24dp),
                     contentDescription = null,
                     tint = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -747,7 +745,6 @@ fun AddVeterinaryVisitBottomSheet(
                                 date = parsedDate,
                                 time = parseTime,
                                 veterinary = veterinary,
-                                comment = if(completed) comment else "",
                                 createdBy = currentUser?.id ?: context.getString(R.string.unidentified),
                                 completed = completed
                             )
@@ -841,6 +838,168 @@ fun AddVeterinaryVisitBottomSheet(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun VeterinaryVisitsFilterBottomSheet(
+    onDismiss: () -> Unit,
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
+) {
+
+    var enableButton by remember { mutableStateOf(true) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Filtrar visitas veterinarias",
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            HorizontalDivider(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp, horizontal = 15.dp),
+                1.dp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        enableButton = false
+                        preferencesViewModel.setVisitFilter("next")
+                        onDismiss()
+                    }
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconCircle(
+                        icon =  ImageVector.vectorResource(id = R.drawable.event_upcoming_24dp),
+                        backgroundColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        "Próximas visitas",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                }
+            }
+            Spacer(Modifier.height(10.dp))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        enableButton = false
+                        preferencesViewModel.setVisitFilter("previous")
+                        onDismiss()
+                    }
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    IconCircle(
+                        icon = Icons.Outlined.EventAvailable,
+                        backgroundColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        contentColor = MaterialTheme.colorScheme.primaryContainer
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        "Visitas anteriores",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+
+                }
+            }
+            Spacer(Modifier.height(10.dp))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        enableButton = false
+                        preferencesViewModel.setVisitFilter("previous_not_attending")
+                        onDismiss()
+                    }
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    IconCircle(
+                        icon = Icons.Outlined.EventBusy,
+                        backgroundColor = MaterialTheme.colorScheme.onErrorContainer,
+                        contentColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        "Visitas anteriores sin acudir",
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+
+                }
+            }
+            Spacer(Modifier.height(10.dp))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        enableButton = false
+                        preferencesViewModel.setVisitFilter("all")
+                        onDismiss()
+                    }
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    IconCircle(
+                        icon = Icons.Outlined.CalendarMonth,
+                        backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        "Todas las visitas",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
 
 
 

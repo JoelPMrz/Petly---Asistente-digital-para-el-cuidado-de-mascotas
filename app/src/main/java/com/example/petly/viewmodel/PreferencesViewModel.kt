@@ -16,19 +16,26 @@ class PreferencesViewModel @Inject constructor(
     private val _selectedUnit = MutableStateFlow(preferencesRepository.getSelectedUnit())
     val selectedUnit: StateFlow<String> = _selectedUnit
 
-    private val _isDarkMode = MutableStateFlow(preferencesRepository.getDarkModeState())
-    val isDarkMode: StateFlow<Boolean> = _isDarkMode
-
     fun setSelectedUnit(unit: String) {
         preferencesRepository.setSelectedUnit(unit)
         _selectedUnit.value = unit
     }
+
+    private val _isDarkMode = MutableStateFlow(preferencesRepository.getDarkModeState())
+    val isDarkMode: StateFlow<Boolean> = _isDarkMode
 
     fun setDarkMode(isDark: Boolean) {
         preferencesRepository.setDarkModeState(isDark)
         _isDarkMode.value = isDark
     }
 
+    private val _visitFilter = MutableStateFlow(preferencesRepository.getFilterVeterinaryVisits())
+    val visitFilter: StateFlow<String> = _visitFilter
+
+    fun setVisitFilter(filter: String) {
+        preferencesRepository.setFilterVeterinaryVisits(filter)
+        _visitFilter.value = filter
+    }
     fun reloadUnitPreference() {
         _selectedUnit.value = preferencesRepository.getSelectedUnit()
     }
