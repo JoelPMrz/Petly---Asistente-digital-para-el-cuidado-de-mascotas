@@ -129,4 +129,5 @@
     <string name="observers_info_dialog_description4">No puede añadir, editar o elimar a otro acompañante</string>
     <string name="next_visits_subtitle">Próximas</string>
     <string name="previous_visits_subtitle">Anteriores</string>
+    <string name="search">Buscar...</string>
 </resources>

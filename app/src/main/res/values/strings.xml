@@ -142,4 +142,5 @@
     <string name="next_visits_subtitle">Próximas</string>
     <string name="previous_visits_subtitle">Anteriores</string>
     <string name="previous_not_attending_visits_subtitle">Anteriores sin acudir</string>
+    <string name="search">Buscar...</string>
 </resources>
