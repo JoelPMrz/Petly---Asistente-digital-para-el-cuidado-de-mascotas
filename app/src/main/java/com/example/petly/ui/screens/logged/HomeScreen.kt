@@ -107,10 +107,33 @@ fun HomeScreen(
         petViewModel.getAllPets()
     }
 
-
     Scaffold(
-        bottomBar = { MyNavigationAppBar(navigateToHome, navigateToCalendar, navigateToUser, 1) },
-        topBar = { HomeTopAppBar(userState?.photo, navigateToUser) },
+        bottomBar = {
+            MyNavigationAppBar(
+                navigateToHome = {
+                    navigateToHome()
+                },
+                navigateToCalendar = {
+                    navigateToCalendar ()
+                },
+                navigateToUser = {
+                    navigateToUser()
+                },
+                index = 1
+            )
+        },
+        topBar = {
+            HomeTopAppBar(
+                userState?.photo,
+                petList = petList,
+                navigateToAddPet = {
+                    navigateToAddPet()
+                },
+                navigateToUser = {
+                    navigateToUser()
+                }
+            )
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -119,37 +142,6 @@ fun HomeScreen(
                 .padding(paddingValues)
                 .padding(vertical = 10.dp),
         ) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 30.dp, end = 40.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = if(petList.size <= 1) stringResource(R.string.pet) else stringResource(R.string.pets) ,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 22.sp
-                )
-                Row {
-                    IconCircle(
-                        onClick = {
-                            navigateToAddPet()
-                        },
-                        icon = Icons.Rounded.Add
-                    )
-                    Spacer(Modifier.width(5.dp))
-                    IconCircle(
-                        modifier = Modifier.clickable {
-
-                        },
-                        icon = Icons.Rounded.FilterAlt
-                    )
-                }
-            }
-
-            Spacer(Modifier.height(10.dp))
             HorizontalPager(
                 state = petsPagerState,
                 modifier = Modifier.fillMaxWidth(),
@@ -357,10 +349,20 @@ fun AddPetCard(
 @Composable
 fun HomeTopAppBar(
     photo: String?,
+    petList: List<Pet>,
+    navigateToAddPet: () -> Unit,
     navigateToUser: () -> Unit,
 ) {
     TopAppBar(
-        title = {},
+        modifier = Modifier.padding(horizontal = 10.dp),
+        title = {
+            Text(
+                text = if (petList.size <= 1) stringResource(R.string.pet) else stringResource(R.string.pets),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 22.sp
+            )
+        },
         navigationIcon = {
             if (photo != null) {
                 AsyncImage(
@@ -401,7 +403,23 @@ fun HomeTopAppBar(
             }
 
         },
-        actions = {},
+        actions = {
+            Row {
+                IconCircle(
+                    onClick = {
+                        navigateToAddPet()
+                    },
+                    icon = Icons.Rounded.Add
+                )
+                Spacer(Modifier.width(5.dp))
+                IconCircle(
+                    modifier = Modifier.clickable {
+
+                    },
+                    icon = Icons.Rounded.FilterAlt
+                )
+            }
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.95f)
         )

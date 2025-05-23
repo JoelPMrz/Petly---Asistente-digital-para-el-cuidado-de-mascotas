@@ -27,7 +27,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowRight
-import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
@@ -186,8 +185,6 @@ fun WeightsScreen(
         }
     }
 }
-
-
 
 @Composable
 fun Weight(
@@ -400,6 +397,7 @@ fun WeightsTopAppBar(
                 modifier = Modifier.padding(start = 10.dp),
                 text  = stringResource(R.string.wheights_pets_title),
                 fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
             )
         },
         navigationIcon = {
@@ -415,7 +413,7 @@ fun WeightsTopAppBar(
             Text(text = selectedUnit)
             Spacer(Modifier.width(10.dp))
             IconCircle(
-                modifier = Modifier.size(35.dp),
+                modifier = Modifier.size(30.dp),
                 icon = ImageVector.vectorResource(id = R.drawable.ic_weight_24dp),
                 onClick = {
                     showUnitDialog = true
@@ -521,7 +519,7 @@ fun AddWeightBottomSheet(
                 label = stringResource(R.string.weight_form_label_weight, selectedUnit),
                 trailingIcon = ImageVector.vectorResource(id = R.drawable.ic_weight_24dp),
                 onClickTrailingIcon = {
-                showUnitDialog = true
+                    showUnitDialog = true
                 },
                 maxLines = 1,
                 isRequired = true,
@@ -540,7 +538,7 @@ fun AddWeightBottomSheet(
                     .clickable { openDatePicker.value = true },
                 placeHolder = stringResource(R.string.weight_form_placeholder_date),
                 label = stringResource(R.string.weight_form_label_date),
-                trailingIcon = Icons.Outlined.CalendarToday,
+                trailingIcon = ImageVector.vectorResource(R.drawable.calendar_today_24dp),
                 maxLines = 2,
                 readOnly = true,
                 onClickTrailingIcon = {

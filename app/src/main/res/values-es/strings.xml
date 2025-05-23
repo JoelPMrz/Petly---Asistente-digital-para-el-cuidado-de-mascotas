@@ -120,4 +120,10 @@
     <string name="not_completed">Programada</string>
     <string name="add_weight">Agregar un peso</string>
     <string name="next_visit">Próxima visita</string>
+    <string name="owners_info_dialog_description">Crear, editar y modificar cualquier dato</string>
+    <string name="owners_info_dialog_description3">Añadir, editar y elimar un acompañante</string>
+    <string name="observers_info_dialog_title">¿Qué funciones tiene un dueño?</string>
+    <string name="observers_info_dialog_description">Puede visualizar cualquier dato</string>
+    <string name="next_visits_subtitle">Próximas</string>
+    <string name="previous_visits_subtitle">Anteriores</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.petly.ui.screens.logged.pet
 
 import BaseTimePicker
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,16 +28,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.EventAvailable
 import androidx.compose.material.icons.outlined.EventBusy
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Cancel
-import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.EventAvailable
 import androidx.compose.material.icons.rounded.FilterAlt
-import androidx.compose.material.icons.rounded.LocalHospital
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -71,7 +67,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -83,12 +78,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.data.models.User
 import com.example.petly.data.models.VeterinaryVisit
-import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.EmptyCard
-import com.example.petly.ui.components.BaseDatePicker
-import com.example.petly.ui.components.IconSquare
+import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.formatLocalDateToString
@@ -124,6 +118,12 @@ fun VeterinaryVisitsScreen(
     var itemSelected by remember { mutableStateOf<VeterinaryVisit?>(null) }
     val selectedVisitFilter = preferencesViewModel.visitFilter.collectAsState().value
 
+    val subTitle: String? = when (selectedVisitFilter) {
+        "next" -> stringResource(R.string.next_visits_subtitle)
+        "previous" -> stringResource(R.string.previous_visits_subtitle)
+        "previous_not_attending" -> stringResource(R.string.previous_not_attending_visits_subtitle)
+        else -> null
+    }
     val filteredVisits = veterinaryVisits.filter { visit ->
         val dateTime = LocalDateTime.of(visit.date, visit.time)
         when (selectedVisitFilter) {
@@ -183,47 +183,66 @@ fun VeterinaryVisitsScreen(
         floatingActionButtonPosition = FabPosition.End,
         snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { paddingValues ->
-        LazyColumn(
+
+        Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 30.dp)
+                .fillMaxWidth()
         ) {
-            item {
-                if (filteredVisits.isEmpty()) {
-                    EmptyCard(
-                        onClick = {
-                            petState?.id?.let {
-                                petViewModel.doesPetExist(
-                                    petId = it,
-                                    exists = {
-                                        showAddEditVeterinaryVisit = !showAddEditVeterinaryVisit
-                                    },
-                                    notExists = {
-                                        Toast.makeText(
-                                            context,
-                                            "La mascota no existe",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    },
-                                    onFailure = {}
-                                )
-                            }
-                        },
-                        text = stringResource(R.string.register_new_veterinay_visists)
+            subTitle?.let {
+                AnimatedVisibility(
+                    visible = true,
+                ) {
+                    Text(
+                        text = it,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(start = 32.dp)
                     )
+
                 }
             }
-
-            items(sortedVisits, key = { it.id }) { veterinaryVisit ->
-                VeterinaryVisitCard(
-                    veterinaryVisit = veterinaryVisit,
-                    onClick = {
-                        showAddEditVeterinaryVisit = true
-                        itemSelected = veterinaryVisit
+            Spacer(Modifier.height(5.dp))
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 30.dp)
+            ) {
+                item {
+                    if (filteredVisits.isEmpty()) {
+                        EmptyCard(
+                            onClick = {
+                                petState?.id?.let {
+                                    petViewModel.doesPetExist(
+                                        petId = it,
+                                        exists = {
+                                            showAddEditVeterinaryVisit = !showAddEditVeterinaryVisit
+                                        },
+                                        notExists = {
+                                            Toast.makeText(
+                                                context,
+                                                "La mascota no existe",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        },
+                                        onFailure = {}
+                                    )
+                                }
+                            },
+                            text = stringResource(R.string.register_new_veterinay_visists)
+                        )
                     }
-                )
-                Spacer(modifier = Modifier.height(10.dp))
+                }
+
+                items(sortedVisits, key = { it.id }) { veterinaryVisit ->
+                    VeterinaryVisitCard(
+                        veterinaryVisit = veterinaryVisit,
+                        onClick = {
+                            showAddEditVeterinaryVisit = true
+                            itemSelected = veterinaryVisit
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
             }
         }
 
@@ -240,7 +259,7 @@ fun VeterinaryVisitsScreen(
             )
         }
 
-        if(showFilterVeterinaryVisits){
+        if (showFilterVeterinaryVisits) {
             VeterinaryVisitsFilterBottomSheet(
                 onDismiss = {
                     showFilterVeterinaryVisits = false
@@ -266,7 +285,7 @@ fun VeterinaryVisitCard(
         elevation = CardDefaults.cardElevation(2.dp),
         shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(
-            containerColor = when{
+            containerColor = when {
                 !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.errorContainer
                 veterinaryVisit.completed -> MaterialTheme.colorScheme.primaryContainer
                 else -> MaterialTheme.colorScheme.surfaceVariant
@@ -308,19 +327,19 @@ fun VeterinaryVisitCard(
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Row (
+                    Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconCircle(
                             modifier = Modifier.size(18.dp),
                             sizeIcon = 18.dp,
                             icon = ImageVector.vectorResource(id = R.drawable.home_health_24dp),
-                            backgroundColor = when{
+                            backgroundColor = when {
                                 !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.onErrorContainer
                                 veterinaryVisit.completed -> MaterialTheme.colorScheme.onPrimaryContainer
                                 else -> MaterialTheme.colorScheme.onSurfaceVariant
-                            }  ,
-                            contentColor = when{
+                            },
+                            contentColor = when {
                                 !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.errorContainer
                                 veterinaryVisit.completed -> MaterialTheme.colorScheme.primaryContainer
                                 else -> MaterialTheme.colorScheme.surfaceVariant
@@ -425,7 +444,7 @@ fun VeterinaryVisitsTopAppBar(
         title = {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text = stringResource(R.string.veterinary_visits),
+                text = stringResource(R.string.veterinary_visits_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -441,7 +460,7 @@ fun VeterinaryVisitsTopAppBar(
         },
         actions = {
             IconCircle(
-                modifier = Modifier.size(35.dp),
+                modifier = Modifier.size(30.dp),
                 icon = Icons.Rounded.FilterAlt,
                 onClick = {
                     onClickFilter()
@@ -616,8 +635,7 @@ fun AddVeterinaryVisitBottomSheet(
                 value = description,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .focusRequester(descriptionFocusRequester)
-                    ,
+                    .focusRequester(descriptionFocusRequester),
                 placeHolder = stringResource(R.string.description_placeholder),
                 label = stringResource(R.string.description),
                 maxLines = 2,
@@ -711,7 +729,9 @@ fun AddVeterinaryVisitBottomSheet(
                     .padding(horizontal = 16.dp, vertical = 12.dp)
             ) {
                 Icon(
-                    imageVector = if (completed) Icons.Rounded.EventAvailable else ImageVector.vectorResource(id = R.drawable.event_upcoming_24dp),
+                    imageVector = if (completed) Icons.Rounded.EventAvailable else ImageVector.vectorResource(
+                        id = R.drawable.event_upcoming_24dp
+                    ),
                     contentDescription = null,
                     tint = if (completed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -730,11 +750,11 @@ fun AddVeterinaryVisitBottomSheet(
             ) {
                 Button(
                     onClick = {
-                        if(concept.isBlank()){
+                        if (concept.isBlank()) {
                             isConceptError = true
                             conceptFocusRequester.requestFocus()
                             return@Button
-                        }else{
+                        } else {
                             val parsedDate = parseDate(dateText)
                             val parseTime = parseTime(timeText)
                             val newVeterinaryVisit = VeterinaryVisit(
@@ -745,7 +765,8 @@ fun AddVeterinaryVisitBottomSheet(
                                 date = parsedDate,
                                 time = parseTime,
                                 veterinary = veterinary,
-                                createdBy = currentUser?.id ?: context.getString(R.string.unidentified),
+                                createdBy = currentUser?.id
+                                    ?: context.getString(R.string.unidentified),
                                 completed = completed
                             )
                             if (veterinaryVisit != null) {
@@ -893,7 +914,7 @@ fun VeterinaryVisitsFilterBottomSheet(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconCircle(
-                        icon =  ImageVector.vectorResource(id = R.drawable.event_upcoming_24dp),
+                        icon = ImageVector.vectorResource(id = R.drawable.event_upcoming_24dp),
                         backgroundColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         contentColor = MaterialTheme.colorScheme.surfaceVariant
                     )
