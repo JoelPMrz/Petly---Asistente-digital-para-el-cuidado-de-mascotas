@@ -33,7 +33,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Delete
@@ -68,10 +67,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -950,7 +951,7 @@ fun EditBirthDateBottomSheet(
                 BaseOutlinedTextField(
                     value = birthdateText,
                     label = stringResource(R.string.birthdayDate),
-                    trailingIcon = Icons.Rounded.CalendarMonth,
+                    trailingIcon = ImageVector.vectorResource(R.drawable.calendar_today_24dp),
                     onClickTrailingIcon = { openDatePicker.value = true },
                     maxLines = 1,
                     readOnly = true
@@ -1076,7 +1077,7 @@ fun EditAdoptionDateBottomSheet(
                 BaseOutlinedTextField(
                     value = adoptionDateText,
                     label = stringResource(R.string.adoptionDate),
-                    trailingIcon = Icons.Rounded.CalendarMonth,
+                    trailingIcon = ImageVector.vectorResource(R.drawable.calendar_today_24dp),
                     onClickTrailingIcon = { openDatePicker.value = true },
                     maxLines = 1,
                     readOnly = true
@@ -1239,7 +1240,7 @@ fun EditSterilizedStateBottomSheet(
                     BaseOutlinedTextField(
                         value = sterilizedDateText,
                         label = stringResource(R.string.sterilizedDate),
-                        trailingIcon = Icons.Rounded.CalendarMonth,
+                        trailingIcon = ImageVector.vectorResource(R.drawable.calendar_today_24dp),
                         onClickTrailingIcon = { openDatePicker.value = true },
                         maxLines = 1,
                         readOnly = true
@@ -1374,7 +1375,7 @@ fun EditMicrochipBottomSheet(
                     BaseOutlinedTextField(
                         value = microchipDateText,
                         label = stringResource(R.string.microchipDate),
-                        trailingIcon = Icons.Rounded.CalendarMonth,
+                        trailingIcon = ImageVector.vectorResource(R.drawable.calendar_today_24dp),
                         onClickTrailingIcon = { openDatePicker.value = true },
                         maxLines = 1,
                         isError = false,

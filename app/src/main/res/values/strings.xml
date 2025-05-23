@@ -128,4 +128,18 @@
     <string name="comment">Comentario</string>
     <string name="add_weight">Agregar un peso</string>
     <string name="next_visit">Próxima visita</string>
+    <string name="veterinary_visits_title">Visitas veterinarias</string>
+    <string name="owners_info_dialog_title">¿Qué funciones tiene un dueño?</string>
+    <string name="owners_info_dialog_description">Crear, editar y modificar cualquier dato</string>
+    <string name="owners_info_dialog_description2">Añadir, editar y elimar a otro dueño</string>
+    <string name="owners_info_dialog_description3">Añadir, editar y elimar un acompañante</string>
+    <string name="owners_info_dialog_description4">Solo el creador podrá cambiarse por otro usuario</string>
+    <string name="observers_info_dialog_title">¿Qué funciones tiene un dueño?</string>
+    <string name="observers_info_dialog_description">Puede visualizar cualquier dato</string>
+    <string name="observers_info_dialog_description2">No puede crear, editar o modificar cualquier dato</string>
+    <string name="observers_info_dialog_description3">No puede añadir, editar o elimar a un dueño</string>
+    <string name="observers_info_dialog_description4">No puede añadir, editar o elimar a otro acompañante</string>
+    <string name="next_visits_subtitle">Próximas</string>
+    <string name="previous_visits_subtitle">Anteriores</string>
+    <string name="previous_not_attending_visits_subtitle">Anteriores sin acudir</string>
 </resources>

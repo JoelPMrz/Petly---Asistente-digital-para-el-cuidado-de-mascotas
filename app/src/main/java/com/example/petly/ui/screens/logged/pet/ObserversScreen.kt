@@ -22,19 +22,27 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.PersonOff
 import androidx.compose.material.icons.outlined.SupervisorAccount
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.AdminPanelSettings
+import androidx.compose.material.icons.rounded.Group
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Pets
+import androidx.compose.material.icons.rounded.SupervisorAccount
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -60,6 +68,7 @@ import coil.request.ImageRequest
 import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.User
+import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.viewmodel.PetViewModel
@@ -75,6 +84,7 @@ fun ObserversScreen(
     petViewModel: PetViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     var userClicked by remember { mutableStateOf<User?>(null) }
     var showAddPetObserver by remember { mutableStateOf(false) }
     var showUserClicked by remember { mutableStateOf(false) }
@@ -96,35 +106,36 @@ fun ObserversScreen(
 
     Scaffold(
         topBar = {
-            ObserversTopBar(navigateBack, petState)
-        }
+            ObserversTopBar(navigateBack)
+        },
+        floatingActionButton = {
+            BaseFAB(
+                onClick = {
+                    petState?.id?.let {
+                        petViewModel.doesPetExist(
+                            petId = it,
+                            exists = { showAddPetObserver = true },
+                            notExists = {
+                                Toast.makeText(
+                                    context,
+                                    "La mascota no existe",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            onFailure = {}
+                        )
+                    }
+                },
+                imageVector = Icons.Rounded.Add
+            )
+        },
+        floatingActionButtonPosition = FabPosition.End,
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 2.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.observers),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 20.sp
-                )
-                IconCircle(
-                    onClick = {
-                        showAddPetObserver = true
-                    },
-                    icon = Icons.Rounded.Add
-                )
-            }
-            Spacer(Modifier.height(10.dp))
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -171,13 +182,14 @@ fun ObserversScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ObserversTopBar(navigateBack: () -> Boolean, pet: Pet?) {
+fun ObserversTopBar(navigateBack: () -> Boolean) {
+    var showObserversInfo by remember { mutableStateOf(false) }
     TopAppBar(
-        modifier = Modifier.padding(start = 10.dp),
+        modifier = Modifier.padding(horizontal = 10.dp),
         navigationIcon = {
             IconCircle(
                 modifier = Modifier.size(35.dp),
-                icon = Icons.Rounded.ArrowBack,
+                icon = Icons.AutoMirrored.Rounded.ArrowBack,
                 onClick = {
                     navigateBack()
                 }
@@ -186,9 +198,146 @@ fun ObserversTopBar(navigateBack: () -> Boolean, pet: Pet?) {
         title = {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text = pet?.name ?: ""
+                text = stringResource(R.string.observers),
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp
+            )
+        },
+        actions = {
+            IconCircle(
+                modifier = Modifier.size(24.dp),
+                icon = Icons.Rounded.Info,
+                onClick = {
+                    showObserversInfo = true
+                }
             )
         }
+    )
+
+    if (showObserversInfo) {
+        ObserversInfoDialog(
+            onDismiss = {
+                showObserversInfo = false
+            }
+        )
+    }
+}
+
+@Composable
+fun ObserversInfoDialog(
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(text = stringResource(R.string.observers_info_dialog_title))
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.Top
+                ) {
+                    IconCircle(
+                        modifier = Modifier.size(20.dp),
+                        icon = Icons.Rounded.Pets,
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+
+                    Text(
+                        text = stringResource(
+                            R.string.observers_info_dialog_description,
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    verticalAlignment = Alignment.Top
+                ) {
+                    IconCircle(
+                        modifier = Modifier.size(20.dp),
+                        icon = Icons.Rounded.Pets,
+                        backgroundColor = MaterialTheme.colorScheme.onErrorContainer,
+                        contentColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = stringResource(
+                            R.string.observers_info_dialog_description2,
+                        ),
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    verticalAlignment = Alignment.Top
+                ) {
+                    IconCircle(
+                        modifier = Modifier.size(20.dp),
+                        icon = Icons.Rounded.SupervisorAccount,
+                        backgroundColor = MaterialTheme.colorScheme.onErrorContainer,
+                        contentColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = stringResource(
+                            R.string.observers_info_dialog_description3,
+                        ),
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    verticalAlignment = Alignment.Top
+                ) {
+                    IconCircle(
+                        modifier = Modifier.size(20.dp),
+                        icon = Icons.Rounded.Group,
+                        backgroundColor = MaterialTheme.colorScheme.onErrorContainer,
+                        contentColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = stringResource(
+                            R.string.observers_info_dialog_description4,
+                        ),
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    verticalAlignment = Alignment.Top
+                ) {
+                    IconCircle(
+                        modifier = Modifier.size(20.dp),
+                        icon = Icons.Rounded.AdminPanelSettings,
+                        backgroundColor = MaterialTheme.colorScheme.onErrorContainer,
+                        contentColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = stringResource(
+                            R.string.owners_info_dialog_description4,
+                        ),
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(R.string.form_confirm_btn))
+            }
+        },
     )
 }
 
@@ -512,7 +661,7 @@ fun AddPetObserverBottomSheet(
                         incompleteUser = userId.isBlank()
                         enableButton = true
                         return@Button
-                    }  else if(pet?.creatorOwner == userId){
+                    } else if (pet?.creatorOwner == userId) {
                         onDismiss()
                         Toast.makeText(
                             context,
