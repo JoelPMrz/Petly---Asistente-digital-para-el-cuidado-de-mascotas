@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,7 +30,7 @@ fun BaseOutlinedTextField(
     maxLines : Int?,
     value: String,
     placeHolder: String? = null,
-    label: String,
+    label: String? = null,
     isRequired: Boolean = false,
     readOnly : Boolean = false,
     leadingIcon: ImageVector? = null,
@@ -54,16 +55,16 @@ fun BaseOutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
                 placeholder = {
-                    if (!placeHolder.isNullOrEmpty()) {
-                        Text(text = placeHolder, fontWeight = FontWeight.ExtraLight)
-                    }
+                    placeHolder?.let { Text(text = it, fontWeight = FontWeight.ExtraLight) }
                 },
                 label = {
-                    Text(
-                        label,
-                        fontWeight = FontWeight.Medium,
-                        fontStyle = FontStyle.Italic
-                    )
+                    label?.let {
+                        Text(
+                            it,
+                            fontWeight = FontWeight.Medium,
+                            fontStyle = FontStyle.Italic
+                        )
+                    }
                 },
                 leadingIcon = leadingIcon?.let {
                     {

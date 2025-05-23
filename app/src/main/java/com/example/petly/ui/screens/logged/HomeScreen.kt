@@ -1,5 +1,6 @@
 package com.example.petly.ui.screens.logged
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,24 +27,20 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.AdminPanelSettings
-import androidx.compose.material.icons.rounded.Female
-import androidx.compose.material.icons.rounded.FilterAlt
-import androidx.compose.material.icons.rounded.Group
-import androidx.compose.material.icons.rounded.Male
-import androidx.compose.material.icons.rounded.SupervisorAccount
-import androidx.compose.material.icons.rounded.Transgender
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -51,7 +48,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -62,9 +58,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -77,7 +75,7 @@ import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.screens.logged.pet.DeletePetDialog
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
-import com.example.petly.utils.getAgeFromDate
+import com.example.petly.utils.normalizeForSearch
 import com.example.petly.viewmodel.UserViewModel
 
 @Composable
@@ -93,8 +91,19 @@ fun HomeScreen(
     userViewModel: UserViewModel = hiltViewModel()
 ) {
     val petList by petViewModel.petsState.collectAsState()
-    val petsPagerState = rememberPagerState(initialPage = 0) { petList.size + 1 }
     val userState by userViewModel.userState.collectAsState()
+    var showSearch by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredPetList = if (searchQuery.isBlank()) {
+        petList
+    } else {
+        val normQuery = searchQuery.normalizeForSearch()
+        petList.filter { pet ->
+            pet.name.normalizeForSearch().contains(normQuery)
+        }
+    }
+    val petsPagerState = rememberPagerState(initialPage = 0) { filteredPetList.size + 1 }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
@@ -126,6 +135,9 @@ fun HomeScreen(
             HomeTopAppBar(
                 userState?.photo,
                 petList = petList,
+                onSearch = {
+                    showSearch =  !showSearch
+                },
                 navigateToAddPet = {
                     navigateToAddPet()
                 },
@@ -142,6 +154,58 @@ fun HomeScreen(
                 .padding(paddingValues)
                 .padding(vertical = 10.dp),
         ) {
+            AnimatedVisibility(
+                visible = showSearch
+            ) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 25.dp, end = 40.dp)
+                        .offset(y = (-10).dp)
+                        .height(40.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(20.dp)
+                        ).border(
+                            width = 0.5.dp,
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(20.dp)
+                        ),
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.search),
+                            fontSize = 8.sp,
+                            lineHeight = 8.sp,
+                            color = Color.Gray
+                        )
+                    },
+                    singleLine = true,
+                    shape = RoundedCornerShape(20.dp),
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 8.sp,
+                        lineHeight = 8.sp,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Search
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            keyboardController?.hide()
+                            showSearch = false
+                        }
+                    ),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        focusedIndicatorColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+            }
             HorizontalPager(
                 state = petsPagerState,
                 modifier = Modifier.fillMaxWidth(),
@@ -149,16 +213,20 @@ fun HomeScreen(
                 pageSpacing = 16.dp,
                 snapPosition = SnapPosition.Start
             ) { page ->
-                if (petList.isEmpty() && page == 0) {
-                    AddPetCard(navigateToAddPet)
-                } else if (page < petList.size) {
-                    Pet(
-                        pet = petList[page],
-                        navigateToPetDetail = navigateToPetDetail,
-                        auth = auth
-                    )
-                } else {
-                    AddPetCard(navigateToAddPet)
+                when {
+                    filteredPetList.isEmpty() && page == 0 -> {
+                        AddPetCard(navigateToAddPet)
+                    }
+                    page < filteredPetList.size -> {
+                        Pet(
+                            pet = filteredPetList[page],
+                            navigateToPetDetail = navigateToPetDetail,
+                            auth = auth
+                        )
+                    }
+                    else -> {
+                        AddPetCard(navigateToAddPet)
+                    }
                 }
             }
 
@@ -350,6 +418,7 @@ fun AddPetCard(
 fun HomeTopAppBar(
     photo: String?,
     petList: List<Pet>,
+    onSearch: () -> Unit,
     navigateToAddPet: () -> Unit,
     navigateToUser: () -> Unit,
 ) {
@@ -413,10 +482,10 @@ fun HomeTopAppBar(
                 )
                 Spacer(Modifier.width(5.dp))
                 IconCircle(
-                    modifier = Modifier.clickable {
-
+                    onClick = {
+                        onSearch()
                     },
-                    icon = Icons.Rounded.FilterAlt
+                    icon = Icons.Rounded.Search
                 )
             }
         },
@@ -425,6 +494,7 @@ fun HomeTopAppBar(
         )
     )
 }
+
 
 
 
