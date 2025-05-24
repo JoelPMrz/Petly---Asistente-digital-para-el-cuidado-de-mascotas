@@ -81,6 +81,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -97,6 +98,7 @@ import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.ui.components.PhotoPickerBottomSheet
+import com.example.petly.ui.screens.auth.LanguageSelectorDialog
 import com.example.petly.ui.screens.logged.weight.Weight
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
@@ -122,6 +124,7 @@ fun UserScreen(
     val userState by userViewModel.userState.collectAsState()
     var showCode by remember { mutableStateOf(false) }
     var logOutAlertDialog by remember { mutableStateOf(false) }
+    var showLanguageSelectorDialog by  remember { mutableStateOf(false) }
     var showUserBasicData by remember { mutableStateOf(false) }
     var showPhotoPicker by remember { mutableStateOf(false) }
     var showUpdatePassword by remember { mutableStateOf(false) }
@@ -275,11 +278,20 @@ fun UserScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 ProfileCard(
                     onClick = {
-
+                        showLanguageSelectorDialog = true
                     },
                     modifier = Modifier,
                     title = stringResource(R.string.language),
                     icon = Icons.Rounded.Language
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                ProfileCard(
+                    onClick = {
+
+                    },
+                    modifier = Modifier,
+                    title = stringResource(R.string.time_zone),
+                    icon = ImageVector.vectorResource(R.drawable.globe_location_pin_24dp)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 ProfileCard(
@@ -312,6 +324,14 @@ fun UserScreen(
                     icon = Icons.Rounded.CleaningServices
                 )
             }
+        }
+
+        if(showLanguageSelectorDialog){
+            LanguageSelectorDialog(
+                onDismiss = {
+                    showLanguageSelectorDialog = false
+                }
+            )
         }
 
         if (logOutAlertDialog) {

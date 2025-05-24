@@ -23,6 +23,14 @@ class PreferencesRepository @Inject constructor(
         return sharedPreferencesManager.getString("filer_veterinay_visits", "all")
     }
 
+    fun setLanguage(language : String) {
+        sharedPreferencesManager.saveString("language", language)
+    }
+
+    fun getLanguage(): String {
+        return sharedPreferencesManager.getString("language", "es")
+    }
+
     fun getDarkModeState(): Boolean {
         return sharedPreferencesManager.getBoolean("is_dark_mode", false)
     }
