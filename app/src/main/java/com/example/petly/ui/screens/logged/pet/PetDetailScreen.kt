@@ -32,7 +32,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Delete
@@ -249,7 +249,7 @@ fun PetDetailScreen(
                     )
                 }
                 IconCircle(
-                    icon = Icons.Rounded.ArrowBack,
+                    icon = Icons.AutoMirrored.Rounded.ArrowBack,
                     onClick = navigateBack,
                     modifier = Modifier
                         .padding(10.dp)
@@ -705,7 +705,7 @@ fun DeletePetDialog(
                             notPermission = {
                                 Toast.makeText(
                                     context,
-                                    "Permiso denegado para observadores",
+                                    context.getString(R.string.permission_denied_observer),
                                     Toast.LENGTH_LONG
                                 ).show()
                             },
@@ -871,7 +871,7 @@ fun EditBasicDataBottomSheet(
                                 notPermission = {
                                     Toast.makeText(
                                         context,
-                                        "Permiso denegado para observadores",
+                                        context.getString(R.string.permission_denied_observer),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 },
@@ -983,7 +983,7 @@ fun EditBirthDateBottomSheet(
                             notPermission = {
                                 Toast.makeText(
                                     context,
-                                    "Permiso denegado para observadores",
+                                    context.getString(R.string.permission_denied_observer),
                                     Toast.LENGTH_LONG
                                 ).show()
                             },
@@ -1108,7 +1108,7 @@ fun EditAdoptionDateBottomSheet(
                             notPermission = {
                                 Toast.makeText(
                                     context,
-                                    "Permiso denegado para observadores",
+                                    context.getString(R.string.permission_denied_observer),
                                     Toast.LENGTH_LONG
                                 ).show()
                             },
@@ -1260,7 +1260,7 @@ fun EditSterilizedStateBottomSheet(
                             notPermission = {
                                 Toast.makeText(
                                     context,
-                                    "Permiso denegado para observadores",
+                                    context.getString(R.string.permission_denied_observer),
                                     Toast.LENGTH_LONG
                                 ).show()
                             },
@@ -1396,7 +1396,7 @@ fun EditMicrochipBottomSheet(
                                 notPermission = {
                                     Toast.makeText(
                                         context,
-                                        "Permiso denegado para observadores",
+                                        context.getString(R.string.permission_denied_observer),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 },

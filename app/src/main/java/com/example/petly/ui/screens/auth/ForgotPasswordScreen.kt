@@ -20,7 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
@@ -45,7 +47,7 @@ fun ForgotPasswordScreen(
         BaseOutlinedTextField(
             value = email,
             placeHolder = "ejemplo@gmail.com",
-            label = "Correo electrónico",
+            label = stringResource(R.string.email),
             leadingIcon = Icons.Default.Mail,
             maxLines = 1
         ) {
@@ -62,7 +64,7 @@ fun ForgotPasswordScreen(
                     navigateToLogin)
             }
         }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Recuperar contraseña")
+            Text(text = stringResource(R.string.recover_password))
         }
     }
 }

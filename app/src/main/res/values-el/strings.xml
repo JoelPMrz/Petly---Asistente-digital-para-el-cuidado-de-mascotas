@@ -2,4 +2,5 @@
 <resources>
     <string name="log_out_alert_description">Al cerrar aceptar el cierre de sesión, la cuenta actual perderá el acceso hasta que inicies sesión nuevamente</string>
     <string name="comment">Comentario</string>
+    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
 </resources>

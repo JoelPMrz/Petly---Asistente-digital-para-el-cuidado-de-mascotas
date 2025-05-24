@@ -95,7 +95,7 @@ fun PeopleLinkedCard(
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             ){
                 if(users.isEmpty()){
-                    Text("No dispone")
+                    Text(stringResource(R.string.not_available))
                 }else{
                     users.forEach { user ->
                         PersonLinked(user)

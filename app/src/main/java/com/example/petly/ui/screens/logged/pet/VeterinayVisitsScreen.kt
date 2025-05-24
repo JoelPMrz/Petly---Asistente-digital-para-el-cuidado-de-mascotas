@@ -169,7 +169,7 @@ fun VeterinaryVisitsScreen(
                             notExists = {
                                 Toast.makeText(
                                     context,
-                                    "La mascota no existe",
+                                    context.getString(R.string.pet_not_exists_dialog_title),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             },
@@ -220,7 +220,7 @@ fun VeterinaryVisitsScreen(
                                         notExists = {
                                             Toast.makeText(
                                                 context,
-                                                "La mascota no existe",
+                                                context.getString(R.string.pet_not_exists_dialog_title),
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         },
@@ -886,7 +886,7 @@ fun VeterinaryVisitsFilterBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Filtrar visitas veterinarias",
+                text = stringResource(R.string.filter_veterinary_visits),
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -920,7 +920,7 @@ fun VeterinaryVisitsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "Próximas visitas",
+                        stringResource(R.string.next_vivits),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
@@ -950,7 +950,7 @@ fun VeterinaryVisitsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "Visitas anteriores",
+                        stringResource(R.string.previous_visits),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
 
@@ -980,7 +980,7 @@ fun VeterinaryVisitsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "Visitas anteriores sin acudir",
+                        stringResource(R.string.previous_not_attending_visits),
                         color = MaterialTheme.colorScheme.onErrorContainer
                     )
 
@@ -1010,7 +1010,7 @@ fun VeterinaryVisitsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "Todas las visitas",
+                        stringResource(R.string.all_visits),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 

@@ -24,9 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
@@ -59,8 +60,10 @@ fun SingUpScreen(
     ) {
         BaseOutlinedTextField(
             value = name,
-            label = "Nombre",
+            label = stringResource(R.string.name),
             leadingIcon = Icons.Default.Person,
+            isRequired = true,
+            maxLength = 25,
             maxLines = 1
         ) {
             name = it
@@ -68,9 +71,10 @@ fun SingUpScreen(
         Spacer(modifier = Modifier.height(20.dp))
         BaseOutlinedTextField(
             value = email,
-            placeHolder = "ejemplo@gmail.com",
-            label = "Correo electrónico",
+            placeHolder = "example@gmail.com",
+            label = stringResource(R.string.email),
             leadingIcon = Icons.Default.Mail,
+            isRequired = true,
             maxLines = 1
         ) {
             email = it
@@ -85,10 +89,10 @@ fun SingUpScreen(
                 signUp(email, name, password, auth, analytics, navigateBack, context, userViewModel)
             }
         }, modifier = Modifier.fillMaxWidth().height(60.dp)) {
-            Text(text = "Registrarse")
+            Text(text = stringResource(R.string.register))
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Ya tienes cuenta? Iniciar sesión", modifier = Modifier.clickable { navigateBack() })
+        Text(text = stringResource(R.string.already_have_an_account), modifier = Modifier.clickable { navigateBack() })
     }
 
 }
@@ -103,7 +107,7 @@ private suspend fun signUp(
     context: Context,
     userViewModel: UserViewModel
 ) {
-    if (email.isNotEmpty() && password.isNotEmpty()) {
+    if (email.isNotEmpty() || password.isNotEmpty() || name.isNullOrBlank()) {
         when(val result = auth.createUserWithEmailPassword(email,password)){
             is AuthRes.Success->{
                 analytics.logButtonClicked(FirebaseAnalytics.Event.SIGN_UP)
@@ -113,23 +117,23 @@ private suspend fun signUp(
                     photo = DEFAULT_USER_PHOTO_URL,
                     onSuccess = {
                         navigateBack()
-                        Toast.makeText(context, "Registro completado", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.registered_account), Toast.LENGTH_SHORT).show()
                     },
                     onFailure = {
-
+                        Toast.makeText(context, context.getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT ).show()
                     },
                     alreadyExist = {
-
+                        Toast.makeText(context, context.getString(R.string.account_already_exists), Toast.LENGTH_SHORT ).show()
                     }
                 )
             }
             is AuthRes.Error->{
                 analytics.logButtonClicked("Error SignUp: ${result.errorMessage}")
-                Toast.makeText(context, "Error SignUp: ${result.errorMessage}", Toast.LENGTH_SHORT ).show()
+                Toast.makeText(context, context.getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT ).show()
             }
         }
     } else {
-        Toast.makeText(context, "Existen campos vacios", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.all_fields_are_required), Toast.LENGTH_SHORT).show()
     }
 }
 

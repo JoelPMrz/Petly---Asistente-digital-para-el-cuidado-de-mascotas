@@ -3,7 +3,6 @@ package com.example.petly.ui.screens.logged.pet
 import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -118,7 +117,7 @@ fun ObserversScreen(
                             notExists = {
                                 Toast.makeText(
                                     context,
-                                    "La mascota no existe",
+                                    context.getString(R.string.pet_not_exists_dialog_title),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             },
@@ -142,7 +141,7 @@ fun ObserversScreen(
             ) {
                 item {
                     if (observersState.isEmpty()) {
-                        Text(text = "No dispone de acompañantes")
+                        Text(text = stringResource(R.string.not_observables_available))
                     }
                 }
 
@@ -429,7 +428,7 @@ fun EditObserverBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Gestionar a ${user?.name ?: "user${user?.id}"}",
+                text = stringResource(R.string.manage_user, user?.name ?: "user${user?.id}"),
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -450,7 +449,7 @@ fun EditObserverBottomSheet(
                             if (pet.creatorOwner == user?.id) {
                                 Toast.makeText(
                                     context,
-                                    "Permiso denegado, no es posible cambiar el rol del creador",
+                                    context.getString(R.string.not_possible_change_creator),
                                     Toast.LENGTH_LONG
                                 ).show()
                             } else {
@@ -460,28 +459,28 @@ fun EditObserverBottomSheet(
                                     notPermission = {
                                         Toast.makeText(
                                             context,
-                                            "Permiso denegado para acompañantes",
+                                            context.getString(R.string.permission_denied_observer),
                                             Toast.LENGTH_LONG
                                         ).show()
                                     },
                                     existsYet = {
                                         Toast.makeText(
                                             context,
-                                            "Ya es dueño",
+                                            context.getString(R.string.already_owner),
                                             Toast.LENGTH_LONG
                                         ).show()
                                     },
                                     onSuccess = {
                                         Toast.makeText(
                                             context,
-                                            "Ahora es dueño",
+                                            context.getString(R.string.now_he_owner),
                                             Toast.LENGTH_LONG
                                         ).show()
                                     },
                                     onFailure = {
                                         Toast.makeText(
                                             context,
-                                            "No se ha podido cambiar el rol",
+                                            context.getString(R.string.role_could_not_be_changed),
                                             Toast.LENGTH_LONG
                                         ).show()
                                     }
@@ -505,7 +504,7 @@ fun EditObserverBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "Cambiar a dueño",
+                        stringResource(R.string.change_to_owner),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
@@ -520,7 +519,7 @@ fun EditObserverBottomSheet(
                         if (pet?.creatorOwner == user?.id) {
                             Toast.makeText(
                                 context,
-                                "Permiso denegado, no es posible eliminar al creador",
+                                context.getString(R.string.not_possible_delete_creator),
                                 Toast.LENGTH_LONG
                             ).show()
                         } else {
@@ -531,14 +530,14 @@ fun EditObserverBottomSheet(
                                     notPermission = {
                                         Toast.makeText(
                                             context,
-                                            "Permiso denegado para acompañantes",
+                                            context.getString(R.string.permission_denied_observer),
                                             Toast.LENGTH_LONG
                                         ).show()
                                     },
                                     notExistsYet = {
                                         Toast.makeText(
                                             context,
-                                            "Ya no es dueño",
+                                            context.getString(R.string.already_owner),
                                             Toast.LENGTH_LONG
                                         ).show()
                                     },
@@ -549,14 +548,14 @@ fun EditObserverBottomSheet(
                                         ) {
                                             Toast.makeText(
                                                 context,
-                                                "Te has eliminado de dueños",
+                                                context.getString(R.string.you_have_been_removed_as_owner),
                                                 Toast.LENGTH_LONG
                                             ).show()
                                             navigateToHome()
                                         } else {
                                             Toast.makeText(
                                                 context,
-                                                "Dueño eliminado",
+                                                context.getString(R.string.owner_deleted),
                                                 Toast.LENGTH_LONG
                                             ).show()
                                         }
@@ -564,7 +563,7 @@ fun EditObserverBottomSheet(
                                     onFailure = {
                                         Toast.makeText(
                                             context,
-                                            "No se ha podido eliminar",
+                                            context.getString(R.string.could_not_be_deleted),
                                             Toast.LENGTH_LONG
                                         ).show()
                                     }
@@ -588,7 +587,7 @@ fun EditObserverBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "Eliminar rol",
+                        stringResource(R.string.delete_rol),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
@@ -665,7 +664,7 @@ fun AddPetObserverBottomSheet(
                         onDismiss()
                         Toast.makeText(
                             context,
-                            "El usuario es creador, no es posible cambiar su rol",
+                            context.getString(R.string.not_possible_change_creator),
                             Toast.LENGTH_LONG
                         ).show()
                         return@Button
@@ -680,14 +679,14 @@ fun AddPetObserverBottomSheet(
                                         notPermission = {
                                             Toast.makeText(
                                                 context,
-                                                "Permiso denegado para acompañantes",
+                                                context.getString(R.string.permission_denied_observer),
                                                 Toast.LENGTH_LONG
                                             ).show()
                                         },
                                         existsYet = {
                                             Toast.makeText(
                                                 context,
-                                                "Ya es acompañante",
+                                                context.getString(R.string.already_observer),
                                                 Toast.LENGTH_LONG
                                             ).show()
                                         },
@@ -695,13 +694,13 @@ fun AddPetObserverBottomSheet(
                                             if (pet.owners.contains(userId)) {
                                                 Toast.makeText(
                                                     context,
-                                                    "Nuevo acompañante, dejó de ser dueño",
+                                                    context.getString(R.string.not_owner_new_observer),
                                                     Toast.LENGTH_LONG
                                                 ).show()
                                             } else {
                                                 Toast.makeText(
                                                     context,
-                                                    "Nuevo acompañante",
+                                                    context.getString(R.string.new_observer),
                                                     Toast.LENGTH_LONG
                                                 ).show()
                                             }
@@ -709,7 +708,7 @@ fun AddPetObserverBottomSheet(
                                         onFailure = {
                                             Toast.makeText(
                                                 context,
-                                                "No se ha podido añadir",
+                                                context.getString(R.string.could_not_add),
                                                 Toast.LENGTH_LONG
                                             ).show()
                                         }
@@ -718,14 +717,14 @@ fun AddPetObserverBottomSheet(
                                 notExist = {
                                     Toast.makeText(
                                         context,
-                                        "El usuario no existe",
+                                        context.getString(R.string.user_not_exist),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 },
                                 onFailure = {
                                     Toast.makeText(
                                         context,
-                                        "No se ha podido añadir",
+                                        context.getString(R.string.could_not_add),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }

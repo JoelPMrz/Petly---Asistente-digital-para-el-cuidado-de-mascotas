@@ -1,6 +1,5 @@
 package com.example.petly.ui.screens.auth
 
-import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,12 +18,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Android
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowRightAlt
 import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.NoAccounts
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -40,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -87,14 +81,15 @@ fun LoginScreen(
                             email = account.data.email ?: "",
                             photo = account.data.photoUrl.toString(),
                             onSuccess = {
-                                Toast.makeText(context, "Bienvenido ${account.data.displayName} ", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context,
+                                    context.getString(R.string.welcome,account.data.displayName.toString() ) , Toast.LENGTH_SHORT).show()
                                 navigateToHome()
                             },
                             onFailure = {
-                                Toast.makeText(context, "Error al crear el usuario", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.error_creating_user), Toast.LENGTH_SHORT).show()
                             },
                             alreadyExist = {
-                                Toast.makeText(context, "Bienvenido de nuevo", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.welcome_back, account.data.displayName.toString()), Toast.LENGTH_SHORT).show()
                                 navigateToHome()
                             }
                         )
@@ -104,11 +99,11 @@ fun LoginScreen(
 
             is AuthRes.Error -> {
                 analytics.logError("Error SignIn: ${account.errorMessage}")
-                Toast.makeText(context, "Error: ${account.errorMessage}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
             }
 
             else -> {
-                Toast.makeText(context, "Error desconocido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -134,8 +129,8 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(20.dp))
             BaseOutlinedTextField(
                 value = email,
-                placeHolder = "ejemplo@gmail.com",
-                label = "Correo electrónico",
+                placeHolder = "example@gmail.com",
+                label = stringResource(R.string.email),
                 leadingIcon = Icons.Default.Mail,
                 maxLines = 1
             ) {
@@ -207,7 +202,7 @@ fun LoginScreen(
                         modifier = Modifier.padding(end = 10.dp).size(24.dp),
                         tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                    Text(text = "Invitado", fontSize = 15.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                    Text(text = stringResource(R.string.guest), fontSize = 15.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 }
             }
 
@@ -245,7 +240,7 @@ fun ButtonSingIn(onSingIn: () -> Unit) {
         modifier = Modifier.height(60.dp),
     )
     {
-        Text(text = "INICIAR", fontSize = 16.sp)
+        Text(text = stringResource(R.string.loggin), fontSize = 16.sp)
         Spacer(modifier = Modifier.width(7.dp))
         Icon(
             imageVector = Icons.Default.ArrowRightAlt,
