@@ -36,6 +36,15 @@ class PreferencesViewModel @Inject constructor(
         preferencesRepository.setFilterVeterinaryVisits(filter)
         _visitFilter.value = filter
     }
+
+    private val _language = MutableStateFlow(preferencesRepository.getLanguage())
+    val language: StateFlow<String> = _language
+
+    fun setLanguage(language: String) {
+        preferencesRepository.setLanguage(language)
+        _language.value = language
+    }
+
     fun reloadUnitPreference() {
         _selectedUnit.value = preferencesRepository.getSelectedUnit()
     }

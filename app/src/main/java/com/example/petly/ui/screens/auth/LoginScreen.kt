@@ -1,5 +1,8 @@
 package com.example.petly.ui.screens.auth
 
+import android.content.Context
+import android.content.Intent
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,15 +20,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowRightAlt
 import androidx.compose.material.icons.filled.Mail
+import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,17 +51,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.recreate
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
+import com.example.petly.data.repository.PreferencesRepository
 import com.example.petly.ui.components.BaseOutlinedTextField
+import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.AuthRes
+import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @Composable
 fun LoginScreen(
@@ -59,11 +75,14 @@ fun LoginScreen(
     navigateToHome:()-> Unit,
     navigateToForgotPassword:()-> Unit,
     navigateToSingUp:()-> Unit,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     var email: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
+    val language = preferencesViewModel.language.collectAsState().value
+    var showLanguageSelectorDialog by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     val googleSignInLauncher = rememberLauncherForActivityResult(
@@ -108,6 +127,14 @@ fun LoginScreen(
         }
     }
 
+    if(showLanguageSelectorDialog){
+        LanguageSelectorDialog(
+            onDismiss = {
+                showLanguageSelectorDialog = false
+            }
+        )
+    }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -118,6 +145,20 @@ fun LoginScreen(
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
+
+        Row(
+            modifier = Modifier.align(Alignment.TopStart).padding(start = 10.dp, top = 35.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            IconCircle(
+                icon = Icons.Rounded.Language,
+                onClick = {
+                    showLanguageSelectorDialog = true
+                }
+            )
+            Text(text = language.toUpperCase())
+        }
+
 
         Column(
             modifier = Modifier
@@ -222,13 +263,84 @@ fun LoginScreen(
                     fontSize = 14.sp
                 )
             }
-
-
         }
-
-
     }
+}
 
+@Composable
+fun LanguageSelectorDialog(
+    onDismiss: () -> Unit,
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+    val currentLanguage = preferencesViewModel.language.collectAsState().value
+    var selectedLanguage by remember { mutableStateOf(currentLanguage) }
+
+    val languages = listOf(
+        "English" to "en",
+        "Español" to "es",
+        "Français" to "fr",
+        "Deutsch" to "de",
+        "Português" to "pt",
+        "Italiano" to "it",
+        "中文" to "zh",
+        "日本語" to "ja",
+        "한국어" to "ko",
+        "हिन्दी" to "hi",
+        "العربية" to "ar",
+        "Русский" to "ru",
+        "Türkçe" to "tr",
+        "Nederlands" to "nl",
+        "Polski" to "pl"
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(text = stringResource(R.string.select_language))
+        },
+        text = {
+            Column(modifier = Modifier.height(300.dp).verticalScroll(rememberScrollState())) {
+                languages.forEach { (languageName, code) ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = selectedLanguage == code,
+                                onClick = { selectedLanguage = code }
+                            )
+                            .padding(vertical = 8.dp, horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = selectedLanguage == code,
+                            onClick = { selectedLanguage = code }
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = languageName)
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    preferencesViewModel.setLanguage(selectedLanguage)
+                    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+                    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    context.startActivity(intent)
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(android.R.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(android.R.string.cancel))
+            }
+        }
+    )
 }
 
 @Composable
@@ -249,6 +361,7 @@ fun ButtonSingIn(onSingIn: () -> Unit) {
         )
     }
 }
+
 
 
 
