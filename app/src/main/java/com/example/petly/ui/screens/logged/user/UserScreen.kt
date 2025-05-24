@@ -439,6 +439,7 @@ fun ProfileCard(
     }
 }
 
+/*
 @Composable
 fun InvitationsCard(
     navigateToHome: () -> Unit,
@@ -497,7 +498,7 @@ fun InvitationsCard(
             ) {
                 if (petInvitations.isEmpty()) {
                     Text(
-                        text = "No tienes invitaciones",
+                        stringResource(R.string.not_invitations),
                         modifier = Modifier
                             .padding(start = 30.dp, bottom = 12.dp)
                             .fillMaxWidth()
@@ -518,7 +519,9 @@ fun InvitationsCard(
     }
 }
 
+ */
 
+/*
 @Composable
 fun InvitationItem(
     invitation: PetInvitation,
@@ -563,7 +566,8 @@ fun InvitationItem(
         ) {
             Column {
                 Text(
-                    text = "Cambiar a ${invitation.role}",
+                   stringResource(R.string.change_rol_to,
+                       invitation.role),
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp
                 )
@@ -740,6 +744,8 @@ fun InvitationItem(
         }
     }
 }
+
+ */
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -933,14 +939,14 @@ fun UpdatePasswordBottomSheet(
             Button(
                 onClick = {
                     if (newPassword != repeatNewPassword) {
-                        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT)
+                        Toast.makeText(context, context.getString(R.string.passwords_do_not_match), Toast.LENGTH_SHORT)
                             .show()
                         return@Button
                     }
                     if (newPassword.length < 6) {
                         Toast.makeText(
                             context,
-                            "La nueva contraseña debe tener al menos 6 caracteres",
+                            context.getString(R.string.password_minimum_characters),
                             Toast.LENGTH_SHORT
                         ).show()
                         return@Button
@@ -987,7 +993,7 @@ fun ResetPasswordBottomSheet(
 
     var email by remember {
         mutableStateOf(
-            auth.getCurrentUser()?.email ?: "Cuenta sin correo vinculado"
+            auth.getCurrentUser()?.email ?: context.getString(R.string.account_without_linked_email)
         )
     }
     var count by remember { mutableIntStateOf(20) }
@@ -1050,7 +1056,7 @@ fun ResetPasswordBottomSheet(
                             count = 20
                         }
                     } else {
-                        Toast.makeText(context, "Correo no asociado a tu cuenta", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.email_not_associated), Toast.LENGTH_SHORT).show()
                         enableButton = true
                     }
                 },

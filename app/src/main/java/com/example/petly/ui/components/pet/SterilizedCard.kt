@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.utils.formatLocalDateToString
@@ -52,9 +54,9 @@ fun SterilizedCard(
                 contentColor = MaterialTheme.colorScheme.secondaryContainer
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Estado", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = stringResource(R.string.state), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = if (pet?.sterilized == true) "Esterilizado" else "No esteriliazo",
+                text = if (pet?.sterilized == true) stringResource(R.string.sterilized) else stringResource(R.string.not_sterilized),
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )
@@ -62,7 +64,7 @@ fun SterilizedCard(
             if (pet?.sterilized == true) {
                 Text(
                     text = pet.sterilizedDate?.let { formatLocalDateToString(it) }
-                        ?: "Agregar fecha",
+                        ?: stringResource(R.string.add_date),
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.align(Alignment.End)

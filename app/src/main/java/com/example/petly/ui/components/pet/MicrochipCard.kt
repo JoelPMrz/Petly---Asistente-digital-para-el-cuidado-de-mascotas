@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.utils.formatLocalDateToString
@@ -54,7 +56,7 @@ fun MicrochipCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = "Microchip", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = pet?.microchipId.takeUnless { it.isNullOrBlank() } ?: "Sin identificar",
+                text = pet?.microchipId.takeUnless { it.isNullOrBlank() } ?: stringResource(R.string.unidentified),
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )
@@ -62,7 +64,7 @@ fun MicrochipCard(
             if (!pet?.microchipId.isNullOrBlank()) {
                 Text(
                     text = pet?.microchipDate?.let { formatLocalDateToString(it) }
-                        ?: "Agregar fecha",
+                        ?: stringResource(R.string.add_date),
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.align(Alignment.End)

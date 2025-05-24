@@ -20,7 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Cancel
@@ -40,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,7 +74,6 @@ fun AddPetScreen(
     navigateBack: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel()
 ) {
-    val scope = rememberCoroutineScope()
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
     var showPhotoPicker by remember { mutableStateOf(false) }
 
@@ -195,7 +193,7 @@ fun AddPetScreen(
                     )
                 }
                 IconCircle(
-                    icon = Icons.Rounded.ArrowBack,
+                    icon = Icons.AutoMirrored.Rounded.ArrowBack,
                     onClick = navigateBack,
                     modifier = Modifier
                         .padding(10.dp)
@@ -400,7 +398,7 @@ fun AddPetAppBar(
                                         onSuccess = {
                                         },
                                         onFailure = { e ->
-                                            Toast.makeText(context, "Imagen de ${newPet.name} no registrada", Toast.LENGTH_LONG).show()
+                                            Toast.makeText(context, context.getString(R.string.unregistered_image,newPet.name ), Toast.LENGTH_LONG).show()
                                         }
                                     )
                                 }
@@ -409,7 +407,7 @@ fun AddPetAppBar(
                         },
                         onFailure = { e ->
                             enableCreatePet = true
-                            Toast.makeText(context, "No se pudo registrar la mascota", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.pet_not_registered), Toast.LENGTH_SHORT).show()
                         }
                     )
                 }
@@ -421,7 +419,7 @@ fun AddPetAppBar(
             enabled = enableCreatePet
         ) {
             Text(
-                text = "Registrar",
+                text = stringResource(R.string.register_pet),
                 fontSize = 18.sp
             )
         }

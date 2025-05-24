@@ -3,4 +3,5 @@
     <string name="app_name">Petly</string>
     <string name="pet_detail_screen_title">Fícha técnica</string>
     <string name="create_weight_title">Nuevo peso</string>
+    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
 </resources>

@@ -42,7 +42,7 @@ fun BaseTimePicker(
                     horizontalArrangement = Arrangement.Start,
                     modifier = Modifier.fillMaxWidth()
                 ){
-                    Text("Selecciona el tiempo", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                    Text(stringResource(R.string.select_time), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))

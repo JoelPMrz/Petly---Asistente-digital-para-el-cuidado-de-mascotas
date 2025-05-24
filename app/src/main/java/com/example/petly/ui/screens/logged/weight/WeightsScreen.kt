@@ -125,7 +125,13 @@ fun WeightsScreen(
                         petViewModel.doesPetExist(
                             petId = it,
                             exists = { showAddWeightDialog = !showAddWeightDialog },
-                            notExists = { Toast.makeText(context, "La mascota no existe", Toast.LENGTH_SHORT).show() },
+                            notExists = {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.pet_not_exists_dialog_title),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
                             onFailure = {}
                         )
                     }
@@ -150,7 +156,13 @@ fun WeightsScreen(
                                 petViewModel.doesPetExist(
                                     petId = it,
                                     exists = { showAddWeightDialog = !showAddWeightDialog },
-                                    notExists = { Toast.makeText(context, "La mascota no existe", Toast.LENGTH_SHORT).show() },
+                                    notExists = {
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.pet_not_exists_dialog_title),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    },
                                     onFailure = {}
                                 )
                             }
@@ -211,7 +223,7 @@ fun Weight(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        if(isExpanded) onSelectItem(null) else onSelectItem(weight.id)
+                        if (isExpanded) onSelectItem(null) else onSelectItem(weight.id)
                     },
                     onLongPress = {
                         showDeleteWeightDialog = !showDeleteWeightDialog
@@ -274,7 +286,9 @@ fun Weight(
             Spacer(modifier = Modifier.height(5.dp))
 
             Box(
-                modifier = Modifier.fillMaxWidth().animateContentSize()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.TopStart),
@@ -360,7 +374,11 @@ fun DeleteWeightDialog(
                         petId,
                         weight.id.toString(),
                         notPermission = {
-                            Toast.makeText(context, "Permiso denegado para observadores", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.permission_denied_observer),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     )
                     onDismiss()
@@ -395,7 +413,7 @@ fun WeightsTopAppBar(
         title = {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text  = stringResource(R.string.wheights_pets_title),
+                text = stringResource(R.string.wheights_pets_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -430,6 +448,7 @@ fun WeightsTopAppBar(
         },
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddWeightBottomSheet(
@@ -525,7 +544,7 @@ fun AddWeightBottomSheet(
                 isRequired = true,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            ){
+            ) {
                 weightText = it
             }
 
@@ -545,7 +564,7 @@ fun AddWeightBottomSheet(
                     openDatePicker.value = true
                 },
                 isRequired = true
-            ){
+            ) {
 
             }
 
@@ -557,7 +576,7 @@ fun AddWeightBottomSheet(
                 placeHolder = stringResource(R.string.weight_form_placeholder_note),
                 label = stringResource(R.string.weight_form_label_note),
                 maxLines = 3
-            ){
+            ) {
                 if (it.length <= noteMaxLength) note = it
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -580,7 +599,11 @@ fun AddWeightBottomSheet(
                             weightViewModel.updateWeight(
                                 newWeight,
                                 notPermission = {
-                                    Toast.makeText(context, context.getString(R.string.permission_denied_observer), Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.permission_denied_observer),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             )
                         } else {
@@ -588,7 +611,11 @@ fun AddWeightBottomSheet(
                                 petId,
                                 newWeight,
                                 notPermission = {
-                                    Toast.makeText(context, context.getString(R.string.permission_denied_observer), Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.permission_denied_observer),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             )
                         }
@@ -606,7 +633,6 @@ fun AddWeightBottomSheet(
         }
     }
 }
-
 
 
 @Composable
