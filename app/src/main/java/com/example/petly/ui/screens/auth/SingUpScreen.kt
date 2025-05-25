@@ -107,7 +107,7 @@ private suspend fun signUp(
     context: Context,
     userViewModel: UserViewModel
 ) {
-    if (email.isNotEmpty() || password.isNotEmpty() || name.isNullOrBlank()) {
+    if (email.isNotEmpty() && password.isNotEmpty() && name.isNullOrBlank()) {
         when(val result = auth.createUserWithEmailPassword(email,password)){
             is AuthRes.Success->{
                 analytics.logButtonClicked(FirebaseAnalytics.Event.SIGN_UP)
