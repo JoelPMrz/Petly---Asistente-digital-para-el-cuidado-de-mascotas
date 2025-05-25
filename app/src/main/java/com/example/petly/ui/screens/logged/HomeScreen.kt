@@ -1,5 +1,6 @@
 package com.example.petly.ui.screens.logged
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,6 +55,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -70,13 +73,21 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.petly.R
 import com.example.petly.data.models.Pet
+import com.example.petly.data.models.PetEvent
+import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
+import com.example.petly.ui.screens.logged.pet.AddVeterinaryVisitBottomSheet
 import com.example.petly.ui.screens.logged.pet.DeletePetDialog
+import com.example.petly.ui.screens.logged.pet.VeterinaryVisitCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.normalizeForSearch
+import com.example.petly.viewmodel.EventsViewModel
 import com.example.petly.viewmodel.UserViewModel
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun HomeScreen(
@@ -88,12 +99,15 @@ fun HomeScreen(
     navigateToCalendar: () -> Unit,
     navigateToUser: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    eventsViewModel: EventsViewModel = hiltViewModel()
 ) {
     val petList by petViewModel.petsState.collectAsState()
     val userState by userViewModel.userState.collectAsState()
+    val events by eventsViewModel.eventsState.collectAsState()
     var showSearch by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
+    val searchFocusRequester = remember { FocusRequester() }
     val filteredPetList = if (searchQuery.isBlank()) {
         petList
     } else {
@@ -104,6 +118,13 @@ fun HomeScreen(
     }
     val petsPagerState = rememberPagerState(initialPage = 0) { filteredPetList.size + 1 }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val days = remember {
+        (0..6).map { offset ->
+            LocalDate.now().plusDays(offset.toLong())
+        }
+    }
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+    var itemSelected by remember { mutableStateOf<PetEvent?>(null) }
 
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
@@ -114,6 +135,16 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         petViewModel.getAllPets()
+    }
+
+    LaunchedEffect(showSearch) {
+        if (showSearch) {
+            searchFocusRequester.requestFocus()
+        }
+    }
+
+    LaunchedEffect(petList, selectedDate) {
+        eventsViewModel.observeEventsForPets(petList, selectedDate)
     }
 
     Scaffold(
@@ -136,7 +167,7 @@ fun HomeScreen(
                 userState?.photo,
                 petList = petList,
                 onSearch = {
-                    showSearch =  !showSearch
+                    showSearch = !showSearch
                 },
                 navigateToAddPet = {
                     navigateToAddPet()
@@ -150,7 +181,6 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(paddingValues)
                 .padding(vertical = 10.dp),
         ) {
@@ -172,7 +202,8 @@ fun HomeScreen(
                             width = 0.5.dp,
                             color = MaterialTheme.colorScheme.primary,
                             shape = RoundedCornerShape(20.dp)
-                        ),
+                        )
+                        .focusRequester(searchFocusRequester),
                     placeholder = {
                         Text(
                             text = stringResource(R.string.search),
@@ -232,7 +263,76 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
+            Text(text = "Próximos eventos", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 25.dp), fontSize = 20.sp)
 
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                days.forEach { date ->
+                    val isSelected = date == selectedDate
+                    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
+                    val textColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
+
+                    Column(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(backgroundColor)
+                            .clickable { selectedDate = date }
+                            .padding(vertical = 6.dp, horizontal = 10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()).lowercase()
+                                .replaceFirstChar { it.uppercase() },
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = textColor
+                        )
+                        Text(
+                            text = date.dayOfMonth.toString(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = textColor
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                AnimatedContent(
+                    targetState = events
+                ) { currentEvents ->
+                    if (currentEvents.isEmpty()) {
+                        Text(
+                            text = "No hay eventos para esta fecha",
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+                        )
+                    } else {
+                        Column {
+                            currentEvents.forEach { event ->
+                                when (event) {
+                                    is PetEvent.VeterinaryVisitEvent -> {
+                                        VeterinaryVisitCard(event.visit, onClick = {
+                                            itemSelected = event
+                                        })
+                                    }
+                                }
+                                Spacer(Modifier.height(10.dp))
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -494,6 +594,7 @@ fun HomeTopAppBar(
         )
     )
 }
+
 
 
 

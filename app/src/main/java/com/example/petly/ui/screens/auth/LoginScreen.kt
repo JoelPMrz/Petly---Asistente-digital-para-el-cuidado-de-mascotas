@@ -1,5 +1,6 @@
 package com.example.petly.ui.screens.auth
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -326,10 +327,6 @@ fun LanguageSelectorDialog(
             TextButton(
                 onClick = {
                     preferencesViewModel.setLanguage(selectedLanguage)
-                    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-                    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    context.startActivity(intent)
-                    onDismiss()
                 }
             ) {
                 Text(text = stringResource(android.R.string.ok))
@@ -361,6 +358,8 @@ fun ButtonSingIn(onSingIn: () -> Unit) {
         )
     }
 }
+
+
 
 
 
