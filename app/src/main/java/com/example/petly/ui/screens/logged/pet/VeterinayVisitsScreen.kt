@@ -3,7 +3,9 @@ package com.example.petly.ui.screens.logged.pet
 import BaseTimePicker
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -64,9 +67,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,6 +81,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.User
@@ -240,7 +248,8 @@ fun VeterinaryVisitsScreen(
                         onClick = {
                             showAddEditVeterinaryVisit = true
                             itemSelected = veterinaryVisit
-                        }
+                        },
+                        pet = petState
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                 }
@@ -274,9 +283,12 @@ fun VeterinaryVisitsScreen(
 @Composable
 fun VeterinaryVisitCard(
     veterinaryVisit: VeterinaryVisit,
-    onClick: () -> Unit
+    showImage: Boolean = false,
+    onClick: () -> Unit,
+    pet: Pet?,
 ) {
     val dateTime = LocalDateTime.of(veterinaryVisit.date, veterinaryVisit.time)
+    val photo = pet?.photo
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -304,7 +316,42 @@ fun VeterinaryVisitCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = veterinaryVisit.concept, fontWeight = FontWeight.SemiBold)
+                Text(text = veterinaryVisit.concept, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                if(showImage){
+                    if (photo != null) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(photo)
+                                .placeholder(R.drawable.pet_predeterminado)
+                                .error(R.drawable.pet_predeterminado)
+                                .build(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(CircleShape)
+                                .border(
+                                    width = 1.dp,
+                                    color = Color.Gray.copy(alpha = 0.5f),
+                                    shape = CircleShape
+                                )
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(R.drawable.pet_predeterminado),
+                            contentDescription = "Pet profile",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(CircleShape)
+                                .border(
+                                    width = 1.dp,
+                                    color = Color.Gray.copy(alpha = 0.5f),
+                                    shape = CircleShape
+                                )
+                        )
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(5.dp))
@@ -357,7 +404,6 @@ fun VeterinaryVisitCard(
                 }
                 Spacer(modifier = Modifier.height(5.dp))
             }
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
