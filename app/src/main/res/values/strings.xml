@@ -200,4 +200,5 @@
     <string name="email_not_associated">Correo no asociado a tu cuenta</string>
     <string name="time_zone">Localización horaria</string>
     <string name="select_language" translatable="false">Selecciona un idioma</string>
+    <string name="calendar">Calendario</string>
 </resources>

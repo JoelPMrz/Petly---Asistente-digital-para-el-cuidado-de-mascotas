@@ -75,6 +75,7 @@ import com.example.petly.R
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.PetEvent
 import com.example.petly.data.models.VeterinaryVisit
+import com.example.petly.data.models.getPet
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
 import com.example.petly.ui.screens.logged.pet.AddVeterinaryVisitBottomSheet
@@ -155,7 +156,6 @@ fun HomeScreen(
     LaunchedEffect(selectedVeterinaryVisit) {
         selectedVeterinaryVisit?.let { visit ->
             petViewModel.getPetById(visit.petId)
-
         }
     }
 
@@ -288,11 +288,17 @@ fun HomeScreen(
                     val isSelected = date == selectedDate
                     val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
                     val textColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
+                    val isToday = date == LocalDate.now()
 
                     Column(
                         modifier = Modifier
                             .clip(RoundedCornerShape(8.dp))
                             .background(backgroundColor)
+                            .border(
+                                width = if (isToday && !isSelected) 2.dp else 0.dp,
+                                color = if (isToday && !isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                                shape = RoundedCornerShape(8.dp)
+                            )
                             .clickable { selectedDate = date }
                             .padding(vertical = 6.dp, horizontal = 10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -354,11 +360,17 @@ fun HomeScreen(
                     } else {
                         Column {
                             currentEvents.forEach { event ->
+                                val pet = event.getPet(petList)
                                 when (event) {
                                     is PetEvent.VeterinaryVisitEvent -> {
-                                        VeterinaryVisitCard(event.visit, onClick = {
+                                        VeterinaryVisitCard(
+                                            veterinaryVisit =  event.visit,
+                                            onClick = {
                                             selectedVeterinaryVisit = event.visit
-                                        })
+                                            },
+                                            showImage = true,
+                                            pet = pet
+                                        )
                                     }
                                 }
                                 Spacer(Modifier.height(10.dp))

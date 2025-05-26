@@ -20,3 +20,9 @@ sealed class PetEvent {
     }
 
 }
+
+fun PetEvent.getPet(pets: List<Pet>): Pet? {
+    return pets.find { pet ->
+        pet.id == this.petId
+    }
+}

@@ -98,6 +98,7 @@ fun NavigationWrapper(context : Context){
         }
         composable<Calendar>{
             CalendarScreen(
+                auth = authManager,
                 navigateToHome = {
                     navController.navigate(Home){
                         popUpTo(0) { inclusive = true }
