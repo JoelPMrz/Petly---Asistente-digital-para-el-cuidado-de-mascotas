@@ -104,7 +104,9 @@ fun HomeScreen(
 ) {
     val petList by petViewModel.petsState.collectAsState()
     val userState by userViewModel.userState.collectAsState()
-    val events by eventsViewModel.eventsState.collectAsState()
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+    val eventsPerDay by eventsViewModel.eventsPerDay.collectAsState()
+    val events = eventsPerDay[selectedDate] ?: emptyList()
     var showSearch by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val searchFocusRequester = remember { FocusRequester() }
@@ -123,8 +125,9 @@ fun HomeScreen(
             LocalDate.now().plusDays(offset.toLong())
         }
     }
-    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
-    var itemSelected by remember { mutableStateOf<PetEvent?>(null) }
+    val selectedPet by petViewModel.petState.collectAsState()
+    var selectedVeterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
+
 
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
@@ -143,8 +146,17 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(petList, selectedDate) {
-        eventsViewModel.observeEventsForPets(petList, selectedDate)
+    LaunchedEffect(petList) {
+        if (petList.isNotEmpty()) {
+            eventsViewModel.observeEventsForPetsInRange(petList, days)
+        }
+    }
+
+    LaunchedEffect(selectedVeterinaryVisit) {
+        selectedVeterinaryVisit?.let { visit ->
+            petViewModel.getPetById(visit.petId)
+
+        }
     }
 
     Scaffold(
@@ -292,12 +304,34 @@ fun HomeScreen(
                             fontWeight = FontWeight.Medium,
                             color = textColor
                         )
-                        Text(
-                            text = date.dayOfMonth.toString(),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = textColor
-                        )
+                        Box(
+                            contentAlignment = Alignment.TopEnd,
+                            modifier = Modifier
+                                .padding(top = 2.dp)
+                                .height(20.dp)
+                        ) {
+                            Text(
+                                text = date.dayOfMonth.toString(),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = textColor,
+                                modifier = Modifier.align(Alignment.CenterStart)
+                            )
+                            if (!eventsPerDay[date].isNullOrEmpty()) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(5.dp)
+                                        .offset(x = 4.dp, y = 1.dp)
+                                        .background(
+                                            color = if (date == selectedDate)
+                                                MaterialTheme.colorScheme.primary
+                                            else
+                                                MaterialTheme.colorScheme.onErrorContainer,
+                                            shape = CircleShape
+                                        )
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -323,7 +357,7 @@ fun HomeScreen(
                                 when (event) {
                                     is PetEvent.VeterinaryVisitEvent -> {
                                         VeterinaryVisitCard(event.visit, onClick = {
-                                            itemSelected = event
+                                            selectedVeterinaryVisit = event.visit
                                         })
                                     }
                                 }
@@ -333,6 +367,17 @@ fun HomeScreen(
                     }
                 }
             }
+        }
+    }
+
+    if (selectedVeterinaryVisit != null) {
+        selectedPet?.let { pet ->
+            AddVeterinaryVisitBottomSheet(
+                onDismiss = { selectedVeterinaryVisit = null },
+                pet = pet,
+                currentUser = userState,
+                veterinaryVisit = selectedVeterinaryVisit,
+            )
         }
     }
 }

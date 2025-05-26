@@ -76,6 +76,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
+import com.example.petly.data.models.Pet
 import com.example.petly.data.models.User
 import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.ui.components.BaseDatePicker
@@ -247,16 +248,17 @@ fun VeterinaryVisitsScreen(
         }
 
         if (showAddEditVeterinaryVisit) {
-            AddVeterinaryVisitBottomSheet(
-                onDismiss = {
-                    showAddEditVeterinaryVisit = false
-                    itemSelected = null
-                },
-                petId = petId,
-                petName = petState?.name ?: "",
-                currentUser = currentUserState,
-                veterinaryVisit = itemSelected
-            )
+            petState?.let { pet ->
+                AddVeterinaryVisitBottomSheet(
+                    onDismiss = {
+                        showAddEditVeterinaryVisit = false
+                        itemSelected = null
+                    },
+                    pet = pet,
+                    currentUser = currentUserState,
+                    veterinaryVisit = itemSelected
+                )
+            }
         }
 
         if (showFilterVeterinaryVisits) {
@@ -379,9 +381,8 @@ fun VeterinaryVisitCard(
 fun DeleteVeterinaryVisitDialog(
     onDismiss: () -> Unit,
     onDelete: () -> Unit,
-    petId: String,
+    pet : Pet,
     veterinaryVisit: VeterinaryVisit,
-    petName: String?,
     veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -394,24 +395,26 @@ fun DeleteVeterinaryVisitDialog(
             Text(
                 text = stringResource(
                     R.string.delete_visit_alert_description,
-                    petName.toString()
+                    pet.name
                 )
             )
         },
         confirmButton = {
             TextButton(
                 onClick = {
-                    veterinaryVisitsViewModel.deleteVeterinaryVisit(
-                        petId,
-                        veterinaryVisit.id,
-                        notPermission = {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.permission_denied_observer),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    )
+                    pet.id?.let {
+                        veterinaryVisitsViewModel.deleteVeterinaryVisit(
+                            it,
+                            veterinaryVisit.id,
+                            notPermission = {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.permission_denied_observer),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        )
+                    }
                     onDismiss()
                     onDelete()
                 }
@@ -474,8 +477,7 @@ fun VeterinaryVisitsTopAppBar(
 @Composable
 fun AddVeterinaryVisitBottomSheet(
     onDismiss: () -> Unit,
-    petId: String,
-    petName: String,
+    pet: Pet,
     currentUser: User?,
     veterinaryVisit: VeterinaryVisit? = null,
     petViewModel: PetViewModel = hiltViewModel(),
@@ -512,8 +514,8 @@ fun AddVeterinaryVisitBottomSheet(
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    LaunchedEffect(petId) {
-        petViewModel.getObservedPet(petId)
+    LaunchedEffect(pet.id) {
+        pet.id?.let { petViewModel.getObservedPet(it) }
     }
 
     LaunchedEffect(veterinaryVisit) {
@@ -757,55 +759,63 @@ fun AddVeterinaryVisitBottomSheet(
                         } else {
                             val parsedDate = parseDate(dateText)
                             val parseTime = parseTime(timeText)
-                            val newVeterinaryVisit = VeterinaryVisit(
-                                id = veterinaryVisit?.id ?: "",
-                                petId = petId,
-                                concept = concept,
-                                description = description,
-                                date = parsedDate,
-                                time = parseTime,
-                                veterinary = veterinary,
-                                createdBy = currentUser?.id
-                                    ?: context.getString(R.string.unidentified),
-                                completed = completed
-                            )
-                            if (veterinaryVisit != null) {
-                                veterinaryVisitsViewModel.updateVeterinaryVisit(
-                                    veterinaryVisit = newVeterinaryVisit,
-                                    notPermission = {
-                                        Toast.makeText(
-                                            context,
-                                            context.getString(R.string.permission_denied_observer),
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    },
-                                    onFailure = {
-                                        Toast.makeText(
-                                            context,
-                                            context.getString(R.string.error_edit_veterinary_visit),
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    }
-                                )
-                            } else {
-                                veterinaryVisitsViewModel.addVeterinaryVisit(
+                            val newVeterinaryVisit = pet.id?.let { petId ->
+                                VeterinaryVisit(
+                                    id = veterinaryVisit?.id ?: "",
                                     petId = petId,
-                                    veterinaryVisit = newVeterinaryVisit,
-                                    notPermission = {
-                                        Toast.makeText(
-                                            context,
-                                            context.getString(R.string.permission_denied_observer),
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    },
-                                    onFailure = {
-                                        Toast.makeText(
-                                            context,
-                                            context.getString(R.string.error_create_veterinary_visit),
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    }
+                                    concept = concept,
+                                    description = description,
+                                    date = parsedDate,
+                                    time = parseTime,
+                                    veterinary = veterinary,
+                                    createdBy = currentUser?.id
+                                        ?: context.getString(R.string.unidentified),
+                                    completed = completed
                                 )
+                            }
+                            if (veterinaryVisit != null) {
+                                newVeterinaryVisit?.let { veterinaryVisit ->
+                                    veterinaryVisitsViewModel.updateVeterinaryVisit(
+                                        veterinaryVisit = veterinaryVisit,
+                                        notPermission = {
+                                            Toast.makeText(
+                                                context,
+                                                context.getString(R.string.permission_denied_observer),
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        },
+                                        onFailure = {
+                                            Toast.makeText(
+                                                context,
+                                                context.getString(R.string.error_edit_veterinary_visit),
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    )
+                                }
+                            } else {
+                                pet.id?.let {
+                                    newVeterinaryVisit?.let { veterinaryVisit ->
+                                        veterinaryVisitsViewModel.addVeterinaryVisit(
+                                            petId = it,
+                                            veterinaryVisit = veterinaryVisit,
+                                            notPermission = {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.permission_denied_observer),
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            },
+                                            onFailure = {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.error_create_veterinary_visit),
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                        )
+                                    }
+                                }
                             }
                             onDismiss()
                         }
@@ -851,8 +861,7 @@ fun AddVeterinaryVisitBottomSheet(
                 onDelete = {
                     onDismiss()
                 },
-                petId = petId,
-                petName = petName,
+                pet = pet,
                 veterinaryVisit = it,
             )
         }
