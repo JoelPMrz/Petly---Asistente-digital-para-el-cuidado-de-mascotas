@@ -58,4 +58,55 @@ class EventRepository @Inject constructor(
             listeners.forEach { it.invoke() }
         }
     }
+
+    fun getEventsForPetsInDateRange(
+        petIds: List<String>,
+        startDate: LocalDate,
+        endDate: LocalDate
+    ): Flow<Map<LocalDate, List<PetEvent>>> = callbackFlow {
+        if (petIds.isEmpty()) {
+            trySend(emptyMap())
+            close()
+            return@callbackFlow
+        }
+
+        val listeners = mutableListOf<() -> Unit>()
+        val allEvents = mutableListOf<PetEvent>()
+
+        fun emitEvents() {
+            val filtered = allEvents
+                .filter { it.date in startDate..endDate }
+                .groupBy { it.date }
+            trySend(filtered).isSuccess
+        }
+
+        petIds.forEach { petId ->
+            val query = firestore.collection("veterinaryVisits")
+                .whereEqualTo("petId", petId)
+
+            val listener = query.addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
+
+                val visits = snapshot?.documents?.mapNotNull { doc ->
+                    val visit = veterinaryVisitFromFirebase(doc.data ?: return@mapNotNull null)
+                    visit.id = doc.id
+                    VeterinaryVisitEvent(visit)
+                } ?: emptyList()
+
+                allEvents.removeAll { it.petId == petId }
+                allEvents.addAll(visits)
+                emitEvents()
+            }
+
+            listeners.add { listener.remove() }
+        }
+
+        awaitClose {
+            listeners.forEach { it.invoke() }
+        }
+    }
+
 }

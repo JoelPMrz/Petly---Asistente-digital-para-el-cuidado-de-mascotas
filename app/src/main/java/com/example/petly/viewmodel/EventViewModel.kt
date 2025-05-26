@@ -36,4 +36,20 @@ class EventsViewModel @Inject constructor(
             }
         }
     }
+
+    private val _eventsPerDay = MutableStateFlow<Map<LocalDate, List<PetEvent>>>(emptyMap())
+    val eventsPerDay: StateFlow<Map<LocalDate, List<PetEvent>>> = _eventsPerDay
+
+    fun observeEventsForPetsInRange(pets: List<Pet>, days: List<LocalDate>) {
+        val petIds = pets.map { it.id.toString() }
+        val start = days.min()
+        val end = days.max()
+
+        viewModelScope.launch {
+            eventRepository.getEventsForPetsInDateRange(petIds, start, end).collect { result ->
+                _eventsPerDay.value = result
+            }
+        }
+    }
+
 }
