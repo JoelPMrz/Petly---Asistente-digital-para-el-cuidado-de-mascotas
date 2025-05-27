@@ -130,7 +130,7 @@ class AuthManager(private val context: Context) {
 
                 is AuthRes.Error -> {
                     analytics.logButtonClicked("Error SignIn: ${result.errorMessage}")
-                    Toast.makeText(context, "Error SignIn: ${result.errorMessage}", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT)
                         .show()
                 }
             }

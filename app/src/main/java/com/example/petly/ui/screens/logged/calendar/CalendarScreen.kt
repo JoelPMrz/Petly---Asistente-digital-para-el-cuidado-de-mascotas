@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,11 +23,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronLeft
 import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material.icons.rounded.Today
+import androidx.compose.material.icons.rounded.Pets
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -54,6 +56,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.petly.R
+import com.example.petly.data.models.Pet
 import com.example.petly.data.models.PetEvent
 import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.data.models.getPet
@@ -84,12 +87,14 @@ fun CalendarScreen(
     eventsViewModel: EventsViewModel = hiltViewModel()
 ) {
     val petList by petViewModel.petsState.collectAsState()
+    val petListFiltered by petViewModel.filteredPetsState.collectAsState()
     val userState by userViewModel.userState.collectAsState()
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
     val eventsPerDay by eventsViewModel.eventsPerDay.collectAsState()
     val events = eventsPerDay[selectedDate] ?: emptyList()
     val selectedPet by petViewModel.petState.collectAsState()
     var selectedVeterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
+    var showSelectPets by remember { mutableStateOf(false) }
 
     var displayedMonth by remember { mutableStateOf(YearMonth.now()) }
     val monthDays = remember(displayedMonth) {
@@ -107,9 +112,15 @@ fun CalendarScreen(
         petViewModel.getAllPets()
     }
 
-    LaunchedEffect(petList, monthDays) {
-        if (petList.isNotEmpty()) {
-            eventsViewModel.observeEventsForPetsInRange(petList, monthDays)
+    LaunchedEffect(petList) {
+        if (petList.isNotEmpty() && petListFiltered.isEmpty()) {
+            petViewModel.updateFilteredPets(petList)
+        }
+    }
+
+    LaunchedEffect(petListFiltered, monthDays) {
+        if (petListFiltered.isNotEmpty()) {
+            eventsViewModel.observeEventsForPetsInRange(petListFiltered, monthDays)
         }
     }
 
@@ -132,6 +143,9 @@ fun CalendarScreen(
             CalendarTopAppBar(
                 userState?.photo,
                 navigateToUser = navigateToUser,
+                onPetsSelect = {
+                    showSelectPets = true
+                },
                 onTodayClick = {
                     displayedMonth = YearMonth.from(LocalDate.now())
                     selectedDate = LocalDate.now()
@@ -143,7 +157,7 @@ fun CalendarScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(vertical = 10.dp),
+                .padding(vertical = 5.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -154,7 +168,8 @@ fun CalendarScreen(
                     onClick = {
                         displayedMonth = displayedMonth.minusMonths(1)
                         selectedDate = null
-                    }
+                    },
+                    backgroundColor = Color.Transparent
                 )
                 Text(
                     text = displayedMonth.month.getDisplayName(TextStyle.FULL, Locale("es"))
@@ -166,7 +181,8 @@ fun CalendarScreen(
                     onClick = {
                         displayedMonth = displayedMonth.plusMonths(1)
                         selectedDate = null
-                    }
+                    },
+                    backgroundColor = Color.Transparent
                 )
             }
 
@@ -266,7 +282,7 @@ fun CalendarScreen(
                         } else {
                             Column {
                                 currentEvents.forEach { event ->
-                                    val pet = event.getPet(petList)
+                                    val pet = event.getPet(petListFiltered)
                                     when (event) {
                                         is PetEvent.VeterinaryVisitEvent -> {
                                             VeterinaryVisitCard(
@@ -289,6 +305,16 @@ fun CalendarScreen(
         }
     }
 
+    if(showSelectPets){
+        PetSelectionDialog(
+            petList = petList,
+            filteredPetList = petListFiltered,
+            onDismiss = {
+                showSelectPets = false
+            }
+        )
+    }
+
     if (selectedVeterinaryVisit != null) {
         selectedPet?.let { pet ->
             AddVeterinaryVisitBottomSheet(
@@ -306,6 +332,7 @@ fun CalendarScreen(
 @Composable
 fun CalendarTopAppBar(
     photo: String?,
+    onPetsSelect: () -> Unit,
     onTodayClick: () -> Unit,
     navigateToUser: () -> Unit,
 ) {
@@ -361,22 +388,31 @@ fun CalendarTopAppBar(
 
         },
         actions = {
+            IconCircle(
+                icon = Icons.Rounded.Pets,
+                onClick = {
+                    onPetsSelect()
+                }
+            )
+            Spacer(Modifier.width(5.dp))
             Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .background(Color.Transparent)
                     .border(
                         width = 2.dp,
                         color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(6.dp)
+                        shape = CircleShape
                     )
-                    .clickable {
-                        onTodayClick()
-                    }
+                    .clickable { onTodayClick() }
             ) {
                 Text(
                     text = today.dayOfMonth.toString(),
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 12.sp,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                 )
             }
         },
@@ -385,6 +421,86 @@ fun CalendarTopAppBar(
         )
     )
 }
+
+@Composable
+fun PetSelectionDialog(
+    petList: List<Pet>,
+    filteredPetList: List<Pet>,
+    onDismiss: () -> Unit,
+    petViewModel: PetViewModel = hiltViewModel()
+) {
+    var selectedPets by remember { mutableStateOf(filteredPetList.toSet()) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Selecciona tus mascotas") },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                petList.forEach { pet ->
+                    val isSelected = selectedPets.contains(pet)
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                selectedPets = if (isSelected) selectedPets - pet else selectedPets + pet
+                            }
+                            .padding(vertical = 8.dp)
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(pet.photo ?: R.drawable.pet_predeterminado)
+                                .placeholder(R.drawable.pet_predeterminado)
+                                .error(R.drawable.pet_predeterminado)
+                                .build(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(CircleShape)
+                                .border(1.dp, Color.Gray.copy(alpha = 0.5f), CircleShape)
+                        )
+
+                        Spacer(modifier = Modifier.width(12.dp))
+
+                        Text(
+                            text = pet.name,
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        Checkbox(
+                            checked = isSelected,
+                            onCheckedChange = {
+                                selectedPets = if (it) selectedPets + pet else selectedPets - pet
+                            }
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                petViewModel.updateFilteredPets(selectedPets.toList())
+                onDismiss()
+            }) {
+                Text("Aceptar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    )
+}
+
+
+
 
 fun generateCalendarMonth(baseDate: LocalDate): List<LocalDate> {
     val firstOfMonth = baseDate.withDayOfMonth(1)

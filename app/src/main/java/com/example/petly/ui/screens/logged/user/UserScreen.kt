@@ -146,7 +146,7 @@ fun UserScreen(
         Column(
             Modifier
                 .padding(paddingValues)
-                .padding(20.dp)
+                .padding(top= 20.dp, end = 20.dp, start = 20.dp, bottom = 5.dp)
         ) {
             if (capturedImageUri != Uri.EMPTY) {
                 Image(
@@ -390,23 +390,25 @@ fun UserScreen(
             PhotoPickerBottomSheet(
                 onImageSelected = { uri ->
                     capturedImageUri = uri
-                    userViewModel.updateUserProfilePhoto(
-                        auth.getCurrentUser()!!.uid,
-                        capturedImageUri,
-                        onSuccess = {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.updated_photo),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        },
-                        onFailure = {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.not_updated_photo),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        })
+                    userState?.let { user ->
+                        userViewModel.updateUserProfilePhoto(
+                            user.id,
+                            capturedImageUri,
+                            onSuccess = {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.updated_photo),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            onFailure = {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.not_updated_photo),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            })
+                    }
                 },
                 onDismiss = {
                     showPhotoPicker = false
