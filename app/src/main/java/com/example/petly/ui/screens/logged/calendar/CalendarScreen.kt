@@ -316,13 +316,18 @@ fun CalendarScreen(
     }
 
     if (selectedVeterinaryVisit != null) {
-        selectedPet?.let { pet ->
-            AddVeterinaryVisitBottomSheet(
-                onDismiss = { selectedVeterinaryVisit = null },
-                pet = pet,
-                currentUser = userState,
-                veterinaryVisit = selectedVeterinaryVisit,
-            )
+        selectedVeterinaryVisit?.let { visit ->
+            val pet = petList.find { it.id == visit.petId }
+            if (pet != null) {
+                AddVeterinaryVisitBottomSheet(
+                    onDismiss = {
+                        selectedVeterinaryVisit = null
+                    },
+                    pet = pet,
+                    currentUser = userState,
+                    veterinaryVisit = visit,
+                )
+            }
         }
     }
 }
