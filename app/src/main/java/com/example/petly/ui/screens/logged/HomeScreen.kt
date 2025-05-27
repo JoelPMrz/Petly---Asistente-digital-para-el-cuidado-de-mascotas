@@ -194,7 +194,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(vertical = 10.dp),
+                .padding(top = 10.dp, bottom = 5.dp),
         ) {
             AnimatedVisibility(
                 visible = showSearch
@@ -273,7 +273,7 @@ fun HomeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(25.dp))
 
             Text(text = "Próximos eventos", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 25.dp), fontSize = 20.sp)
 

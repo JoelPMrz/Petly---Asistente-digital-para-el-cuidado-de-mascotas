@@ -2,6 +2,7 @@ package com.example.petly.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.example.petly.R
 
 
@@ -31,13 +33,15 @@ fun PasswordOutlinedTextField(
     value: String,
     label : String? = null,
     leadingIcon : ImageVector? = null,
-    onUserChange: (String) -> Unit
+    isError: Boolean = false,
+    onUserChange: (String) -> Unit,
 ) {
     var passwordHidden: Boolean by remember { mutableStateOf(true) }
     OutlinedTextField(
         value = value,
         onValueChange = { onUserChange(it) },
         modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(14.dp),
         label = {
             Text(
                 text = label ?: stringResource(R.string.password), fontWeight = FontWeight.Medium,
@@ -61,6 +65,7 @@ fun PasswordOutlinedTextField(
                 imageVector =  leadingIcon ?: Icons.Default.Lock,
                 contentDescription = "Lock icon"
             )
-        }
+        },
+        isError = isError
     )
 }

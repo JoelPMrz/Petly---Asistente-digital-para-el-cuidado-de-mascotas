@@ -53,6 +53,7 @@ fun BaseOutlinedTextField(
                 },
                 modifier = Modifier
                     .fillMaxWidth(),
+                shape = RoundedCornerShape(14.dp),
                 placeholder = {
                     placeHolder?.let { Text(text = it, fontWeight = FontWeight.ExtraLight) }
                 },
@@ -100,7 +101,7 @@ fun BaseOutlinedTextField(
                         .size(18.dp)
                         .background(
                             color = if (!isError) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
-                            shape = RoundedCornerShape(0, 14, 0, 100)
+                            shape = RoundedCornerShape(0, 50, 0, 100)
                         ),
                     contentAlignment = Alignment.TopEnd
                 ) {

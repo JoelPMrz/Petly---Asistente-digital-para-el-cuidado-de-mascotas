@@ -1,9 +1,5 @@
 package com.example.petly.ui.screens.auth
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.res.Configuration
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -52,10 +48,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat.recreate
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
-import com.example.petly.data.repository.PreferencesRepository
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.PasswordOutlinedTextField
@@ -67,7 +61,6 @@ import com.example.petly.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @Composable
 fun LoginScreen(
@@ -82,6 +75,7 @@ fun LoginScreen(
     val context = LocalContext.current
     var email: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
+    var darkMode = preferencesViewModel.isDarkMode.collectAsState()
     val language = preferencesViewModel.language.collectAsState().value
     var showLanguageSelectorDialog by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -141,14 +135,14 @@ fun LoginScreen(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = if(isSystemInDarkTheme()) painterResource(R.drawable.dark_login) else painterResource(R.drawable.login_background),
+            painter = if(darkMode.value) painterResource(R.drawable.dark_login) else painterResource(R.drawable.login_background),
             contentDescription = "Background login",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
         Row(
-            modifier = Modifier.align(Alignment.TopStart).padding(start = 10.dp, top = 35.dp),
+            modifier = Modifier.align(Alignment.TopStart).padding(start = 20.dp, top = 45.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
             IconCircle(
@@ -253,7 +247,7 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
-                Text(text = stringResource(R.string.not_create_account), fontSize = 15.sp)
+                Text(text = stringResource(R.string.not_create_account), fontSize = 15.sp, color = MaterialTheme.colorScheme.onBackground)
                 Spacer(modifier = Modifier.width(2.dp))
                 Text(
                     text = stringResource(R.string.create_account), modifier = Modifier.clickable {
@@ -327,6 +321,7 @@ fun LanguageSelectorDialog(
             TextButton(
                 onClick = {
                     preferencesViewModel.setLanguage(selectedLanguage)
+                    onDismiss()
                 }
             ) {
                 Text(text = stringResource(android.R.string.ok))

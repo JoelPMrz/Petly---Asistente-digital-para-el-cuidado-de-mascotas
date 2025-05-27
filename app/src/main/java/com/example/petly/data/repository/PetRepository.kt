@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
@@ -278,4 +279,38 @@ class PetRepository @Inject constructor(
         }
         awaitClose { listener.remove() }
     }
+
+    fun getPetsFlowByList(pets: List<Pet>): Flow<List<Pet>> = callbackFlow {
+        if (pets.isEmpty()) {
+            trySend(emptyList()).isSuccess
+            close()
+            return@callbackFlow
+        }
+
+        val petsMap = mutableMapOf<String, Pet>()
+        val listeners = pets.mapNotNull { pet ->
+            val petId = pet.id ?: return@mapNotNull null
+
+            firestore.collection("pets").document(petId)
+                .addSnapshotListener { snapshot, _ ->
+                    if (snapshot != null && snapshot.exists()) {
+                        val data = snapshot.data
+                        val updatedPet = petfromFirestoreMap(data ?: emptyMap())
+                        updatedPet.id = snapshot.id
+
+                        petsMap[updatedPet.id!!] = updatedPet
+
+                        // Emitimos la lista actualizada de mascotas
+                        trySend(petsMap.values.toList()).isSuccess
+                    }
+                }
+        }
+
+        // Cuando se cierre el flow, eliminar listeners
+        awaitClose {
+            listeners.forEach { it.remove() }
+        }
+    }
+
+
 }

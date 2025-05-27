@@ -46,6 +46,23 @@ class PetViewModel @Inject constructor(
         }
     }
 
+    private val _filteredPetsState = MutableStateFlow<List<Pet>>(emptyList())
+    val filteredPetsState: StateFlow<List<Pet>> get() = _filteredPetsState
+
+    fun updateFilteredPets(petList : List<Pet>){
+        viewModelScope.launch {
+            try {
+                petRepository.getPetsFlowByList(petList).collect { pets ->
+                    if (_filteredPetsState.value != pets) {
+                        _filteredPetsState.value = pets
+                    }
+                }
+            } catch (e: Exception) {
+                //
+            }
+        }
+    }
+
     fun getOwnerPets() {
         viewModelScope.launch {
             try {

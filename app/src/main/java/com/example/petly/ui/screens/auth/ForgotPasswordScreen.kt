@@ -1,6 +1,8 @@
 package com.example.petly.ui.screens.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,52 +22,78 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
+import com.example.petly.viewmodel.PreferencesViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun ForgotPasswordScreen(
     analytics: AnalyticsManager,
     auth: AuthManager,
-    navigateToLogin:()-> Unit
+    navigateToLogin: () -> Unit,
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var email: String by remember { mutableStateOf("") }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    val darkMode = preferencesViewModel.isDarkMode.collectAsState()
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        BaseOutlinedTextField(
-            value = email,
-            placeHolder = "ejemplo@gmail.com",
-            label = stringResource(R.string.email),
-            leadingIcon = Icons.Default.Mail,
-            maxLines = 1
+        Image(
+            painter = if (darkMode.value) painterResource(R.drawable.dark_login) else painterResource(
+                R.drawable.login_background
+            ),
+            contentDescription = "Background login",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            email = it
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick = {
-            scope.launch {
-                auth.resetPasswordFlow(
-                    email,
-                    auth,
-                    //analytics,
-                    context,
-                    navigateToLogin)
+            BaseOutlinedTextField(
+                value = email,
+                placeHolder = "ejemplo@gmail.com",
+                label = stringResource(R.string.email),
+                leadingIcon = Icons.Default.Mail,
+                maxLines = 1
+            ) {
+                email = it
             }
-        }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = stringResource(R.string.recover_password))
+            Spacer(modifier = Modifier.height(10.dp))
+            Button(
+                onClick = {
+                    scope.launch {
+                        auth.resetPasswordFlow(
+                            email,
+                            auth,
+                            //analytics,
+                            context,
+                            navigateToLogin
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+            ) {
+                Text(text = stringResource(R.string.recover_password))
+            }
         }
     }
 }
