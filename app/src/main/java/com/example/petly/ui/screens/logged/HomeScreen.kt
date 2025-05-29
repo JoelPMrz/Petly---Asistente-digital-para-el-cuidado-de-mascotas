@@ -129,6 +129,11 @@ fun HomeScreen(
     val selectedPet by petViewModel.petState.collectAsState()
     var selectedVeterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
 
+    LaunchedEffect(filteredPetList) {
+        if (filteredPetList.isNotEmpty()) {
+            petsPagerState.animateScrollToPage(0)
+        }
+    }
 
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
