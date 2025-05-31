@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -43,8 +44,10 @@ class AuthManager(private val context: Context) {
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
             val user = authResult.user ?: return AuthRes.Error("Usuario nulo después del registro")
             AuthRes.Success(user)
+        } catch (e: FirebaseAuthUserCollisionException) {
+            AuthRes.Error("Ya existe una cuenta registrada con este correo.")
         } catch (e: Exception) {
-            AuthRes.Error(e.message ?: "Error al crear el usuario")
+            AuthRes.Error("Error al crear el usuario")
         }
     }
 

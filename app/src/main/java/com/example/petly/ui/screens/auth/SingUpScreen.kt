@@ -183,7 +183,7 @@ private suspend fun signUp(
                 analytics.logButtonClicked("Error SignUp: ${result.errorMessage}")
                 Toast.makeText(
                     context,
-                    context.getString(R.string.an_error_has_occurred),
+                    result.errorMessage,
                     Toast.LENGTH_SHORT
                 ).show()
             }
