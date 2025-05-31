@@ -94,10 +94,13 @@ class PetViewModel @Inject constructor(
     private val _petState = MutableStateFlow<Pet?>(null)
     val petState: StateFlow<Pet?> get() = _petState
 
-    fun getObservedPet(petId: String) {
+    fun getObservedPet(petId: String, petNotExits : () -> Unit) {
         viewModelScope.launch {
             petRepository.getPetFlowById(petId).collect { pet ->
                 _petState.value = pet
+                if (pet == null) {
+                    petNotExits()
+                }
             }
         }
     }

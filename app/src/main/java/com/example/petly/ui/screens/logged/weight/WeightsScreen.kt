@@ -78,6 +78,7 @@ import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.EmptyCard
+import com.example.petly.ui.components.pet.PetNotExistsDialog
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.convertWeight
 import com.example.petly.utils.formatLocalDateToString
@@ -95,6 +96,7 @@ fun WeightsScreen(
     //analytics: AnalyticsManager,
     petId: String,
     navigateBack: () -> Unit,
+    navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel(),
 ) {
@@ -106,9 +108,15 @@ fun WeightsScreen(
     var showAddWeightDialog by remember { mutableStateOf(false) }
     val petName = petState?.name
     var selectedItemId by remember { mutableStateOf<String?>(null) }
+    var showPetNotExistsDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(petId) {
-        petViewModel.getObservedPet(petId)
+        petViewModel.getObservedPet(
+            petId,
+            petNotExits = {
+                showPetNotExistsDialog = true
+            }
+        )
         weightViewModel.getWeights(petId)
     }
 
@@ -193,6 +201,22 @@ fun WeightsScreen(
                     showAddWeightDialog = false
                 },
                 petId = petId
+            )
+        }
+
+        if (showPetNotExistsDialog) {
+            PetNotExistsDialog(
+                navigateTo = {
+
+                }
+            )
+        }
+
+        if (showPetNotExistsDialog) {
+            PetNotExistsDialog(
+                navigateTo = {
+                    navigateToHome()
+                }
             )
         }
     }

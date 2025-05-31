@@ -237,11 +237,12 @@ fun HomeScreen(
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     ),
                     keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Search
+                        imeAction = ImeAction.Done
                     ),
                     keyboardActions = KeyboardActions(
-                        onSearch = {
+                        onDone = {
                             keyboardController?.hide()
+                            searchQuery = ""
                             showSearch = false
                         }
                     ),

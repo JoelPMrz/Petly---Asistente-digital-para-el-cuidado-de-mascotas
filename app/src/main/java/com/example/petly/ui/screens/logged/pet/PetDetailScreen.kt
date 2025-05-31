@@ -146,10 +146,16 @@ fun PetDetailScreen(
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
 
     LaunchedEffect(petId) {
-        petViewModel.getObservedPet(petId)
+        petViewModel.getObservedPet(
+            petId,
+            petNotExits = {
+                showPetNotExistsDialog = true
+            }
+        )
         weightViewModel.getWeights(petId)
         veterinaryVisitsViewModel.getVeterinaryVisitsFlow(petId)
     }
+
 
     LaunchedEffect(weightsList) {
         weight = weightsList.lastOrNull()
@@ -168,15 +174,6 @@ fun PetDetailScreen(
         if (uid != null) {
             userViewModel.getUserFlowById(uid)
         }
-    }
-
-    petState?.id?.let {
-        petViewModel.doesPetExist(
-            petId = it,
-            exists = {},
-            notExists = { showPetNotExistsDialog = true },
-            onFailure = {}
-        )
     }
 
     Scaffold(

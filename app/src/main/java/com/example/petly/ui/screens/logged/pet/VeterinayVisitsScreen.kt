@@ -92,6 +92,7 @@ import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.EmptyCard
 import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.pet.PetNotExistsDialog
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.formatLocalDateToString
@@ -112,6 +113,7 @@ fun VeterinaryVisitsScreen(
     auth: AuthManager,
     petId: String,
     navigateBack: () -> Unit,
+    navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
     veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel(),
@@ -120,6 +122,7 @@ fun VeterinaryVisitsScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val petState by petViewModel.petState.collectAsState()
+    var showPetNotExistsDialog by remember { mutableStateOf(false) }
     val currentUserState by userViewModel.userState.collectAsState()
     val veterinaryVisits by veterinaryVisitsViewModel.veterinaryVisits.collectAsState()
     var showAddEditVeterinaryVisit by remember { mutableStateOf(false) }
@@ -148,7 +151,12 @@ fun VeterinaryVisitsScreen(
     }
 
     LaunchedEffect(petId) {
-        petViewModel.getObservedPet(petId)
+        petViewModel.getObservedPet(
+            petId,
+            petNotExits = {
+                showPetNotExistsDialog = true
+            }
+        )
         veterinaryVisitsViewModel.getVeterinaryVisitsFlow(petId)
     }
 
@@ -269,14 +277,21 @@ fun VeterinaryVisitsScreen(
                 )
             }
         }
+    }
 
-        if (showFilterVeterinaryVisits) {
-            VeterinaryVisitsFilterBottomSheet(
-                onDismiss = {
-                    showFilterVeterinaryVisits = false
-                }
-            )
-        }
+    if (showFilterVeterinaryVisits) {
+        VeterinaryVisitsFilterBottomSheet(
+            onDismiss = {
+                showFilterVeterinaryVisits = false
+            }
+        )
+    }
+    if (showPetNotExistsDialog) {
+        PetNotExistsDialog(
+            navigateTo = {
+                navigateToHome()
+            }
+        )
     }
 }
 
@@ -560,8 +575,15 @@ fun AddVeterinaryVisitBottomSheet(
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    var showPetNotExistsDialog by remember { mutableStateOf(false) }
+
     LaunchedEffect(pet.id) {
-        pet.id?.let { petViewModel.getObservedPet(it) }
+        pet.id?.let { petViewModel.getObservedPet(
+            it,
+            petNotExits = {
+                showPetNotExistsDialog = true
+            }
+        ) }
     }
 
     LaunchedEffect(veterinaryVisit) {
