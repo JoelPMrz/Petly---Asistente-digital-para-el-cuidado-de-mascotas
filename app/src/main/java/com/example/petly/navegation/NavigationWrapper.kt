@@ -136,7 +136,7 @@ fun NavigationWrapper(context : Context){
                 },
                 navigateBack = {
                     navController.navigate(Login){
-                        popUpTo<Home>{
+                        popUpTo<User>{
                             inclusive = true
                         }
                     }
@@ -186,6 +186,11 @@ fun NavigationWrapper(context : Context){
                 petId = petDetail.petId,
                 navigateBack = {
                     navController.popBackStack()
+                },
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
             )
         }
@@ -197,7 +202,12 @@ fun NavigationWrapper(context : Context){
                 petId = petDetail.petId,
                 navigateBack = {
                     navController.popBackStack()
-                }
+                },
+               navigateToHome = {
+                   navController.navigate(Home){
+                       popUpTo(0) { inclusive = true }
+                   }
+               }
             )
         }
         composable<Owners> {backStackEntry->

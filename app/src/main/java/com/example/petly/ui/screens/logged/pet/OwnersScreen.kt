@@ -71,6 +71,7 @@ import com.example.petly.data.models.User
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
 import com.example.petly.ui.components.IconCircle
+import com.example.petly.ui.components.pet.PetNotExistsDialog
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
 import com.example.petly.viewmodel.UserViewModel
@@ -93,9 +94,15 @@ fun OwnersScreen(
     val createdOwners by userViewModel.createdOwnerState.collectAsState()
     val ownersState by userViewModel.ownersState.collectAsState()
     val petState by petViewModel.petState.collectAsState()
+    var showPetNotExistsDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(petId) {
-        petViewModel.getObservedPet(petId)
+        petViewModel.getObservedPet(
+            petId,
+            petNotExits = {
+                showPetNotExistsDialog = true
+            }
+        )
         userViewModel.getUsersByRole(petId, "owners")
     }
 
@@ -194,6 +201,14 @@ fun OwnersScreen(
             },
             pet = petState,
             currentUser = currentUserState
+        )
+    }
+
+    if (showPetNotExistsDialog) {
+        PetNotExistsDialog(
+            navigateTo = {
+                navigateToHome()
+            }
         )
     }
 
