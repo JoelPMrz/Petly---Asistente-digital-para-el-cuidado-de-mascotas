@@ -622,6 +622,13 @@ fun AddWeightBottomSheet(
                         if (weight != null) {
                             weightViewModel.updateWeight(
                                 newWeight,
+                                weightNotExist = {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.weight_not_exist),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                },
                                 notPermission = {
                                     Toast.makeText(
                                         context,
