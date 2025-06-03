@@ -201,4 +201,6 @@
     <string name="time_zone">Localización horaria</string>
     <string name="select_language" translatable="false">Selecciona un idioma</string>
     <string name="calendar">Calendario</string>
+    <string name="passwordInvalid">Debe contener 8 caracteres, letra y número</string>
+    <string name="invalid_email">La dirección no es valida</string>
 </resources>

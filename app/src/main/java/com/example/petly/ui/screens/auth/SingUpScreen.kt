@@ -2,6 +2,7 @@ package com.example.petly.ui.screens.auth
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person
@@ -27,11 +30,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
@@ -40,6 +50,8 @@ import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.AuthRes
 import com.example.petly.utils.FirebaseConstants.DEFAULT_USER_PHOTO_URL
+import com.example.petly.utils.mailValidated
+import com.example.petly.utils.passwordValidated
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -53,12 +65,28 @@ fun SingUpScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
+    val focusManager = LocalFocusManager.current
+
     var password: String by remember { mutableStateOf("") }
+    var isErrorPassword by remember { mutableStateOf(false) }
+    val passwordFocusRequester = remember { FocusRequester() }
+    var wasPasswordTouched by remember { mutableStateOf(false) }
+
     var name: String by remember { mutableStateOf("") }
+    var isErrorName by remember { mutableStateOf(false) }
+    val nameFocusRequester = remember { FocusRequester() }
+    var wasNameTouched by remember { mutableStateOf(false) }
+
     var email: String by remember { mutableStateOf("") }
+    var isErrorMail by remember { mutableStateOf(false) }
+    val mailFocusRequester = remember { FocusRequester() }
+    var wasMailTouched by remember { mutableStateOf(false) }
+
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val darkMode = preferencesViewModel.isDarkMode.collectAsState()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -75,7 +103,7 @@ fun SingUpScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp),
+                .padding(30.dp, top = 120.dp, end = 30.dp, bottom = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -85,25 +113,104 @@ fun SingUpScreen(
                 leadingIcon = Icons.Default.Person,
                 isRequired = true,
                 maxLength = 25,
-                maxLines = 1
+                maxLines = 1,
+                isError = isErrorName,
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        mailFocusRequester.requestFocus()
+                    }
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                modifier = Modifier
+                    .focusRequester(nameFocusRequester)
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused) {
+                            wasNameTouched = true
+                        } else {
+                            if (wasNameTouched) {
+                                isErrorName = name.isBlank()
+                            }
+                        }
+                    }
             ) {
                 name = it
+                if(wasNameTouched && it.isNotBlank()){
+                    isErrorName = false
+                }
             }
             Spacer(modifier = Modifier.height(20.dp))
             BaseOutlinedTextField(
                 value = email,
+                modifier = Modifier
+                    .focusRequester(mailFocusRequester)
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused) {
+                            wasMailTouched = true
+                        }else{
+                            if (wasMailTouched) {
+                                isErrorMail = !mailValidated(email)
+                            }
+                        }
+                    },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        passwordFocusRequester.requestFocus()
+                    }
+                ),
                 placeHolder = "example@gmail.com",
                 label = stringResource(R.string.email),
                 leadingIcon = Icons.Default.Mail,
                 isRequired = true,
+                isError = isErrorMail,
                 maxLines = 1
             ) {
                 email = it
+                if(wasMailTouched && !mailValidated(it)){
+                    isErrorMail = false
+                }
+            }
+            AnimatedVisibility(isErrorMail){
+                Text(text = stringResource(R.string.invalid_email), color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
             }
             Spacer(modifier = Modifier.height(20.dp))
-            PasswordOutlinedTextField(value = password) {
+            PasswordOutlinedTextField(
+                value = password,
+                modifier = Modifier
+                    .focusRequester(passwordFocusRequester)
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused) {
+                            wasPasswordTouched = true
+                        }else{
+                            if (wasPasswordTouched) {
+                                isErrorPassword = !passwordValidated(password)
+                            }
+                        }
+                    },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    }
+                ),
+                isError = isErrorPassword
+            ) {
                 password = it
+                if(wasPasswordTouched && !passwordValidated(it)){
+                    isErrorPassword = false
+                }
             }
+            AnimatedVisibility(isErrorPassword){
+                Text(text = stringResource(R.string.passwordInvalid), color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
+            }
+
             Spacer(modifier = Modifier.height(30.dp))
             Button(
                 onClick = {
@@ -146,7 +253,7 @@ private suspend fun signUp(
     context: Context,
     userViewModel: UserViewModel
 ) {
-    if (email.isNotEmpty() && password.isNotEmpty() && !name.isNullOrBlank()) {
+    if (mailValidated(email) && passwordValidated(password) && !name.isNullOrBlank()) {
         when (val result = auth.createUserWithEmailPassword(email, password)) {
             is AuthRes.Success -> {
                 analytics.logButtonClicked(FirebaseAnalytics.Event.SIGN_UP)
@@ -189,11 +296,26 @@ private suspend fun signUp(
             }
         }
     } else {
-        Toast.makeText(
-            context,
-            context.getString(R.string.all_fields_are_required),
-            Toast.LENGTH_SHORT
-        ).show()
+        if(!mailValidated(email)){
+            Toast.makeText(
+                context,
+                context.getString(R.string.invalid_email),
+                Toast.LENGTH_SHORT
+            ).show()
+        }else if(!passwordValidated(password)){
+            Toast.makeText(
+                context,
+                context.getString(R.string.passwordInvalid),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else{
+            Toast.makeText(
+                context,
+                context.getString(R.string.all_fields_are_required),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }
 
