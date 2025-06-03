@@ -845,6 +845,13 @@ fun AddVeterinaryVisitBottomSheet(
                                 newVeterinaryVisit?.let { veterinaryVisit ->
                                     veterinaryVisitsViewModel.updateVeterinaryVisit(
                                         veterinaryVisit = veterinaryVisit,
+                                        veterinaryVisitNotExist = {
+                                            Toast.makeText(
+                                                context,
+                                                context.getString(R.string.veterinaryVisit_not_exist),
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        },
                                         notPermission = {
                                             Toast.makeText(
                                                 context,

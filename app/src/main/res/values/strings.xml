@@ -203,4 +203,6 @@
     <string name="calendar">Calendario</string>
     <string name="passwordInvalid">Debe contener 8 caracteres, letra y número</string>
     <string name="invalid_email">La dirección no es valida</string>
+    <string name="weight_not_exist">Alguien eliminó este peso, no es posible editarlo</string>
+    <string name="veterinaryVisit_not_exist">Alguien eliminó esta visita veterinaria, no es posible editarla</string>
 </resources>

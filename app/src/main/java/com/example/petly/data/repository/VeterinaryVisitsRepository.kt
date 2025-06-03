@@ -1,10 +1,8 @@
 package com.example.petly.data.repository
 
 import com.example.petly.data.models.VeterinaryVisit
-import com.example.petly.data.models.Weight
 import com.example.petly.data.models.toFirestoreMap
 import com.example.petly.data.models.veterinaryVisitFromFirebase
-import com.example.petly.data.models.weightFromFirestoreMap
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
@@ -62,8 +60,8 @@ class VeterinaryVisitsRepository @Inject constructor(
     }
 
 
-    suspend fun getWeightById(weightId: String): VeterinaryVisit? {
-        val veterinaryVisitDoc = firestore.collection("veterinaryVisits").document(weightId).get().await()
+    suspend fun getVeterinaryVisitById(veterinaryVisitId: String): VeterinaryVisit? {
+        val veterinaryVisitDoc = firestore.collection("veterinaryVisits").document(veterinaryVisitId).get().await()
         return if (veterinaryVisitDoc.exists()) {
             val data = veterinaryVisitDoc.data
             val veterinaryVisit = veterinaryVisitFromFirebase(data ?: emptyMap())

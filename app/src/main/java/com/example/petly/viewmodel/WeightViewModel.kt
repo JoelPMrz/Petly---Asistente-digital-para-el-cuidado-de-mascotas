@@ -56,10 +56,15 @@ class WeightViewModel @Inject constructor(
     }
 
 
-    fun updateWeight(weight: Weight, notPermission: () -> Unit) {
+    fun updateWeight(weight: Weight, notPermission: () -> Unit, weightNotExist:()-> Unit) {
         viewModelScope.launch {
             try {
-                weightRepository.updateWeight(weight)
+                val existingWeight = weight.id?.let { weightRepository.getWeightById(it) }
+                if (existingWeight != null) {
+                    weightRepository.updateWeight(weight)
+                } else {
+                    weightNotExist()
+                }
             }catch (e: FirebaseFirestoreException) {
                 if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
                     notPermission()

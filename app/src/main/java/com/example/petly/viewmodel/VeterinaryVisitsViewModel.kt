@@ -66,10 +66,15 @@ class VeterinaryVisitsViewModel @Inject constructor(
         }
     }
 
-    fun updateVeterinaryVisit(veterinaryVisit: VeterinaryVisit, notPermission : () -> Unit, onFailure : () -> Unit){
+    fun updateVeterinaryVisit(veterinaryVisit: VeterinaryVisit, veterinaryVisitNotExist:()-> Unit, notPermission : () -> Unit, onFailure : () -> Unit){
         viewModelScope.launch {
             try {
-                veterinaryVisitsRepository.updateVeterinaryVisit(veterinaryVisit)
+                val existingVeterinaryVisit = veterinaryVisitsRepository.getVeterinaryVisitById(veterinaryVisit.id)
+                if(existingVeterinaryVisit != null){
+                    veterinaryVisitsRepository.updateVeterinaryVisit(veterinaryVisit)
+                }else{
+                    veterinaryVisitNotExist()
+                }
             }catch (e: FirebaseFirestoreException) {
                 if (e.code == FirebaseFirestoreException.Code.PERMISSION_DENIED) {
                     notPermission()
