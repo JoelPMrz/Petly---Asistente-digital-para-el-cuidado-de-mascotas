@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowRightAlt
@@ -41,11 +43,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -73,9 +82,13 @@ fun LoginScreen(
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     var email: String by remember { mutableStateOf("") }
+    val mailFocusRequester = remember { FocusRequester() }
     var password: String by remember { mutableStateOf("") }
-    var darkMode = preferencesViewModel.isDarkMode.collectAsState()
+    val passwordFocusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val darkMode = preferencesViewModel.isDarkMode.collectAsState()
     val language = preferencesViewModel.language.collectAsState().value
     var showLanguageSelectorDialog by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -165,15 +178,36 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(20.dp))
             BaseOutlinedTextField(
                 value = email,
+                modifier = Modifier.focusRequester(mailFocusRequester),
                 placeHolder = "example@gmail.com",
                 label = stringResource(R.string.email),
                 leadingIcon = Icons.Default.Mail,
-                maxLines = 1
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        passwordFocusRequester.requestFocus()
+                    }
+                )
             ) {
                 email = it
             }
             Spacer(modifier = Modifier.height(20.dp))
-            PasswordOutlinedTextField(value = password) {
+            PasswordOutlinedTextField(
+                value = password,
+                modifier = Modifier.focusRequester(passwordFocusRequester),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    }
+                )
+            ) {
                 password = it
             }
             Spacer(modifier = Modifier.height(5.dp))

@@ -3,6 +3,7 @@ package com.example.petly.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -27,20 +28,22 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.petly.R
 
-
 @Composable
 fun PasswordOutlinedTextField(
     value: String,
-    label : String? = null,
-    leadingIcon : ImageVector? = null,
+    modifier: Modifier = Modifier,
+    label: String? = null,
+    leadingIcon: ImageVector? = null,
     isError: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     onUserChange: (String) -> Unit,
 ) {
     var passwordHidden: Boolean by remember { mutableStateOf(true) }
     OutlinedTextField(
         value = value,
         onValueChange = { onUserChange(it) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         label = {
             Text(
@@ -49,12 +52,13 @@ fun PasswordOutlinedTextField(
             )
         },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
         trailingIcon = {
             Icon(
                 imageVector = if (passwordHidden) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                contentDescription = "Lock",
+                contentDescription = "Toggle Password",
                 modifier = Modifier.clickable {
                     passwordHidden = !passwordHidden
                 }
@@ -62,7 +66,7 @@ fun PasswordOutlinedTextField(
         },
         leadingIcon = {
             Icon(
-                imageVector =  leadingIcon ?: Icons.Default.Lock,
+                imageVector = leadingIcon ?: Icons.Default.Lock,
                 contentDescription = "Lock icon"
             )
         },
