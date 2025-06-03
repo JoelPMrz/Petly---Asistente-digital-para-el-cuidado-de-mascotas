@@ -185,6 +185,15 @@ class PetRepository @Inject constructor(
             doc.reference.delete().await()
         }
 
+        val veterinaryVisitsQuery = firestore.collection("veterinaryVisits")
+            .whereEqualTo("petId", petId)
+            .get()
+            .await()
+
+        for (doc in veterinaryVisitsQuery.documents){
+            doc.reference.delete().await()
+        }
+
         val storageRef = FirebaseStorage.getInstance().reference.child("photos/pets/$petId/")
         try {
             val files = storageRef.listAll().await()
