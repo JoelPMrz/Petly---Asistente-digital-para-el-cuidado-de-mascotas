@@ -1,4 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Teknisk oversigt</string>
+    <string name="create_weight_title">Ny vægt</string>
+    <string name="weight_form_label_date">Dato</string>
+    <string name="weight_form_label_note">Kommentar</string>
+    <string name="weight_form_placeholder_note">Skriv en kommentar</string>
+    <string name="weight_form_label_weight">Vægt (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Accepter</string>
+    <string name="form_cancel_btn">Annuller</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Valgfrit</string>
+    <string name="edit_weight_title">Rediger vægt</string>
+    <string name="delete_weight_alert_title">Slet denne vægt fra listen?</string>
+    <string name="delete_weight_alert_description">Hvis du sletter denne vægt fra vægtlisten, fjernes den permanent fra alle konti, der er knyttet til kæledyret %1$s</string>
+    <string name="wheights_pets_title">Vægte</string>
+    <string name="select_weght_unit_title_dialog">Vælg vægtenhed</string>
+    <string name="form_confirm_delete_btn">Slet</string>
+    <string name="empty_pet_list">Ingen kæledyr tilgængelige</string>
+    <string name="sign_out">Log ud</string>
+    <string name="delete_pet_button">Slet kæledyr</string>
+    <string name="forgot_password">Glemt din adgangskode?</string>
+    <string name="have_an_account">Har du allerede en konto?</string>
+    <string name="sign_up">Log ind</string>
+    <string name="create_account">Opret konto</string>
+    <string name="not_create_account">Har du ikke en konto endnu?</string>
+    <string name="title_photoPickerBottomSheet">Vælg en mulighed</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galleri</string>
+    <string name="profile_pet_photo_description">Kæledyrsprofilbillede</string>
+    <string name="camera_permission_denied">Kameratilladelse nægtet</string>
+    <string name="selected_photo">Foto valgt</string>
+    <string name="photo_not_taken">Foto ikke taget</string>
+    <string name="photo_taken">Foto taget</string>
+    <string name="type">Art</string>
+    <string name="dog">Hund</string>
+    <string name="breed">Race</string>
+    <string name="carlino">Mops</string>
+    <string name="birthdayDate">Fødselsdato</string>
+    <string name="adoptionDate">Adoptionsdato</string>
+    <string name="microchip">Mikrochip</string>
+    <string name="sterilized">Steriliseret</string>
+    <string name="not_sterilized">Ikke steriliseret</string>
+    <string name="delete_pet_alert_description">Hvis du sletter dette kæledyr, fjernes det permanent fra alle konti, der er knyttet til kæledyret %1$s</string>
+    <string name="delete_pet_alert_title">Slet dette kæledyr?</string>
+    <string name="sterilizedDate">Sterilisationsdato</string>
+    <string name="pet_not_exists_dialog_description">Handlinger kan ikke udføres på dette kæledyr. Hvis du ikke har slettet kæledyret, skal du kontrollere, om en tilknyttet ejer har gjort det.</string>
+    <string name="pet_not_exists_dialog_title">Kæledyr ikke fundet</string>
+    <string name="understood">Forstået</string>
+    <string name="microchipDate">Implantationsdato</string>
+    <string name="microchip_identifier">Identifikator</string>
+    <string name="invalid_microchip">Skal indeholde 12 tal</string>
+    <string name="edit_microchip_title">Mikrochipdata</string>
+    <string name="edit_sterilized_state_title">Sterilisationsstatus</string>
+    <string name="save">Gem</string>
+    <string name="default_datePicker_title">Vælg en dato</string>
+    <string name="edit">Rediger</string>
+    <string name="edit_birthdate_title">Alder og fødselsdato</string>
+    <string name="unidentified">Uidentificeret</string>
+    <string name="age">Alder</string>
+    <string name="time">Tid</string>
+    <string name="adoption">Adoption</string>
+    <string name="add_date">Tilføj dato</string>
+    <string name="updated_photo">Foto opdateret</string>
+    <string name="not_updated_photo">Kunne ikke opdatere</string>
+    <string name="delete">Slet</string>
+    <string name="deleted_pet">%1$s slettet</string>
+    <string name="not_deleted_pet">Kunne ikke slette</string>
+    <string name="edit_basic_data_title">Hoveddata</string>
+    <string name="name">Navn</string>
+    <string name="edit_user_profile">Rediger profil</string>
+    <string name="notifications">Notifikationer</string>
+    <string name="dark_mode">Mørk tilstand</string>
+    <string name="light_mode">Lys tilstand</string>
+    <string name="clear_cache">Ryd cache</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Indstillinger</string>
+    <string name="key">Nøgle</string>
+    <string name="invitation_key">Invitationsnøgle</string>
+    <string name="invitations">Invitationer</string>
+    <string name="language">Sprog</string>
+    <string name="update_password">Skift adgangskode</string>
+    <string name="password">Adgangskode</string>
+    <string name="new_password">Ny adgangskode</string>
+    <string name="reset_password">Nulstil adgangskode</string>
+    <string name="recover_password">Gendan adgangskode</string>
+    <string name="associed_email">Tilknyttet e-mail</string>
+    <string name="send_mail">Send e-mail</string>
+    <string name="log_out_alert_title">Vil du logge ud?</string>
+    <string name="log_out_alert_description">Ved at acceptere logges den nuværende konto ud, og adgangen går tabt, indtil du logger ind igen</string>
+    <string name="people_linked">Tilknyttede personer</string>
+    <string name="owners">Ejere</string>
+    <string name="observers">Ledsagere</string>
+    <string name="pet">Kæledyr</string>
+    <string name="observed_pets">Observerbare kæledyr</string>
+    <string name="pets">Kæledyr</string>
+    <string name="invite_petOwner">Inviter en ejer</string>
+    <string name="send">Send</string>
+    <string name="add">Tilføj</string>
+    <string name="add_petOwner">Tilføj en ejer</string>
+    <string name="update_creatorOwner">Rediger opretter</string>
+    <string name="creatorOwner">Opretter</string>
+    <string name="add_petObserver">Tilføj en ledsager</string>
+    <string name="permission_denied_observer">Tilladelse nægtet som ledsager</string>
+    <string name="new_pet">Nyt kæledyr</string>
+    <string name="owner">Ejer</string>
+    <string name="observer">Ledsager</string>
+    <string name="veterinary_visits">Næste dyrlægebesøg</string>
+    <string name="register_new_weight">Tilføj første vægt</string>
+    <string name="register_new_veterinay_visists">Tilføj et besøg</string>
+    <string name="edit_veterinay_vivist_title">Rediger dyrlægeaftale</string>
+    <string name="create_veterinay_vivist_title">Ny dyrlægeaftale</string>
+    <string name="concept">Koncept</string>
+    <string name="concept_placeholder">Ormekur</string>
+    <string name="description">Beskrivelse</string>
+    <string name="description_placeholder">Gå og giv ormekurspipetten</string>
+    <string name="form_label_time">Tid</string>
+    <string name="veterinary">Dyrlæge</string>
+    <string name="veterinary_placeholder">Martínez Dyrlægeklinik</string>
+    <string name="error_create_veterinary_visit">Fejl ved oprettelse af besøg</string>
+    <string name="error_edit_veterinary_visit">Fejl ved redigering af besøg</string>
+    <string name="delete_visit_alert_title">Slet denne dyrlægebesøg?</string>
+    <string name="delete_visit_alert_description">Hvis du sletter denne besøg fra listen over dyrlægebesøg, fjernes den permanent fra alle konti, der er knyttet til kæledyret %1$s</string>
+    <string name="completed">Udført</string>
+    <string name="not_completed">Planlagt</string>
+    <string name="comment">Kommentar</string>
+    <string name="add_weight">Tilføj en vægt</string>
+    <string name="next_visit">Næste besøg</string>
+    <string name="veterinary_visits_title">Dyrlægebesøg</string>
+    <string name="owners_info_dialog_title">Hvilke funktioner har en ejer?</string>
+    <string name="owners_info_dialog_description">Opret, rediger og modificer alle data</string>
+    <string name="owners_info_dialog_description2">Tilføj, rediger og fjern en anden ejer</string>
+    <string name="owners_info_dialog_description3">Tilføj, rediger og fjern en ledsager</string>
+    <string name="owners_info_dialog_description4">Kun opretteren kan ændres til en anden bruger</string>
+    <string name="observers_info_dialog_title">Hvilke funktioner har en ledsager?</string>
+    <string name="observers_info_dialog_description">Kan se alle data</string>
+    <string name="observers_info_dialog_description2">Kan ikke oprette, redigere eller modificere data</string>
+    <string name="observers_info_dialog_description3">Kan ikke tilføje, redigere eller fjerne en ejer</string>
+    <string name="observers_info_dialog_description4">Kan ikke tilføje, redigere eller fjerne en anden ledsager</string>
+    <string name="next_visits_subtitle">Kommende</string>
+    <string name="previous_visits_subtitle">Tidligere</string>
+    <string name="previous_not_attending_visits_subtitle">Tidligere ikke deltaget</string>
+    <string name="search">Søg...</string>
+    <string name="not_available">Ikke tilgængelig</string>
+    <string name="state">Tilstand</string>
+    <string name="select_time">Vælg tidspunkt</string>
+    <string name="email">E-mail</string>
+    <string name="welcome">Velkommen %1$s</string>
+    <string name="error_creating_user">Fejl ved oprettelse af bruger</string>
+    <string name="welcome_back">Velkommen tilbage %1$s</string>
+    <string name="an_error_has_occurred">Der er opstået en fejl</string>
+    <string name="guest">Gæst</string>
+    <string name="loggin">LOG IND</string>
+    <string name="register">Registrer</string>
+    <string name="already_have_an_account">Har du allerede en konto? Log ind</string>
+    <string name="registered_account">Konto registreret</string>
+    <string name="account_already_exists">Denne konto findes allerede</string>
+    <string name="all_fields_are_required">Alle felter er obligatoriske</string>
+    <string name="unregistered_image">Billede af %1$s ikke registreret</string>
+    <string name="pet_not_registered">Kæledyr kunne ikke registreres</string>
+    <string name="register_pet">Registrer</string>
+    <string name="not_observables_available">Ingen ledsagere tilgængelige</string>
+    <string name="manage_user">Administrer %1$s</string>
+    <string name="not_possible_change_creator">Kan ikke ændre opretterens rolle</string>
+    <string name="already_owner">Allerede ejer</string>
+    <string name="now_he_owner">Nu er han ejer</string>
+    <string name="role_could_not_be_changed">Rolle kunne ikke ændres</string>
+    <string name="change_to_owner">Skift til ejer</string>
+    <string name="not_possible_delete_creator">Kan ikke slette opretter</string>
+    <string name="you_have_been_removed_as_owner">Du er blevet fjernet som ejer</string>
+    <string name="owner_deleted">Ejer slettet</string>
+    <string name="could_not_be_deleted">Kunne ikke slettes</string>
+    <string name="delete_rol">Slet rolle</string>
+    <string name="already_observer">Allerede ledsager</string>
+    <string name="not_owner_new_observer">Ny ledsager, er ikke længere ejer</string>
+    <string name="new_observer">Ny ledsager</string>
+    <string name="could_not_add">Kunne ikke tilføje</string>
+    <string name="user_not_exist">Brugeren findes ikke</string>
+    <string name="not_ownsers_available">Ingen ejere tilgængelige</string>
+    <string name="now_he_observer">Nu er han ledsager</string>
+    <string name="change_to_observer">Skift til ledsager</string>
+    <string name="not_possible_delete">Kunne ikke slettes</string>
+    <string name="not_observer_new_owner">Ny ejer, er ikke længere ledsager</string>
+    <string name="new_owner">Ny ejer</string>
+    <string name="authorized_for_creator">Tilladelse nægtet, kun for opretter</string>
+    <string name="already_creator">Allerede opretter</string>
+    <string name="new_creator">Ny opretter</string>
+    <string name="filter_veterinary_visits">Filtrer dyrlægebesøg</string>
+    <string name="previous_visits">Tidligere besøg</string>
+    <string name="previous_not_attending_visits">Tidligere besøg ikke deltaget</string>
+    <string name="all_visits">Alle besøg</string>
+    <string name="next_vivits">Kommende besøg</string>
+    <string name="not_invitations">Ingen invitationer</string>
+    <string name="change_rol_to">Skift rolle til %1$s</string>
+    <string name="passwords_do_not_match">Adgangskoder stemmer ikke overens</string>
+    <string name="password_minimum_characters">Adgangskoden skal indeholde mindst 6 tegn</string>
+    <string name="account_without_linked_email">Konto uden tilknyttet e-mail</string>
+    <string name="email_not_associated">E-mail ikke tilknyttet din konto</string>
+    <string name="time_zone">Tidszone</string>
+    <string name="select_language" translatable="false">Vælg et sprog</string>
+    <string name="calendar">Kalender</string>
+    <string name="passwordInvalid">Skal indeholde 8 tegn, bogstav og tal</string>
+    <string name="invalid_email">Adressen er ugyldig</string>
+    <string name="weight_not_exist">Nogen slettede denne vægt, den kan ikke redigeres</string>
+    <string name="veterinaryVisit_not_exist">Nogen slettede dette dyrlægebesøg, det kan ikke redigeres</string>
+    <string name="next_events">Kommende begivenheder</string>
+    <string name="not_events">Ingen begivenheder for denne dato</string>
+    <string name="select_a_date">Vælg en dato</string>
+    <string name="select_your_pets">Vælg dine kæledyr</string>
+    <string-array name="species_options">
+        <item>Edderkop</item>
+        <item>Æsel</item>
+        <item>Hest</item>
+        <item>Ged</item>
+        <item>Kamæleon</item>
+        <item>Krabbe</item>
+        <item>Gris</item>
+        <item>Chinchilla</item>
+        <item>Marsvin</item>
+        <item>Kanin</item>
+        <item>Pindsvin</item>
+        <item>Skorpion</item>
+        <item>Fritte</item>
+        <item>Høne</item>
+        <item>Kat</item>
+        <item>Gekko</item>
+        <item>Hamster</item>
+        <item>Ilder</item>
+        <item>Leguan</item>
+        <item>Firben</item>
+        <item>Får</item>
+        <item>Due</item>
+        <item>And</item>
+        <item>Fugl</item>
+        <item>Fisk</item>
+        <item>Hund</item>
+        <item>Rotte</item>
+        <item>Mus</item>
+        <item>Slange</item>
+        <item>Skildpadde</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Man</item>
+        <item>Tirs</item>
+        <item>Ons</item>
+        <item>Tors</item>
+        <item>Fre</item>
+        <item>Lør</item>
+        <item>Søn</item>
+    </string-array>
+    <string name="year_singular">år</string>
+    <string name="year_plural">år</string>
+    <string name="month_singular">måned</string>
+    <string name="month_plural">måneder</string>
+    <string name="day_singular">dag</string>
+    <string name="day_plural">dage</string>
+    <string name="current_weight">Nuværende vægt</string>
 </resources>
