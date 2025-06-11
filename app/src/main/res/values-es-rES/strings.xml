@@ -15,7 +15,7 @@
     <string name="edit_weight_title">Editar peso</string>
     <string name="delete_weight_alert_title">¿Eliminar este peso del listado?</string>
     <string name="delete_weight_alert_description">Si eliminas este peso del listado de pesos, se eliminará permanentemente de todas las cuentas viculadas a la mascota %1$s</string>
-    <string name="wheights_pets_title">"Pesos</string>
+    <string name="wheights_pets_title">Pesos</string>
     <string name="select_weght_unit_title_dialog">Seleccionar unidad de peso</string>
     <string name="form_confirm_delete_btn">Eliminar</string>
     <string name="empty_pet_list">No hay mascotas</string>
@@ -199,5 +199,63 @@
     <string name="account_without_linked_email">Cuneta sin correo vinculado</string>
     <string name="email_not_associated">Correo no asociado a tu cuenta</string>
     <string name="time_zone">Localización horaria</string>
-    <string name="select_language">Selecciona un idioma</string>
+    <string name="select_language" translatable="false">Selecciona un idioma</string>
+    <string name="calendar">Calendario</string>
+    <string name="passwordInvalid">Debe contener 8 caracteres, letra y número</string>
+    <string name="invalid_email">La dirección no es valida</string>
+    <string name="weight_not_exist">Alguien eliminó este peso, no es posible editarlo</string>
+    <string name="veterinaryVisit_not_exist">Alguien eliminó esta visita veterinaria, no es posible editarla</string>
+    <string name="next_events">Próximos eventos</string>
+    <string name="not_events">No hay eventos para esta fecha</string>
+    <string name="select_a_date">Selecciona una fecha</string>
+    <string name="select_your_pets">Selecciona tus mascotas</string>
+    <string-array name="species_options">
+        <item>Araña</item>
+        <item>Burro</item>
+        <item>Caballo</item>
+        <item>Cabra</item>
+        <item>Camaleón</item>
+        <item>Cangrejo</item>
+        <item>Cerdo</item>
+        <item>Chinchilla</item>
+        <item>Cobaya</item>
+        <item>Conejo</item>
+        <item>Erizo</item>
+        <item>Escorpión</item>
+        <item>Ferret</item>
+        <item>Gallina</item>
+        <item>Gato</item>
+        <item>Gecko</item>
+        <item>Hámster</item>
+        <item>Hurón</item>
+        <item>Iguana</item>
+        <item>Lagarto</item>
+        <item>Oveja</item>
+        <item>Paloma</item>
+        <item>Pato</item>
+        <item>Pájaro</item>
+        <item>Pez</item>
+        <item>Perro</item>
+        <item>Rata</item>
+        <item>Ratón</item>
+        <item>Serpiente</item>
+        <item>Tortuga</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mié</item>
+        <item>Jue</item>
+        <item>Vie</item>
+        <item>Sáb</item>
+        <item>Dom</item>
+    </string-array>
+    <string name="year_singular">año</string>
+    <string name="year_plural">años</string>
+    <string name="month_singular">mes</string>
+    <string name="month_plural">meses</string>
+    <string name="day_singular">día</string>
+    <string name="day_plural">días</string>
+    <string name="current_weight">Peso actual</string>
+
 </resources>

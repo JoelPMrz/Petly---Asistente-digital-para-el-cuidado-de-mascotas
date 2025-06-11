@@ -309,13 +309,11 @@ class PetRepository @Inject constructor(
 
                         petsMap[updatedPet.id!!] = updatedPet
 
-                        // Emitimos la lista actualizada de mascotas
                         trySend(petsMap.values.toList()).isSuccess
                     }
                 }
         }
 
-        // Cuando se cierre el flow, eliminar listeners
         awaitClose {
             listeners.forEach { it.remove() }
         }

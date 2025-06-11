@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,6 +34,7 @@ fun AdoptionCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val context = LocalContext.current
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -56,7 +58,7 @@ fun AdoptionCard(
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = stringResource(R.string.adoption), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
-                text = getAgeFromDate(pet?.adoptionDate) ?: stringResource(R.string.unidentified),
+                text = getAgeFromDate(pet?.adoptionDate, context = context) ?: stringResource(R.string.unidentified),
                 fontSize = 14.sp,
                 modifier = Modifier.align(Alignment.Start)
             )

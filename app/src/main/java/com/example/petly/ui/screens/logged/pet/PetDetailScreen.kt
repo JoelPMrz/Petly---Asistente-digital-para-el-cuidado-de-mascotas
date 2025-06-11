@@ -908,7 +908,7 @@ fun EditBirthDateBottomSheet(
     val context = LocalContext.current
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedBirthdate = remember { mutableStateOf(pet?.birthDate) }
-    val age = getAgeFromDate(selectedBirthdate.value)
+    val age = getAgeFromDate(selectedBirthdate.value, context)
     var birthdateText by remember {
         mutableStateOf(pet?.birthDate?.let {
             formatLocalDateToString(
@@ -1034,7 +1034,7 @@ fun EditAdoptionDateBottomSheet(
     val context = LocalContext.current
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedAdoptionDate = remember { mutableStateOf(pet?.adoptionDate) }
-    val time = getAgeFromDate(selectedAdoptionDate.value)
+    val time = getAgeFromDate(selectedAdoptionDate.value, context)
     var adoptionDateText by remember {
         mutableStateOf(pet?.adoptionDate?.let {
             formatLocalDateToString(

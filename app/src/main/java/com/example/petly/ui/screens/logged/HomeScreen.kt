@@ -126,7 +126,6 @@ fun HomeScreen(
             LocalDate.now().plusDays(offset.toLong())
         }
     }
-    val selectedPet by petViewModel.petState.collectAsState()
     var selectedVeterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
 
     LaunchedEffect(filteredPetList) {
@@ -281,7 +280,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            Text(text = "Próximos eventos", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 25.dp), fontSize = 20.sp)
+            Text(text = stringResource(R.string.next_events), fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 25.dp), fontSize = 20.sp)
 
             Spacer(modifier = Modifier.height(10.dp))
             Row(
@@ -360,7 +359,7 @@ fun HomeScreen(
                 ) { currentEvents ->
                     if (currentEvents.isEmpty()) {
                         Text(
-                            text = "No hay eventos para esta fecha",
+                            text = stringResource(R.string.not_events),
                             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                         )
                     } else {
