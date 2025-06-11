@@ -1,6 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="log_out_alert_description">Al cerrar aceptar el cierre de sesión, la cuenta actual perderá el acceso hasta que inicies sesión nuevamente</string>
-    <string name="comment">Comentario</string>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Τεχνικό Δελτίο</string>
+    <string name="create_weight_title">Νέο βάρος</string>
+    <string name="weight_form_label_date">Ημερομηνία</string>
+    <string name="weight_form_label_note">Σχόλιο</string>
+    <string name="weight_form_placeholder_note">Γράψτε ένα σχόλιο</string>
+    <string name="weight_form_label_weight">Βάρος (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Αποδοχή</string>
+    <string name="form_cancel_btn">Ακύρωση</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Προαιρετικό</string>
+    <string name="edit_weight_title">Επεξεργασία βάρους</string>
+    <string name="delete_weight_alert_title">Διαγραφή αυτού του βάρους από τη λίστα;</string>
+    <string name="delete_weight_alert_description">Αν διαγράψετε αυτό το βάρος από τη λίστα βαρών, θα διαγραφεί οριστικά από όλους τους λογαριασμούς που συνδέονται με το κατοικίδιο %1$s</string>
+    <string name="wheights_pets_title">Βάρη</string>
+    <string name="select_weght_unit_title_dialog">Επιλέξτε μονάδα βάρους</string>
+    <string name="form_confirm_delete_btn">Διαγραφή</string>
+    <string name="empty_pet_list">Δεν υπάρχουν κατοικίδια</string>
+    <string name="sign_out">Αποσύνδεση</string>
+    <string name="delete_pet_button">Διαγραφή κατοικίδιου</string>
+    <string name="forgot_password">Ξεχάσατε τον κωδικό πρόσβασης;</string>
+    <string name="have_an_account">Έχετε ήδη λογαριασμό;</string>
+    <string name="sign_up">Σύνδεση</string>
+    <string name="create_account">Δημιουργία λογαριασμού</string>
+    <string name="not_create_account">Δεν έχετε ακόμα λογαριασμό;</string>
+    <string name="title_photoPickerBottomSheet">Επιλέξτε μια επιλογή</string>
+    <string name="camera">Κάμερα</string>
+    <string name="gallery">Συλλογή</string>
+    <string name="profile_pet_photo_description">Εικόνα προφίλ του κατοικίδιου</string>
+    <string name="camera_permission_denied">Η άδεια κάμερας απορρίφθηκε</string>
+    <string name="selected_photo">Επιλεγμένη φωτογραφία</string>
+    <string name="photo_not_taken">Δεν τραβήχτηκε φωτογραφία</string>
+    <string name="photo_taken">Φωτογραφία τραβήχτηκε</string>
+    <string name="type">Είδος</string>
+    <string name="dog">Σκύλος</string>
+    <string name="breed">Φυλή</string>
+    <string name="carlino">Παγκ</string>
+    <string name="birthdayDate">Ημερομηνία γέννησης</string>
+    <string name="adoptionDate">Ημερομηνία υιοθεσίας</string>
+    <string name="microchip">Μικροτσίπ</string>
+    <string name="sterilized">Στειρωμένο</string>
+    <string name="not_sterilized">Μη στειρωμένο</string>
+    <string name="delete_pet_alert_description">Αν διαγράψετε αυτό το κατοικίδιο, θα διαγραφεί οριστικά από όλους τους λογαριασμούς που συνδέονται με το κατοικίδιο %1$s</string>
+    <string name="delete_pet_alert_title">Διαγραφή αυτού του κατοικίδιου;</string>
+    <string name="sterilizedDate">Ημερομηνία στείρωσης</string>
+    <string name="pet_not_exists_dialog_description">Δεν είναι δυνατή η εκτέλεση ενεργειών σε αυτό το κατοικίδιο. Αν δεν έχετε διαγράψει το κατοικίδιο, ελέγξτε αν κάποιος ιδιοκτήτης που συνδέεται με αυτό έχει πραγματοποιήσει την ενέργεια</string>
+    <string name="pet_not_exists_dialog_title">Δεν βρέθηκε κατοικίδιο</string>
+    <string name="understood">Κατανοητό</string>
+    <string name="microchipDate">Ημερομηνία εμφύτευσης</string>
+    <string name="microchip_identifier">Αναγνωριστικό</string>
+    <string name="invalid_microchip">Πρέπει να περιέχει 12 αριθμούς</string>
+    <string name="edit_microchip_title">Δεδομένα μικροτσίπ</string>
+    <string name="edit_sterilized_state_title">Κατάσταση στείρωσης</string>
+    <string name="save">Αποθήκευση</string>
+    <string name="default_datePicker_title">Επιλέξτε μια ημερομηνία</string>
+    <string name="edit">Επεξεργασία</string>
+    <string name="edit_birthdate_title">Ηλικία και ημερομηνία γέννησης</string>
+    <string name="unidentified">Μη αναγνωρισμένο</string>
+    <string name="age">Ηλικία</string>
+    <string name="time">Ώρα</string>
+    <string name="adoption">Υιοθεσία</string>
+    <string name="add_date">Προσθήκη ημερομηνίας</string>
+    <string name="updated_photo">Φωτογραφία ενημερώθηκε</string>
+    <string name="not_updated_photo">Δεν μπόρεσε να ενημερωθεί</string>
+    <string name="delete">Διαγραφή</string>
+    <string name="deleted_pet">Το %1$s διαγράφηκε</string>
+    <string name="not_deleted_pet">Δεν μπόρεσε να διαγραφεί</string>
+    <string name="edit_basic_data_title">Κύρια δεδομένα</string>
+    <string name="name">Όνομα</string>
+    <string name="edit_user_profile">Επεξεργασία προφίλ</string>
+    <string name="notifications">Ειδοποιήσεις</string>
+    <string name="dark_mode">Σκοτεινή λειτουργία</string>
+    <string name="light_mode">Φωτεινή λειτουργία</string>
+    <string name="clear_cache">Εκκαθάριση κρυφής μνήμης</string>
+    <string name="profile">Προφίλ</string>
+    <string name="settings">Ρυθμίσεις</string>
+    <string name="key">Κλειδί</string>
+    <string name="invitation_key">Κλειδί πρόσκλησης</string>
+    <string name="invitations">Προσκλήσεις</string>
+    <string name="language">Γλώσσα</string>
+    <string name="update_password">Αλλαγή κωδικού πρόσβασης</string>
+    <string name="password">Κωδικός πρόσβασης</string>
+    <string name="new_password">Νέος κωδικός πρόσβασης</string>
+    <string name="reset_password">Επαναφορά κωδικού πρόσβασης</string>
+    <string name="recover_password">Ανάκτηση κωδικού πρόσβασης</string>
+    <string name="associed_email">Σχετικό email</string>
+    <string name="send_mail">Αποστολή email</string>
+    <string name="log_out_alert_title">Θέλετε να αποσυνδεθείτε;</string>
+    <string name="log_out_alert_description">Με την αποδοχή της αποσύνδεσης, ο τρέχων λογαριασμός θα χάσει την πρόσβαση μέχρι να συνδεθείτε ξανά</string>
+    <string name="people_linked">Συνδεδεμένα άτομα</string>
+    <string name="owners">Ιδιοκτήτες</string>
+    <string name="observers">Συνοδοί</string>
+    <string name="pet">Κατοικίδιο</string>
+    <string name="observed_pets">Παρατηρήσιμα κατοικίδια</string>
+    <string name="pets">Κατοικίδια</string>
+    <string name="invite_petOwner">Πρόσκληση ιδιοκτήτη</string>
+    <string name="send">Αποστολή</string>
+    <string name="add">Προσθήκη</string>
+    <string name="add_petOwner">Προσθήκη ιδιοκτήτη</string>
+    <string name="update_creatorOwner">Επεξεργασία δημιουργού</string>
+    <string name="creatorOwner">Δημιουργός</string>
+    <string name="add_petObserver">Προσθήκη συνοδού</string>
+    <string name="permission_denied_observer">Άδεια απορρίφθηκε ως συνοδός</string>
+    <string name="new_pet">Νέο κατοικίδιο</string>
+    <string name="owner">Ιδιοκτήτης</string>
+    <string name="observer">Συνοδός</string>
+    <string name="veterinary_visits">Επόμενη κτηνιατρική επίσκεψη</string>
+    <string name="register_new_weight">Προσθήκη πρώτου βάρους</string>
+    <string name="register_new_veterinay_visists">Προσθήκη επίσκεψης</string>
+    <string name="edit_veterinay_vivist_title">Επεξεργασία ραντεβού κτηνιάτρου</string>
+    <string name="create_veterinay_vivist_title">Νέο ραντεβού κτηνιάτρου</string>
+    <string name="concept">Έννοια</string>
+    <string name="concept_placeholder">Αποπαρασίτωση</string>
+    <string name="description">Περιγραφή</string>
+    <string name="description_placeholder">Πήγαινε να βάλεις την αμπούλα αποπαρασίτωσης</string>
+    <string name="form_label_time">Ώρα</string>
+    <string name="veterinary">Κτηνίατρος</string>
+    <string name="veterinary_placeholder">Κτηνιατρική Κλινική Martínez</string>
+    <string name="error_create_veterinary_visit">Σφάλμα κατά τη δημιουργία της επίσκεψης</string>
+    <string name="error_edit_veterinary_visit">Σφάλμα κατά την επεξεργασία της επίσκεψης</string>
+    <string name="delete_visit_alert_title">Διαγραφή αυτής της κτηνιατρικής επίσκεψης;</string>
+    <string name="delete_visit_alert_description">Αν διαγράψετε αυτή την επίσκεψη από τη λίστα κτηνιατρικών επισκέψεων, θα διαγραφεί οριστικά από όλους τους λογαριασμούς που συνδέονται με το κατοικίδιο %1$s</string>
+    <string name="completed">Ολοκληρωμένο</string>
+    <string name="not_completed">Προγραμματισμένο</string>
+    <string name="comment">Σχόλιο</string>
+    <string name="add_weight">Προσθήκη βάρους</string>
+    <string name="next_visit">Επόμενη επίσκεψη</string>
+    <string name="veterinary_visits_title">Κτηνιατρικές επισκέψεις</string>
+    <string name="owners_info_dialog_title">Ποιες λειτουργίες έχει ένας ιδιοκτήτης;</string>
+    <string name="owners_info_dialog_description">Δημιουργία, επεξεργασία και τροποποίηση οποιωνδήποτε δεδομένων</string>
+    <string name="owners_info_dialog_description2">Προσθήκη, επεξεργασία και διαγραφή άλλου ιδιοκτήτη</string>
+    <string name="owners_info_dialog_description3">Προσθήκη, επεξεργασία και διαγραφή συνοδού</string>
+    <string name="owners_info_dialog_description4">Μόνο ο δημιουργός μπορεί να αλλάξει σε άλλο χρήστη</string>
+    <string name="observers_info_dialog_title">Ποιες λειτουργίες έχει ένας συνοδός;</string>
+    <string name="observers_info_dialog_description">Μπορεί να δει οποιαδήποτε δεδομένα</string>
+    <string name="observers_info_dialog_description2">Δεν μπορεί να δημιουργήσει, να επεξεργαστεί ή να τροποποιήσει δεδομένα</string>
+    <string name="observers_info_dialog_description3">Δεν μπορεί να προσθέσει, να επεξεργαστεί ή να διαγράψει έναν ιδιοκτήτη</string>
+    <string name="observers_info_dialog_description4">Δεν μπορεί να προσθέσει, να επεξεργαστεί ή να διαγράψει έναν άλλο συνοδό</string>
+    <string name="next_visits_subtitle">Προσεχείς</string>
+    <string name="previous_visits_subtitle">Προηγούμενες</string>
+    <string name="previous_not_attending_visits_subtitle">Προηγούμενες μη παρακολουθούμενες</string>
+    <string name="search">Αναζήτηση...</string>
+    <string name="not_available">Μη διαθέσιμο</string>
+    <string name="state">Κατάσταση</string>
+    <string name="select_time">Επιλέξτε ώρα</string>
+    <string name="email">Email</string>
+    <string name="welcome">Καλώς ήρθες %1$s</string>
+    <string name="error_creating_user">Σφάλμα κατά τη δημιουργία χρήστη</string>
+    <string name="welcome_back">Καλώς ήρθες ξανά %1$s</string>
+    <string name="an_error_has_occurred">Παρουσιάστηκε ένα σφάλμα</string>
+    <string name="guest">Επισκέπτης</string>
+    <string name="loggin">ΣΥΝΔΕΣΗ</string>
+    <string name="register">Εγγραφή</string>
+    <string name="already_have_an_account">Έχετε ήδη λογαριασμό; Σύνδεση</string>
+    <string name="registered_account">Εγγεγραμμένος λογαριασμός</string>
+    <string name="account_already_exists">Αυτός ο λογαριασμός υπάρχει ήδη</string>
+    <string name="all_fields_are_required">Όλα τα πεδία είναι υποχρεωτικά</string>
+    <string name="unregistered_image">Η εικόνα του %1$s δεν έχει καταχωρηθεί</string>
+    <string name="pet_not_registered">Δεν μπόρεσε να καταχωρηθεί το κατοικίδιο</string>
+    <string name="register_pet">Καταχώρηση</string>
+    <string name="not_observables_available">Δεν υπάρχουν διαθέσιμοι συνοδοί</string>
+    <string name="manage_user">Διαχείριση %1$s</string>
+    <string name="not_possible_change_creator">Δεν είναι δυνατή η αλλαγή του ρόλου του δημιουργού</string>
+    <string name="already_owner">Είναι ήδη ιδιοκτήτης</string>
+    <string name="now_he_owner">Τώρα είναι ιδιοκτήτης</string>
+    <string name="role_could_not_be_changed">Ο ρόλος δεν μπόρεσε να αλλάξει</string>
+    <string name="change_to_owner">Αλλαγή σε ιδιοκτήτη</string>
+    <string name="not_possible_delete_creator">Δεν είναι δυνατή η διαγραφή του δημιουργού</string>
+    <string name="you_have_been_removed_as_owner">Έχετε αφαιρεθεί ως ιδιοκτήτης</string>
+    <string name="owner_deleted">Ο ιδιοκτήτης διαγράφηκε</string>
+    <string name="could_not_be_deleted">Δεν μπόρεσε να διαγραφεί</string>
+    <string name="delete_rol">Διαγραφή ρόλου</string>
+    <string name="already_observer">Είναι ήδη συνοδός</string>
+    <string name="not_owner_new_observer">Νέος συνοδός, έπαψε να είναι ιδιοκτήτης</string>
+    <string name="new_observer">Νέος συνοδός</string>
+    <string name="could_not_add">Δεν μπόρεσε να προστεθεί</string>
+    <string name="user_not_exist">Ο χρήστης δεν υπάρχει</string>
+    <string name="not_ownsers_available">Δεν υπάρχουν διαθέσιμοι ιδιοκτήτες</string>
+    <string name="now_he_observer">Τώρα είναι συνοδός</string>
+    <string name="change_to_observer">Αλλαγή σε συνοδό</string>
+    <string name="not_possible_delete">Δεν μπόρεσε να διαγραφεί</string>
+    <string name="not_observer_new_owner">Νέος ιδιοκτήτης, έπαψε να είναι συνοδός</string>
+    <string name="new_owner">Νέος ιδιοκτήτης</string>
+    <string name="authorized_for_creator">Άδεια απορρίφθηκε, εξουσιοδοτημένο μόνο για τον δημιουργό</string>
+    <string name="already_creator">Είναι ήδη δημιουργός</string>
+    <string name="new_creator">Νέος δημιουργός</string>
+    <string name="filter_veterinary_visits">Φιλτράρισμα κτηνιατρικών επισκέψεων</string>
+    <string name="previous_visits">Προηγούμενες επισκέψεις</string>
+    <string name="previous_not_attending_visits">Προηγούμενες μη παρακολουθούμενες επισκέψεις</string>
+    <string name="all_visits">Όλες οι επισκέψεις</string>
+    <string name="next_vivits">Επόμενες επισκέψεις</string>
+    <string name="not_invitations">Δεν υπάρχουν προσκλήσεις</string>
+    <string name="change_rol_to">Αλλαγή ρόλου σε %1$s</string>
+    <string name="passwords_do_not_match">Οι κωδικοί πρόσβασης δεν ταιριάζουν</string>
+    <string name="password_minimum_characters">Ο κωδικός πρόσβασης πρέπει να περιέχει τουλάχιστον 6 χαρακτήρες</string>
+    <string name="account_without_linked_email">Λογαριασμός χωρίς συνδεδεμένο email</string>
+    <string name="email_not_associated">Το email δεν σχετίζεται με τον λογαριασμό σας</string>
+    <string name="time_zone">Ζώνη ώρας</string>
+    <string name="select_language" translatable="false">Επιλέξτε γλώσσα</string>
+    <string name="calendar">Ημερολόγιο</string>
+    <string name="passwordInvalid">Πρέπει να περιέχει 8 χαρακτήρες, γράμμα και αριθμό</string>
+    <string name="invalid_email">Η διεύθυνση δεν είναι έγκυρη</string>
+    <string name="weight_not_exist">Κάποιος διέγραψε αυτό το βάρος, δεν είναι δυνατή η επεξεργασία του</string>
+    <string name="veterinaryVisit_not_exist">Κάποιος διέγραψε αυτήν την κτηνιατρική επίσκεψη, δεν είναι δυνατή η επεξεργασία της</string>
+    <string name="next_events">Προσεχή γεγονότα</string>
+    <string name="not_events">Δεν υπάρχουν γεγονότα για αυτήν την ημερομηνία</string>
+    <string name="select_a_date">Επιλέξτε μια ημερομηνία</string>
+    <string name="select_your_pets">Επιλέξτε τα κατοικίδιά σας</string>
+    <string-array name="species_options">
+        <item>Αράχνη</item>
+        <item>Γάιδαρος</item>
+        <item>Άλογο</item>
+        <item>Κατσίκα</item>
+        <item>Χαμαιλέοντας</item>
+        <item>Καβούρι</item>
+        <item>Χοίρος</item>
+        <item>Τσιντσιλά</item>
+        <item>Ινδικό χοιρίδιο</item>
+        <item>Κουνέλι</item>
+        <item>Σκατζόχοιρος</item>
+        <item>Σκορπιός</item>
+        <item>Κουνάβι</item>
+        <item>Κοτόπουλο</item>
+        <item>Γάτα</item>
+        <item>Γκέκο</item>
+        <item>Χάμστερ</item>
+        <item>Κουνάβι</item>
+        <item>Ιγκουάνα</item>
+        <item>Σαύρα</item>
+        <item>Πρόβατο</item>
+        <item>Περιστέρι</item>
+        <item>Πάπια</item>
+        <item>Πουλί</item>
+        <item>Ψάρι</item>
+        <item>Σκύλος</item>
+        <item>Αρουραίος</item>
+        <item>Ποντίκι</item>
+        <item>Φίδι</item>
+        <item>Χελώνα</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Δευ</item>
+        <item>Τρι</item>
+        <item>Τετ</item>
+        <item>Πεμ</item>
+        <item>Παρ</item>
+        <item>Σαβ</item>
+        <item>Κυρ</item>
+    </string-array>
+    <string name="year_singular">έτος</string>
+    <string name="year_plural">έτη</string>
+    <string name="month_singular">μήνας</string>
+    <string name="month_plural">μήνες</string>
+    <string name="day_singular">ημέρα</string>
+    <string name="day_plural">ημέρες</string>
+    <string name="current_weight">Τρέχον βάρος</string>
 </resources>
