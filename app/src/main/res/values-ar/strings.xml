@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">بيتبلي</string>
-    <string name="pet_detail_screen_title">البيانات الفنية</string>
+    <string name="app_name">بِتلي</string>
+    <string name="pet_detail_screen_title">الملف الفني</string>
     <string name="create_weight_title">وزن جديد</string>
     <string name="weight_form_label_date">التاريخ</string>
     <string name="weight_form_label_note">ملاحظة</string>
@@ -14,67 +14,67 @@
     <string name="optional">اختياري</string>
     <string name="edit_weight_title">تعديل الوزن</string>
     <string name="delete_weight_alert_title">هل تريد حذف هذا الوزن من القائمة؟</string>
-    <string name="delete_weight_alert_description">إذا حذفت هذا الوزن من قائمة الأوزان، سيتم حذفه نهائيًا من جميع الحسابات المرتبطة بالحيوان %1$s</string>
+    <string name="delete_weight_alert_description">إذا قمت بحذف هذا الوزن من القائمة، سيُزال نهائيًا من جميع الحسابات المرتبطة بالحيوان %1$s</string>
     <string name="wheights_pets_title">الأوزان</string>
     <string name="select_weght_unit_title_dialog">اختر وحدة الوزن</string>
     <string name="form_confirm_delete_btn">حذف</string>
-    <string name="empty_pet_list">لا توجد حيوانات أليفة</string>
+    <string name="empty_pet_list">لا توجد حيوانات</string>
     <string name="sign_out">تسجيل الخروج</string>
     <string name="delete_pet_button">حذف الحيوان</string>
     <string name="forgot_password">هل نسيت كلمة المرور؟</string>
-    <string name="have_an_account">هل لديك حساب؟</string>
+    <string name="have_an_account">هل لديك حساب بالفعل؟</string>
     <string name="sign_up">تسجيل الدخول</string>
     <string name="create_account">إنشاء حساب</string>
     <string name="not_create_account">ليس لديك حساب بعد؟</string>
     <string name="title_photoPickerBottomSheet">اختر خيارًا</string>
     <string name="camera">الكاميرا</string>
     <string name="gallery">المعرض</string>
-    <string name="profile_pet_photo_description">صورة ملف الحيوان الشخصي</string>
+    <string name="profile_pet_photo_description">صورة الملف الشخصي للحيوان</string>
     <string name="camera_permission_denied">تم رفض إذن الكاميرا</string>
-    <string name="selected_photo">الصورة المختارة</string>
-    <string name="photo_not_taken">لم يتم التقاط الصورة</string>
+    <string name="selected_photo">تم اختيار الصورة</string>
+    <string name="photo_not_taken">لم تُلتقط الصورة</string>
     <string name="photo_taken">تم التقاط الصورة</string>
     <string name="type">النوع</string>
     <string name="dog">كلب</string>
     <string name="breed">السلالة</string>
-    <string name="carlino">كارلينو</string>
+    <string name="carlino">بغ</string>
     <string name="birthdayDate">تاريخ الميلاد</string>
     <string name="adoptionDate">تاريخ التبني</string>
-    <string name="microchip">الرقاقة الإلكترونية</string>
+    <string name="microchip">الشريحة الإلكترونية</string>
     <string name="sterilized">معقم</string>
     <string name="not_sterilized">غير معقم</string>
-    <string name="delete_pet_alert_description">إذا حذفت هذا الحيوان، سيتم حذفه نهائيًا من جميع الحسابات المرتبطة بالحيوان %1$s</string>
+    <string name="delete_pet_alert_description">إذا حذفرت هذا الحيوان، سيُزال نهائيًا من جميع الحسابات المرتبطة بالحيوان %1$s</string>
     <string name="delete_pet_alert_title">هل تريد حذف هذا الحيوان؟</string>
     <string name="sterilizedDate">تاريخ التعقيم</string>
-    <string name="pet_not_exists_dialog_description">لا يمكن إجراء أي عمليات على هذا الحيوان. إذا لم تقم بحذف الحيوان، تحقق من أن أي مالك مرتبط به لم يقم بهذا الإجراء</string>
+    <string name="pet_not_exists_dialog_description">لا يمكن تنفيذ أي إجراء على هذا الحيوان. إذا لم تقم أنت بالحذفه، تحقق مما إذا كان أي من المالكين المرتبطين به قد فعل ذلك.</string>
     <string name="pet_not_exists_dialog_title">الحيوان غير موجود</string>
     <string name="understood">تم الفهم</string>
     <string name="microchipDate">تاريخ الزرع</string>
-    <string name="microchip_identifier">المعرف</string>
+    <string name="microchip_identifier">معرف الشريحة</string>
     <string name="invalid_microchip">يجب أن يحتوي على 12 رقمًا</string>
-    <string name="edit_microchip_title">بيانات الرقاقة الإلكترونية</string>
+    <string name="edit_microchip_title">بيانات الشريحة الإلكترونية</string>
     <string name="edit_sterilized_state_title">حالة التعقيم</string>
     <string name="save">حفظ</string>
     <string name="default_datePicker_title">اختر تاريخًا</string>
     <string name="edit">تعديل</string>
     <string name="edit_birthdate_title">العمر وتاريخ الميلاد</string>
-    <string name="unidentified">غير معرف</string>
+    <string name="unidentified">غير محدد</string>
     <string name="age">العمر</string>
     <string name="time">الوقت</string>
     <string name="adoption">التبني</string>
     <string name="add_date">إضافة تاريخ</string>
     <string name="updated_photo">تم تحديث الصورة</string>
-    <string name="not_updated_photo">تعذر التحديث</string>
+    <string name="not_updated_photo">تعذّر التحديث</string>
     <string name="delete">حذف</string>
     <string name="deleted_pet">%1$s تم حذفه</string>
-    <string name="not_deleted_pet">تعذر الحذف</string>
-    <string name="edit_basic_data_title">البيانات الرئيسية</string>
+    <string name="not_deleted_pet">تعذّر الحذف</string>
+    <string name="edit_basic_data_title">البيانات الأساسية</string>
     <string name="name">الاسم</string>
     <string name="edit_user_profile">تعديل الملف الشخصي</string>
     <string name="notifications">الإشعارات</string>
     <string name="dark_mode">الوضع الداكن</string>
     <string name="light_mode">الوضع الفاتح</string>
-    <string name="clear_cache">مسح الذاكرة المؤقتة</string>
+    <string name="clear_cache">مسح التخزين المؤقت</string>
     <string name="profile">الملف الشخصي</string>
     <string name="settings">الإعدادات</string>
     <string name="key">المفتاح</string>
@@ -84,64 +84,64 @@
     <string name="update_password">تغيير كلمة المرور</string>
     <string name="password">كلمة المرور</string>
     <string name="new_password">كلمة المرور الجديدة</string>
-    <string name="reset_password">استعادة كلمة المرور</string>
+    <string name="reset_password">إعادة تعيين كلمة المرور</string>
     <string name="recover_password">استعادة كلمة المرور</string>
     <string name="associed_email">البريد الإلكتروني المرتبط</string>
     <string name="send_mail">إرسال بريد</string>
     <string name="log_out_alert_title">هل تريد تسجيل الخروج؟</string>
-    <string name="log_out_alert_description">بتأكيد تسجيل الخروج، ستفقد الحساب الحالي الوصول حتى تقوم بتسجيل الدخول مرة أخرى</string>
+    <string name="log_out_alert_description">بتأكيد الخروج، سيتم تسجيل خروج الحساب الحالي ولن تتمكن من الوصول حتى تسجيل الدخول مرة أخرى</string>
     <string name="people_linked">الأشخاص المرتبطون</string>
     <string name="owners">المالكون</string>
     <string name="observers">المراقبون</string>
-    <string name="pet">الحيوان</string>
-    <string name="observed_pets">الحيوانات التي يمكن مراقبتها</string>
-    <string name="pets">الحيوانات</string>
+    <string name="pet">حيوان</string>
+    <string name="observed_pets">الحيوانات المُراقبة</string>
+    <string name="pets">حيوانات</string>
     <string name="invite_petOwner">دعوة مالك</string>
     <string name="send">إرسال</string>
     <string name="add">إضافة</string>
     <string name="add_petOwner">إضافة مالك</string>
     <string name="update_creatorOwner">تعديل المنشئ</string>
     <string name="creatorOwner">المنشئ</string>
-    <string name="add_petObserver">إضافة مرافق</string>
-    <string name="permission_denied_observer">تم رفض الإذن كمرافق</string>
+    <string name="add_petObserver">إضافة مراقب</string>
+    <string name="permission_denied_observer">تم رفض إذن المراقب</string>
     <string name="new_pet">حيوان جديد</string>
     <string name="owner">مالك</string>
-    <string name="observer">مرافق</string>
-    <string name="veterinary_visits">زيارة الطبيب البيطري القادمة</string>
-    <string name="register_new_weight">إضافة الوزن الأول</string>
+    <string name="observer">مراقب</string>
+    <string name="veterinary_visits">الزيارة البيطرية القادمة</string>
+    <string name="register_new_weight">إضافة أول وزن</string>
     <string name="register_new_veterinay_visists">إضافة زيارة</string>
-    <string name="edit_veterinay_vivist_title">تعديل موعد الطبيب البيطري</string>
-    <string name="create_veterinay_vivist_title">موعد طبيب بيطري جديد</string>
+    <string name="edit_veterinay_vivist_title">تعديل موعد بيطري</string>
+    <string name="create_veterinay_vivist_title">موعد بيطري جديد</string>
     <string name="concept">المفهوم</string>
-    <string name="concept_placeholder">إزالة الطفيليات</string>
+    <string name="concept_placeholder">إزالة الديدان</string>
     <string name="description">الوصف</string>
-    <string name="description_placeholder">الذهاب لوضع قطرة إزالة الطفيليات</string>
+    <string name="description_placeholder">الذهاب لوضع القطرات المضادة للديدان</string>
     <string name="form_label_time">الوقت</string>
     <string name="veterinary">الطبيب البيطري</string>
-    <string name="veterinary_placeholder">عيادة بيطرية Martínez</string>
+    <string name="veterinary_placeholder">عيادة Martínez البيطرية</string>
     <string name="error_create_veterinary_visit">خطأ في إنشاء الزيارة</string>
     <string name="error_edit_veterinary_visit">خطأ في تعديل الزيارة</string>
     <string name="delete_visit_alert_title">هل تريد حذف هذه الزيارة البيطرية؟</string>
-    <string name="delete_visit_alert_description">إذا حذفت هذه الزيارة من قائمة الزيارات، سيتم حذفها نهائيًا من جميع الحسابات المرتبطة بالحيوان %1$s</string>
-    <string name="completed">تمت</string>
+    <string name="delete_visit_alert_description">إذا حذفت هذه الزيارة، فسيُزال نهائيًا من جميع الحسابات المرتبطة بالحيوان %1$s</string>
+    <string name="completed">مكتملة</string>
     <string name="not_completed">مجدولة</string>
-    <string name="comment">تعليق</string>
-    <string name="add_weight">إضافة وزن</string>
+    <string name="comment">ملاحظة</string>
+    <string name="add_weight">إضافة وزن جديد</string>
     <string name="next_visit">الزيارة القادمة</string>
     <string name="veterinary_visits_title">الزيارات البيطرية</string>
-    <string name="owners_info_dialog_title">ما هي مهام المالك؟</string>
-    <string name="owners_info_dialog_description">إنشاء وتعديل وتغيير أي بيانات</string>
-    <string name="owners_info_dialog_description2">إضافة وتعديل وحذف مالك آخر</string>
-    <string name="owners_info_dialog_description3">إضافة وتعديل وحذف مرافق</string>
-    <string name="owners_info_dialog_description4">فقط المنشئ يمكنه تغييره إلى مستخدم آخر</string>
-    <string name="observers_info_dialog_title">ما هي مهام المرافق؟</string>
-    <string name="observers_info_dialog_description">يمكنه مشاهدة أي بيانات</string>
-    <string name="observers_info_dialog_description2">لا يمكنه إنشاء أو تعديل أو تغيير أي بيانات</string>
-    <string name="observers_info_dialog_description3">لا يمكنه إضافة أو تعديل أو حذف مالك</string>
-    <string name="observers_info_dialog_description4">لا يمكنه إضافة أو تعديل أو حذف مرافق آخر</string>
+    <string name="owners_info_dialog_title">ما الذي يمكن للمالك فعله؟</string>
+    <string name="owners_info_dialog_description">يمكنه إنشاء وتعديل وتغيير أي بيانات</string>
+    <string name="owners_info_dialog_description2">إضافة/تعديل/حذف مالك آخر</string>
+    <string name="owners_info_dialog_description3">إضافة/تعديل/حذف مراقب</string>
+    <string name="owners_info_dialog_description4">فقط المنشئ يمكن تغييره</string>
+    <string name="observers_info_dialog_title">ما الذي يمكن للمراقب فعله؟</string>
+    <string name="observers_info_dialog_description">يمكنه عرض أي بيانات</string>
+    <string name="observers_info_dialog_description2">لا يمكنه إنشاء أو تعديل أي بيانات</string>
+    <string name="observers_info_dialog_description3">لا يمكنه إضافة/تعديل/حذف مالك</string>
+    <string name="observers_info_dialog_description4">لا يمكنه إضافة/تعديل/حذف مراقب آخر</string>
     <string name="next_visits_subtitle">القادمة</string>
     <string name="previous_visits_subtitle">السابقة</string>
-    <string name="previous_not_attending_visits_subtitle">السابقة التي لم يتم الحضور لها</string>
+    <string name="previous_not_attending_visits_subtitle">السابقة غير المحضور</string>
     <string name="search">بحث...</string>
     <string name="not_available">غير متوفر</string>
     <string name="state">الحالة</string>
@@ -149,55 +149,117 @@
     <string name="email">البريد الإلكتروني</string>
     <string name="welcome">مرحبًا %1$s</string>
     <string name="error_creating_user">خطأ في إنشاء المستخدم</string>
-    <string name="welcome_back">مرحبًا بعودتك %1$s</string>
-    <string name="an_error_has_occurred">حدث خطأ</string>
+    <string name="welcome_back">مرحبًا مجددًا %1$s</string>
+    <string name="an_error_has_occurred">حدث خطأ ما</string>
     <string name="guest">زائر</string>
     <string name="loggin">تسجيل الدخول</string>
     <string name="register">تسجيل</string>
-    <string name="already_have_an_account">هل لديك حساب؟ تسجيل الدخول</string>
-    <string name="registered_account">تم تسجيل الحساب</string>
+    <string name="already_have_an_account">هل تمتلك حساباً؟ تسجيل الدخول</string>
+    <string name="registered_account">تم التسجيل</string>
     <string name="account_already_exists">هذا الحساب موجود بالفعل</string>
     <string name="all_fields_are_required">جميع الحقول مطلوبة</string>
-    <string name="unregistered_image">الصورة الخاصة بـ %1$s غير مسجلة</string>
-    <string name="pet_not_registered">تعذر تسجيل الحيوان</string>
+    <string name="unregistered_image">لم تُسجّل صورة %1$s</string>
+    <string name="pet_not_registered">تعذّر تسجيل الحيوان</string>
     <string name="register_pet">تسجيل</string>
-    <string name="not_observables_available">لا توجد مرافقين</string>
+    <string name="not_observables_available">لا يوجد مراقبون متاحون</string>
     <string name="manage_user">إدارة %1$s</string>
     <string name="not_possible_change_creator">لا يمكن تغيير دور المنشئ</string>
-    <string name="already_owner">هو مالك بالفعل</string>
-    <string name="now_he_owner">أصبح الآن مالكًا</string>
-    <string name="role_could_not_be_changed">تعذر تغيير الدور</string>
+    <string name="already_owner">هو بالفعل مالك</string>
+    <string name="now_he_owner">أصبح مالكًا الآن</string>
+    <string name="role_could_not_be_changed">تعذّر تغيير الدور</string>
     <string name="change_to_owner">تغيير إلى مالك</string>
     <string name="not_possible_delete_creator">لا يمكن حذف المنشئ</string>
-    <string name="you_have_been_removed_as_owner">تمت إزالتك كمالك</string>
+    <string name="you_have_been_removed_as_owner">تمت إزالتك من كمالك</string>
     <string name="owner_deleted">تم حذف المالك</string>
-    <string name="could_not_be_deleted">تعذر الحذف</string>
+    <string name="could_not_be_deleted">تعذّر الحذف</string>
     <string name="delete_rol">حذف الدور</string>
-    <string name="already_observer">هو مرافق بالفعل</string>
-    <string name="not_owner_new_observer">مرافق جديد، لم يعد مالكًا</string>
-    <string name="new_observer">مرافق جديد</string>
-    <string name="could_not_add">تعذر الإضافة</string>
+    <string name="already_observer">هو بالفعل مراقب</string>
+    <string name="not_owner_new_observer">أصبح مراقبًا ولم يعد مالكًا</string>
+    <string name="new_observer">مراقب جديد</string>
+    <string name="could_not_add">تعذّر الإضافة</string>
     <string name="user_not_exist">المستخدم غير موجود</string>
-    <string name="not_ownsers_available">لا توجد مالكون</string>
-    <string name="now_he_observer">أصبح الآن مرافقًا</string>
-    <string name="change_to_observer">تغيير إلى مرافق</string>
-    <string name="not_possible_delete">تعذر الحذف</string>
-    <string name="not_observer_new_owner">مالك جديد، لم يعد مرافقًا</string>
+    <string name="not_ownsers_available">لا يوجد مالكون متاحون</string>
+    <string name="now_he_observer">أصبح مراقبًا الآن</string>
+    <string name="change_to_observer">تغيير إلى مراقب</string>
+    <string name="not_possible_delete">تعذّر الحذف</string>
+    <string name="not_observer_new_owner">أصبح مالكًا ولم يعد مراقبًا</string>
     <string name="new_owner">مالك جديد</string>
-    <string name="authorized_for_creator">تم رفض الإذن، مصرح به للمنشئ</string>
-    <string name="already_creator">هو منشئ بالفعل</string>
+    <string name="authorized_for_creator">تم رفض الإذن، مخصص للمنشئ</string>
+    <string name="already_creator">هو بالفعل منشئ</string>
     <string name="new_creator">منشئ جديد</string>
     <string name="filter_veterinary_visits">تصفية الزيارات البيطرية</string>
     <string name="previous_visits">الزيارات السابقة</string>
-    <string name="previous_not_attending_visits">الزيارات السابقة التي لم يحضرها</string>
-    <string name="all_visits">كل الزيارات</string>
-    <string name="next_vivits">الزيارات القادمة</string>
+    <string name="previous_not_attending_visits">زيارات سابقة دون حضور</string>
+    <string name="all_visits">جميع الزيارات</string>
+    <string name="next_vivits">الزيارة القادمة</string>
     <string name="not_invitations">لا توجد دعوات</string>
     <string name="change_rol_to">تغيير الدور إلى %1$s</string>
-    <string name="passwords_do_not_match">كلمات المرور غير متطابقة</string>
-    <string name="password_minimum_characters">يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل</string>
+    <string name="passwords_do_not_match">كلمات المرور لا تتطابق</string>
+    <string name="password_minimum_characters">يجب أن تكون كلمة المرور 6 احرف على الاقل</string>
     <string name="account_without_linked_email">حساب بدون بريد إلكتروني مرتبط</string>
     <string name="email_not_associated">البريد الإلكتروني غير مرتبط بحسابك</string>
     <string name="time_zone">المنطقة الزمنية</string>
-    <string name="select_language" translatable="false">اختر لغة</string>
+    <string name="select_language" translatable="false">اختر اللغة</string>
+    <string name="calendar">التقويم</string>
+    <string name="passwordInvalid">يجب أن تحتوي على 8 أحرف وحرف ورقم</string>
+    <string name="invalid_email">عنوان البريد الإلكتروني غير صالح</string>
+    <string name="weight_not_exist">تم حذف هذا الوزن، لا يمكن تعديله</string>
+    <string name="veterinaryVisit_not_exist">تم حذف هذه الزيارة، لا يمكن تعديلها</string>
+
+    <string name="next_events">الأحداث القادمة</string>
+    <string name="not_events"> لا توجد أحداث لهذا التاريخ</string>
+    <string name="select_a_date"> اختر تاريخًا</string>
+    <string name="select_your_pets"> اختر حيواناتك</string>
+
+    <string-array name="species_options">
+        <item>عنكبوت</item>
+        <item>حمار</item>
+        <item>حصان</item>
+        <item>ماعز</item>
+        <item>أفعى</item>
+        <item>سرطان</item>
+        <item>خنزير</item>
+        <item>شينشيلا</item>
+        <item>خنزير غينيا</item>
+        <item>أرنب</item>
+        <item>قنفذ</item>
+        <item>عقرب</item>
+        <item>نمس</item>
+        <item>دجاجة</item>
+        <item>قط</item>
+        <item>وزغة</item>
+        <item>هامستر</item>
+        <item>ابن آوى صغير</item>
+        <item>إغوانا</item>
+        <item>سحلية</item>
+        <item>خروف</item>
+        <item>حمامة</item>
+        <item>بط</item>
+        <item>طائر</item>
+        <item>سمكة</item>
+        <item>كلب</item>
+        <item>جرذ</item>
+        <item>فأر</item>
+        <item>ثعبان</item>
+        <item>سلحفاة</item>
+    </string-array>
+
+    <string-array name="days_of_week">
+        <item>اثن</item>
+        <item>ثلا</item>
+        <item>أرب</item>
+        <item>خمي</item>
+        <item>جم</item>
+        <item>سبت</item>
+        <item>أحد</item>
+    </string-array>
+
+    <string name="year_singular">سنة</string>
+    <string name="year_plural">سنوات</string>
+    <string name="month_singular">شهر</string>
+    <string name="month_plural">أشهر</string>
+    <string name="day_singular">يوم</string>
+    <string name="day_plural">أيام</string>
+
+    <string name="current_weight">الوزن الحالي</string>
 </resources>
