@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Kartica živali</string>
+    <string name="create_weight_title">Nova teža</string>
+    <string name="weight_form_label_date">Datum</string>
+    <string name="weight_form_label_note">Komentar</string>
+    <string name="weight_form_placeholder_note">Napišite komentar</string>
+    <string name="weight_form_label_weight">Teža (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Sprejmi</string>
+    <string name="form_cancel_btn">Prekliči</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Neobvezno</string>
+    <string name="edit_weight_title">Uredi težo</string>
+    <string name="delete_weight_alert_title">Ali želite odstraniti to težo s seznama?</string>
+    <string name="delete_weight_alert_description">Če odstranite to težo s seznama, bo trajno izbrisana iz vseh računov, povezanih z živaljo %1$s</string>
+    <string name="wheights_pets_title">Teže</string>
+    <string name="select_weght_unit_title_dialog">Izberite enoto teže</string>
+    <string name="form_confirm_delete_btn">Izbriši</string>
+    <string name="empty_pet_list">Ni živali</string>
+    <string name="sign_out">Odjava</string>
+    <string name="delete_pet_button">Izbriši žival</string>
+    <string name="forgot_password">Ste pozabili geslo?</string>
+    <string name="have_an_account">Že imate račun?</string>
+    <string name="sign_up">Prijava</string>
+    <string name="create_account">Ustvari račun</string>
+    <string name="not_create_account">Še nimate računa?</string>
+    <string name="title_photoPickerBottomSheet">Izberite možnost</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galerija</string>
+    <string name="profile_pet_photo_description">Profilna slika živali</string>
+    <string name="camera_permission_denied">Dovoljenje za kamero zavrnjeno</string>
+    <string name="selected_photo">Izbrana fotografija</string>
+    <string name="photo_not_taken">Fotografija ni bila posneta</string>
+    <string name="photo_taken">Fotografija posneta</string>
+    <string name="type">Vrsta</string>
+    <string name="dog">Pes</string>
+    <string name="breed">Pasema</string>
+    <string name="carlino">Mops</string>
+    <string name="birthdayDate">Datum rojstva</string>
+    <string name="adoptionDate">Datum posvojitve</string>
+    <string name="microchip">Mikročip</string>
+    <string name="sterilized">Steriliziran</string>
+    <string name="not_sterilized">Ni steriliziran</string>
+    <string name="delete_pet_alert_description">Če izbrišete to žival, bo trajno izbrisana iz vseh računov, povezanih z živaljo %1$s</string>
+    <string name="delete_pet_alert_title">Izbriši to žival?</string>
+    <string name="sterilizedDate">Datum sterilizacije</string>
+    <string name="pet_not_exists_dialog_description">Na tej živali ni mogoče izvajati dejanj. Če žival ni bila izbrisana, preverite, ali je dejanje izvedel povezani lastnik.</string>
+    <string name="pet_not_exists_dialog_title">Žival ni najdena</string>
+    <string name="understood">Razumem</string>
+    <string name="microchipDate">Datum vstavitve</string>
+    <string name="microchip_identifier">Identifikator</string>
+    <string name="invalid_microchip">Mora vsebovati 12 številk</string>
+    <string name="edit_microchip_title">Podatki o mikročipu</string>
+    <string name="edit_sterilized_state_title">Status sterilizacije</string>
+    <string name="save">Shrani</string>
+    <string name="default_datePicker_title">Izberite datum</string>
+    <string name="edit">Uredi</string>
+    <string name="edit_birthdate_title">Starost in datum rojstva</string>
+    <string name="unidentified">Neznano</string>
+    <string name="age">Starost</string>
+    <string name="time">Čas</string>
+    <string name="adoption">Posvojitev</string>
+    <string name="add_date">Dodaj datum</string>
+    <string name="updated_photo">Fotografija posodobljena</string>
+    <string name="not_updated_photo">Posodobitev ni uspela</string>
+    <string name="delete">Izbriši</string>
+    <string name="deleted_pet">%1$s izbrisano</string>
+    <string name="not_deleted_pet">Brisanje ni uspelo</string>
+    <string name="edit_basic_data_title">Osnovni podatki</string>
+    <string name="name">Ime</string>
+    <string name="edit_user_profile">Uredi profil</string>
+    <string name="notifications">Obvestila</string>
+    <string name="dark_mode">Temni način</string>
+    <string name="light_mode">Svetli način</string>
+    <string name="clear_cache">Počisti predpomnilnik</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Nastavitve</string>
+    <string name="key">Ključ</string>
+    <string name="invitation_key">Vabilni ključ</string>
+    <string name="invitations">Vabila</string>
+    <string name="language">Jezik</string>
+    <string name="update_password">Spremeni geslo</string>
+    <string name="password">Geslo</string>
+    <string name="new_password">Novo geslo</string>
+    <string name="reset_password">Ponastavi geslo</string>
+    <string name="recover_password">Obnovi geslo</string>
+    <string name="associed_email">Povezan e-poštni naslov</string>
+    <string name="send_mail">Pošlji e-pošto</string>
+    <string name="log_out_alert_title">Ali se želite odjaviti?</string>
+    <string name="log_out_alert_description">S sprejetjem odjave bo trenutni račun izgubil dostop, dokler se znova ne prijavite</string>
+    <string name="people_linked">Povezane osebe</string>
+    <string name="owners">Lastniki</string>
+    <string name="observers">Opazovalci</string>
+    <string name="pet">Žival</string>
+    <string name="observed_pets">Opazovane živali</string>
+    <string name="pets">Živali</string>
+    <string name="invite_petOwner">Povabi lastnika</string>
+    <string name="send">Pošlji</string>
+    <string name="add">Dodaj</string>
+    <string name="add_petOwner">Dodaj lastnika</string>
+    <string name="update_creatorOwner">Spremeni ustvarjalca</string>
+    <string name="creatorOwner">Ustvarjalec</string>
+    <string name="add_petObserver">Dodaj opazovalca</string>
+    <string name="permission_denied_observer">Dovoljenje zavrnjeno kot opazovalec</string>
+    <string name="new_pet">Nova žival</string>
+    <string name="owner">Lastnik</string>
+    <string name="observer">Opazovalec</string>
+    <string name="veterinary_visits">Naslednji obisk veterinarja</string>
+    <string name="register_new_weight">Dodaj prvo težo</string>
+    <string name="register_new_veterinay_visists">Dodaj obisk</string>
+    <string name="edit_veterinay_vivist_title">Uredi termin pri veterinarju</string>
+    <string name="create_veterinay_vivist_title">Nov termin pri veterinarju</string>
+    <string name="concept">Koncept</string>
+    <string name="concept_placeholder">Razglistenje</string>
+    <string name="description">Opis</string>
+    <string name="description_placeholder">Pojdi dati pipeto za razglistenje</string>
+    <string name="form_label_time">Čas</string>
+    <string name="veterinary">Veterinar</string>
+    <string name="veterinary_placeholder">Veterinarska klinika Martínez</string>
+    <string name="error_create_veterinary_visit">Napaka pri ustvarjanju obiska</string>
+    <string name="error_edit_veterinary_visit">Napaka pri urejanju obiska</string>
+    <string name="delete_visit_alert_title">Ali želite izbrisati ta veterinarski obisk?</string>
+    <string name="delete_visit_alert_description">Če izbrišete ta obisk s seznama, bo trajno izbrisan iz vseh računov, povezanih z živaljo %1$s</string>
+    <string name="completed">Zaključeno</string>
+    <string name="not_completed">Načrtovano</string>
+    <string name="comment">Komentar</string>
+    <string name="add_weight">Dodaj težo</string>
+    <string name="next_visit">Naslednji obisk</string>
+    <string name="veterinary_visits_title">Veterinarski obiski</string>
+    <string name="owners_info_dialog_title">Kakšne so funkcije lastnika?</string>
+    <string name="owners_info_dialog_description">Ustvarjanje, urejanje in spreminjanje vseh podatkov</string>
+    <string name="owners_info_dialog_description2">Dodajanje, urejanje in brisanje drugega lastnika</string>
+    <string name="owners_info_dialog_description3">Dodajanje, urejanje in brisanje opazovalca</string>
+    <string name="owners_info_dialog_description4">Le ustvarjalec se bo lahko spremenil v drugega uporabnika</string>
+    <string name="observers_info_dialog_title">Kakšne so funkcije opazovalca?</string>
+    <string name="observers_info_dialog_description">Lahko si ogleda vse podatke</string>
+    <string name="observers_info_dialog_description2">Ne more ustvarjati, urejati ali spreminjati podatkov</string>
+    <string name="observers_info_dialog_description3">Ne more dodajati, urejati ali brisati lastnika</string>
+    <string name="observers_info_dialog_description4">Ne more dodajati, urejati ali brisati drugega opazovalca</string>
+    <string name="next_visits_subtitle">Prihajajoči</string>
+    <string name="previous_visits_subtitle">Pretekli</string>
+    <string name="previous_not_attending_visits_subtitle">Pretekli neudeleženi</string>
+    <string name="search">Išči...</string>
+    <string name="not_available">Ni na voljo</string>
+    <string name="state">Stanje</string>
+    <string name="select_time">Izberite čas</string>
+    <string name="email">E-pošta</string>
+    <string name="welcome">Dobrodošel, %1$s</string>
+    <string name="error_creating_user">Napaka pri ustvarjanju uporabnika</string>
+    <string name="welcome_back">Dobrodošel nazaj, %1$s</string>
+    <string name="an_error_has_occurred">Prišlo je do napake</string>
+    <string name="guest">Gost</string>
+    <string name="loggin">PRIJAVA</string>
+    <string name="register">Registracija</string>
+    <string name="already_have_an_account">Že imate račun? Prijavite se</string>
+    <string name="registered_account">Račun registriran</string>
+    <string name="account_already_exists">Ta račun že obstaja</string>
+    <string name="all_fields_are_required">Vsa polja so obvezna</string>
+    <string name="unregistered_image">Neregistrirana slika %1$s</string>
+    <string name="pet_not_registered">Žival ni bila registrirana</string>
+    <string name="register_pet">Registriraj</string>
+    <string name="not_observables_available">Ni na voljo nobenih opazovalcev</string>
+    <string name="manage_user">Upravljaj %1$s</string>
+    <string name="not_possible_change_creator">Ni mogoče spremeniti vloge ustvarjalca</string>
+    <string name="already_owner">Že je lastnik</string>
+    <string name="now_he_owner">Zdaj je lastnik</string>
+    <string name="role_could_not_be_changed">Vloge ni bilo mogoče spremeniti</string>
+    <string name="change_to_owner">Spremeni v lastnika</string>
+    <string name="not_possible_delete_creator">Ni mogoče izbrisati ustvarjalca</string>
+    <string name="you_have_been_removed_as_owner">Odstranjeni ste bili kot lastnik</string>
+    <string name="owner_deleted">Lastnik izbrisan</string>
+    <string name="could_not_be_deleted">Ni bilo mogoče izbrisati</string>
+    <string name="delete_rol">Izbriši vlogo</string>
+    <string name="already_observer">Že je opazovalec</string>
+    <string name="not_owner_new_observer">Nov opazovalec, ni več lastnik</string>
+    <string name="new_observer">Nov opazovalec</string>
+    <string name="could_not_add">Ni bilo mogoče dodati</string>
+    <string name="user_not_exist">Uporabnik ne obstaja</string>
+    <string name="not_ownsers_available">Ni na voljo lastnikov</string>
+    <string name="now_he_observer">Zdaj je opazovalec</string>
+    <string name="change_to_observer">Spremeni v opazovalca</string>
+    <string name="not_possible_delete">Ni mogoče izbrisati</string>
+    <string name="not_observer_new_owner">Nov lastnik, ni več opazovalec</string>
+    <string name="new_owner">Nov lastnik</string>
+    <string name="authorized_for_creator">Dovoljenje zavrnjeno, pooblaščeno za ustvarjalca</string>
+    <string name="already_creator">Že je ustvarjalec</string>
+    <string name="new_creator">Nov ustvarjalec</string>
+    <string name="filter_veterinary_visits">Filtriraj veterinarske obiske</string>
+    <string name="previous_visits">Pretekli obiski</string>
+    <string name="previous_not_attending_visits">Pretekli neudeleženi obiski</string>
+    <string name="all_visits">Vsi obiski</string>
+    <string name="next_vivits">Prihajajoči obiski</string>
+    <string name="not_invitations">Ni povabil</string>
+    <string name="change_rol_to">Spremeni vlogo v %1$s</string>
+    <string name="passwords_do_not_match">Gesli se ne ujemata</string>
+    <string name="password_minimum_characters">Geslo mora vsebovati vsaj 6 znakov</string>
+    <string name="account_without_linked_email">Račun brez povezane e-pošte</string>
+    <string name="email_not_associated">E-pošta ni povezana z vašim računom</string>
+    <string name="time_zone">Časovni pas</string>
+    <string name="select_language" translatable="false">Izberite jezik</string>
+    <string name="calendar">Koledar</string>
+    <string name="passwordInvalid">Mora vsebovati 8 znakov, eno črko in eno številko</string>
+    <string name="invalid_email">Neveljaven e-poštni naslov</string>
+    <string name="weight_not_exist">Nekdo je izbrisal to težo, ni je mogoče spremeniti</string>
+    <string name="veterinaryVisit_not_exist">Nekdo je izbrisal ta veterinarski obisk, ni ga mogoče spremeniti</string>
+    <string name="next_events">Prihajajoči dogodki</string>
+    <string name="not_events">Ni dogodkov za ta datum</string>
+    <string name="select_a_date">Izberite datum</string>
+    <string name="select_your_pets">Izberite svoje hišne ljubljenčke</string>
+    <string-array name="species_options">
+        <item>Pajek</item>
+        <item>Osel</item>
+        <item>Konj</item>
+        <item>Koza</item>
+        <item>Kameleon</item>
+        <item>Rak</item>
+        <item>Prašič</item>
+        <item>Činčila</item>
+        <item>Morski prašiček</item>
+        <item>Zajec</item>
+        <item>Jež</item>
+        <item>Škorpijon</item>
+        <item>Feretka</item>
+        <item>Kokoš</item>
+        <item>Mačka</item>
+        <item>Gekon</item>
+        <item>Hrček</item>
+        <item>Iguana</item>
+        <item>Kuščar</item>
+        <item>Ovca</item>
+        <item>Golob</item>
+        <item>Raca</item>
+        <item>Ptica</item>
+        <item>Riba</item>
+        <item>Pes</item>
+        <item>Podgana</item>
+        <item>Miš</item>
+        <item>Kača</item>
+        <item>Želva</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Pon</item>
+        <item>Tor</item>
+        <item>Sre</item>
+        <item>Čet</item>
+        <item>Pet</item>
+        <item>Sob</item>
+        <item>Ned</item>
+    </string-array>
+    <string name="year_singular">leto</string>
+    <string name="year_plural">leta</string>
+    <string name="month_singular">mesec</string>
+    <string name="month_plural">mesecev</string>
+    <string name="day_singular">dan</string>
+    <string name="day_plural">dni</string>
+    <string name="current_weight">Trenutna teža</string>
 </resources>

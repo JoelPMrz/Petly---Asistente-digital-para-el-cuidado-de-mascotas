@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Karta zvieraťa</string>
+    <string name="create_weight_title">Nová hmotnosť</string>
+    <string name="weight_form_label_date">Dátum</string>
+    <string name="weight_form_label_note">Komentár</string>
+    <string name="weight_form_placeholder_note">Napíšte komentár</string>
+    <string name="weight_form_label_weight">Hmotnosť (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Prijať</string>
+    <string name="form_cancel_btn">Zrušiť</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Voliteľné</string>
+    <string name="edit_weight_title">Upraviť hmotnosť</string>
+    <string name="delete_weight_alert_title">Odstrániť túto hmotnosť zo zoznamu?</string>
+    <string name="delete_weight_alert_description">Ak túto hmotnosť odstránite zo zoznamu, bude trvalo odstránená zo všetkých účtov spojených so zvieraťom %1$s</string>
+    <string name="wheights_pets_title">Hmotnosti</string>
+    <string name="select_weght_unit_title_dialog">Vybrať jednotku hmotnosti</string>
+    <string name="form_confirm_delete_btn">Odstrániť</string>
+    <string name="empty_pet_list">Žiadne zvieratá</string>
+    <string name="sign_out">Odhlásiť sa</string>
+    <string name="delete_pet_button">Odstrániť zviera</string>
+    <string name="forgot_password">Zabudli ste heslo?</string>
+    <string name="have_an_account">Už máte účet?</string>
+    <string name="sign_up">Prihlásiť sa</string>
+    <string name="create_account">Vytvoriť účet</string>
+    <string name="not_create_account">Nemáte ešte účet?</string>
+    <string name="title_photoPickerBottomSheet">Vyberte možnosť</string>
+    <string name="camera">Fotoaparát</string>
+    <string name="gallery">Galéria</string>
+    <string name="profile_pet_photo_description">Profilový obrázok zvieraťa</string>
+    <string name="camera_permission_denied">Povolenie na používanie fotoaparátu zamietnuté</string>
+    <string name="selected_photo">Vybraná fotografia</string>
+    <string name="photo_not_taken">Fotografia nebola zhotovená</string>
+    <string name="photo_taken">Fotografia zhotovená</string>
+    <string name="type">Druh</string>
+    <string name="dog">Pes</string>
+    <string name="breed">Plemeno</string>
+    <string name="carlino">Mops</string>
+    <string name="birthdayDate">Dátum narodenia</string>
+    <string name="adoptionDate">Dátum adopcie</string>
+    <string name="microchip">Mikročip</string>
+    <string name="sterilized">Kastrovaný/Sterilizovaný</string>
+    <string name="not_sterilized">Nekastrovaný/Nesterilizovaný</string>
+    <string name="delete_pet_alert_description">Ak toto zviera odstránite, bude trvalo odstránené zo všetkých účtov spojených so zvieraťom %1$s</string>
+    <string name="delete_pet_alert_title">Odstrániť toto zviera?</string>
+    <string name="sterilizedDate">Dátum kastrácie/sterilizácie</string>
+    <string name="pet_not_exists_dialog_description">Na tomto zvierati nie je možné vykonávať akcie. Ak zviera nebolo odstránené, skontrolujte, či príslušný majiteľ nevykonal akciu.</string>
+    <string name="pet_not_exists_dialog_title">Zviera nebolo nájdené</string>
+    <string name="understood">Rozumiem</string>
+    <string name="microchipDate">Dátum implantácie</string>
+    <string name="microchip_identifier">Identifikátor</string>
+    <string name="invalid_microchip">Musí obsahovať 12 číslic</string>
+    <string name="edit_microchip_title">Údaje o mikročipe</string>
+    <string name="edit_sterilized_state_title">Stav kastrácie/sterilizácie</string>
+    <string name="save">Uložiť</string>
+    <string name="default_datePicker_title">Vyberte dátum</string>
+    <string name="edit">Upraviť</string>
+    <string name="edit_birthdate_title">Vek a dátum narodenia</string>
+    <string name="unidentified">Nezistené</string>
+    <string name="age">Vek</string>
+    <string name="time">Čas</string>
+    <string name="adoption">Adopcia</string>
+    <string name="add_date">Pridať dátum</string>
+    <string name="updated_photo">Fotografia aktualizovaná</string>
+    <string name="not_updated_photo">Aktualizácia zlyhala</string>
+    <string name="delete">Odstrániť</string>
+    <string name="deleted_pet">%1$s odstránený</string>
+    <string name="not_deleted_pet">Odstránenie zlyhalo</string>
+    <string name="edit_basic_data_title">Základné údaje</string>
+    <string name="name">Meno</string>
+    <string name="edit_user_profile">Upraviť profil</string>
+    <string name="notifications">Oznámenia</string>
+    <string name="dark_mode">Tmavý režim</string>
+    <string name="light_mode">Svetlý režim</string>
+    <string name="clear_cache">Vymazať vyrovnávaciu pamäť</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Nastavenia</string>
+    <string name="key">Kľúč</string>
+    <string name="invitation_key">Pozývací kľúč</string>
+    <string name="invitations">Pozvánky</string>
+    <string name="language">Jazyk</string>
+    <string name="update_password">Zmeniť heslo</string>
+    <string name="password">Heslo</string>
+    <string name="new_password">Nové heslo</string>
+    <string name="reset_password">Obnoviť heslo</string>
+    <string name="recover_password">Obnoviť heslo</string>
+    <string name="associed_email">Pridružený e-mail</string>
+    <string name="send_mail">Odoslať e-mail</string>
+    <string name="log_out_alert_title">Chcete sa odhlásiť?</string>
+    <string name="log_out_alert_description">Po odhlásení stratí aktuálny účet prístup, kým sa znova neprihlásite</string>
+    <string name="people_linked">Prepojené osoby</string>
+    <string name="owners">Vlastníci</string>
+    <string name="observers">Pozorovatelia</string>
+    <string name="pet">Zviera</string>
+    <string name="observed_pets">Pozorované zvieratá</string>
+    <string name="pets">Zvieratá</string>
+    <string name="invite_petOwner">Pozvať majiteľa</string>
+    <string name="send">Odoslať</string>
+    <string name="add">Pridať</string>
+    <string name="add_petOwner">Pridať majiteľa</string>
+    <string name="update_creatorOwner">Zmeniť tvorcu</string>
+    <string name="creatorOwner">Tvorca</string>
+    <string name="add_petObserver">Pridať pozorovateľa</string>
+    <string name="permission_denied_observer">Povolenie zamietnuté ako pozorovateľ</string>
+    <string name="new_pet">Nové zviera</string>
+    <string name="owner">Majiteľ</string>
+    <string name="observer">Pozorovateľ</string>
+    <string name="veterinary_visits">Ďalšia návšteva veterinára</string>
+    <string name="register_new_weight">Pridať prvú hmotnosť</string>
+    <string name="register_new_veterinay_visists">Pridať návštevu</string>
+    <string name="edit_veterinay_vivist_title">Upraviť termín u veterinára</string>
+    <string name="create_veterinay_vivist_title">Nový termín u veterinára</string>
+    <string name="concept">Pojem</string>
+    <string name="concept_placeholder">Odčervenie</string>
+    <string name="description">Popis</string>
+    <string name="description_placeholder">Ísť dať pipetu na odčervenie</string>
+    <string name="form_label_time">Čas</string>
+    <string name="veterinary">Veterinár</string>
+    <string name="veterinary_placeholder">Veterinárna klinika Martínez</string>
+    <string name="error_create_veterinary_visit">Chyba pri vytváraní návštevy</string>
+    <string name="error_edit_veterinary_visit">Chyba pri úprave návštevy</string>
+    <string name="delete_visit_alert_title">Odstrániť túto návštevu veterinára?</string>
+    <string name="delete_visit_alert_description">Ak túto návštevu odstránite zo zoznamu, bude trvalo odstránená zo všetkých účtov spojených so zvieraťom %1$s</string>
+    <string name="completed">Dokončené</string>
+    <string name="not_completed">Naplánované</string>
+    <string name="comment">Komentár</string>
+    <string name="add_weight">Pridať hmotnosť</string>
+    <string name="next_visit">Ďalšia návšteva</string>
+    <string name="veterinary_visits_title">Návštevy veterinára</string>
+    <string name="owners_info_dialog_title">Aké sú funkcie majiteľa?</string>
+    <string name="owners_info_dialog_description">Vytvárať, upravovať a meniť všetky údaje</string>
+    <string name="owners_info_dialog_description2">Pridávať, upravovať a odstraňovať iného majiteľa</string>
+    <string name="owners_info_dialog_description3">Pridávať, upravovať a odstraňovať pozorovateľa</string>
+    <string name="owners_info_dialog_description4">Len tvorca sa bude môcť zmeniť na iného používateľa</string>
+    <string name="observers_info_dialog_title">Aké sú funkcie pozorovateľa?</string>
+    <string name="observers_info_dialog_description">Môže prezerať všetky údaje</string>
+    <string name="observers_info_dialog_description2">Nemôže vytvárať, upravovať ani meniť údaje</string>
+    <string name="observers_info_dialog_description3">Nemôže pridávať, upravovať ani odstraňovať majiteľa</string>
+    <string name="observers_info_dialog_description4">Nemôže pridávať, upravovať ani odstraňovať iného pozorovateľa</string>
+    <string name="next_visits_subtitle">Nadchádzajúce</string>
+    <string name="previous_visits_subtitle">Predchádzajúce</string>
+    <string name="previous_not_attending_visits_subtitle">Predchádzajúce nenavštívené</string>
+    <string name="search">Hľadať...</string>
+    <string name="not_available">Nedostupné</string>
+    <string name="state">Stav</string>
+    <string name="select_time">Vyberte čas</string>
+    <string name="email">E-mail</string>
+    <string name="welcome">Vitajte, %1$s</string>
+    <string name="error_creating_user">Chyba pri vytváraní používateľa</string>
+    <string name="welcome_back">Vitajte späť, %1$s</string>
+    <string name="an_error_has_occurred">Vyskytla sa chyba</string>
+    <string name="guest">Hosť</string>
+    <string name="loggin">PRIHLÁSIŤ SA</string>
+    <string name="register">Registrovať sa</string>
+    <string name="already_have_an_account">Už máte účet? Prihláste sa</string>
+    <string name="registered_account">Účet zaregistrovaný</string>
+    <string name="account_already_exists">Tento účet už existuje</string>
+    <string name="all_fields_are_required">Všetky polia sú povinné</string>
+    <string name="unregistered_image">Nezaregistrovaný obrázok %1$s</string>
+    <string name="pet_not_registered">Zviera nebolo zaregistrované</string>
+    <string name="register_pet">Zaregistrovať</string>
+    <string name="not_observables_available">Žiadni pozorovatelia k dispozícii</string>
+    <string name="manage_user">Spravovať %1$s</string>
+    <string name="not_possible_change_creator">Nie je možné zmeniť rolu tvorcu</string>
+    <string name="already_owner">Už je majiteľom</string>
+    <string name="now_he_owner">Teraz je majiteľom</string>
+    <string name="role_could_not_be_changed">Rolu nebolo možné zmeniť</string>
+    <string name="change_to_owner">Zmeniť na majiteľa</string>
+    <string name="not_possible_delete_creator">Nie je možné odstrániť tvorcu</string>
+    <string name="you_have_been_removed_as_owner">Boli ste odstránený ako majiteľ</string>
+    <string name="owner_deleted">Majiteľ odstránený</string>
+    <string name="could_not_be_deleted">Nepodarilo sa odstrániť</string>
+    <string name="delete_rol">Odstrániť rolu</string>
+    <string name="already_observer">Už je pozorovateľom</string>
+    <string name="not_owner_new_observer">Nový pozorovateľ, už nie je majiteľom</string>
+    <string name="new_observer">Nový pozorovateľ</string>
+    <string name="could_not_add">Nepodarilo sa pridať</string>
+    <string name="user_not_exist">Používateľ neexistuje</string>
+    <string name="not_ownsers_available">Žiadni majitelia k dispozícii</string>
+    <string name="now_he_observer">Teraz je pozorovateľom</string>
+    <string name="change_to_observer">Zmeniť na pozorovateľa</string>
+    <string name="not_possible_delete">Nie je možné odstrániť</string>
+    <string name="not_observer_new_owner">Nový majiteľ, už nie je pozorovateľom</string>
+    <string name="new_owner">Nový majiteľ</string>
+    <string name="authorized_for_creator">Povolenie zamietnuté, povolené pre tvorcu</string>
+    <string name="already_creator">Už je tvorcom</string>
+    <string name="new_creator">Nový tvorca</string>
+    <string name="filter_veterinary_visits">Filtrovať návštevy veterinára</string>
+    <string name="previous_visits">Predchádzajúce návštevy</string>
+    <string name="previous_not_attending_visits">Predchádzajúce nenavštívené návštevy</string>
+    <string name="all_visits">Všetky návštevy</string>
+    <string name="next_vivits">Nadchádzajúce návštevy</string>
+    <string name="not_invitations">Žiadne pozvánky</string>
+    <string name="change_rol_to">Zmeniť rolu na %1$s</string>
+    <string name="passwords_do_not_match">Heslá sa nezhodujú</string>
+    <string name="password_minimum_characters">Heslo musí obsahovať aspoň 6 znakov</string>
+    <string name="account_without_linked_email">Účet bez prepojeného e-mailu</string>
+    <string name="email_not_associated">E-mail nie je priradený k vášmu účtu</string>
+    <string name="time_zone">Časové pásmo</string>
+    <string name="select_language" translatable="false">Vyberte jazyk</string>
+    <string name="calendar">Kalendár</string>
+    <string name="passwordInvalid">Musí obsahovať 8 znakov, jedno písmeno a jedno číslo</string>
+    <string name="invalid_email">Neplatná e-mailová adresa</string>
+    <string name="weight_not_exist">Niekto odstránil túto hmotnosť, nie je možné ju upraviť</string>
+    <string name="veterinaryVisit_not_exist">Niekto odstránil túto návštevu veterinára, nie je možné ju upraviť</string>
+    <string name="next_events">Nadchádzajúce udalosti</string>
+    <string name="not_events">Žiadne udalosti pre tento dátum</string>
+    <string name="select_a_date">Vyberte dátum</string>
+    <string name="select_your_pets">Vyberte svoje zvieratá</string>
+    <string-array name="species_options">
+        <item>Pavúk</item>
+        <item>Osiel</item>
+        <item>Kôň</item>
+        <item>Koza</item>
+        <item>Chameleón</item>
+        <item>Krab</item>
+        <item>Prasa</item>
+        <item>Činčila</item>
+        <item>Morské prasiatko</item>
+        <item>Králik</item>
+        <item>Jež</item>
+        <item>Škorpión</item>
+        <item>Fretka</item>
+        <item>Sliepka</item>
+        <item>Mačka</item>
+        <item>Gekón</item>
+        <item>Škrečok</item>
+        <item>Iguana</item>
+        <item>Jašterica</item>
+        <item>Ovca</item>
+        <item>Holub</item>
+        <item>Kačica</item>
+        <item>Vták</item>
+        <item>Ryba</item>
+        <item>Pes</item>
+        <item>Potkan</item>
+        <item>Myš</item>
+        <item>Had</item>
+        <item>Korytnačka</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Po</item>
+        <item>Ut</item>
+        <item>St</item>
+        <item>Št</item>
+        <item>Pi</item>
+        <item>So</item>
+        <item>Ne</item>
+    </string-array>
+    <string name="year_singular">rok</string>
+    <string name="year_plural">rokov</string>
+    <string name="month_singular">mesiac</string>
+    <string name="month_plural">mesiacov</string>
+    <string name="day_singular">deň</string>
+    <string name="day_plural">dni</string>
+    <string name="current_weight">Aktuálna hmotnosť</string>
 </resources>
