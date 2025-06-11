@@ -1,4 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Tietolehti</string>
+    <string name="create_weight_title">Uusi paino</string>
+    <string name="weight_form_label_date">Päivämäärä</string>
+    <string name="weight_form_label_note">Kommentti</string>
+    <string name="weight_form_placeholder_note">Kirjoita kommentti</string>
+    <string name="weight_form_label_weight">Paino (%1$s)</string>
+    <string name="weight_form_placeholder_date">2025/03/12</string>
+    <string name="form_confirm_btn">Hyväksy</string>
+    <string name="form_cancel_btn">Peruuta</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Valinnainen</string>
+    <string name="edit_weight_title">Muokkaa painoa</string>
+    <string name="delete_weight_alert_title">Poistetaanko tämä paino listalta?</string>
+    <string name="delete_weight_alert_description">Jos poistat tämän painon painoluettelosta, se poistetaan pysyvästi kaikilta lemmikkiin %1$s liitetyiltä tileiltä</string>
+    <string name="wheights_pets_title">Painot</string>
+    <string name="select_weght_unit_title_dialog">Valitse painoyksikkö</string>
+    <string name="form_confirm_delete_btn">Poista</string>
+    <string name="empty_pet_list">Ei lemmikkejä</string>
+    <string name="sign_out">Kirjaudu ulos</string>
+    <string name="delete_pet_button">Poista lemmikki</string>
+    <string name="forgot_password">Unohditko salasanan?</string>
+    <string name="have_an_account">Onko sinulla jo tili?</string>
+    <string name="sign_up">Kirjaudu sisään</string>
+    <string name="create_account">Luo tili</string>
+    <string name="not_create_account">Eikö sinulla ole tiliä vielä?</string>
+    <string name="title_photoPickerBottomSheet">Valitse vaihtoehto</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galleria</string>
+    <string name="profile_pet_photo_description">Lemmikin profiilikuva</string>
+    <string name="camera_permission_denied">Kameran käyttöoikeus evätty</string>
+    <string name="selected_photo">Valittu kuva</string>
+    <string name="photo_not_taken">Kuvaa ei otettu</string>
+    <string name="photo_taken">Kuva otettu</string>
+    <string name="type">Laji</string>
+    <string name="dog">Koira</string>
+    <string name="breed">Rotu</string>
+    <string name="carlino">Mopsi</string>
+    <string name="birthdayDate">Syntymäaika</string>
+    <string name="adoptionDate">Adoptiopäivä</string>
+    <string name="microchip">Mikrosiru</string>
+    <string name="sterilized">Steriloitu</string>
+    <string name="not_sterilized">Ei steriloitu</string>
+    <string name="delete_pet_alert_description">Jos poistat tämän lemmikin, se poistetaan pysyvästi kaikilta lemmikkiin %1$s liitetyiltä tileiltä</string>
+    <string name="delete_pet_alert_title">Poistetaanko tämä lemmikki?</string>
+    <string name="sterilizedDate">Steriloinnin päivämäärä</string>
+    <string name="pet_not_exists_dialog_description">Toimenpiteitä ei voi suorittaa tälle lemmikille. Jos et ole poistanut lemmikkiä, varmista, ettei mikään siihen liittyvä omistaja ole tehnyt niin</string>
+    <string name="pet_not_exists_dialog_title">Lemmikkiä ei löydy</string>
+    <string name="understood">Ymmärretty</string>
+    <string name="microchipDate">Implantointipäivä</string>
+    <string name="microchip_identifier">Tunniste</string>
+    <string name="invalid_microchip">Täytyy sisältää 12 numeroa</string>
+    <string name="edit_microchip_title">Mikrosirun tiedot</string>
+    <string name="edit_sterilized_state_title">Steriloinnin tila</string>
+    <string name="save">Tallenna</string>
+    <string name="default_datePicker_title">Valitse päivämäärä</string>
+    <string name="edit">Muokkaa</string>
+    <string name="edit_birthdate_title">Ikä ja syntymäaika</string>
+    <string name="unidentified">Tunnistamaton</string>
+    <string name="age">Ikä</string>
+    <string name="time">Aika</string>
+    <string name="adoption">Adoptio</string>
+    <string name="add_date">Lisää päivämäärä</string>
+    <string name="updated_photo">Kuva päivitetty</string>
+    <string name="not_updated_photo">Päivitys epäonnistui</string>
+    <string name="delete">Poista</string>
+    <string name="deleted_pet">%1$s poistettu</string>
+    <string name="not_deleted_pet">Poisto epäonnistui</string>
+    <string name="edit_basic_data_title">Päätiedot</string>
+    <string name="name">Nimi</string>
+    <string name="edit_user_profile">Muokkaa profiilia</string>
+    <string name="notifications">Ilmoitukset</string>
+    <string name="dark_mode">Tumma tila</string>
+    <string name="light_mode">Vaalea tila</string>
+    <string name="clear_cache">Tyhjennä välimuisti</string>
+    <string name="profile">Profiili</string>
+    <string name="settings">Asetukset</string>
+    <string name="key">Avain</string>
+    <string name="invitation_key">Kutsuavain</string>
+    <string name="invitations">Kutsut</string>
+    <string name="language">Kieli</string>
+    <string name="update_password">Vaihda salasana</string>
+    <string name="password">Salasana</string>
+    <string name="new_password">Uusi salasana</string>
+    <string name="reset_password">Palauta salasana</string>
+    <string name="recover_password">Palauta salasana</string>
+    <string name="associed_email">Liitetty sähköposti</string>
+    <string name="send_mail">Lähetä sähköposti</string>
+    <string name="log_out_alert_title">Haluatko kirjautua ulos?</string>
+    <string name="log_out_alert_description">Kun hyväksyt uloskirjautumisen, nykyinen tili menettää pääsyn, kunnes kirjaudut uudelleen sisään</string>
+    <string name="people_linked">Liittyneet henkilöt</string>
+    <string name="owners">Omistajat</string>
+    <string name="observers">Seuraajat</string>
+    <string name="pet">Lemmikki</string>
+    <string name="observed_pets">Seurattavat lemmikit</string>
+    <string name="pets">Lemmikit</string>
+    <string name="invite_petOwner">Kutsu omistaja</string>
+    <string name="send">Lähetä</string>
+    <string name="add">Lisää</string>
+    <string name="add_petOwner">Lisää omistaja</string>
+    <string name="update_creatorOwner">Muokkaa luojaa</string>
+    <string name="creatorOwner">Luoja</string>
+    <string name="add_petObserver">Lisää seuraaja</string>
+    <string name="permission_denied_observer">Käyttöoikeus evätty seuraajana</string>
+    <string name="new_pet">Uusi lemmikki</string>
+    <string name="owner">Omistaja</string>
+    <string name="observer">Seuraaja</string>
+    <string name="veterinary_visits">Seuraava eläinlääkärikäynti</string>
+    <string name="register_new_weight">Lisää ensimmäinen paino</string>
+    <string name="register_new_veterinay_visists">Lisää käynti</string>
+    <string name="edit_veterinay_vivist_title">Muokkaa eläinlääkärin vastaanottoaikaa</string>
+    <string name="create_veterinay_vivist_title">Uusi eläinlääkärin vastaanottoaika</string>
+    <string name="concept">Käsite</string>
+    <string name="concept_placeholder">Madotus</string>
+    <string name="description">Kuvaus</string>
+    <string name="description_placeholder">Mennään antamaan madotuspipetti</string>
+    <string name="form_label_time">Aika</string>
+    <string name="veterinary">Eläinlääkäri</string>
+    <string name="veterinary_placeholder">Eläinlääkäriklinikka Martínez</string>
+    <string name="error_create_veterinary_visit">Virhe käynnin luomisessa</string>
+    <string name="error_edit_veterinary_visit">Virhe käynnin muokkaamisessa</string>
+    <string name="delete_visit_alert_title">Poistetaanko tämä eläinlääkärikäynti?</string>
+    <string name="delete_visit_alert_description">Jos poistat tämän käynnin eläinlääkärikäyntien luettelosta, se poistetaan pysyvästi kaikilta lemmikkiin %1$s liitetyiltä tileiltä</string>
+    <string name="completed">Valmis</string>
+    <string name="not_completed">Ajoitettu</string>
+    <string name="comment">Kommentti</string>
+    <string name="add_weight">Lisää paino</string>
+    <string name="next_visit">Seuraava käynti</string>
+    <string name="veterinary_visits_title">Eläinlääkärikäynnit</string>
+    <string name="owners_info_dialog_title">Mitä toimintoja omistajalla on?</string>
+    <string name="owners_info_dialog_description">Luo, muokkaa ja muuta tietoja</string>
+    <string name="owners_info_dialog_description2">Lisää, muokkaa ja poista toinen omistaja</string>
+    <string name="owners_info_dialog_description3">Lisää, muokkaa ja poista seuraaja</string>
+    <string name="owners_info_dialog_description4">Vain luoja voi vaihtaa toiseen käyttäjään</string>
+    <string name="observers_info_dialog_title">Mitä toimintoja seuraajalla on?</string>
+    <string name="observers_info_dialog_description">Voi tarkastella kaikkia tietoja</string>
+    <string name="observers_info_dialog_description2">Ei voi luoda, muokata tai muuttaa tietoja</string>
+    <string name="observers_info_dialog_description3">Ei voi lisätä, muokata tai poistaa omistajaa</string>
+    <string name="observers_info_dialog_description4">Ei voi lisätä, muokata tai poistaa toista seuraajaa</string>
+    <string name="next_visits_subtitle">Seuraavat</string>
+    <string name="previous_visits_subtitle">Edelliset</string>
+    <string name="previous_not_attending_visits_subtitle">Edelliset käymättömät käynnit</string>
+    <string name="search">Hae...</string>
+    <string name="not_available">Ei saatavilla</string>
+    <string name="state">Tila</string>
+    <string name="select_time">Valitse aika</string>
+    <string name="email">Sähköposti</string>
+    <string name="welcome">Tervetuloa %1$s</string>
+    <string name="error_creating_user">Virhe käyttäjän luomisessa</string>
+    <string name="welcome_back">Tervetuloa takaisin %1$s</string>
+    <string name="an_error_has_occurred">Tapahtui virhe</string>
+    <string name="guest">Vieras</string>
+    <string name="loggin">KIRJAUDU SISÄÄN</string>
+    <string name="register">Rekisteröidy</string>
+    <string name="already_have_an_account">Onko sinulla jo tili? Kirjaudu sisään</string>
+    <string name="registered_account">Tili rekisteröity</string>
+    <string name="account_already_exists">Tämä tili on jo olemassa</string>
+    <string name="all_fields_are_required">Kaikki kentät ovat pakollisia</string>
+    <string name="unregistered_image">Kuva käyttäjältä %1$s rekisteröimätön</string>
+    <string name="pet_not_registered">Lemmikin rekisteröinti epäonnistui</string>
+    <string name="register_pet">Rekisteröi</string>
+    <string name="not_observables_available">Ei seuraajia saatavilla</string>
+    <string name="manage_user">Hallitse käyttäjää %1$s</string>
+    <string name="not_possible_change_creator">Luojan roolia ei voi muuttaa</string>
+    <string name="already_owner">On jo omistaja</string>
+    <string name="now_he_owner">Nyt hän on omistaja</string>
+    <string name="role_could_not_be_changed">Roolia ei voitu muuttaa</string>
+    <string name="change_to_owner">Vaihda omistajaksi</string>
+    <string name="not_possible_delete_creator">Luojan poistaminen ei ole mahdollista</string>
+    <string name="you_have_been_removed_as_owner">Sinut on poistettu omistajaksi</string>
+    <string name="owner_deleted">Omistaja poistettu</string>
+    <string name="could_not_be_deleted">Ei voitu poistaa</string>
+    <string name="delete_rol">Poista rooli</string>
+    <string name="already_observer">On jo seuraaja</string>
+    <string name="not_owner_new_observer">Uusi seuraaja, ei enää omistaja</string>
+    <string name="new_observer">Uusi seuraaja</string>
+    <string name="could_not_add">Lisääminen epäonnistui</string>
+    <string name="user_not_exist">Käyttäjää ei ole olemassa</string>
+    <string name="not_ownsers_available">Ei omistajia saatavilla</string>
+    <string name="now_he_observer">Nyt hän on seuraaja</string>
+    <string name="change_to_observer">Vaihda seuraajaksi</string>
+    <string name="not_possible_delete">Poisto epäonnistui</string>
+    <string name="not_observer_new_owner">Uusi omistaja, ei enää seuraaja</string>
+    <string name="new_owner">Uusi omistaja</string>
+    <string name="authorized_for_creator">Käyttöoikeus evätty, sallittu luojalle</string>
+    <string name="already_creator">On jo luoja</string>
+    <string name="new_creator">Uusi luoja</string>
+    <string name="filter_veterinary_visits">Suodata eläinlääkärikäynnit</string>
+    <string name="previous_visits">Edelliset käynnit</string>
+    <string name="previous_not_attending_visits">Edelliset käymättömät käynnit</string>
+    <string name="all_visits">Kaikki käynnit</string>
+    <string name="next_vivits">Seuraavat käynnit</string>
+    <string name="not_invitations">Ei kutsuja</string>
+    <string name="change_rol_to">Vaihda rooli käyttäjäksi %1$s</string>
+    <string name="passwords_do_not_match">Salasanat eivät täsmää</string>
+    <string name="password_minimum_characters">Salasanan on sisällettävä vähintään 6 merkkiä</string>
+    <string name="account_without_linked_email">Tili, johon ei ole liitetty sähköpostia</string>
+    <string name="email_not_associated">Sähköpostia ei ole liitetty tiliisi</string>
+    <string name="time_zone">Aikavyöhyke</string>
+    <string name="select_language" translatable="false">Valitse kieli</string>
+    <string name="calendar">Kalenteri</string>
+    <string name="passwordInvalid">Täytyy sisältää 8 merkkiä, kirjain ja numero</string>
+    <string name="invalid_email">Osoite ei kelpaa</string>
+    <string name="weight_not_exist">Joku poisti tämän painon, sitä ei voi muokata</string>
+    <string name="veterinaryVisit_not_exist">Joku poisti tämän eläinlääkärikäynnin, sitä ei voi muokata</string>
+    <string name="next_events">Seuraavat tapahtumat</string>
+    <string name="not_events">Ei tapahtumia tälle päivämäärälle</string>
+    <string name="select_a_date">Valitse päivämäärä</string>
+    <string name="select_your_pets">Valitse lemmikkisi</string>
+    <string-array name="species_options">
+        <item>Hämähäkki</item>
+        <item>Aasi</item>
+        <item>Hevonen</item>
+        <item>Vuohi</item>
+        <item>Kameleontti</item>
+        <item>Rapu</item>
+        <item>Sika</item>
+        <item>Chinchilla</item>
+        <item>Marsu</item>
+        <item>Kani</item>
+        <item>Siili</item>
+        <item>Skorpioni</item>
+        <item>Fretti</item>
+        <item>Kana</item>
+        <item>Kissa</item>
+        <item>Gekko</item>
+        <item>Hamsteri</item>
+        <item>Fretti</item>
+        <item>Iguana</item>
+        <item>Lisko</item>
+        <item>Lammas</item>
+        <item>Kyyhky</item>
+        <item>Sorsa</item>
+        <item>Lintu</item>
+        <item>Kala</item>
+        <item>Koira</item>
+        <item>Rotta</item>
+        <item>Hiiri</item>
+        <item>Käärme</item>
+        <item>Kilpikonna</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Ma</item>
+        <item>Ti</item>
+        <item>Ke</item>
+        <item>To</item>
+        <item>Pe</item>
+        <item>La</item>
+        <item>Su</item>
+    </string-array>
+    <string name="year_singular">vuosi</string>
+    <string name="year_plural">vuotta</string>
+    <string name="month_singular">kuukausi</string>
+    <string name="month_plural">kuukautta</string>
+    <string name="day_singular">päivä</string>
+    <string name="day_plural">päivää</string>
+    <string name="current_weight">Nykyinen paino</string>
 </resources>
