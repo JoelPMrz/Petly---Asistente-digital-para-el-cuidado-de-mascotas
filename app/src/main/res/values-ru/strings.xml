@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Карточка животного</string>
+    <string name="create_weight_title">Новый вес</string>
+    <string name="weight_form_label_date">Дата</string>
+    <string name="weight_form_label_note">Комментарий</string>
+    <string name="weight_form_placeholder_note">Напишите комментарий</string>
+    <string name="weight_form_label_weight">Вес (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Принять</string>
+    <string name="form_cancel_btn">Отмена</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Необязательно</string>
+    <string name="edit_weight_title">Изменить вес</string>
+    <string name="delete_weight_alert_title">Удалить этот вес из списка?</string>
+    <string name="delete_weight_alert_description">Если вы удалите этот вес из списка, он будет безвозвратно удален из всех учетных записей, связанных с животным %1$s</string>
+    <string name="wheights_pets_title">Вес</string>
+    <string name="select_weght_unit_title_dialog">Выбрать единицу веса</string>
+    <string name="form_confirm_delete_btn">Удалить</string>
+    <string name="empty_pet_list">Нет животных</string>
+    <string name="sign_out">Выйти</string>
+    <string name="delete_pet_button">Удалить животное</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="have_an_account">Уже есть аккаунт?</string>
+    <string name="sign_up">Войти</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="not_create_account">У вас еще нет аккаунта?</string>
+    <string name="title_photoPickerBottomSheet">Выберите опцию</string>
+    <string name="camera">Камера</string>
+    <string name="gallery">Галерея</string>
+    <string name="profile_pet_photo_description">Изображение профиля животного</string>
+    <string name="camera_permission_denied">Разрешение камеры отклонено</string>
+    <string name="selected_photo">Выбранное фото</string>
+    <string name="photo_not_taken">Фото не сделано</string>
+    <string name="photo_taken">Фото сделано</string>
+    <string name="type">Вид</string>
+    <string name="dog">Собака</string>
+    <string name="breed">Порода</string>
+    <string name="carlino">Мопс</string>
+    <string name="birthdayDate">Дата рождения</string>
+    <string name="adoptionDate">Дата усыновления</string>
+    <string name="microchip">Микрочип</string>
+    <string name="sterilized">Стерилизован</string>
+    <string name="not_sterilized">Не стерилизован</string>
+    <string name="delete_pet_alert_description">Если вы удалите это животное, оно будет безвозвратно удалено из всех учетных записей, связанных с животным %1$s</string>
+    <string name="delete_pet_alert_title">Удалить это животное?</string>
+    <string name="sterilizedDate">Дата стерилизации</string>
+    <string name="pet_not_exists_dialog_description">Невозможно выполнить действия с этим животным. Если животное не было удалено, проверьте, не выполнил ли это действие связанный владелец.</string>
+    <string name="pet_not_exists_dialog_title">Животное не найдено</string>
+    <string name="understood">Понятно</string>
+    <string name="microchipDate">Дата установки</string>
+    <string name="microchip_identifier">Идентификатор</string>
+    <string name="invalid_microchip">Должен содержать 12 цифр</string>
+    <string name="edit_microchip_title">Данные микрочипа</string>
+    <string name="edit_sterilized_state_title">Статус стерилизации</string>
+    <string name="save">Сохранить</string>
+    <string name="default_datePicker_title">Выберите дату</string>
+    <string name="edit">Изменить</string>
+    <string name="edit_birthdate_title">Возраст и дата рождения</string>
+    <string name="unidentified">Неопознанный</string>
+    <string name="age">Возраст</string>
+    <string name="time">Время</string>
+    <string name="adoption">Усыновление</string>
+    <string name="add_date">Добавить дату</string>
+    <string name="updated_photo">Фото обновлено</string>
+    <string name="not_updated_photo">Не удалось обновить фото</string>
+    <string name="delete">Удалить</string>
+    <string name="deleted_pet">%1$s удален</string>
+    <string name="not_deleted_pet">Не удалось удалить</string>
+    <string name="edit_basic_data_title">Основные данные</string>
+    <string name="name">Имя</string>
+    <string name="edit_user_profile">Редактировать профиль</string>
+    <string name="notifications">Уведомления</string>
+    <string name="dark_mode">Темный режим</string>
+    <string name="light_mode">Светлый режим</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="profile">Профиль</string>
+    <string name="settings">Настройки</string>
+    <string name="key">Ключ</string>
+    <string name="invitation_key">Ключ приглашения</string>
+    <string name="invitations">Приглашения</string>
+    <string name="language">Язык</string>
+    <string name="update_password">Сменить пароль</string>
+    <string name="password">Пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="reset_password">Сбросить пароль</string>
+    <string name="recover_password">Восстановить пароль</string>
+    <string name="associed_email">Привязанный адрес электронной почты</string>
+    <string name="send_mail">Отправить письмо</string>
+    <string name="log_out_alert_title">Вы хотите выйти?</string>
+    <string name="log_out_alert_description">При выходе текущая учетная запись потеряет доступ до тех пор, пока вы снова не войдете в систему</string>
+    <string name="people_linked">Связанные люди</string>
+    <string name="owners">Владельцы</string>
+    <string name="observers">Наблюдатели</string>
+    <string name="pet">Животное</string>
+    <string name="observed_pets">Наблюдаемые животные</string>
+    <string name="pets">Животные</string>
+    <string name="invite_petOwner">Пригласить владельца</string>
+    <string name="send">Отправить</string>
+    <string name="add">Добавить</string>
+    <string name="add_petOwner">Добавить владельца</string>
+    <string name="update_creatorOwner">Изменить создателя</string>
+    <string name="creatorOwner">Создатель</string>
+    <string name="add_petObserver">Добавить наблюдателя</string>
+    <string name="permission_denied_observer">Разрешение отклонено как наблюдатель</string>
+    <string name="new_pet">Новое животное</string>
+    <string name="owner">Владелец</string>
+    <string name="observer">Наблюдатель</string>
+    <string name="veterinary_visits">Предстоящий визит к ветеринару</string>
+    <string name="register_new_weight">Добавить первый вес</string>
+    <string name="register_new_veterinay_visists">Добавить визит</string>
+    <string name="edit_veterinay_vivist_title">Изменить запись к ветеринару</string>
+    <string name="create_veterinay_vivist_title">Новая запись к ветеринару</string>
+    <string name="concept">Концепция</string>
+    <string name="concept_placeholder">Дегельминтизация</string>
+    <string name="description">Описание</string>
+    <string name="description_placeholder">Пойти поставить пипетку для дегельминтизации</string>
+    <string name="form_label_time">Время</string>
+    <string name="veterinary">Ветеринар</string>
+    <string name="veterinary_placeholder">Ветеринарная клиника Мартинес</string>
+    <string name="error_create_veterinary_visit">Ошибка при создании визита</string>
+    <string name="error_edit_veterinary_visit">Ошибка при изменении визита</string>
+    <string name="delete_visit_alert_title">Удалить этот визит к ветеринару?</string>
+    <string name="delete_visit_alert_description">Если вы удалите этот визит из списка, он будет безвозвратно удален из всех учетных записей, связанных с животным %1$s</string>
+    <string name="completed">Завершено</string>
+    <string name="not_completed">Запланировано</string>
+    <string name="comment">Комментарий</string>
+    <string name="add_weight">Добавить вес</string>
+    <string name="next_visit">Следующий визит</string>
+    <string name="veterinary_visits_title">Визиты к ветеринару</string>
+    <string name="owners_info_dialog_title">Каковы функции владельца?</string>
+    <string name="owners_info_dialog_description">Создавать, изменять и менять все данные</string>
+    <string name="owners_info_dialog_description2">Добавлять, изменять и удалять другого владельца</string>
+    <string name="owners_info_dialog_description3">Добавлять, изменять и удалять наблюдателя</string>
+    <string name="owners_info_dialog_description4">Только создатель сможет поменять себя на другого пользователя</string>
+    <string name="observers_info_dialog_title">Каковы функции наблюдателя?</string>
+    <string name="observers_info_dialog_description">Может просматривать все данные</string>
+    <string name="observers_info_dialog_description2">Не может создавать, изменять или менять данные</string>
+    <string name="observers_info_dialog_description3">Не может добавлять, изменять или удалять владельца</string>
+    <string name="observers_info_dialog_description4">Не может добавлять, изменять или удалять другого наблюдателя</string>
+    <string name="next_visits_subtitle">Предстоящие</string>
+    <string name="previous_visits_subtitle">Предыдущие</string>
+    <string name="previous_not_attending_visits_subtitle">Предыдущие невыполненные</string>
+    <string name="search">Поиск...</string>
+    <string name="not_available">Недоступно</string>
+    <string name="state">Состояние</string>
+    <string name="select_time">Выбрать время</string>
+    <string name="email">Электронная почта</string>
+    <string name="welcome">Добро пожаловать, %1$s</string>
+    <string name="error_creating_user">Ошибка при создании пользователя</string>
+    <string name="welcome_back">С возвращением, %1$s</string>
+    <string name="an_error_has_occurred">Произошла ошибка</string>
+    <string name="guest">Гость</string>
+    <string name="loggin">ВОЙТИ</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="already_have_an_account">Уже есть аккаунт? Войти</string>
+    <string name="registered_account">Аккаунт зарегистрирован</string>
+    <string name="account_already_exists">Этот аккаунт уже существует</string>
+    <string name="all_fields_are_required">Все поля обязательны для заполнения</string>
+    <string name="unregistered_image">Не зарегистрировано изображение %1$s</string>
+    <string name="pet_not_registered">Животное не было зарегистрировано</string>
+    <string name="register_pet">Зарегистрировать</string>
+    <string name="not_observables_available">Наблюдатели отсутствуют</string>
+    <string name="manage_user">Управлять %1$s</string>
+    <string name="not_possible_change_creator">Невозможно изменить роль создателя</string>
+    <string name="already_owner">Уже является владельцем</string>
+    <string name="now_he_owner">Теперь он владелец</string>
+    <string name="role_could_not_be_changed">Роль не удалось изменить</string>
+    <string name="change_to_owner">Изменить на владельца</string>
+    <string name="not_possible_delete_creator">Невозможно удалить создателя</string>
+    <string name="you_have_been_removed_as_owner">Вы были удалены как владелец</string>
+    <string name="owner_deleted">Владелец удален</string>
+    <string name="could_not_be_deleted">Не удалось удалить</string>
+    <string name="delete_rol">Удалить роль</string>
+    <string name="already_observer">Уже является наблюдателем</string>
+    <string name="not_owner_new_observer">Новый наблюдатель, больше не владелец</string>
+    <string name="new_observer">Новый наблюдатель</string>
+    <string name="could_not_add">Не удалось добавить</string>
+    <string name="user_not_exist">Пользователь не существует</string>
+    <string name="not_ownsers_available">Владельцы отсутствуют</string>
+    <string name="now_he_observer">Теперь он наблюдатель</string>
+    <string name="change_to_observer">Изменить на наблюдателя</string>
+    <string name="not_possible_delete">Невозможно удалить</string>
+    <string name="not_observer_new_owner">Новый владелец, больше не наблюдатель</string>
+    <string name="new_owner">Новый владелец</string>
+    <string name="authorized_for_creator">Разрешение отклонено, разрешено для создателя</string>
+    <string name="already_creator">Уже является создателем</string>
+    <string name="new_creator">Новый создатель</string>
+    <string name="filter_veterinary_visits">Фильтровать визиты к ветеринару</string>
+    <string name="previous_visits">Предыдущие визиты</string>
+    <string name="previous_not_attending_visits">Предыдущие невыполненные визиты</string>
+    <string name="all_visits">Все визиты</string>
+    <string name="next_vivits">Предстоящие визиты</string>
+    <string name="not_invitations">Нет приглашений</string>
+    <string name="change_rol_to">Изменить роль на %1$s</string>
+    <string name="passwords_do_not_match">Пароли не совпадают</string>
+    <string name="password_minimum_characters">Пароль должен содержать не менее 6 символов</string>
+    <string name="account_without_linked_email">Аккаунт без привязанного адреса электронной почты</string>
+    <string name="email_not_associated">Адрес электронной почты не связан с вашей учетной записью</string>
+    <string name="time_zone">Часовой пояс</string>
+    <string name="select_language" translatable="false">Выберите язык</string>
+    <string name="calendar">Календарь</string>
+    <string name="passwordInvalid">Должен содержать 8 символов, одну букву и одну цифру</string>
+    <string name="invalid_email">Неверный адрес электронной почты</string>
+    <string name="weight_not_exist">Кто-то удалил этот вес, его нельзя изменить</string>
+    <string name="veterinaryVisit_not_exist">Кто-то удалил этот визит к ветеринару, его нельзя изменить</string>
+    <string name="next_events">Предстоящие события</string>
+    <string name="not_events">Нет событий на эту дату</string>
+    <string name="select_a_date">Выберите дату</string>
+    <string name="select_your_pets">Выберите своих питомцев</string>
+    <string-array name="species_options">
+        <item>Паук</item>
+        <item>Осел</item>
+        <item>Лошадь</item>
+        <item>Коза</item>
+        <item>Хамелеон</item>
+        <item>Краб</item>
+        <item>Свинья</item>
+        <item>Шиншилла</item>
+        <item>Морская свинка</item>
+        <item>Кролик</item>
+        <item>Еж</item>
+        <item>Скорпион</item>
+        <item>Хорёк</item>
+        <item>Курица</item>
+        <item>Кошка</item>
+        <item>Геккон</item>
+        <item>Хомяк</item>
+        <item>Игуана</item>
+        <item>Ящерица</item>
+        <item>Овца</item>
+        <item>Голубь</item>
+        <item>Утка</item>
+        <item>Птица</item>
+        <item>Рыба</item>
+        <item>Собака</item>
+        <item>Крыса</item>
+        <item>Мышь</item>
+        <item>Змея</item>
+        <item>Черепаха</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+        <item>Вс</item>
+    </string-array>
+    <string name="year_singular">год</string>
+    <string name="year_plural">лет</string>
+    <string name="month_singular">месяц</string>
+    <string name="month_plural">месяцев</string>
+    <string name="day_singular">день</string>
+    <string name="day_plural">дней</string>
+    <string name="current_weight">Текущий вес</string>
 </resources>
