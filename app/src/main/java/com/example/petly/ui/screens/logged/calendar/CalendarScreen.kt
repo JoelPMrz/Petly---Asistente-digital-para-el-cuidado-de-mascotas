@@ -86,6 +86,7 @@ fun CalendarScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     eventsViewModel: EventsViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val petList by petViewModel.petsState.collectAsState()
     val petListFiltered by petViewModel.filteredPetsState.collectAsState()
     val userState by userViewModel.userState.collectAsState()
@@ -100,6 +101,8 @@ fun CalendarScreen(
     val monthDays = remember(displayedMonth) {
         generateCalendarMonth(displayedMonth.atDay(1))
     }
+
+    val daysWeek = context.resources?.getStringArray(R.array.days_of_week)?.toList() ?: emptyList()
 
     LaunchedEffect(true) {
         val uid = auth.getCurrentUser()?.uid
@@ -172,7 +175,7 @@ fun CalendarScreen(
                     backgroundColor = Color.Transparent
                 )
                 Text(
-                    text = displayedMonth.month.getDisplayName(TextStyle.FULL, Locale("es"))
+                    text = displayedMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
                         .replaceFirstChar { it.uppercase() } +
                             " ${displayedMonth.year}"
                 )
@@ -197,7 +200,7 @@ fun CalendarScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    listOf("Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom").forEach { dayText ->
+                    daysWeek.forEach { dayText ->
                         Text(
                             text = dayText,
                             modifier = Modifier.weight(1f),
@@ -270,13 +273,13 @@ fun CalendarScreen(
                 AnimatedContent(targetState = events) { currentEvents ->
                     if(selectedDate == null){
                         Text(
-                            text = "Selecciona una fecha",
+                            text = stringResource(R.string.select_a_date),
                             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                         )
                     }else{
                         if (currentEvents.isEmpty()) {
                             Text(
-                                text = "No hay eventos para esta fecha",
+                                text = stringResource(R.string.not_events),
                                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                             )
                         } else {
@@ -438,7 +441,7 @@ fun PetSelectionDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Selecciona tus mascotas") },
+        title = { Text(text = stringResource(R.string.select_your_pets)) },
         text = {
             Column(
                 modifier = Modifier
@@ -493,12 +496,12 @@ fun PetSelectionDialog(
                 petViewModel.updateFilteredPets(selectedPets.toList())
                 onDismiss()
             }) {
-                Text("Aceptar")
+                Text(stringResource(R.string.form_confirm_btn))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar")
+                Text(stringResource(R.string.form_cancel_btn))
             }
         }
     )

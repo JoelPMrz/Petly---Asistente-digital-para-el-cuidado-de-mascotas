@@ -205,4 +205,57 @@
     <string name="invalid_email">La dirección no es valida</string>
     <string name="weight_not_exist">Alguien eliminó este peso, no es posible editarlo</string>
     <string name="veterinaryVisit_not_exist">Alguien eliminó esta visita veterinaria, no es posible editarla</string>
+    <string name="next_events">Próximos eventos</string>
+    <string name="not_events">No hay eventos para esta fecha</string>
+    <string name="select_a_date">Selecciona una fecha</string>
+    <string name="select_your_pets">Selecciona tus mascotas</string>
+    <string-array name="species_options">
+        <item>Araña</item>
+        <item>Burro</item>
+        <item>Caballo</item>
+        <item>Cabra</item>
+        <item>Camaleón</item>
+        <item>Cangrejo</item>
+        <item>Cerdo</item>
+        <item>Chinchilla</item>
+        <item>Cobaya</item>
+        <item>Conejo</item>
+        <item>Erizo</item>
+        <item>Escorpión</item>
+        <item>Ferret</item>
+        <item>Gallina</item>
+        <item>Gato</item>
+        <item>Gecko</item>
+        <item>Hámster</item>
+        <item>Hurón</item>
+        <item>Iguana</item>
+        <item>Lagarto</item>
+        <item>Oveja</item>
+        <item>Paloma</item>
+        <item>Pato</item>
+        <item>Pájaro</item>
+        <item>Pez</item>
+        <item>Perro</item>
+        <item>Rata</item>
+        <item>Ratón</item>
+        <item>Serpiente</item>
+        <item>Tortuga</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mié</item>
+        <item>Jue</item>
+        <item>Vie</item>
+        <item>Sáb</item>
+        <item>Dom</item>
+    </string-array>
+    <string name="year_singular">año</string>
+    <string name="year_plural">años</string>
+    <string name="month_singular">mes</string>
+    <string name="month_plural">meses</string>
+    <string name="day_singular">día</string>
+    <string name="day_plural">días</string>
+    <string name="current_weight">Peso actual</string>
+
 </resources>

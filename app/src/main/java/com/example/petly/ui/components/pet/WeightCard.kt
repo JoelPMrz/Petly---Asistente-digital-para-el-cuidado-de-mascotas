@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,7 +86,7 @@ fun WeightCard(
                 contentColor = MaterialTheme.colorScheme.secondaryContainer
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Peso actual", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = stringResource(R.string.current_weight), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
                 text = "$convertedWeight $selectedUnit",
                 fontSize = 14.sp,

@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,9 @@ fun TypeDropdownSelector(
     incompleteType: Boolean,
     onTypeSelected: (String) -> Unit,
 ) {
+    val context = LocalContext.current
+    val speciesOptions = context.resources?.getStringArray(R.array.species_options)?.toList() ?: emptyList()
+
     var expanded by remember { mutableStateOf(false) }
     val icon = if (expanded) Icons.Rounded.ArrowDropUp else Icons.Rounded.ArrowDropDown
 
@@ -85,9 +89,3 @@ fun TypeDropdownSelector(
     }
 }
 
-val speciesOptions = listOf(
-    "Araña", "Burro", "Caballo", "Cabra", "Camaleón", "Cangrejo", "Cerdo",
-    "Chinchilla", "Cobaya", "Conejo", "Erizo", "Escorpión", "Ferret", "Gallina",
-    "Gato", "Gecko", "Hámster", "Hurón", "Iguana", "Lagarto", "Oveja", "Paloma",
-    "Pato", "Pájaro", "Pez", "Perro", "Rata", "Ratón", "Serpiente", "Tortuga"
-)

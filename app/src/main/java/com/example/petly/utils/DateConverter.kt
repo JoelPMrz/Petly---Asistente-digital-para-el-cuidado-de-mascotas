@@ -1,6 +1,9 @@
 package com.example.petly.utils
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.ui.res.stringResource
+import com.example.petly.R
 import com.google.firebase.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -67,26 +70,26 @@ fun parseTime(timeString: String): LocalTime {
 }
 
 fun formatLocalDateToString(localDate: LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("es", "ES"))
+    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
     return localDate.format(formatter)
 }
 
 fun formatLocalDateToStringWithDay(localDate: LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale("es", "ES"))
+    val formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.getDefault())
     return localDate.format(formatter)
 }
 
 fun formatLocalTimeToString(localTime: LocalTime): String {
-    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale("es", "ES"))
+    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
     return localTime.format(formatter)
 }
 
 fun formatLocalDateTimeToString(localDateTime: LocalDateTime): String {
-    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("es", "ES"))
+    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
     return localDateTime.format(formatter)
 }
 
-fun getAgeFromDate(birthDate: LocalDate?): String? {
+fun getAgeFromDate(birthDate: LocalDate?, context: Context): String? {
     if (birthDate == null) return null
 
     val today = LocalDate.now()
@@ -97,9 +100,20 @@ fun getAgeFromDate(birthDate: LocalDate?): String? {
     val days = period.days
 
     val parts = mutableListOf<String>()
-    if (years > 0) parts.add("$years ${if (years == 1) "año" else "años"}")
-    if (months > 0) parts.add("$months ${if (months == 1) "mes" else "meses"}")
-    if (days > 0 || parts.isEmpty()) parts.add("$days ${if (days == 1) "día" else "días"}")
+
+    if (years > 0) {
+        val label = if (years == 1) context.getString(R.string.year_singular) else context.getString(R.string.year_plural)
+        parts.add("$years $label")
+    }
+    if (months > 0) {
+        val label = if (months == 1) context.getString(R.string.month_singular) else context.getString(R.string.month_plural)
+        parts.add("$months $label")
+    }
+    if (days > 0 || parts.isEmpty()) {
+        val label = if (days == 1) context.getString(R.string.day_singular) else context.getString(R.string.day_plural)
+        parts.add("$days $label")
+    }
 
     return parts.joinToString(", ")
 }
+
