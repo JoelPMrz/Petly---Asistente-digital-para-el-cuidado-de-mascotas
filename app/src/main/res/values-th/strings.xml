@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">บัตรประจำตัวสัตว์เลี้ยง</string>
+    <string name="create_weight_title">น้ำหนักใหม่</string>
+    <string name="weight_form_label_date">วันที่</string>
+    <string name="weight_form_label_note">หมายเหตุ</string>
+    <string name="weight_form_placeholder_note">เขียนบันทึก</string>
+    <string name="weight_form_label_weight">น้ำหนัก (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">ตกลง</string>
+    <string name="form_cancel_btn">ยกเลิก</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">ไม่บังคับ</string>
+    <string name="edit_weight_title">แก้ไขน้ำหนัก</string>
+    <string name="delete_weight_alert_title">ต้องการลบน้ำหนักนี้ออกจากรายการหรือไม่?</string>
+    <string name="delete_weight_alert_description">หากคุณลบน้ำหนักนี้ออกจากรายการ ระบบจะลบออกจากบัญชีทั้งหมดที่เชื่อมโยงกับสัตว์เลี้ยง %1$s อย่างถาวร</string>
+    <string name="wheights_pets_title">น้ำหนัก</string>
+    <string name="select_weght_unit_title_dialog">เลือกหน่วยน้ำหนัก</string>
+    <string name="form_confirm_delete_btn">ลบ</string>
+    <string name="empty_pet_list">ไม่มีสัตว์เลี้ยง</string>
+    <string name="sign_out">ออกจากระบบ</string>
+    <string name="delete_pet_button">ลบสัตว์เลี้ยง</string>
+    <string name="forgot_password">ลืมรหัสผ่าน?</string>
+    <string name="have_an_account">มีบัญชีอยู่แล้ว?</string>
+    <string name="sign_up">เข้าสู่ระบบ</string>
+    <string name="create_account">สร้างบัญชี</string>
+    <string name="not_create_account">ยังไม่มีบัญชีใช่ไหม?</string>
+    <string name="title_photoPickerBottomSheet">เลือกตัวเลือก</string>
+    <string name="camera">กล้อง</string>
+    <string name="gallery">แกลเลอรี่</string>
+    <string name="profile_pet_photo_description">รูปโปรไฟล์สัตว์เลี้ยง</string>
+    <string name="camera_permission_denied">ปฏิเสธการอนุญาตกล้อง</string>
+    <string name="selected_photo">รูปภาพที่เลือก</string>
+    <string name="photo_not_taken">ไม่ได้ถ่ายรูป</string>
+    <string name="photo_taken">ถ่ายรูปแล้ว</string>
+    <string name="type">ประเภท</string>
+    <string name="dog">สุนัข</string>
+    <string name="breed">สายพันธุ์</string>
+    <string name="carlino">ปั๊ก</string>
+    <string name="birthdayDate">วันเกิด</string>
+    <string name="adoptionDate">วันที่รับเลี้ยง</string>
+    <string name="microchip">ไมโครชิป</string>
+    <string name="sterilized">ทำหมันแล้ว</string>
+    <string name="not_sterilized">ยังไม่ได้ทำหมัน</string>
+    <string name="delete_pet_alert_description">หากคุณลบสัตว์เลี้ยงนี้ ระบบจะลบออกจากบัญชีทั้งหมดที่เชื่อมโยงกับสัตว์เลี้ยง %1$s อย่างถาวร</string>
+    <string name="delete_pet_alert_title">ลบสัตว์เลี้ยงตัวนี้หรือไม่?</string>
+    <string name="sterilizedDate">วันที่ทำหมัน</string>
+    <string name="pet_not_exists_dialog_description">ไม่สามารถดำเนินการกับสัตว์เลี้ยงตัวนี้ได้ หากสัตว์เลี้ยงยังไม่ถูกลบ โปรดตรวจสอบว่าเจ้าของที่เกี่ยวข้องได้ดำเนินการดังกล่าวไปแล้วหรือไม่</string>
+    <string name="pet_not_exists_dialog_title">ไม่พบสัตว์เลี้ยง</string>
+    <string name="understood">เข้าใจแล้ว</string>
+    <string name="microchipDate">วันที่ฝัง</string>
+    <string name="microchip_identifier">ตัวระบุ</string>
+    <string name="invalid_microchip">ต้องมี 12 หลัก</string>
+    <string name="edit_microchip_title">ข้อมูลไมโครชิป</string>
+    <string name="edit_sterilized_state_title">สถานะการทำหมัน</string>
+    <string name="save">บันทึก</string>
+    <string name="default_datePicker_title">เลือกวันที่</string>
+    <string name="edit">แก้ไข</string>
+    <string name="edit_birthdate_title">อายุและวันเกิด</string>
+    <string name="unidentified">ไม่ระบุ</string>
+    <string name="age">อายุ</string>
+    <string name="time">เวลา</string>
+    <string name="adoption">การรับเลี้ยง</string>
+    <string name="add_date">เพิ่มวันที่</string>
+    <string name="updated_photo">อัปเดตรูปภาพแล้ว</string>
+    <string name="not_updated_photo">อัปเดตไม่สำเร็จ</string>
+    <string name="delete">ลบ</string>
+    <string name="deleted_pet">ลบ %1$s แล้ว</string>
+    <string name="not_deleted_pet">ลบไม่สำเร็จ</string>
+    <string name="edit_basic_data_title">ข้อมูลพื้นฐาน</string>
+    <string name="name">ชื่อ</string>
+    <string name="edit_user_profile">แก้ไขโปรไฟล์</string>
+    <string name="notifications">การแจ้งเตือน</string>
+    <string name="dark_mode">โหมดมืด</string>
+    <string name="light_mode">โหมดสว่าง</string>
+    <string name="clear_cache">ล้างแคช</string>
+    <string name="profile">โปรไฟล์</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="key">รหัส</string>
+    <string name="invitation_key">รหัสเชิญ</string>
+    <string name="invitations">คำเชิญ</string>
+    <string name="language">ภาษา</string>
+    <string name="update_password">เปลี่ยนรหัสผ่าน</string>
+    <string name="password">รหัสผ่าน</string>
+    <string name="new_password">รหัสผ่านใหม่</string>
+    <string name="reset_password">รีเซ็ตรหัสผ่าน</string>
+    <string name="recover_password">กู้คืนรหัสผ่าน</string>
+    <string name="associed_email">อีเมลที่เชื่อมโยง</string>
+    <string name="send_mail">ส่งอีเมล</string>
+    <string name="log_out_alert_title">คุณต้องการออกจากระบบหรือไม่?</string>
+    <string name="log_out_alert_description">หากคุณออกจากระบบ บัญชีปัจจุบันจะไม่มีสิทธิ์เข้าถึงจนกว่าคุณจะเข้าสู่ระบบอีกครั้ง</string>
+    <string name="people_linked">บุคคลที่เชื่อมโยง</string>
+    <string name="owners">เจ้าของ</string>
+    <string name="observers">ผู้สังเกตการณ์</string>
+    <string name="pet">สัตว์เลี้ยง</string>
+    <string name="observed_pets">สัตว์เลี้ยงที่สังเกตการณ์</string>
+    <string name="pets">สัตว์เลี้ยง</string>
+    <string name="invite_petOwner">เชิญเจ้าของสัตว์เลี้ยง</string>
+    <string name="send">ส่ง</string>
+    <string name="add">เพิ่ม</string>
+    <string name="add_petOwner">เพิ่มเจ้าของสัตว์เลี้ยง</string>
+    <string name="update_creatorOwner">อัปเดตผู้สร้าง</string>
+    <string name="creatorOwner">ผู้สร้าง</string>
+    <string name="add_petObserver">เพิ่มผู้สังเกตการณ์สัตว์เลี้ยง</string>
+    <string name="permission_denied_observer">ปฏิเสธสิทธิ์ในฐานะผู้สังเกตการณ์</string>
+    <string name="new_pet">สัตว์เลี้ยงใหม่</string>
+    <string name="owner">เจ้าของ</string>
+    <string name="observer">ผู้สังเกตการณ์</string>
+    <string name="veterinary_visits">นัดหมายสัตวแพทย์ครั้งถัดไป</string>
+    <string name="register_new_weight">เพิ่มน้ำหนักแรก</string>
+    <string name="register_new_veterinay_visists">เพิ่มการเข้าชม</string>
+    <string name="edit_veterinay_vivist_title">แก้ไขนัดหมายสัตวแพทย์</string>
+    <string name="create_veterinay_vivist_title">นัดหมายสัตวแพทย์ใหม่</string>
+    <string name="concept">แนวคิด</string>
+    <string name="concept_placeholder">การถ่ายพยาธิ</string>
+    <string name="description">คำอธิบาย</string>
+    <string name="description_placeholder">ไปหยอดยาถ่ายพยาธิ</string>
+    <string name="form_label_time">เวลา</string>
+    <string name="veterinary">สัตวแพทย์</string>
+    <string name="veterinary_placeholder">คลินิกสัตวแพทย์ Martínez</string>
+    <string name="error_create_veterinary_visit">เกิดข้อผิดพลาดในการสร้างการเยี่ยมชม</string>
+    <string name="error_edit_veterinary_visit">เกิดข้อผิดพลาดในการแก้ไขการเยี่ยมชม</string>
+    <string name="delete_visit_alert_title">ลบการเข้าพบสัตวแพทย์นี้หรือไม่?</string>
+    <string name="delete_visit_alert_description">หากคุณลบการเข้าพบนี้ออกจากรายการ ระบบจะลบออกจากบัญชีทั้งหมดที่เชื่อมโยงกับสัตว์เลี้ยง %1$s อย่างถาวร</string>
+    <string name="completed">เสร็จสมบูรณ์</string>
+    <string name="not_completed">กำหนดเวลาแล้ว</string>
+    <string name="comment">ความคิดเห็น</string>
+    <string name="add_weight">เพิ่มน้ำหนัก</string>
+    <string name="next_visit">การเข้าพบครั้งถัดไป</string>
+    <string name="veterinary_visits_title">การเข้าพบสัตวแพทย์</string>
+    <string name="owners_info_dialog_title">เจ้าของมีหน้าที่อะไรบ้าง?</string>
+    <string name="owners_info_dialog_description">สร้าง แก้ไข และเปลี่ยนข้อมูลทั้งหมด</string>
+    <string name="owners_info_dialog_description2">เพิ่ม แก้ไข และลบเจ้าของอื่น</string>
+    <string name="owners_info_dialog_description3">เพิ่ม แก้ไข และลบผู้สังเกตการณ์</string>
+    <string name="owners_info_dialog_description4">เฉพาะผู้สร้างเท่านั้นที่จะสามารถเปลี่ยนตัวเองเป็นผู้ใช้รายอื่นได้</string>
+    <string name="observers_info_dialog_title">ผู้สังเกตการณ์มีหน้าที่อะไรบ้าง?</string>
+    <string name="observers_info_dialog_description">สามารถดูข้อมูลทั้งหมดได้</string>
+    <string name="observers_info_dialog_description2">ไม่สามารถสร้าง แก้ไข หรือเปลี่ยนข้อมูลได้</string>
+    <string name="observers_info_dialog_description3">ไม่สามารถเพิ่ม แก้ไข หรือลบเจ้าของได้</string>
+    <string name="observers_info_dialog_description4">ไม่สามารถเพิ่ม แก้ไข หรือลบผู้สังเกตการณ์อื่นได้</string>
+    <string name="next_visits_subtitle">ที่จะมาถึง</string>
+    <string name="previous_visits_subtitle">ก่อนหน้า</string>
+    <string name="previous_not_attending_visits_subtitle">ก่อนหน้า (ยังไม่ได้ดำเนินการ)</string>
+    <string name="search">ค้นหา...</string>
+    <string name="not_available">ไม่พร้อมใช้งาน</string>
+    <string name="state">สถานะ</string>
+    <string name="select_time">เลือกเวลา</string>
+    <string name="email">อีเมล</string>
+    <string name="welcome">ยินดีต้อนรับ, %1$s</string>
+    <string name="error_creating_user">เกิดข้อผิดพลาดในการสร้างผู้ใช้</string>
+    <string name="welcome_back">ยินดีต้อนรับกลับ, %1$s</string>
+    <string name="an_error_has_occurred">เกิดข้อผิดพลาด</string>
+    <string name="guest">แขก</string>
+    <string name="loggin">เข้าสู่ระบบ</string>
+    <string name="register">ลงทะเบียน</string>
+    <string name="already_have_an_account">มีบัญชีอยู่แล้ว? เข้าสู่ระบบ</string>
+    <string name="registered_account">ลงทะเบียนบัญชีแล้ว</string>
+    <string name="account_already_exists">บัญชีนี้มีอยู่แล้ว</string>
+    <string name="all_fields_are_required">กรุณากรอกข้อมูลให้ครบทุกช่อง</string>
+    <string name="unregistered_image">รูปภาพ %1$s ไม่ได้ลงทะเบียน</string>
+    <string name="pet_not_registered">ไม่สามารถลงทะเบียนสัตว์เลี้ยงได้</string>
+    <string name="register_pet">ลงทะเบียน</string>
+    <string name="not_observables_available">ไม่มีผู้สังเกตการณ์</string>
+    <string name="manage_user">จัดการ %1$s</string>
+    <string name="not_possible_change_creator">ไม่สามารถเปลี่ยนบทบาทผู้สร้างได้</string>
+    <string name="already_owner">เป็นเจ้าของอยู่แล้ว</string>
+    <string name="now_he_owner">ตอนนี้เขาเป็นเจ้าของแล้ว</string>
+    <string name="role_could_not_be_changed">ไม่สามารถเปลี่ยนบทบาทได้</string>
+    <string name="change_to_owner">เปลี่ยนเป็นเจ้าของ</string>
+    <string name="not_possible_delete_creator">ไม่สามารถลบผู้สร้างได้</string>
+    <string name="you_have_been_removed_as_owner">คุณถูกลบในฐานะเจ้าของแล้ว</string>
+    <string name="owner_deleted">ลบเจ้าของแล้ว</string>
+    <string name="could_not_be_deleted">ไม่สามารถลบได้</string>
+    <string name="delete_rol">ลบบทบาท</string>
+    <string name="already_observer">เป็นผู้สังเกตการณ์อยู่แล้ว</string>
+    <string name="not_owner_new_observer">ผู้สังเกตการณ์ใหม่ ไม่ใช่เจ้าของอีกต่อไป</string>
+    <string name="new_observer">ผู้สังเกตการณ์ใหม่</string>
+    <string name="could_not_add">ไม่สามารถเพิ่มได้</string>
+    <string name="user_not_exist">ผู้ใช้ไม่มีอยู่จริง</string>
+    <string name="not_ownsers_available">ไม่มีเจ้าของ</string>
+    <string name="now_he_observer">ตอนนี้เขาเป็นผู้สังเกตการณ์แล้ว</string>
+    <string name="change_to_observer">เปลี่ยนเป็นผู้สังเกตการณ์</string>
+    <string name="not_possible_delete">ไม่สามารถลบได้</string>
+    <string name="not_observer_new_owner">เจ้าของใหม่ ไม่ใช่ผู้สังเกตการณ์อีกต่อไป</string>
+    <string name="new_owner">เจ้าของใหม่</string>
+    <string name="authorized_for_creator">ปฏิเสธการอนุญาต ผู้สร้างเท่านั้นที่ได้รับอนุญาต</string>
+    <string name="already_creator">เป็นผู้สร้างอยู่แล้ว</string>
+    <string name="new_creator">ผู้สร้างใหม่</string>
+    <string name="filter_veterinary_visits">กรองการเข้าพบสัตวแพทย์</string>
+    <string name="previous_visits">การเข้าพบครั้งก่อนหน้า</string>
+    <string name="previous_not_attending_visits">การเข้าพบครั้งก่อนหน้า (ยังไม่ได้ดำเนินการ)</string>
+    <string name="all_visits">การเข้าพบทั้งหมด</string>
+    <string name="next_vivits">การเข้าพบที่จะมาถึง</string>
+    <string name="not_invitations">ไม่มีคำเชิญ</string>
+    <string name="change_rol_to">เปลี่ยนบทบาทเป็น %1$s</string>
+    <string name="passwords_do_not_match">รหัสผ่านไม่ตรงกัน</string>
+    <string name="password_minimum_characters">รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร</string>
+    <string name="account_without_linked_email">บัญชีที่ไม่มีอีเมลเชื่อมโยง</string>
+    <string name="email_not_associated">อีเมลไม่เชื่อมโยงกับบัญชีของคุณ</string>
+    <string name="time_zone">เขตเวลา</string>
+    <string name="select_language" translatable="false">เลือกภาษา</string>
+    <string name="calendar">ปฏิทิน</string>
+    <string name="passwordInvalid">ต้องมี 8 ตัวอักษร มีตัวอักษรหนึ่งตัวและตัวเลขหนึ่งตัว</string>
+    <string name="invalid_email">อีเมลไม่ถูกต้อง</string>
+    <string name="weight_not_exist">มีคนลบน้ำหนักนี้ไปแล้ว ไม่สามารถแก้ไขได้</string>
+    <string name="veterinaryVisit_not_exist">มีคนลบนัดหมายสัตวแพทย์นี้ไปแล้ว ไม่สามารถแก้ไขได้</string>
+    <string name="next_events">กิจกรรมที่จะมาถึง</string>
+    <string name="not_events">ไม่มีกิจกรรมสำหรับวันที่นี้</string>
+    <string name="select_a_date">เลือกวันที่</string>
+    <string name="select_your_pets">เลือกสัตว์เลี้ยงของคุณ</string>
+    <string-array name="species_options">
+        <item>แมงมุม</item>
+        <item>ลา</item>
+        <item>ม้า</item>
+        <item>แพะ</item>
+        <item>กิ้งก่าคาเมเลี่ยน</item>
+        <item>ปู</item>
+        <item>หมู</item>
+        <item>ชินชิลล่า</item>
+        <item>หนูตะเภา</item>
+        <item>กระต่าย</item>
+        <item>เม่น</item>
+        <item>แมงป่อง</item>
+        <item>เฟอร์เร็ต</item>
+        <item>ไก่</item>
+        <item>แมว</item>
+        <item>ตุ๊กแก</item>
+        <item>หนูแฮมสเตอร์</item>
+        <item>อีกัวน่า</item>
+        <item>จิ้งจก</item>
+        <item>แกะ</item>
+        <item>นกพิราบ</item>
+        <item>เป็ด</item>
+        <item>นก</item>
+        <item>ปลา</item>
+        <item>สุนัข</item>
+        <item>หนู</item>
+        <item>หนู (เล็ก)</item>
+        <item>งู</item>
+        <item>เต่า</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>จ</item>
+        <item>อ</item>
+        <item>พ</item>
+        <item>พฤ</item>
+        <item>ศ</item>
+        <item>ส</item>
+        <item>อา</item>
+    </string-array>
+    <string name="year_singular">ปี</string>
+    <string name="year_plural">ปี</string>
+    <string name="month_singular">เดือน</string>
+    <string name="month_plural">เดือน</string>
+    <string name="day_singular">วัน</string>
+    <string name="day_plural">วัน</string>
+    <string name="current_weight">น้ำหนักปัจจุบัน</string>
 </resources>

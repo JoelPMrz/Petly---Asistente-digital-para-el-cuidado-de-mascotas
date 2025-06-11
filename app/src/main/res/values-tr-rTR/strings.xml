@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Evcil Hayvan Kartı</string>
+    <string name="create_weight_title">Yeni Kilo</string>
+    <string name="weight_form_label_date">Tarih</string>
+    <string name="weight_form_label_note">Not</string>
+    <string name="weight_form_placeholder_note">Bir not yazın</string>
+    <string name="weight_form_label_weight">Kilo (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Kabul Et</string>
+    <string name="form_cancel_btn">İptal</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">İsteğe Bağlı</string>
+    <string name="edit_weight_title">Kiloyu Düzenle</string>
+    <string name="delete_weight_alert_title">Bu kiloyu listeden kaldırmak istiyor musunuz?</string>
+    <string name="delete_weight_alert_description">Bu kiloyu listeden kaldırırsanız, %1$s evcil hayvanıyla ilişkili tüm hesaplardan kalıcı olarak silinecektir.</string>
+    <string name="wheights_pets_title">Kilolar</string>
+    <string name="select_weght_unit_title_dialog">Kilo Birimini Seçin</string>
+    <string name="form_confirm_delete_btn">Sil</string>
+    <string name="empty_pet_list">Evcil Hayvan Yok</string>
+    <string name="sign_out">Çıkış Yap</string>
+    <string name="delete_pet_button">Evcil Hayvanı Sil</string>
+    <string name="forgot_password">Şifrenizi mi unuttunuz?</string>
+    <string name="have_an_account">Zaten bir hesabınız var mı?</string>
+    <string name="sign_up">Giriş Yap</string>
+    <string name="create_account">Hesap Oluştur</string>
+    <string name="not_create_account">Henüz bir hesabınız yok mu?</string>
+    <string name="title_photoPickerBottomSheet">Bir Seçenek Belirleyin</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="profile_pet_photo_description">Evcil Hayvan Profil Fotoğrafı</string>
+    <string name="camera_permission_denied">Kamera izni reddedildi</string>
+    <string name="selected_photo">Seçilen Fotoğraf</string>
+    <string name="photo_not_taken">Fotoğraf çekilemedi</string>
+    <string name="photo_taken">Fotoğraf çekildi</string>
+    <string name="type">Tür</string>
+    <string name="dog">Köpek</string>
+    <string name="breed">Irk</string>
+    <string name="carlino">Pug</string>
+    <string name="birthdayDate">Doğum Tarihi</string>
+    <string name="adoptionDate">Evlat Edinme Tarihi</string>
+    <string name="microchip">Mikroçip</string>
+    <string name="sterilized">Kısırlaştırıldı</string>
+    <string name="not_sterilized">Kısırlaştırılmadı</string>
+    <string name="delete_pet_alert_description">Bu evcil hayvanı silerseniz, %1$s evcil hayvanıyla ilişkili tüm hesaplardan kalıcı olarak silinecektir.</string>
+    <string name="delete_pet_alert_title">Bu evcil hayvanı silmek istiyor musunuz?</string>
+    <string name="sterilizedDate">Kısırlaştırma Tarihi</string>
+    <string name="pet_not_exists_dialog_description">Bu evcil hayvan üzerinde işlem yapılamıyor. Evcil hayvan silinmediyse, ilgili sahibinin işlem yapıp yapmadığını kontrol edin.</string>
+    <string name="pet_not_exists_dialog_title">Evcil Hayvan Bulunamadı</string>
+    <string name="understood">Anladım</string>
+    <string name="microchipDate">Yerleştirme Tarihi</string>
+    <string name="microchip_identifier">Tanımlayıcı</string>
+    <string name="invalid_microchip">12 hane içermelidir</string>
+    <string name="edit_microchip_title">Mikroçip Verileri</string>
+    <string name="edit_sterilized_state_title">Kısırlaştırma Durumu</string>
+    <string name="save">Kaydet</string>
+    <string name="default_datePicker_title">Bir Tarih Seçin</string>
+    <string name="edit">Düzenle</string>
+    <string name="edit_birthdate_title">Yaş ve Doğum Tarihi</string>
+    <string name="unidentified">Tanımlanmamış</string>
+    <string name="age">Yaş</string>
+    <string name="time">Saat</string>
+    <string name="adoption">Evlat Edinme</string>
+    <string name="add_date">Tarih Ekle</string>
+    <string name="updated_photo">Fotoğraf güncellendi</string>
+    <string name="not_updated_photo">Güncelleme başarısız</string>
+    <string name="delete">Sil</string>
+    <string name="deleted_pet">%1$s silindi</string>
+    <string name="not_deleted_pet">Silme başarısız</string>
+    <string name="edit_basic_data_title">Temel Veriler</string>
+    <string name="name">Ad</string>
+    <string name="edit_user_profile">Profili Düzenle</string>
+    <string name="notifications">Bildirimler</string>
+    <string name="dark_mode">Koyu Mod</string>
+    <string name="light_mode">Aydınlık Mod</string>
+    <string name="clear_cache">Önbelleği Temizle</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Ayarlar</string>
+    <string name="key">Anahtar</string>
+    <string name="invitation_key">Davet Anahtarı</string>
+    <string name="invitations">Davetiyeler</string>
+    <string name="language">Dil</string>
+    <string name="update_password">Şifreyi Değiştir</string>
+    <string name="password">Şifre</string>
+    <string name="new_password">Yeni Şifre</string>
+    <string name="reset_password">Şifreyi Sıfırla</string>
+    <string name="recover_password">Şifreyi Kurtar</string>
+    <string name="associed_email">İlişkili E-posta</string>
+    <string name="send_mail">E-posta Gönder</string>
+    <string name="log_out_alert_title">Çıkış yapmak istiyor musunuz?</string>
+    <string name="log_out_alert_description">Çıkış yapmayı kabul ederseniz, mevcut hesap tekrar giriş yapana kadar erişimi kaybedecektir.</string>
+    <string name="people_linked">Bağlı Kişiler</string>
+    <string name="owners">Sahipler</string>
+    <string name="observers">Gözlemciler</string>
+    <string name="pet">Evcil Hayvan</string>
+    <string name="observed_pets">Gözlemlenen Evcil Hayvanlar</string>
+    <string name="pets">Evcil Hayvanlar</string>
+    <string name="invite_petOwner">Evcil Hayvan Sahibini Davet Et</string>
+    <string name="send">Gönder</string>
+    <string name="add">Ekle</string>
+    <string name="add_petOwner">Evcil Hayvan Sahibi Ekle</string>
+    <string name="update_creatorOwner">Yaratıcıyı Güncelle</string>
+    <string name="creatorOwner">Yaratıcı</string>
+    <string name="add_petObserver">Evcil Hayvan Gözlemcisi Ekle</string>
+    <string name="permission_denied_observer">Gözlemci olarak izin reddedildi</string>
+    <string name="new_pet">Yeni Evcil Hayvan</string>
+    <string name="owner">Sahip</string>
+    <string name="observer">Gözlemci</string>
+    <string name="veterinary_visits">Bir Sonraki Veteriner Ziyareti</string>
+    <string name="register_new_weight">İlk Kiloyu Kaydet</string>
+    <string name="register_new_veterinay_visists">Ziyaret Ekle</string>
+    <string name="edit_veterinay_vivist_title">Veteriner Randevusunu Düzenle</string>
+    <string name="create_veterinay_vivist_title">Yeni Veteriner Randevusu</string>
+    <string name="concept">Konsept</string>
+    <string name="concept_placeholder">İç parazit tedavisi</string>
+    <string name="description">Açıklama</string>
+    <string name="description_placeholder">İç parazit damlasını yapmaya git</string>
+    <string name="form_label_time">Saat</string>
+    <string name="veterinary">Veteriner</string>
+    <string name="veterinary_placeholder">Martínez Veteriner Kliniği</string>
+    <string name="error_create_veterinary_visit">Ziyaret oluşturulurken hata oluştu</string>
+    <string name="error_edit_veterinary_visit">Ziyaret düzenlenirken hata oluştu</string>
+    <string name="delete_visit_alert_title">Bu veteriner ziyaretini silmek istiyor musunuz?</string>
+    <string name="delete_visit_alert_description">Bu ziyareti listeden kaldırırsanız, %1$s evcil hayvanıyla ilişkili tüm hesaplardan kalıcı olarak silinecektir.</string>
+    <string name="completed">Tamamlandı</string>
+    <string name="not_completed">Planlandı</string>
+    <string name="comment">Yorum</string>
+    <string name="add_weight">Kilo Ekle</string>
+    <string name="next_visit">Sonraki Ziyaret</string>
+    <string name="veterinary_visits_title">Veteriner Ziyaretleri</string>
+    <string name="owners_info_dialog_title">Bir sahibin işlevleri nelerdir?</string>
+    <string name="owners_info_dialog_description">Tüm verileri oluşturma, değiştirme ve değiştirme</string>
+    <string name="owners_info_dialog_description2">Başka bir sahibi ekleme, değiştirme ve silme</string>
+    <string name="owners_info_dialog_description3">Bir gözlemci ekleme, değiştirme ve silme</string>
+    <string name="owners_info_dialog_description4">Yalnızca yaratıcı kendini başka bir kullanıcıya çevirebilir</string>
+    <string name="observers_info_dialog_title">Bir gözlemcinin işlevleri nelerdir?</string>
+    <string name="observers_info_dialog_description">Tüm verileri görüntüleyebilir</string>
+    <string name="observers_info_dialog_description2">Veri oluşturamaz, değiştiremez veya değiştiremez</string>
+    <string name="observers_info_dialog_description3">Sahip ekleyemez, değiştiremez veya silemez</string>
+    <string name="observers_info_dialog_description4">Başka bir gözlemci ekleyemez, değiştiremez veya silemez</string>
+    <string name="next_visits_subtitle">Yaklaşan</string>
+    <string name="previous_visits_subtitle">Önceki</string>
+    <string name="previous_not_attending_visits_subtitle">Önceki Katılmayanlar</string>
+    <string name="search">Ara...</string>
+    <string name="not_available">Mevcut Değil</string>
+    <string name="state">Durum</string>
+    <string name="select_time">Saat Seçin</string>
+    <string name="email">E-posta</string>
+    <string name="welcome">Hoş Geldiniz, %1$s</string>
+    <string name="error_creating_user">Kullanıcı oluşturulurken hata oluştu</string>
+    <string name="welcome_back">Tekrar Hoş Geldiniz, %1$s</string>
+    <string name="an_error_has_occurred">Bir hata oluştu</string>
+    <string name="guest">Misafir</string>
+    <string name="loggin">GİRİŞ YAP</string>
+    <string name="register">Kaydol</string>
+    <string name="already_have_an_account">Zaten bir hesabınız var mı? Giriş yapın</string>
+    <string name="registered_account">Hesap kaydedildi</string>
+    <string name="account_already_exists">Bu hesap zaten mevcut</string>
+    <string name="all_fields_are_required">Tüm alanlar zorunludur</string>
+    <string name="unregistered_image">Kaydedilmeyen görüntü %1$s</string>
+    <string name="pet_not_registered">Evcil hayvan kaydedilemedi</string>
+    <string name="register_pet">Kaydet</string>
+    <string name="not_observables_available">Gözlemci yok</string>
+    <string name="manage_user">Kullanıcıyı Yönet %1$s</string>
+    <string name="not_possible_change_creator">Yaratıcı rolünü değiştirmek mümkün değil</string>
+    <string name="already_owner">Zaten sahip</string>
+    <string name="now_he_owner">Şimdi sahip oldu</string>
+    <string name="role_could_not_be_changed">Rol değiştirilemedi</string>
+    <string name="change_to_owner">Sahibe Dönüştür</string>
+    <string name="not_possible_delete_creator">Yaratıcıyı silmek mümkün değil</string>
+    <string name="you_have_been_removed_as_owner">Sahip olarak kaldırıldınız</string>
+    <string name="owner_deleted">Sahip silindi</string>
+    <string name="could_not_be_deleted">Silinemedi</string>
+    <string name="delete_rol">Rolü Sil</string>
+    <string name="already_observer">Zaten gözlemci</string>
+    <string name="not_owner_new_observer">Yeni gözlemci, artık sahip değil</string>
+    <string name="new_observer">Yeni gözlemci</string>
+    <string name="could_not_add">Eklenemedi</string>
+    <string name="user_not_exist">Kullanıcı mevcut değil</string>
+    <string name="not_ownsers_available">Sahip yok</string>
+    <string name="now_he_observer">Şimdi gözlemci oldu</string>
+    <string name="change_to_observer">Gözlemciye Dönüştür</string>
+    <string name="not_possible_delete">Silinemez</string>
+    <string name="not_observer_new_owner">Yeni sahip, artık gözlemci değil</string>
+    <string name="new_owner">Yeni Sahip</string>
+    <string name="authorized_for_creator">İzin reddedildi, yaratıcı için yetkilendirilmiş</string>
+    <string name="already_creator">Zaten yaratıcı</string>
+    <string name="new_creator">Yeni Yaratıcı</string>
+    <string name="filter_veterinary_visits">Veteriner Ziyaretlerini Filtrele</string>
+    <string name="previous_visits">Önceki Ziyaretler</string>
+    <string name="previous_not_attending_visits">Önceki Katılmayan Ziyaretler</string>
+    <string name="all_visits">Tüm Ziyaretler</string>
+    <string name="next_vivits">Yaklaşan Ziyaretler</string>
+    <string name="not_invitations">Davetiye Yok</string>
+    <string name="change_rol_to">Rolü %1$s olarak değiştir</string>
+    <string name="passwords_do_not_match">Şifreler eşleşmiyor</string>
+    <string name="password_minimum_characters">Şifre en az 6 karakter içermelidir</string>
+    <string name="account_without_linked_email">Bağlı e-postası olmayan hesap</string>
+    <string name="email_not_associated">E-posta hesabınızla ilişkili değil</string>
+    <string name="time_zone">Saat Dilimi</string>
+    <string name="select_language" translatable="false">Dil Seçin</string>
+    <string name="calendar">Takvim</string>
+    <string name="passwordInvalid">8 karakter, bir harf ve bir sayı içermelidir</string>
+    <string name="invalid_email">Geçersiz e-posta adresi</string>
+    <string name="weight_not_exist">Birisi bu kiloyu sildi, düzenlenemez</string>
+    <string name="veterinaryVisit_not_exist">Birisi bu veteriner ziyaretini sildi, düzenlenemez</string>
+    <string name="next_events">Yaklaşan Etkinlikler</string>
+    <string name="not_events">Bu tarih için etkinlik yok</string>
+    <string name="select_a_date">Bir Tarih Seçin</string>
+    <string name="select_your_pets">Evcil Hayvanlarınızı Seçin</string>
+    <string-array name="species_options">
+        <item>Örümcek</item>
+        <item>Eşek</item>
+        <item>At</item>
+        <item>Keçi</item>
+        <item>Bukalemun</item>
+        <item>Yengeç</item>
+        <item>Domuz</item>
+        <item>Çinçilla</item>
+        <item>Ginepig</item>
+        <item>Tavşan</item>
+        <item>Kirpi</item>
+        <item>Akrep</item>
+        <item>Gelincik</item>
+        <item>Tavuk</item>
+        <item>Kedi</item>
+        <item>Keler</item>
+        <item>Hamster</item>
+        <item>İguana</item>
+        <item>Kertenkele</item>
+        <item>Koyun</item>
+        <item>Güvercin</item>
+        <item>Ördek</item>
+        <item>Kuş</item>
+        <item>Balık</item>
+        <item>Köpek</item>
+        <item>Sıçan</item>
+        <item>Fare</item>
+        <item>Yılan</item>
+        <item>Kaplumbağa</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Pzt</item>
+        <item>Sal</item>
+        <item>Çar</item>
+        <item>Per</item>
+        <item>Cum</item>
+        <item>Cmt</item>
+        <item>Paz</item>
+    </string-array>
+    <string name="year_singular">yıl</string>
+    <string name="year_plural">yıl</string>
+    <string name="month_singular">ay</string>
+    <string name="month_plural">ay</string>
+    <string name="day_singular">gün</string>
+    <string name="day_plural">gün</string>
+    <string name="current_weight">Mevcut Kilo</string>
 </resources>

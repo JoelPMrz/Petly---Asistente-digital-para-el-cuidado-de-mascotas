@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">宠物卡片</string>
+    <string name="create_weight_title">新体重</string>
+    <string name="weight_form_label_date">日期</string>
+    <string name="weight_form_label_note">备注</string>
+    <string name="weight_form_placeholder_note">写下备注</string>
+    <string name="weight_form_label_weight">体重 (%1$s)</string>
+    <string name="weight_form_placeholder_date">2025/03/12</string>
+    <string name="form_confirm_btn">接受</string>
+    <string name="form_cancel_btn">取消</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">可选</string>
+    <string name="edit_weight_title">编辑体重</string>
+    <string name="delete_weight_alert_title">要从列表中删除此体重吗？</string>
+    <string name="delete_weight_alert_description">如果您从列表中删除此体重，它将从与宠物 %1$s 相关联的所有帐户中永久删除</string>
+    <string name="wheights_pets_title">体重</string>
+    <string name="select_weght_unit_title_dialog">选择体重单位</string>
+    <string name="form_confirm_delete_btn">删除</string>
+    <string name="empty_pet_list">没有宠物</string>
+    <string name="sign_out">退出登录</string>
+    <string name="delete_pet_button">删除宠物</string>
+    <string name="forgot_password">忘记密码？</string>
+    <string name="have_an_account">已有帐户？</string>
+    <string name="sign_up">登录</string>
+    <string name="create_account">创建帐户</string>
+    <string name="not_create_account">还没有帐户？</string>
+    <string name="title_photoPickerBottomSheet">选择一个选项</string>
+    <string name="camera">相机</string>
+    <string name="gallery">图库</string>
+    <string name="profile_pet_photo_description">宠物资料照片</string>
+    <string name="camera_permission_denied">相机权限被拒绝</string>
+    <string name="selected_photo">已选照片</string>
+    <string name="photo_not_taken">未拍照</string>
+    <string name="photo_taken">已拍照</string>
+    <string name="type">种类</string>
+    <string name="dog">狗</string>
+    <string name="breed">品种</string>
+    <string name="carlino">巴哥犬</string>
+    <string name="birthdayDate">出生日期</string>
+    <string name="adoptionDate">领养日期</string>
+    <string name="microchip">微芯片</string>
+    <string name="sterilized">已绝育</string>
+    <string name="not_sterilized">未绝育</string>
+    <string name="delete_pet_alert_description">如果您删除此宠物，它将从与宠物 %1$s 相关联的所有帐户中永久删除</string>
+    <string name="delete_pet_alert_title">要删除此宠物吗？</string>
+    <string name="sterilizedDate">绝育日期</string>
+    <string name="pet_not_exists_dialog_description">无法在此宠物上执行操作。如果宠物尚未删除，请检查关联的所有者是否已执行此操作。</string>
+    <string name="pet_not_exists_dialog_title">未找到宠物</string>
+    <string name="understood">明白了</string>
+    <string name="microchipDate">植入日期</string>
+    <string name="microchip_identifier">标识符</string>
+    <string name="invalid_microchip">必须包含12位数字</string>
+    <string name="edit_microchip_title">微芯片数据</string>
+    <string name="edit_sterilized_state_title">绝育状态</string>
+    <string name="save">保存</string>
+    <string name="default_datePicker_title">选择日期</string>
+    <string name="edit">编辑</string>
+    <string name="edit_birthdate_title">年龄和出生日期</string>
+    <string name="unidentified">未识别</string>
+    <string name="age">年龄</string>
+    <string name="time">时间</string>
+    <string name="adoption">领养</string>
+    <string name="add_date">添加日期</string>
+    <string name="updated_photo">照片已更新</string>
+    <string name="not_updated_photo">更新失败</string>
+    <string name="delete">删除</string>
+    <string name="deleted_pet">已删除 %1$s</string>
+    <string name="not_deleted_pet">删除失败</string>
+    <string name="edit_basic_data_title">基本数据</string>
+    <string name="name">姓名</string>
+    <string name="edit_user_profile">编辑个人资料</string>
+    <string name="notifications">通知</string>
+    <string name="dark_mode">深色模式</string>
+    <string name="light_mode">浅色模式</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="profile">个人资料</string>
+    <string name="settings">设置</string>
+    <string name="key">密钥</string>
+    <string name="invitation_key">邀请码</string>
+    <string name="invitations">邀请</string>
+    <string name="language">语言</string>
+    <string name="update_password">更改密码</string>
+    <string name="password">密码</string>
+    <string name="new_password">新密码</string>
+    <string name="reset_password">重置密码</string>
+    <string name="recover_password">恢复密码</string>
+    <string name="associed_email">关联邮箱</string>
+    <string name="send_mail">发送邮件</string>
+    <string name="log_out_alert_title">您要退出登录吗？</string>
+    <string name="log_out_alert_description">如果您同意退出登录，当前帐户将失去访问权限，直到您再次登录</string>
+    <string name="people_linked">关联人员</string>
+    <string name="owners">所有者</string>
+    <string name="observers">观察者</string>
+    <string name="pet">宠物</string>
+    <string name="observed_pets">观察到的宠物</string>
+    <string name="pets">宠物</string>
+    <string name="invite_petOwner">邀请宠物所有者</string>
+    <string name="send">发送</string>
+    <string name="add">添加</string>
+    <string name="add_petOwner">添加宠物所有者</string>
+    <string name="update_creatorOwner">更新创建者</string>
+    <string name="creatorOwner">创建者</string>
+    <string name="add_petObserver">添加宠物观察者</string>
+    <string name="permission_denied_observer">作为观察者的权限被拒绝</string>
+    <string name="new_pet">新宠物</string>
+    <string name="owner">所有者</string>
+    <string name="observer">观察者</string>
+    <string name="veterinary_visits">下次兽医访问</string>
+    <string name="register_new_weight">登记首次体重</string>
+    <string name="register_new_veterinay_visists">添加一次访问</string>
+    <string name="edit_veterinay_vivist_title">编辑兽医咨询</string>
+    <string name="create_veterinay_vivist_title">新的兽医咨询</string>
+    <string name="concept">概念</string>
+    <string name="concept_placeholder">驱虫</string>
+    <string name="description">描述</string>
+    <string name="description_placeholder">去打驱虫针</string>
+    <string name="form_label_time">时间</string>
+    <string name="veterinary">兽医</string>
+    <string name="veterinary_placeholder">马丁内斯兽医诊所</string>
+    <string name="error_create_veterinary_visit">创建访问时出错</string>
+    <string name="error_edit_veterinary_visit">编辑访问时出错</string>
+    <string name="delete_visit_alert_title">删除这次兽医访问吗？</string>
+    <string name="delete_visit_alert_description">如果您从列表中删除此访问，它将从与宠物 %1$s 相关联的所有帐户中永久删除</string>
+    <string name="completed">已完成</string>
+    <string name="not_completed">已计划</string>
+    <string name="comment">评论</string>
+    <string name="add_weight">添加体重</string>
+    <string name="next_visit">下次访问</string>
+    <string name="veterinary_visits_title">兽医访问</string>
+    <string name="owners_info_dialog_title">所有者的功能是什么？</string>
+    <string name="owners_info_dialog_description">创建、更改和修改所有数据</string>
+    <string name="owners_info_dialog_description2">添加、更改和删除其他所有者</string>
+    <string name="owners_info_dialog_description3">添加、更改和删除观察者</string>
+    <string name="owners_info_dialog_description4">只有创建者才能将自己转换为其他用户</string>
+    <string name="observers_info_dialog_title">观察者的功能是什么？</string>
+    <string name="observers_info_dialog_description">可以查看所有数据</string>
+    <string name="observers_info_dialog_description2">无法创建、更改或修改数据</string>
+    <string name="observers_info_dialog_description3">无法添加、更改或删除所有者</string>
+    <string name="observers_info_dialog_description4">无法添加、更改或删除其他观察者</string>
+    <string name="next_visits_subtitle">即将到来</string>
+    <string name="previous_visits_subtitle">之前</string>
+    <string name="previous_not_attending_visits_subtitle">之前未出席</string>
+    <string name="search">搜索...</string>
+    <string name="not_available">不可用</string>
+    <string name="state">状态</string>
+    <string name="select_time">选择时间</string>
+    <string name="email">电子邮件</string>
+    <string name="welcome">欢迎，%1$s</string>
+    <string name="error_creating_user">创建用户时出错</string>
+    <string name="welcome_back">欢迎回来，%1$s</string>
+    <string name="an_error_has_occurred">发生错误</string>
+    <string name="guest">访客</string>
+    <string name="loggin">登录</string>
+    <string name="register">注册</string>
+    <string name="already_have_an_account">已有帐户？登录</string>
+    <string name="registered_account">帐户已注册</string>
+    <string name="account_already_exists">此帐户已存在</string>
+    <string name="all_fields_are_required">所有字段均为必填项</string>
+    <string name="unregistered_image">未注册的图像 %1$s</string>
+    <string name="pet_not_registered">宠物未能注册</string>
+    <string name="register_pet">注册</string>
+    <string name="not_observables_available">没有可用的观察者</string>
+    <string name="manage_user">管理 %1$s</string>
+    <string name="not_possible_change_creator">无法更改创建者角色</string>
+    <string name="already_owner">已是所有者</string>
+    <string name="now_he_owner">现在他是所有者了</string>
+    <string name="role_could_not_be_changed">无法更改角色</string>
+    <string name="change_to_owner">更改为所有者</string>
+    <string name="not_possible_delete_creator">无法删除创建者</string>
+    <string name="you_have_been_removed_as_owner">您已被删除为所有者</string>
+    <string name="owner_deleted">所有者已删除</string>
+    <string name="could_not_be_deleted">无法删除</string>
+    <string name="delete_rol">删除角色</string>
+    <string name="already_observer">已是观察者</string>
+    <string name="not_owner_new_observer">新观察者，不再是所有者</string>
+    <string name="new_observer">新观察者</string>
+    <string name="could_not_add">无法添加</string>
+    <string name="user_not_exist">用户不存在</string>
+    <string name="not_ownsers_available">没有所有者</string>
+    <string name="now_he_observer">现在他是观察者了</string>
+    <string name="change_to_observer">更改为观察者</string>
+    <string name="not_possible_delete">无法删除</string>
+    <string name="not_observer_new_owner">新所有者，不再是观察者</string>
+    <string name="new_owner">新所有者</string>
+    <string name="authorized_for_creator">权限被拒绝，仅限创建者</string>
+    <string name="already_creator">已是创建者</string>
+    <string name="new_creator">新创建者</string>
+    <string name="filter_veterinary_visits">筛选兽医访问</string>
+    <string name="previous_visits">以前的访问</string>
+    <string name="previous_not_attending_visits">以前未出席的访问</string>
+    <string name="all_visits">所有访问</string>
+    <string name="next_vivits">即将到来的访问</string>
+    <string name="not_invitations">没有邀请</string>
+    <string name="change_rol_to">将角色更改为 %1$s</string>
+    <string name="passwords_do_not_match">密码不匹配</string>
+    <string name="password_minimum_characters">密码必须至少包含6个字符</string>
+    <string name="account_without_linked_email">未绑定邮箱的帐户</string>
+    <string name="email_not_associated">邮箱未与您的帐户关联</string>
+    <string name="time_zone">时区</string>
+    <string name="select_language" translatable="false">选择语言</string>
+    <string name="calendar">日历</string>
+    <string name="passwordInvalid">必须包含8个字符，一个字母和一个数字</string>
+    <string name="invalid_email">无效的电子邮件地址</string>
+    <string name="weight_not_exist">有人删除了这个体重，无法修改</string>
+    <string name="veterinaryVisit_not_exist">有人删除了这次兽医访问，无法修改</string>
+    <string name="next_events">即将到来的事件</string>
+    <string name="not_events">此日期没有事件</string>
+    <string name="select_a_date">选择日期</string>
+    <string name="select_your_pets">选择您的宠物</string>
+    <string-array name="species_options">
+        <item>蜘蛛</item>
+        <item>驴</item>
+        <item>马</item>
+        <item>山羊</item>
+        <item>变色龙</item>
+        <item>螃蟹</item>
+        <item>猪</item>
+        <item>龙猫</item>
+        <item>豚鼠</item>
+        <item>兔子</item>
+        <item>刺猬</item>
+        <item>蝎子</item>
+        <item>雪貂</item>
+        <item>鸡</item>
+        <item>猫</item>
+        <item>壁虎</item>
+        <item>仓鼠</item>
+        <item>鬣蜥</item>
+        <item>蜥蜴</item>
+        <item>绵羊</item>
+        <item>鸽子</item>
+        <item>鸭子</item>
+        <item>鸟</item>
+        <item>鱼</item>
+        <item>狗</item>
+        <item>大鼠</item>
+        <item>小鼠</item>
+        <item>蛇</item>
+        <item>乌龟</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+    <string name="year_singular">年</string>
+    <string name="year_plural">年</string>
+    <string name="month_singular">月</string>
+    <string name="month_plural">月</string>
+    <string name="day_singular">天</string>
+    <string name="day_plural">天</string>
+    <string name="current_weight">当前体重</string>
 </resources>
