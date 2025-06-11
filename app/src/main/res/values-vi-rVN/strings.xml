@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Thẻ thú cưng</string>
+    <string name="create_weight_title">Cân nặng mới</string>
+    <string name="weight_form_label_date">Ngày</string>
+    <string name="weight_form_label_note">Ghi chú</string>
+    <string name="weight_form_placeholder_note">Viết ghi chú</string>
+    <string name="weight_form_label_weight">Cân nặng (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Chấp nhận</string>
+    <string name="form_cancel_btn">Hủy</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Tùy chọn</string>
+    <string name="edit_weight_title">Chỉnh sửa cân nặng</string>
+    <string name="delete_weight_alert_title">Bạn có muốn xóa cân nặng này khỏi danh sách không?</string>
+    <string name="delete_weight_alert_description">Nếu bạn xóa cân nặng này khỏi danh sách, nó sẽ bị xóa vĩnh viễn khỏi tất cả các tài khoản liên kết với thú cưng %1$s</string>
+    <string name="wheights_pets_title">Cân nặng</string>
+    <string name="select_weght_unit_title_dialog">Chọn đơn vị cân nặng</string>
+    <string name="form_confirm_delete_btn">Xóa</string>
+    <string name="empty_pet_list">Không có thú cưng</string>
+    <string name="sign_out">Đăng xuất</string>
+    <string name="delete_pet_button">Xóa thú cưng</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="have_an_account">Đã có tài khoản?</string>
+    <string name="sign_up">Đăng nhập</string>
+    <string name="create_account">Tạo tài khoản</string>
+    <string name="not_create_account">Bạn chưa có tài khoản?</string>
+    <string name="title_photoPickerBottomSheet">Chọn một tùy chọn</string>
+    <string name="camera">Máy ảnh</string>
+    <string name="gallery">Thư viện</string>
+    <string name="profile_pet_photo_description">Ảnh hồ sơ thú cưng</string>
+    <string name="camera_permission_denied">Quyền truy cập máy ảnh bị từ chối</string>
+    <string name="selected_photo">Ảnh đã chọn</string>
+    <string name="photo_not_taken">Chưa chụp ảnh</string>
+    <string name="photo_taken">Đã chụp ảnh</string>
+    <string name="type">Loài</string>
+    <string name="dog">Chó</string>
+    <string name="breed">Giống</string>
+    <string name="carlino">Pug</string>
+    <string name="birthdayDate">Ngày sinh</string>
+    <string name="adoptionDate">Ngày nhận nuôi</string>
+    <string name="microchip">Microchip</string>
+    <string name="sterilized">Đã triệt sản</string>
+    <string name="not_sterilized">Chưa triệt sản</string>
+    <string name="delete_pet_alert_description">Nếu bạn xóa thú cưng này, nó sẽ bị xóa vĩnh viễn khỏi tất cả các tài khoản liên kết với thú cưng %1$s</string>
+    <string name="delete_pet_alert_title">Xóa thú cưng này?</string>
+    <string name="sterilizedDate">Ngày triệt sản</string>
+    <string name="pet_not_exists_dialog_description">Không thể thực hiện hành động trên thú cưng này. Nếu thú cưng chưa bị xóa, hãy kiểm tra xem chủ sở hữu liên quan đã thực hiện hành động chưa.</string>
+    <string name="pet_not_exists_dialog_title">Không tìm thấy thú cưng</string>
+    <string name="understood">Đã hiểu</string>
+    <string name="microchipDate">Ngày cấy ghép</string>
+    <string name="microchip_identifier">Mã định danh</string>
+    <string name="invalid_microchip">Phải chứa 12 chữ số</string>
+    <string name="edit_microchip_title">Dữ liệu Microchip</string>
+    <string name="edit_sterilized_state_title">Trạng thái triệt sản</string>
+    <string name="save">Lưu</string>
+    <string name="default_datePicker_title">Chọn một ngày</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="edit_birthdate_title">Tuổi và ngày sinh</string>
+    <string name="unidentified">Không xác định</string>
+    <string name="age">Tuổi</string>
+    <string name="time">Thời gian</string>
+    <string name="adoption">Nhận nuôi</string>
+    <string name="add_date">Thêm ngày</string>
+    <string name="updated_photo">Ảnh đã cập nhật</string>
+    <string name="not_updated_photo">Cập nhật không thành công</string>
+    <string name="delete">Xóa</string>
+    <string name="deleted_pet">Đã xóa %1$s</string>
+    <string name="not_deleted_pet">Xóa không thành công</string>
+    <string name="edit_basic_data_title">Dữ liệu cơ bản</string>
+    <string name="name">Tên</string>
+    <string name="edit_user_profile">Chỉnh sửa hồ sơ</string>
+    <string name="notifications">Thông báo</string>
+    <string name="dark_mode">Chế độ tối</string>
+    <string name="light_mode">Chế độ sáng</string>
+    <string name="clear_cache">Xóa bộ nhớ đệm</string>
+    <string name="profile">Hồ sơ</string>
+    <string name="settings">Cài đặt</string>
+    <string name="key">Khóa</string>
+    <string name="invitation_key">Mã mời</string>
+    <string name="invitations">Lời mời</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="update_password">Đổi mật khẩu</string>
+    <string name="password">Mật khẩu</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="reset_password">Đặt lại mật khẩu</string>
+    <string name="recover_password">Khôi phục mật khẩu</string>
+    <string name="associed_email">Email liên kết</string>
+    <string name="send_mail">Gửi email</string>
+    <string name="log_out_alert_title">Bạn có muốn đăng xuất không?</string>
+    <string name="log_out_alert_description">Nếu bạn chấp nhận đăng xuất, tài khoản hiện tại sẽ mất quyền truy cập cho đến khi bạn đăng nhập lại</string>
+    <string name="people_linked">Người được liên kết</string>
+    <string name="owners">Chủ sở hữu</string>
+    <string name="observers">Người quan sát</string>
+    <string name="pet">Thú cưng</string>
+    <string name="observed_pets">Thú cưng được quan sát</string>
+    <string name="pets">Thú cưng</string>
+    <string name="invite_petOwner">Mời chủ sở hữu thú cưng</string>
+    <string name="send">Gửi</string>
+    <string name="add">Thêm</string>
+    <string name="add_petOwner">Thêm chủ sở hữu thú cưng</string>
+    <string name="update_creatorOwner">Cập nhật người tạo</string>
+    <string name="creatorOwner">Người tạo</string>
+    <string name="add_petObserver">Thêm người quan sát thú cưng</string>
+    <string name="permission_denied_observer">Quyền bị từ chối với tư cách người quan sát</string>
+    <string name="new_pet">Thú cưng mới</string>
+    <string name="owner">Chủ sở hữu</string>
+    <string name="observer">Người quan sát</string>
+    <string name="veterinary_visits">Lần khám thú y tiếp theo</string>
+    <string name="register_new_weight">Đăng ký cân nặng đầu tiên</string>
+    <string name="register_new_veterinay_visists">Thêm lượt khám</string>
+    <string name="edit_veterinay_vivist_title">Chỉnh sửa cuộc hẹn với bác sĩ thú y</string>
+    <string name="create_veterinay_vivist_title">Cuộc hẹn với bác sĩ thú y mới</string>
+    <string name="concept">Khái niệm</string>
+    <string name="concept_placeholder">Tẩy giun</string>
+    <string name="description">Mô tả</string>
+    <string name="description_placeholder">Đi nhỏ thuốc tẩy giun</string>
+    <string name="form_label_time">Thời gian</string>
+    <string name="veterinary">Bác sĩ thú y</string>
+    <string name="veterinary_placeholder">Phòng khám thú y Martínez</string>
+    <string name="error_create_veterinary_visit">Lỗi khi tạo lượt khám</string>
+    <string name="error_edit_veterinary_visit">Lỗi khi chỉnh sửa lượt khám</string>
+    <string name="delete_visit_alert_title">Xóa lượt khám thú y này?</string>
+    <string name="delete_visit_alert_description">Nếu bạn xóa lượt khám này khỏi danh sách, nó sẽ bị xóa vĩnh viễn khỏi tất cả các tài khoản liên kết với thú cưng %1$s</string>
+    <string name="completed">Hoàn thành</string>
+    <string name="not_completed">Đã lên lịch</string>
+    <string name="comment">Bình luận</string>
+    <string name="add_weight">Thêm cân nặng</string>
+    <string name="next_visit">Lượt khám tiếp theo</string>
+    <string name="veterinary_visits_title">Lượt khám thú y</string>
+    <string name="owners_info_dialog_title">Chủ sở hữu có những chức năng gì?</string>
+    <string name="owners_info_dialog_description">Tạo, thay đổi và sửa đổi tất cả dữ liệu</string>
+    <string name="owners_info_dialog_description2">Thêm, thay đổi và xóa chủ sở hữu khác</string>
+    <string name="owners_info_dialog_description3">Thêm, thay đổi và xóa người quan sát</string>
+    <string name="owners_info_dialog_description4">Chỉ người tạo mới có thể tự chuyển đổi thành người dùng khác</string>
+    <string name="observers_info_dialog_title">Người quan sát có những chức năng gì?</string>
+    <string name="observers_info_dialog_description">Có thể xem tất cả dữ liệu</string>
+    <string name="observers_info_dialog_description2">Không thể tạo, thay đổi hoặc sửa đổi dữ liệu</string>
+    <string name="observers_info_dialog_description3">Không thể thêm, thay đổi hoặc xóa chủ sở hữu</string>
+    <string name="observers_info_dialog_description4">Không thể thêm, thay đổi hoặc xóa người quan sát khác</string>
+    <string name="next_visits_subtitle">Sắp tới</string>
+    <string name="previous_visits_subtitle">Trước đó</string>
+    <string name="previous_not_attending_visits_subtitle">Trước đó (chưa tham dự)</string>
+    <string name="search">Tìm kiếm...</string>
+    <string name="not_available">Không có sẵn</string>
+    <string name="state">Trạng thái</string>
+    <string name="select_time">Chọn thời gian</string>
+    <string name="email">Email</string>
+    <string name="welcome">Chào mừng, %1$s</string>
+    <string name="error_creating_user">Lỗi khi tạo người dùng</string>
+    <string name="welcome_back">Chào mừng trở lại, %1$s</string>
+    <string name="an_error_has_occurred">Đã xảy ra lỗi</string>
+    <string name="guest">Khách</string>
+    <string name="loggin">ĐĂNG NHẬP</string>
+    <string name="register">Đăng ký</string>
+    <string name="already_have_an_account">Đã có tài khoản? Đăng nhập</string>
+    <string name="registered_account">Đã đăng ký tài khoản</string>
+    <string name="account_already_exists">Tài khoản này đã tồn tại</string>
+    <string name="all_fields_are_required">Tất cả các trường là bắt buộc</string>
+    <string name="unregistered_image">Hình ảnh %1$s chưa đăng ký</string>
+    <string name="pet_not_registered">Không thể đăng ký thú cưng</string>
+    <string name="register_pet">Đăng ký</string>
+    <string name="not_observables_available">Không có người quan sát nào</string>
+    <string name="manage_user">Quản lý người dùng %1$s</string>
+    <string name="not_possible_change_creator">Không thể thay đổi vai trò người tạo</string>
+    <string name="already_owner">Đã là chủ sở hữu</string>
+    <string name="now_he_owner">Bây giờ anh ấy là chủ sở hữu</string>
+    <string name="role_could_not_be_changed">Không thể thay đổi vai trò</string>
+    <string name="change_to_owner">Chuyển thành chủ sở hữu</string>
+    <string name="not_possible_delete_creator">Không thể xóa người tạo</string>
+    <string name="you_have_been_removed_as_owner">Bạn đã bị xóa khỏi vai trò chủ sở hữu</string>
+    <string name="owner_deleted">Đã xóa chủ sở hữu</string>
+    <string name="could_not_be_deleted">Không thể xóa</string>
+    <string name="delete_rol">Xóa vai trò</string>
+    <string name="already_observer">Đã là người quan sát</string>
+    <string name="not_owner_new_observer">Người quan sát mới, không còn là chủ sở hữu</string>
+    <string name="new_observer">Người quan sát mới</string>
+    <string name="could_not_add">Không thể thêm</string>
+    <string name="user_not_exist">Người dùng không tồn tại</string>
+    <string name="not_ownsers_available">Không có chủ sở hữu nào</string>
+    <string name="now_he_observer">Bây giờ anh ấy là người quan sát</string>
+    <string name="change_to_observer">Chuyển thành người quan sát</string>
+    <string name="not_possible_delete">Không thể xóa</string>
+    <string name="not_observer_new_owner">Chủ sở hữu mới, không còn là người quan sát</string>
+    <string name="new_owner">Chủ sở hữu mới</string>
+    <string name="authorized_for_creator">Quyền bị từ chối, chỉ người tạo mới được ủy quyền</string>
+    <string name="already_creator">Đã là người tạo</string>
+    <string name="new_creator">Người tạo mới</string>
+    <string name="filter_veterinary_visits">Lọc lượt khám thú y</string>
+    <string name="previous_visits">Các lượt khám trước đó</string>
+    <string name="previous_not_attending_visits">Các lượt khám trước đó (chưa tham dự)</string>
+    <string name="all_visits">Tất cả lượt khám</string>
+    <string name="next_vivits">Các lượt khám sắp tới</string>
+    <string name="not_invitations">Không có lời mời</string>
+    <string name="change_rol_to">Thay đổi vai trò thành %1$s</string>
+    <string name="passwords_do_not_match">Mật khẩu không khớp</string>
+    <string name="password_minimum_characters">Mật khẩu phải chứa ít nhất 6 ký tự</string>
+    <string name="account_without_linked_email">Tài khoản không có email liên kết</string>
+    <string name="email_not_associated">Email không liên kết với tài khoản của bạn</string>
+    <string name="time_zone">Múi giờ</string>
+    <string name="select_language" translatable="false">Chọn ngôn ngữ</string>
+    <string name="calendar">Lịch</string>
+    <string name="passwordInvalid">Phải chứa 8 ký tự, một chữ cái và một số</string>
+    <string name="invalid_email">Địa chỉ email không hợp lệ</string>
+    <string name="weight_not_exist">Ai đó đã xóa cân nặng này, không thể chỉnh sửa</string>
+    <string name="veterinaryVisit_not_exist">Ai đó đã xóa lượt khám thú y này, không thể chỉnh sửa</string>
+    <string name="next_events">Các sự kiện sắp tới</string>
+    <string name="not_events">Không có sự kiện nào cho ngày này</string>
+    <string name="select_a_date">Chọn một ngày</string>
+    <string name="select_your_pets">Chọn thú cưng của bạn</string>
+    <string-array name="species_options">
+        <item>Nhện</item>
+        <item>Lừa</item>
+        <item>Ngựa</item>
+        <item>Dê</item>
+        <item>Tắc kè hoa</item>
+        <item>Cua</item>
+        <item>Heo</item>
+        <item>Chinchilla</item>
+        <item>Chuột lang</item>
+        <item>Thỏ</item>
+        <item>Nhím</item>
+        <item>Bò cạp</item>
+        <item>Chồn sương</item>
+        <item>Gà</item>
+        <item>Mèo</item>
+        <item>Thằn lằn</item>
+        <item>Chuột Hamster</item>
+        <item>Kỳ đà</item>
+        <item>Thằn lằn</item>
+        <item>Cừu</item>
+        <item>Bồ câu</item>
+        <item>Vịt</item>
+        <item>Chim</item>
+        <item>Cá</item>
+        <item>Chó</item>
+        <item>Chuột cống</item>
+        <item>Chuột nhắt</item>
+        <item>Rắn</item>
+        <item>Rùa</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>T2</item>
+        <item>T3</item>
+        <item>T4</item>
+        <item>T5</item>
+        <item>T6</item>
+        <item>T7</item>
+        <item>CN</item>
+    </string-array>
+    <string name="year_singular">năm</string>
+    <string name="year_plural">năm</string>
+    <string name="month_singular">tháng</string>
+    <string name="month_plural">tháng</string>
+    <string name="day_singular">ngày</string>
+    <string name="day_plural">ngày</string>
+    <string name="current_weight">Cân nặng hiện tại</string>
 </resources>
