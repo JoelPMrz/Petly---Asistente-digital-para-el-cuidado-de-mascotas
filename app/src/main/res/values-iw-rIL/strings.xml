@@ -1,5 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">פטלי</string>
+    <string name="pet_detail_screen_title">כרטיס חיה</string>
+    <string name="create_weight_title">משקל חדש</string>
+    <string name="weight_form_label_date">תאריך</string>
+    <string name="weight_form_label_note">הערה</string>
+    <string name="weight_form_placeholder_note">כתוב הערה</string>
+    <string name="weight_form_label_weight">משקל (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">קבל</string>
+    <string name="form_cancel_btn">בטל</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">אופציונלי</string>
+    <string name="edit_weight_title">ערוך משקל</string>
+    <string name="delete_weight_alert_title">האם ברצונך למחוק משקל זה מהרשימה?</string>
+    <string name="delete_weight_alert_description">אם תמחק משקל זה מהרשימה, הוא יימחק לצמיתות מכל החשבונות המשויכים לחיה %1$s</string>
+    <string name="wheights_pets_title">משקלים</string>
+    <string name="select_weght_unit_title_dialog">בחר יחידת משקל</string>
+    <string name="form_confirm_delete_btn">מחק</string>
+    <string name="empty_pet_list">אין חיות מחמד</string>
+    <string name="sign_out">התנתק</string>
+    <string name="delete_pet_button">מחק חיה</string>
+    <string name="forgot_password">שכחת סיסמה?</string>
+    <string name="have_an_account">יש לך חשבון?</string>
+    <string name="sign_up">הירשם</string>
+    <string name="create_account">צור חשבון</string>
+    <string name="not_create_account">אין לך חשבון עדיין?</string>
+    <string name="title_photoPickerBottomSheet">בחר אפשרות</string>
+    <string name="camera">מצלמה</string>
+    <string name="gallery">גלריה</string>
+    <string name="profile_pet_photo_description">תמונת פרופיל חיה</string>
+    <string name="camera_permission_denied">הרשאת מצלמה נדחתה</string>
+    <string name="selected_photo">תמונה נבחרת</string>
+    <string name="photo_not_taken">לא צולמה תמונה</string>
+    <string name="photo_taken">תמונה צולמה</string>
+    <string name="type">סוג</string>
+    <string name="dog">כלב</string>
+    <string name="breed">גזע</string>
+    <string name="carlino">פאג</string>
+    <string name="birthdayDate">תאריך לידה</string>
+    <string name="adoptionDate">תאריך אימוץ</string>
+    <string name="microchip">שבב</string>
+    <string name="sterilized">מעוקר/מסורס</string>
+    <string name="not_sterilized">לא מעוקר/מסורס</string>
+    <string name="delete_pet_alert_description">אם תמחק חיה זו, היא תימחק לצמיתות מכל החשבונות המשויכים לחיה %1$s</string>
+    <string name="delete_pet_alert_title">למחוק חיה זו?</string>
+    <string name="sterilizedDate">תאריך עיקור/סירוס</string>
+    <string name="pet_not_exists_dialog_description">לא ניתן לבצע פעולות על חיה זו. אם החיה לא נמחקה, בדוק אם הבעלים המשויך ביצע פעולה זו.</string>
+    <string name="pet_not_exists_dialog_title">חיה לא נמצאה</string>
+    <string name="understood">הבנתי</string>
+    <string name="microchipDate">תאריך השתלה</string>
+    <string name="microchip_identifier">מזהה</string>
+    <string name="invalid_microchip">חייב להכיל 12 ספרות</string>
+    <string name="edit_microchip_title">נתוני שבב</string>
+    <string name="edit_sterilized_state_title">סטטוס עיקור/סירוס</string>
+    <string name="save">שמור</string>
+    <string name="default_datePicker_title">בחר תאריך</string>
+    <string name="edit">ערוך</string>
+    <string name="edit_birthdate_title">גיל ותאריך לידה</string>
+    <string name="unidentified">לא מזוהה</string>
+    <string name="age">גיל</string>
+    <string name="time">שעה</string>
+    <string name="adoption">אימוץ</string>
+    <string name="add_date">הוסף תאריך</string>
+    <string name="updated_photo">תמונה עודכנה</string>
+    <string name="not_updated_photo">עדכון נכשל</string>
+    <string name="delete">מחק</string>
+    <string name="deleted_pet">%1$s נמחק</string>
+    <string name="not_deleted_pet">מחיקה נכשלה</string>
+    <string name="edit_basic_data_title">נתונים בסיסיים</string>
+    <string name="name">שם</string>
+    <string name="edit_user_profile">ערוך פרופיל</string>
+    <string name="notifications">התראות</string>
+    <string name="dark_mode">מצב כהה</string>
+    <string name="light_mode">מצב בהיר</string>
+    <string name="clear_cache">נקה זיכרון מטמון</string>
+    <string name="profile">פרופיל</string>
+    <string name="settings">הגדרות</string>
+    <string name="key">מפתח</string>
+    <string name="invitation_key">מפתח הזמנה</string>
+    <string name="invitations">הזמנות</string>
+    <string name="language">שפה</string>
+    <string name="update_password">עדכן סיסמה</string>
+    <string name="password">סיסמה</string>
+    <string name="new_password">סיסמה חדשה</string>
+    <string name="reset_password">אפס סיסמה</string>
+    <string name="recover_password">שחזר סיסמה</string>
+    <string name="associed_email">אימייל משויך</string>
+    <string name="send_mail">שלח אימייל</string>
+    <string name="log_out_alert_title">האם ברצונך להתנתק?</string>
+    <string name="log_out_alert_description">אם תאשר התנתקות, החשבון הנוכחי יאבד גישה עד שתתחבר מחדש</string>
+    <string name="people_linked">אנשים מקושרים</string>
+    <string name="owners">בעלים</string>
+    <string name="observers">צופים</string>
+    <string name="pet">חיה</string>
+    <string name="observed_pets">חיות נצפות</string>
+    <string name="pets">חיות</string>
+    <string name="invite_petOwner">הזמן בעל חיה</string>
+    <string name="send">שלח</string>
+    <string name="add">הוסף</string>
+    <string name="add_petOwner">הוסף בעל חיה</string>
+    <string name="update_creatorOwner">עדכן יוצר</string>
+    <string name="creatorOwner">יוצר</string>
+    <string name="add_petObserver">הוסף צופה חיה</string>
+    <string name="permission_denied_observer">הרשאה נדחתה כצופה</string>
+    <string name="new_pet">חיה חדשה</string>
+    <string name="owner">בעלים</string>
+    <string name="observer">צופה</string>
+    <string name="veterinary_visits">ביקורים וטרינריים הבאים</string>
+    <string name="register_new_weight">רשום משקל ראשון</string>
+    <string name="register_new_veterinay_visists">הוסף ביקור</string>
+    <string name="edit_veterinay_vivist_title">ערוך פגישת וטרינר</string>
+    <string name="create_veterinay_vivist_title">פגישת וטרינר חדשה</string>
+    <string name="concept">מושג</string>
+    <string name="concept_placeholder">תילוע</string>
+    <string name="description">תיאור</string>
+    <string name="description_placeholder">ללכת לתת טיפות תילוע</string>
+    <string name="form_label_time">שעה</string>
+    <string name="veterinary">וטרינר</string>
+    <string name="veterinary_placeholder">מרפאה וטרינרית מרטינז</string>
+    <string name="error_create_veterinary_visit">שגיאה ביצירת ביקור</string>
+    <string name="error_edit_veterinary_visit">שגיאה בעריכת ביקור</string>
+    <string name="delete_visit_alert_title">למחוק ביקור וטרינר זה?</string>
+    <string name="delete_visit_alert_description">אם תמחק ביקור זה מהרשימה, הוא יימחק לצמיתות מכל החשבונות המשויכים לחיה %1$s</string>
+    <string name="completed">הושלם</string>
+    <string name="not_completed">מתוכנן</string>
+    <string name="comment">הערה</string>
+    <string name="add_weight">הוסף משקל</string>
+    <string name="next_visit">ביקור הבא</string>
+    <string name="veterinary_visits_title">ביקורים וטרינריים</string>
+    <string name="owners_info_dialog_title">מהם תפקידי הבעלים?</string>
+    <string name="owners_info_dialog_description">יצירה, שינוי ועריכה של כל הנתונים</string>
+    <string name="owners_info_dialog_description2">הוספה, שינוי ומחיקה של בעלים אחר</string>
+    <string name="owners_info_dialog_description3">הוספה, שינוי ומחיקה של צופה</string>
+    <string name="owners_info_dialog_description4">רק היוצר יכול לשנות את עצמו למשתמש אחר</string>
+    <string name="observers_info_dialog_title">מהם תפקידי הצופה?</string>
+    <string name="observers_info_dialog_description">יכול לצפות בכל הנתונים</string>
+    <string name="observers_info_dialog_description2">לא יכול ליצור, לשנות או לערוך נתונים</string>
+    <string name="observers_info_dialog_description3">לא יכול להוסיף, לשנות או למחוק בעלים</string>
+    <string name="observers_info_dialog_description4">לא יכול להוסיף, לשנות או למחוק צופה אחר</string>
+    <string name="next_visits_subtitle">קרובים</string>
+    <string name="previous_visits_subtitle">קודמים</string>
+    <string name="previous_not_attending_visits_subtitle">ביקורים קודמים שלא נכחו</string>
+    <string name="search">חפש...</string>
+    <string name="not_available">לא זמין</string>
+    <string name="state">מצב</string>
+    <string name="select_time">בחר שעה</string>
+    <string name="email">אימייל</string>
+    <string name="welcome">ברוך הבא, %1$s</string>
+    <string name="error_creating_user">שגיאה ביצירת משתמש</string>
+    <string name="welcome_back">ברוך שובך, %1$s</string>
+    <string name="an_error_has_occurred">אירעה שגיאה</string>
+    <string name="guest">אורח</string>
+    <string name="loggin">התחבר</string>
+    <string name="register">הירשם</string>
+    <string name="already_have_an_account">יש לך חשבון? התחבר</string>
+    <string name="registered_account">חשבון רשום</string>
+    <string name="account_already_exists">חשבון זה כבר קיים</string>
+    <string name="all_fields_are_required">כל השדות נדרשים</string>
+    <string name="unregistered_image">תמונה לא רשומה %1$s</string>
+    <string name="pet_not_registered">החיה לא נרשמה</string>
+    <string name="register_pet">הירשם</string>
+    <string name="not_observables_available">אין צופים זמינים</string>
+    <string name="manage_user">נהל את %1$s</string>
+    <string name="not_possible_change_creator">לא ניתן לשנות תפקיד יוצר</string>
+    <string name="already_owner">כבר בעלים</string>
+    <string name="now_he_owner">עכשיו הוא הבעלים</string>
+    <string name="role_could_not_be_changed">התפקיד לא יכול היה להשתנות</string>
+    <string name="change_to_owner">שנה לבעלים</string>
+    <string name="not_possible_delete_creator">לא ניתן למחוק יוצר</string>
+    <string name="you_have_been_removed_as_owner">הוסרת כבעלים</string>
+    <string name="owner_deleted">בעלים נמחק</string>
+    <string name="could_not_be_deleted">לא ניתן למחוק</string>
+    <string name="delete_rol">מחק תפקיד</string>
+    <string name="already_observer">כבר צופה</string>
+    <string name="not_owner_new_observer">צופה חדש, כבר לא בעלים</string>
+    <string name="new_observer">צופה חדש</string>
+    <string name="could_not_add">לא ניתן להוסיף</string>
+    <string name="user_not_exist">משתמש לא קיים</string>
+    <string name="not_ownsers_available">אין בעלים זמינים</string>
+    <string name="now_he_observer">עכשיו הוא צופה</string>
+    <string name="change_to_observer">שנה לצופה</string>
+    <string name="not_possible_delete">לא ניתן למחוק</string>
+    <string name="not_observer_new_owner">בעלים חדש, כבר לא צופה</string>
+    <string name="new_owner">בעלים חדש</string>
+    <string name="authorized_for_creator">הרשאה נדחתה, מורשה ליוצר בלבד</string>
+    <string name="already_creator">כבר יוצר</string>
+    <string name="new_creator">יוצר חדש</string>
+    <string name="filter_veterinary_visits">סנן ביקורים וטרינריים</string>
+    <string name="previous_visits">ביקורים קודמים</string>
+    <string name="previous_not_attending_visits">ביקורים קודמים שלא נכחו</string>
+    <string name="all_visits">כל הביקורים</string>
+    <string name="next_vivits">ביקורים קרובים</string>
+    <string name="not_invitations">אין הזמנות</string>
+    <string name="change_rol_to">שנה תפקיד ל-%1$s</string>
+    <string name="passwords_do_not_match">הסיסמאות אינן תואמות</string>
+    <string name="password_minimum_characters">הסיסמה חייבת להכיל לפחות 6 תווים</string>
+    <string name="account_without_linked_email">חשבון ללא אימייל מקושר</string>
+    <string name="email_not_associated">האימייל אינו משויך לחשבונך</string>
+    <string name="time_zone">אזור זמן</string>
+    <string name="select_language" translatable="false">בחר שפה</string>
+    <string name="calendar">לוח שנה</string>
+    <string name="passwordInvalid">חייב להכיל 8 תווים, אות אחת ומספר אחד</string>
+    <string name="invalid_email">כתובת אימייל לא חוקית</string>
+    <string name="weight_not_exist">מישהו מחק את המשקל הזה, לא ניתן לערוך</string>
+    <string name="veterinaryVisit_not_exist">מישהו מחק את ביקור הווטרינר הזה, לא ניתן לערוך</string>
+    <string name="next_events">אירועים קרובים</string>
+    <string name="not_events">אין אירועים לתאריך זה</string>
+    <string name="select_a_date">בחר תאריך</string>
+    <string name="select_your_pets">בחר את חיות המחמד שלך</string>
+    <string-array name="species_options">
+        <item>עכביש</item>
+        <item>חמור</item>
+        <item>סוס</item>
+        <item>עז</item>
+        <item>זיקית</item>
+        <item>סרטן</item>
+        <item>חזיר</item>
+        <item>שרקן</item>
+        <item>ארנב</item>
+        <item>קיפוד</item>
+        <item>עקרב</item>
+        <item>חמוס</item>
+        <item>תרנגולת</item>
+        <item>חתול</item>
+        <item>שממית</item>
+        <item>אוגר</item>
+        <item>איגואנה</item>
+        <item>לטאה</item>
+        <item>כבשה</item>
+        <item>יונה</item>
+        <item>ברווז</item>
+        <item>ציפור</item>
+        <item>דג</item>
+        <item>כלב</item>
+        <item>חולדה</item>
+        <item>עכבר</item>
+        <item>נחש</item>
+        <item>צב</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>שני</item>
+        <item>שלישי</item>
+        <item>רביעי</item>
+        <item>חמישי</item>
+        <item>שישי</item>
+        <item>שבת</item>
+        <item>ראשון</item>
+    </string-array>
+    <string name="year_singular">שנה</string>
+    <string name="year_plural">שנים</string>
+    <string name="month_singular">חודש</string>
+    <string name="month_plural">חודשים</string>
+    <string name="day_singular">יום</string>
+    <string name="day_plural">ימים</string>
+    <string name="current_weight">משקל נוכחי</string>
 </resources>

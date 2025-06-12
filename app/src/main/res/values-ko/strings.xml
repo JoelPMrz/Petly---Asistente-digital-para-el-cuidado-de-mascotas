@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">펫리</string>
+    <string name="pet_detail_screen_title">기술 시트</string>
+    <string name="create_weight_title">새 체중</string>
+    <string name="weight_form_label_date">날짜</string>
+    <string name="weight_form_label_note">댓글</string>
+    <string name="weight_form_placeholder_note">댓글을 작성하세요</string>
+    <string name="weight_form_label_weight">체중 (%1$s)</string>
+    <string name="weight_form_placeholder_date">2025/03/12</string>
+    <string name="form_confirm_btn">수락</string>
+    <string name="form_cancel_btn">취소</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">선택 사항</string>
+    <string name="edit_weight_title">체중 수정</string>
+    <string name="delete_weight_alert_title">이 체중을 목록에서 삭제하시겠습니까?</string>
+    <string name="delete_weight_alert_description">이 체중을 목록에서 삭제하면, %1$s 반려동물과 연결된 모든 계정에서 영구적으로 삭제됩니다</string>
+    <string name="wheights_pets_title">체중</string>
+    <string name="select_weght_unit_title_dialog">체중 단위 선택</string>
+    <string name="form_confirm_delete_btn">삭제</string>
+    <string name="empty_pet_list">반려동물이 없습니다</string>
+    <string name="sign_out">로그아웃</string>
+    <string name="delete_pet_button">반려동물 삭제</string>
+    <string name="forgot_password">비밀번호를 잊으셨나요?</string>
+    <string name="have_an_account">이미 계정이 있으신가요?</string>
+    <string name="sign_up">로그인</string>
+    <string name="create_account">계정 만들기</string>
+    <string name="not_create_account">아직 계정이 없으신가요?</string>
+    <string name="title_photoPickerBottomSheet">옵션 선택</string>
+    <string name="camera">카메라</string>
+    <string name="gallery">갤러리</string>
+    <string name="profile_pet_photo_description">반려동물 프로필 이미지</string>
+    <string name="camera_permission_denied">카메라 권한이 거부되었습니다</string>
+    <string name="selected_photo">사진이 선택되었습니다</string>
+    <string name="photo_not_taken">사진이 촬영되지 않았습니다</string>
+    <string name="photo_taken">사진이 촬영되었습니다</string>
+    <string name="type">종</string>
+    <string name="dog">개</string>
+    <string name="breed">품종</string>
+    <string name="carlino">퍼그</string>
+    <string name="birthdayDate">생년월일</string>
+    <string name="adoptionDate">입양 날짜</string>
+    <string name="microchip">마이크로칩</string>
+    <string name="sterilized">중성화됨</string>
+    <string name="not_sterilized">중성화되지 않음</string>
+    <string name="delete_pet_alert_description">이 반려동물을 삭제하면, %1$s 반려동물과 연결된 모든 계정에서 영구적으로 삭제됩니다</string>
+    <string name="delete_pet_alert_title">이 반려동물을 삭제하시겠습니까?</string>
+    <string name="sterilizedDate">중성화 날짜</string>
+    <string name="pet_not_exists_dialog_description">이 반려동물에 대한 작업을 수행할 수 없습니다. 반려동물을 삭제하지 않았다면, 연결된 소유자가 삭제했는지 확인하세요.</string>
+    <string name="pet_not_exists_dialog_title">반려동물을 찾을 수 없습니다</string>
+    <string name="understood">이해했습니다</string>
+    <string name="microchipDate">이식 날짜</string>
+    <string name="microchip_identifier">식별자</string>
+    <string name="invalid_microchip">12자리 숫자를 포함해야 합니다</string>
+    <string name="edit_microchip_title">마이크로칩 데이터</string>
+    <string name="edit_sterilized_state_title">중성화 상태</string>
+    <string name="save">저장</string>
+    <string name="default_datePicker_title">날짜 선택</string>
+    <string name="edit">수정</string>
+    <string name="edit_birthdate_title">나이 및 생년월일</string>
+    <string name="unidentified">미확인</string>
+    <string name="age">나이</string>
+    <string name="time">시간</string>
+    <string name="adoption">입양</string>
+    <string name="add_date">날짜 추가</string>
+    <string name="updated_photo">사진이 업데이트되었습니다</string>
+    <string name="not_updated_photo">업데이트 실패</string>
+    <string name="delete">삭제</string>
+    <string name="deleted_pet">%1$s 삭제됨</string>
+    <string name="not_deleted_pet">삭제 실패</string>
+    <string name="edit_basic_data_title">기본 정보</string>
+    <string name="name">이름</string>
+    <string name="edit_user_profile">프로필 수정</string>
+    <string name="notifications">알림</string>
+    <string name="dark_mode">다크 모드</string>
+    <string name="light_mode">라이트 모드</string>
+    <string name="clear_cache">캐시 지우기</string>
+    <string name="profile">프로필</string>
+    <string name="settings">설정</string>
+    <string name="key">키</string>
+    <string name="invitation_key">초대 키</string>
+    <string name="invitations">초대</string>
+    <string name="language">언어</string>
+    <string name="update_password">비밀번호 변경</string>
+    <string name="password">비밀번호</string>
+    <string name="new_password">새 비밀번호</string>
+    <string name="reset_password">비밀번호 재설정</string>
+    <string name="recover_password">비밀번호 복구</string>
+    <string name="associed_email">연결된 이메일</string>
+    <string name="send_mail">이메일 보내기</string>
+    <string name="log_out_alert_title">로그아웃하시겠습니까?</string>
+    <string name="log_out_alert_description">수락하면, 계정에서 로그아웃되고 다시 로그인할 때까지 액세스 권한이 상실됩니다</string>
+    <string name="people_linked">연결된 사람</string>
+    <string name="owners">소유자</string>
+    <string name="observers">관찰자</string>
+    <string name="pet">반려동물</string>
+    <string name="observed_pets">관찰 가능한 반려동물</string>
+    <string name="pets">반려동물</string>
+    <string name="invite_petOwner">소유자 초대</string>
+    <string name="send">보내기</string>
+    <string name="add">추가</string>
+    <string name="add_petOwner">소유자 추가</string>
+    <string name="update_creatorOwner">생성자 수정</string>
+    <string name="creatorOwner">생성자</string>
+    <string name="add_petObserver">관찰자 추가</string>
+    <string name="permission_denied_observer">관찰자로서 권한이 거부되었습니다</string>
+    <string name="new_pet">새 반려동물</string>
+    <string name="owner">소유자</string>
+    <string name="observer">관찰자</string>
+    <string name="veterinary_visits">다음 수의사 방문</string>
+    <string name="register_new_weight">첫 체중 추가</string>
+    <string name="register_new_veterinay_visists">방문 추가</string>
+    <string name="edit_veterinay_vivist_title">수의사 예약 수정</string>
+    <string name="create_veterinay_vivist_title">새 수의사 예약</string>
+    <string name="concept">개념</string>
+    <string name="concept_placeholder">구충</string>
+    <string name="description">설명</string>
+    <string name="description_placeholder">구충 피펫 적용</string>
+    <string name="form_label_time">시간</string>
+    <string name="veterinary">수의사</string>
+    <string name="veterinary_placeholder">마르티네스 동물병원</string>
+    <string name="error_create_veterinary_visit">방문 생성 중 오류 발생</string>
+    <string name="error_edit_veterinary_visit">방문 수정 중 오류 발생</string>
+    <string name="delete_visit_alert_title">이 수의사 방문을 삭제하시겠습니까?</string>
+    <string name="delete_visit_alert_description">이 방문을 삭제하면, %1$s 반려동물과 연결된 모든 계정에서 영구적으로 삭제됩니다</string>
+    <string name="completed">완료됨</string>
+    <string name="not_completed">예정됨</string>
+    <string name="comment">댓글</string>
+    <string name="add_weight">체중 추가</string>
+    <string name="next_visit">다음 방문</string>
+    <string name="veterinary_visits_title">수의사 방문</string>
+    <string name="owners_info_dialog_title">소유자는 무엇을 할 수 있나요?</string>
+    <string name="owners_info_dialog_description">모든 데이터를 생성, 편집 및 수정</string>
+    <string name="owners_info_dialog_description2">다른 소유자 추가, 편집 및 제거</string>
+    <string name="owners_info_dialog_description3">관찰자 추가, 편집 및 제거</string>
+    <string name="owners_info_dialog_description4">생성자만 다른 사용자로 변경될 수 있습니다</string>
+    <string name="observers_info_dialog_title">관찰자는 무엇을 할 수 있나요?</string>
+    <string name="observers_info_dialog_description">모든 데이터를 볼 수 있습니다</string>
+    <string name="observers_info_dialog_description2">데이터를 생성, 편집 또는 수정할 수 없습니다</string>
+    <string name="observers_info_dialog_description3">소유자를 추가, 편집 또는 제거할 수 없습니다</string>
+    <string name="observers_info_dialog_description4">다른 관찰자를 추가, 편집 또는 제거할 수 없습니다</string>
+    <string name="next_visits_subtitle">예정된</string>
+    <string name="previous_visits_subtitle">이전</string>
+    <string name="previous_not_attending_visits_subtitle">이전 방문 (미참석)</string>
+    <string name="search">검색...</string>
+    <string name="not_available">사용 불가</string>
+    <string name="state">상태</string>
+    <string name="select_time">시간 선택</string>
+    <string name="email">이메일</string>
+    <string name="welcome">환영합니다 %1$s</string>
+    <string name="error_creating_user">사용자 생성 중 오류 발생</string>
+    <string name="welcome_back">다시 오신 것을 환영합니다 %1$s</string>
+    <string name="an_error_has_occurred">오류가 발생했습니다</string>
+    <string name="guest">손님</string>
+    <string name="loggin">로그인</string>
+    <string name="register">등록</string>
+    <string name="already_have_an_account">이미 계정이 있으신가요? 로그인</string>
+    <string name="registered_account">계정 등록됨</string>
+    <string name="account_already_exists">이 계정은 이미 존재합니다</string>
+    <string name="all_fields_are_required">모든 필드는 필수입니다</string>
+    <string name="unregistered_image">%1$s 이미지가 등록되지 않았습니다</string>
+    <string name="pet_not_registered">반려동물을 등록할 수 없었습니다</string>
+    <string name="register_pet">등록</string>
+    <string name="not_observables_available">사용 가능한 관찰자가 없습니다</string>
+    <string name="manage_user">%1$s 관리</string>
+    <string name="not_possible_change_creator">생성자 역할을 변경할 수 없습니다</string>
+    <string name="already_owner">이미 소유자입니다</string>
+    <string name="now_he_owner">이제 소유자입니다</string>
+    <string name="role_could_not_be_changed">역할을 변경할 수 없었습니다</string>
+    <string name="change_to_owner">소유자로 변경</string>
+    <string name="not_possible_delete_creator">생성자를 삭제할 수 없습니다</string>
+    <string name="you_have_been_removed_as_owner">소유자에서 제거되었습니다</string>
+    <string name="owner_deleted">소유자 삭제됨</string>
+    <string name="could_not_be_deleted">삭제할 수 없었습니다</string>
+    <string name="delete_rol">역할 삭제</string>
+    <string name="already_observer">이미 관찰자입니다</string>
+    <string name="not_owner_new_observer">새 관찰자, 더 이상 소유자가 아님</string>
+    <string name="new_observer">새 관찰자</string>
+    <string name="could_not_add">추가할 수 없었습니다</string>
+    <string name="user_not_exist">사용자가 존재하지 않습니다</string>
+    <string name="not_ownsers_available">사용 가능한 소유자가 없습니다</string>
+    <string name="now_he_observer">이제 관찰자입니다</string>
+    <string name="change_to_observer">관찰자로 변경</string>
+    <string name="not_possible_delete">삭제할 수 없습니다</string>
+    <string name="not_observer_new_owner">새 소유자, 더 이상 관찰자가 아님</string>
+    <string name="new_owner">새 소유자</string>
+    <string name="authorized_for_creator">권한 거부, 생성자만 허용</string>
+    <string name="already_creator">이미 생성자</string>
+    <string name="new_creator">새 생성자</string>
+    <string name="filter_veterinary_visits">수의사 방문 필터링</string>
+    <string name="previous_visits">이전 방문</string>
+    <string name="previous_not_attending_visits">이전 방문 (미참석)</string>
+    <string name="all_visits">모든 방문</string>
+    <string name="next_vivits">예정된 방문</string>
+    <string name="not_invitations">초대 없음</string>
+    <string name="change_rol_to">역할을 %1$s으로 변경</string>
+    <string name="passwords_do_not_match">비밀번호가 일치하지 않습니다</string>
+    <string name="password_minimum_characters">비밀번호는 최소 6자 이상이어야 합니다</string>
+    <string name="account_without_linked_email">연결된 이메일이 없는 계정</string>
+    <string name="email_not_associated">이메일이 계정에 연결되어 있지 않습니다</string>
+    <string name="time_zone">시간대</string>
+    <string name="select_language" translatable="false">언어 선택</string>
+    <string name="calendar">캘린더</string>
+    <string name="passwordInvalid">8자, 문자 하나, 숫자 하나를 포함해야 합니다</string>
+    <string name="invalid_email">유효하지 않은 이메일 주소</string>
+    <string name="weight_not_exist">누군가 이 체중을 삭제했습니다. 수정할 수 없습니다</string>
+    <string name="veterinaryVisit_not_exist">누군가 이 방문을 삭제했습니다. 수정할 수 없습니다</string>
+    <string name="next_events">다가오는 이벤트</string>
+    <string name="not_events">이 날짜에는 이벤트가 없습니다</string>
+    <string name="select_a_date">날짜 선택</string>
+    <string name="select_your_pets">반려동물을 선택하세요</string>
+    <string-array name="species_options">
+        <item>거미</item>
+        <item>당나귀</item>
+        <item>말</item>
+        <item>염소</item>
+        <item>카멜레온</item>
+        <item>게</item>
+        <item>돼지</item>
+        <item>친칠라</item>
+        <item>기니피그</item>
+        <item>토끼</item>
+        <item>고슴도치</item>
+        <item>전갈</item>
+        <item>족제비</item>
+        <item>닭</item>
+        <item>고양이</item>
+        <item>도마뱀붙이</item>
+        <item>햄스터</item>
+        <item>이구아나</item>
+        <item>도마뱀</item>
+        <item>양</item>
+        <item>비둘기</item>
+        <item>오리</item>
+        <item>새</item>
+        <item>물고기</item>
+        <item>개</item>
+        <item>쥐</item>
+        <item>생쥐</item>
+        <item>뱀</item>
+        <item>거북이</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+    <string name="year_singular">년</string>
+    <string name="year_plural">년</string>
+    <string name="month_singular">개월</string>
+    <string name="month_plural">개월</string>
+    <string name="day_singular">일</string>
+    <string name="day_plural">일</string>
+    <string name="current_weight">현재 체중</string>
 </resources>
