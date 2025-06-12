@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Fleta Teknike</string>
+    <string name="create_weight_title">Pesha e Re</string>
+    <string name="weight_form_label_date">Data</string>
+    <string name="weight_form_label_note">Shënim</string>
+    <string name="weight_form_placeholder_note">Shkruaj një shënim</string>
+    <string name="weight_form_label_weight">Pesha (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Prano</string>
+    <string name="form_cancel_btn">Anulo</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Opsionale</string>
+    <string name="edit_weight_title">Ndrysho Peshën</string>
+    <string name="delete_weight_alert_title">Dëshironi ta fshini këtë peshë nga lista?</string>
+    <string name="delete_weight_alert_description">Nëse e fshini këtë peshë nga lista, ajo do të hiqet përgjithmonë nga të gjitha llogaritë e lidhura me kafshën %1$s</string>
+    <string name="wheights_pets_title">Peshat</string>
+    <string name="select_weght_unit_title_dialog">Zgjidhni njësinë e peshës</string>
+    <string name="form_confirm_delete_btn">Fshi</string>
+    <string name="empty_pet_list">Nuk ka kafshë të disponueshme</string>
+    <string name="sign_out">Dil</string>
+    <string name="delete_pet_button">Fshi kafshën</string>
+    <string name="forgot_password">Keni harruar fjalëkalimin?</string>
+    <string name="have_an_account">Keni tashmë një llogari?</string>
+    <string name="sign_up">Hyr</string>
+    <string name="create_account">Krijo llogari</string>
+    <string name="not_create_account">Nuk keni ende një llogari?</string>
+    <string name="title_photoPickerBottomSheet">Zgjidhni një opsion</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeria</string>
+    <string name="profile_pet_photo_description">Imazhi i profilit të kafshës</string>
+    <string name="camera_permission_denied">Leja e kamerës e refuzuar</string>
+    <string name="selected_photo">Foto e zgjedhur</string>
+    <string name="photo_not_taken">Fotoja nuk u bë</string>
+    <string name="photo_taken">Foto e bërë</string>
+    <string name="type">Lloji</string>
+    <string name="dog">Qen</string>
+    <string name="breed">Raca</string>
+    <string name="carlino">Karlino</string>
+    <string name="birthdayDate">Data e lindjes</string>
+    <string name="adoptionDate">Data e adoptimit</string>
+    <string name="microchip">Mikroçipi</string>
+    <string name="sterilized">Sterilizuar</string>
+    <string name="not_sterilized">Jo i sterilizuar</string>
+    <string name="delete_pet_alert_description">Nëse fshini këtë kafshë, ajo do të hiqet përgjithmonë nga të gjitha llogaritë e lidhura me kafshën %1$s</string>
+    <string name="delete_pet_alert_title">Dëshironi ta fshini këtë kafshë?</string>
+    <string name="sterilizedDate">Data e sterilizimit</string>
+    <string name="pet_not_exists_dialog_description">Veprimet nuk mund të kryhen mbi këtë kafshë. Nëse nuk e keni fshirë kafshën, kontrolloni nëse ndonjë pronar i lidhur e ka bërë këtë.</string>
+    <string name="pet_not_exists_dialog_title">Kafsha nuk u gjet</string>
+    <string name="understood">Kuptova</string>
+    <string name="microchipDate">Data e implantimit</string>
+    <string name="microchip_identifier">Identifikuesi</string>
+    <string name="invalid_microchip">Duhet të përmbajë 12 shifra</string>
+    <string name="edit_microchip_title">Të Dhënat e Mikroçipit</string>
+    <string name="edit_sterilized_state_title">Statusi i Sterilizimit</string>
+    <string name="save">Ruaj</string>
+    <string name="default_datePicker_title">Zgjidhni një datë</string>
+    <string name="edit">Ndrysho</string>
+    <string name="edit_birthdate_title">Mosha dhe Data e Lindjes</string>
+    <string name="unidentified">I paidentifikuar</string>
+    <string name="age">Mosha</string>
+    <string name="time">Ora</string>
+    <string name="adoption">Adoptim</string>
+    <string name="add_date">Shto datë</string>
+    <string name="updated_photo">Foto e përditësuar</string>
+    <string name="not_updated_photo">Nuk u përditësua</string>
+    <string name="delete">Fshi</string>
+    <string name="deleted_pet">%1$s fshirë</string>
+    <string name="not_deleted_pet">Nuk mund të fshihet</string>
+    <string name="edit_basic_data_title">Të Dhënat Kryesore</string>
+    <string name="name">Emri</string>
+    <string name="edit_user_profile">Ndrysho Profilin</string>
+    <string name="notifications">Njoftimet</string>
+    <string name="dark_mode">Modaliteti i errët</string>
+    <string name="light_mode">Modaliteti i ndriçuar</string>
+    <string name="clear_cache">Fshi memorien e fshehtë</string>
+    <string name="profile">Profili</string>
+    <string name="settings">Cilësimet</string>
+    <string name="key">Çelësi</string>
+    <string name="invitation_key">Çelësi i ftesës</string>
+    <string name="invitations">Ftesat</string>
+    <string name="language">Gjuha</string>
+    <string name="update_password">Ndrysho fjalëkalimin</string>
+    <string name="password">Fjalëkalimi</string>
+    <string name="new_password">Fjalëkalimi i ri</string>
+    <string name="reset_password">Rivendos fjalëkalimin</string>
+    <string name="recover_password">Rikthe fjalëkalimin</string>
+    <string name="associed_email">Email-i i lidhur</string>
+    <string name="send_mail">Dërgo email</string>
+    <string name="log_out_alert_title">Dëshironi të dilni?</string>
+    <string name="log_out_alert_description">Duke pranuar, llogaria juaj do të dillet dhe aksesi do të humbet derisa të identifikoheni përsëri</string>
+    <string name="people_linked">Personat e lidhur</string>
+    <string name="owners">Pronarët</string>
+    <string name="observers">Vëzhguesit</string>
+    <string name="pet">Kafsha</string>
+    <string name="observed_pets">Kafshë të vëzhgueshme</string>
+    <string name="pets">Kafshët</string>
+    <string name="invite_petOwner">Fto një pronar kafshe</string>
+    <string name="send">Dërgo</string>
+    <string name="add">Shto</string>
+    <string name="add_petOwner">Shto një pronar</string>
+    <string name="update_creatorOwner">Ndrysho krijuesin</string>
+    <string name="creatorOwner">Krijuesi</string>
+    <string name="add_petObserver">Shto një vëzhgues</string>
+    <string name="permission_denied_observer">Leja e refuzuar si vëzhgues</string>
+    <string name="new_pet">Kafshë e re</string>
+    <string name="owner">Pronar</string>
+    <string name="observer">Vëzhgues</string>
+    <string name="veterinary_visits">Vizita e ardhshme veterinare</string>
+    <string name="register_new_weight">Shto peshën e parë</string>
+    <string name="register_new_veterinay_visists">Shto një vizitë</string>
+    <string name="edit_veterinay_vivist_title">Ndrysho takimin veterinar</string>
+    <string name="create_veterinay_vivist_title">Takim i ri veterinar</string>
+    <string name="concept">Koncepti</string>
+    <string name="concept_placeholder">Çkrimbëzimi</string>
+    <string name="description">Përshkrimi</string>
+    <string name="description_placeholder">Aplikoni pipetën e çkrimbëzimit</string>
+    <string name="form_label_time">Ora</string>
+    <string name="veterinary">Veterinari</string>
+    <string name="veterinary_placeholder">Klinika Veterinare Martínez</string>
+    <string name="error_create_veterinary_visit">Gabim në krijimin e vizitës</string>
+    <string name="error_edit_veterinary_visit">Gabim në ndryshimin e vizitës</string>
+    <string name="delete_visit_alert_title">Dëshironi ta fshini këtë vizitë veterinare?</string>
+    <string name="delete_visit_alert_description">Nëse e fshini këtë vizitë, ajo do të hiqet përgjithmonë nga të gjitha llogaritë e lidhura me kafshën %1$s</string>
+    <string name="completed">Përfunduar</string>
+    <string name="not_completed">E programuar</string>
+    <string name="comment">Koment</string>
+    <string name="add_weight">Shto një peshë</string>
+    <string name="next_visit">Vizita tjetër</string>
+    <string name="veterinary_visits_title">Vizitat veterinare</string>
+    <string name="owners_info_dialog_title">Çfarë mund të bëjë një pronar?</string>
+    <string name="owners_info_dialog_description">Krijo, redakto dhe modifiko çdo të dhënë</string>
+    <string name="owners_info_dialog_description2">Shto, redakto dhe hiq një pronar tjetër</string>
+    <string name="owners_info_dialog_description3">Shto, redakto dhe hiq një vëzhgues</string>
+    <string name="owners_info_dialog_description4">Vetëm krijuesi mund të ndryshohet në një përdorues tjetër</string>
+    <string name="observers_info_dialog_title">Çfarë mund të bëjë një vëzhgues?</string>
+    <string name="observers_info_dialog_description">Mund të shikojë çdo të dhënë</string>
+    <string name="observers_info_dialog_description2">Nuk mund të krijojë, redaktojë ose modifikojë asnjë të dhënë</string>
+    <string name="observers_info_dialog_description3">Nuk mund të shtojë, redaktojë ose heqë një pronar</string>
+    <string name="observers_info_dialog_description4">Nuk mund të shtojë, redaktojë ose heqë një vëzhgues tjetër</string>
+    <string name="next_visits_subtitle">Në vazhdim</string>
+    <string name="previous_visits_subtitle">Të mëparshmet</string>
+    <string name="previous_not_attending_visits_subtitle">Të mëparshmet e pa ndjekura</string>
+    <string name="search">Kërko...</string>
+    <string name="not_available">Nuk disponohet</string>
+    <string name="state">Gjendja</string>
+    <string name="select_time">Zgjidhni orën</string>
+    <string name="email">Email</string>
+    <string name="welcome">Mirësevini %1$s</string>
+    <string name="error_creating_user">Gabim në krijimin e përdoruesit</string>
+    <string name="welcome_back">Mirësevini përsëri %1$s</string>
+    <string name="an_error_has_occurred">Ka ndodhur një gabim</string>
+    <string name="guest">Mysafir</string>
+    <string name="loggin">HYRJA</string>
+    <string name="register">Regjistrohu</string>
+    <string name="already_have_an_account">Keni tashmë një llogari? Hyr</string>
+    <string name="registered_account">Llogaria e regjistruar</string>
+    <string name="account_already_exists">Kjo llogari ekziston tashmë</string>
+    <string name="all_fields_are_required">Të gjitha fushat janë të detyrueshme</string>
+    <string name="unregistered_image">Imazhi %1$s nuk u regjistrua</string>
+    <string name="pet_not_registered">Kafsha nuk mund të regjistrohej</string>
+    <string name="register_pet">Regjistro</string>
+    <string name="not_observables_available">Asnjë vëzhgues nuk disponohet</string>
+    <string name="manage_user">Menaxho %1$s</string>
+    <string name="not_possible_change_creator">Nuk mund të ndryshohet roli i krijuesit</string>
+    <string name="already_owner">Është tashmë pronar</string>
+    <string name="now_he_owner">Tani është pronar</string>
+    <string name="role_could_not_be_changed">Roli nuk mund të ndryshohej</string>
+    <string name="change_to_owner">Ndrysho në pronar</string>
+    <string name="not_possible_delete_creator">Nuk mund të fshihet krijuesi</string>
+    <string name="you_have_been_removed_as_owner">Jeni hequr si pronar</string>
+    <string name="owner_deleted">Pronari u fshi</string>
+    <string name="could_not_be_deleted">Nuk mund të fshihej</string>
+    <string name="delete_rol">Fshi rolin</string>
+    <string name="already_observer">Është tashmë vëzhgues</string>
+    <string name="not_owner_new_observer">Vëzhgues i ri, nuk është më pronar</string>
+    <string name="new_observer">Vëzhgues i ri</string>
+    <string name="could_not_add">Nuk mund të shtohej</string>
+    <string name="user_not_exist">Përdoruesi nuk ekziston</string>
+    <string name="not_ownsers_available">Nuk ka pronarë të disponueshëm</string>
+    <string name="now_he_observer">Tani është vëzhgues</string>
+    <string name="change_to_observer">Ndrysho në vëzhgues</string>
+    <string name="not_possible_delete">Nuk mund të fshihej</string>
+    <string name="not_observer_new_owner">Pronar i ri, nuk është më vëzhgues</string>
+    <string name="new_owner">Pronar i ri</string>
+    <string name="authorized_for_creator">Leja e refuzuar, vetëm për krijuesin</string>
+    <string name="already_creator">Është tashmë krijues</string>
+    <string name="new_creator">Krijues i ri</string>
+    <string name="filter_veterinary_visits">Filtro vizitat veterinare</string>
+    <string name="previous_visits">Vizitat e mëparshme</string>
+    <string name="previous_not_attending_visits">Vizitat e mëparshme të pa ndjekura</string>
+    <string name="all_visits">Të gjitha vizitat</string>
+    <string name="next_vivits">Vizitat e ardhshme</string>
+    <string name="not_invitations">Nuk ka ftesa</string>
+    <string name="change_rol_to">Ndrysho rolin në %1$s</string>
+    <string name="passwords_do_not_match">Fjalëkalimet nuk përputhen</string>
+    <string name="password_minimum_characters">Fjalëkalimi duhet të jetë të paktën 6 karaktere</string>
+    <string name="account_without_linked_email">Llogari pa email të lidhur</string>
+    <string name="email_not_associated">Email-i nuk është i lidhur me llogarinë tuaj</string>
+    <string name="time_zone">Zona kohore</string>
+    <string name="select_language" translatable="false">Zgjidhni një gjuhë</string>
+    <string name="calendar">Kalendari</string>
+    <string name="passwordInvalid">Duhet të përmbajë 8 karaktere, një shkronjë dhe një numër</string>
+    <string name="invalid_email">Adresë emaili e pavlefshme</string>
+    <string name="weight_not_exist">Dikush e ka fshirë këtë peshë, ndryshimi nuk është i mundur</string>
+    <string name="veterinaryVisit_not_exist">Dikush e ka fshirë këtë vizitë, ndryshimi nuk është i mundur</string>
+    <string name="next_events">Ngjarjet e ardhshme</string>
+    <string name="not_events">Nuk ka ngjarje për këtë datë</string>
+    <string name="select_a_date">Zgjidhni një datë</string>
+    <string name="select_your_pets">Zgjidhni kafshët tuaja</string>
+    <string-array name="species_options">
+        <item>Merimangë</item>
+        <item>Gomari</item>
+        <item>Kali</item>
+        <item>Dhia</item>
+        <item>Kameleon</item>
+        <item>Gaforre</item>
+        <item>Derr</item>
+        <item>Çinçilla</item>
+        <item>Derr deti</item>
+        <item>Lepur</item>
+        <item>Iriq</item>
+        <item>Akrepi</item>
+        <item>Ferret</item>
+        <item>Pulë</item>
+        <item>Maçoku</item>
+        <item>Geko</item>
+        <item>Hamster</item>
+        <item>Ferret</item>
+        <item>Iguana</item>
+        <item>Hardhucë</item>
+        <item>Delja</item>
+        <item>Pëllumb</item>
+        <item>Rosa</item>
+        <item>Zog</item>
+        <item>Peshk</item>
+        <item>Qen</item>
+        <item>Mi</item>
+        <item>Miu</item>
+        <item>Gjarpër</item>
+        <item>Breshkë</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Hënë</item>
+        <item>Martë</item>
+        <item>Mërkurë</item>
+        <item>Enjte</item>
+        <item>Premte</item>
+        <item>Shtunë</item>
+        <item>Dielë</item>
+    </string-array>
+    <string name="year_singular">vit</string>
+    <string name="year_plural">vjet</string>
+    <string name="month_singular">muaj</string>
+    <string name="month_plural">muaj</string>
+    <string name="day_singular">ditë</string>
+    <string name="day_plural">ditë</string>
+    <string name="current_weight">Pesha aktuale</string>
+</resources>
