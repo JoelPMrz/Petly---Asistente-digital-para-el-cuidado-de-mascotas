@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">تکنیکی تفصیلات</string>
+    <string name="create_weight_title">نئی وزن</string>
+    <string name="weight_form_label_date">تاریخ</string>
+    <string name="weight_form_label_note">تبصرہ</string>
+    <string name="weight_form_placeholder_note">تبصرہ لکھیں</string>
+    <string name="weight_form_label_weight">وزن (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">قبول کریں</string>
+    <string name="form_cancel_btn">منسوخ کریں</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">اختیاری</string>
+    <string name="edit_weight_title">وزن میں ترمیم کریں</string>
+    <string name="delete_weight_alert_title">کیا اس وزن کو فہرست سے حذف کرنا ہے؟</string>
+    <string name="delete_weight_alert_description">اگر آپ اس وزن کو فہرست سے حذف کرتے ہیں، تو یہ پالتو جانور %1$s سے منسلک تمام اکاؤنٹس سے مستقل طور پر ہٹا دیا جائے گا</string>
+    <string name="wheights_pets_title">وزن</string>
+    <string name="select_weght_unit_title_dialog">وزن کی اکائی منتخب کریں</string>
+    <string name="form_confirm_delete_btn">حذف کریں</string>
+    <string name="empty_pet_list">کوئی پالتو جانور دستیاب نہیں</string>
+    <string name="sign_out">سائن آؤٹ کریں</string>
+    <string name="delete_pet_button">پالتو جانور حذف کریں</string>
+    <string name="forgot_password">پاس ورڈ بھول گئے؟</string>
+    <string name="have_an_account">پہلے سے ہی اکاؤنٹ ہے؟</string>
+    <string name="sign_up">سائن ان کریں</string>
+    <string name="create_account">اکاؤنٹ بنائیں</string>
+    <string name="not_create_account">ابھی تک اکاؤنٹ نہیں ہے؟</string>
+    <string name="title_photoPickerBottomSheet">ایک آپشن منتخب کریں</string>
+    <string name="camera">کیمرہ</string>
+    <string name="gallery">گیلری</string>
+    <string name="profile_pet_photo_description">پالتو جانور کی پروفائل تصویر</string>
+    <string name="camera_permission_denied">کیمرہ کی اجازت مسترد کر دی گئی</string>
+    <string name="selected_photo">تصویر منتخب کر لی گئی</string>
+    <string name="photo_not_taken">تصویر نہیں لی گئی</string>
+    <string name="photo_taken">تصویر لی گئی</string>
+    <string name="type">نسل</string>
+    <string name="dog">کتا</string>
+    <string name="breed">نسل</string>
+    <string name="carlino">پگ</string>
+    <string name="birthdayDate">تاریخ پیدائش</string>
+    <string name="adoptionDate">تاریخ گود لینے کی</string>
+    <string name="microchip">مائیکرو چپ</string>
+    <string name="sterilized">بانجھ کیا گیا</string>
+    <string name="not_sterilized">بانجھ نہیں کیا گیا</string>
+    <string name="delete_pet_alert_description">اگر آپ اس پالتو جانور کو حذف کرتے ہیں، تو یہ پالتو جانور %1$s سے منسلک تمام اکاؤنٹس سے مستقل طور پر ہٹا دیا جائے گا</string>
+    <string name="delete_pet_alert_title">کیا اس پالتو جانور کو حذف کرنا ہے؟</string>
+    <string name="sterilizedDate">بانجھ کرنے کی تاریخ</string>
+    <string name="pet_not_exists_dialog_description">اس پالتو جانور پر کارروائیاں نہیں کی جا سکتیں۔ اگر آپ نے پالتو جانور کو حذف نہیں کیا ہے، تو چیک کریں کہ کیا کسی منسلک مالک نے ایسا کیا ہے۔</string>
+    <string name="pet_not_exists_dialog_title">پالتو جانور نہیں ملا</string>
+    <string name="understood">سمجھ گیا</string>
+    <string name="microchipDate">لگانے کی تاریخ</string>
+    <string name="microchip_identifier">شناختی نمبر</string>
+    <string name="invalid_microchip">12 ہندسے ہونے چاہئیں</string>
+    <string name="edit_microchip_title">مائیکرو چپ ڈیٹا</string>
+    <string name="edit_sterilized_state_title">بانجھ کرنے کی حیثیت</string>
+    <string name="save">محفوظ کریں</string>
+    <string name="default_datePicker_title">ایک تاریخ منتخب کریں</string>
+    <string name="edit">ترمیم کریں</string>
+    <string name="edit_birthdate_title">عمر اور تاریخ پیدائش</string>
+    <string name="unidentified">غیر شناخت شدہ</string>
+    <string name="age">عمر</string>
+    <string name="time">وقت</string>
+    <string name="adoption">گود لینا</string>
+    <string name="add_date">تاریخ شامل کریں</string>
+    <string name="updated_photo">تصویر اپ ڈیٹ ہو گئی</string>
+    <string name="not_updated_photo">اپ ڈیٹ نہیں ہو سکی</string>
+    <string name="delete">حذف کریں</string>
+    <string name="deleted_pet">%1$s حذف کر دیا گیا</string>
+    <string name="not_deleted_pet">حذف نہیں ہو سکا</string>
+    <string name="edit_basic_data_title">اہم ڈیٹا</string>
+    <string name="name">نام</string>
+    <string name="edit_user_profile">پروفائل میں ترمیم کریں</string>
+    <string name="notifications">اطلاعات</string>
+    <string name="dark_mode">ڈارک موڈ</string>
+    <string name="light_mode">لائٹ موڈ</string>
+    <string name="clear_cache">کیچ صاف کریں</string>
+    <string name="profile">پروفائل</string>
+    <string name="settings">ترتیبات</string>
+    <string name="key">کلید</string>
+    <string name="invitation_key">دعوت نامے کی کلید</string>
+    <string name="invitations">دعوت نامے</string>
+    <string name="language">زبان</string>
+    <string name="update_password">پاس ورڈ تبدیل کریں</string>
+    <string name="password">پاس ورڈ</string>
+    <string name="new_password">نیا پاس ورڈ</string>
+    <string name="reset_password">پاس ورڈ ری سیٹ کریں</string>
+    <string name="recover_password">پاس ورڈ بحال کریں</string>
+    <string name="associed_email">متعلقہ ای میل</string>
+    <string name="send_mail">ای میل بھیجیں</string>
+    <string name="log_out_alert_title">کیا آپ سائن آؤٹ کرنا چاہتے ہیں؟</string>
+    <string name="log_out_alert_description">قبول کرنے پر، آپ کا اکاؤنٹ سائن آؤٹ ہو جائے گا اور دوبارہ سائن ان ہونے تک رسائی ختم ہو جائے گی</string>
+    <string name="people_linked">متعلقہ افراد</string>
+    <string name="owners">مالکان</string>
+    <string name="observers">مشاہدہ کار</string>
+    <string name="pet">پالتو جانور</string>
+    <string name="observed_pets">مشاہدہ کیے جا سکنے والے پالتو جانور</string>
+    <string name="pets">پالتو جانور</string>
+    <string name="invite_petOwner">مالک کو مدعو کریں</string>
+    <string name="send">بھیجیں</string>
+    <string name="add">شامل کریں</string>
+    <string name="add_petOwner">مالک شامل کریں</string>
+    <string name="update_creatorOwner">تخلیق کار میں ترمیم کریں</string>
+    <string name="creatorOwner">تخلیق کار</string>
+    <string name="add_petObserver">مشاہدہ کار شامل کریں</string>
+    <string name="permission_denied_observer">بطور مشاہدہ کار اجازت مسترد کر دی گئی</string>
+    <string name="new_pet">نیا پالتو جانور</string>
+    <string name="owner">مالک</string>
+    <string name="observer">مشاہدہ کار</string>
+    <string name="veterinary_visits">اگلی ویٹرنری وزٹ</string>
+    <string name="register_new_weight">پہلا وزن درج کریں</string>
+    <string name="register_new_veterinay_visists">ایک وزٹ شامل کریں</string>
+    <string name="edit_veterinay_vivist_title">ویٹرنری اپوائنٹمنٹ میں ترمیم کریں</string>
+    <string name="create_veterinay_vivist_title">نئی ویٹرنری اپوائنٹمنٹ</string>
+    <string name="concept">تصور</string>
+    <string name="concept_placeholder">کیڑوں کا علاج</string>
+    <string name="description">تفصیل</string>
+    <string name="description_placeholder">کیڑوں کے علاج کے لیے پائپیٹ لگائیں</string>
+    <string name="form_label_time">وقت</string>
+    <string name="veterinary">ویٹرنری</string>
+    <string name="veterinary_placeholder">مارٹنیز ویٹرنری کلینک</string>
+    <string name="error_create_veterinary_visit">وزٹ بنانے میں خرابی</string>
+    <string name="error_edit_veterinary_visit">وزٹ میں ترمیم کرنے میں خرابی</string>
+    <string name="delete_visit_alert_title">کیا اس ویٹرنری وزٹ کو حذف کرنا ہے؟</string>
+    <string name="delete_visit_alert_description">اگر آپ اس وزٹ کو حذف کرتے ہیں، تو یہ پالتو جانور %1$s سے منسلک تمام اکاؤنٹس سے مستقل طور پر ہٹا دیا جائے گا</string>
+    <string name="completed">مکمل</string>
+    <string name="not_completed">شیڈول</string>
+    <string name="comment">تبصرہ</string>
+    <string name="add_weight">وزن شامل کریں</string>
+    <string name="next_visit">اگلا وزٹ</string>
+    <string name="veterinary_visits_title">ویٹرنری وزٹس</string>
+    <string name="owners_info_dialog_title">ایک مالک کیا کر سکتا ہے؟</string>
+    <string name="owners_info_dialog_description">کوئی بھی ڈیٹا بنائیں، ترمیم کریں اور تبدیل کریں</string>
+    <string name="owners_info_dialog_description2">دوسرے مالک کو شامل کریں، ترمیم کریں اور ہٹائیں</string>
+    <string name="owners_info_dialog_description3">ایک مشاہدہ کار کو شامل کریں، ترمیم کریں اور ہٹائیں</string>
+    <string name="owners_info_dialog_description4">صرف تخلیق کار کو دوسرے صارف میں تبدیل کیا جا سکتا ہے</string>
+    <string name="observers_info_dialog_title">ایک مشاہدہ کار کیا کر سکتا ہے؟</string>
+    <string name="observers_info_dialog_description">کوئی بھی ڈیٹا دیکھ سکتا ہے</string>
+    <string name="observers_info_dialog_description2">کوئی ڈیٹا نہیں بنا سکتا، ترمیم نہیں کر سکتا یا تبدیل نہیں کر سکتا</string>
+    <string name="observers_info_dialog_description3">مالک کو شامل، ترمیم یا ہٹا نہیں سکتا</string>
+    <string name="observers_info_dialog_description4">کسی دوسرے مشاہدہ کار کو شامل، ترمیم یا ہٹا نہیں سکتا</string>
+    <string name="next_visits_subtitle">آنے والے</string>
+    <string name="previous_visits_subtitle">پچھلے</string>
+    <string name="previous_not_attending_visits_subtitle">پچھلے غیر حاضر</string>
+    <string name="search">تلاش کریں...</string>
+    <string name="not_available">دستیاب نہیں</string>
+    <string name="state">حالت</string>
+    <string name="select_time">وقت منتخب کریں</string>
+    <string name="email">ای میل</string>
+    <string name="welcome">خوش آمدید %1$s</string>
+    <string name="error_creating_user">صارف بنانے میں خرابی</string>
+    <string name="welcome_back">خوش آمدید %1$s</string>
+    <string name="an_error_has_occurred">ایک خرابی پیش آ گئی</string>
+    <string name="guest">مہمان</string>
+    <string name="loggin">لاگ اِن</string>
+    <string name="register">رجسٹر کریں</string>
+    <string name="already_have_an_account">پہلے سے ہی اکاؤنٹ ہے؟ سائن ان کریں</string>
+    <string name="registered_account">اکاؤنٹ رجسٹر ہو گیا</string>
+    <string name="account_already_exists">یہ اکاؤنٹ پہلے سے موجود ہے</string>
+    <string name="all_fields_are_required">تمام فیلڈز درکار ہیں</string>
+    <string name="unregistered_image">%1$s تصویر رجسٹرڈ نہیں</string>
+    <string name="pet_not_registered">پالتو جانور رجسٹر نہیں ہو سکا</string>
+    <string name="register_pet">رجسٹر کریں</string>
+    <string name="not_observables_available">کوئی مشاہدہ کار دستیاب نہیں</string>
+    <string name="manage_user">%1$s کا انتظام کریں</string>
+    <string name="not_possible_change_creator">تخلیق کار کا کردار تبدیل نہیں کیا جا سکتا</string>
+    <string name="already_owner">پہلے ہی مالک ہے</string>
+    <string name="now_he_owner">اب وہ مالک ہے</string>
+    <string name="role_could_not_be_changed">کردار تبدیل نہیں ہو سکا</string>
+    <string name="change_to_owner">مالک میں تبدیل کریں</string>
+    <string name="not_possible_delete_creator">تخلیق کار کو حذف نہیں کیا جا سکتا</string>
+    <string name="you_have_been_removed_as_owner">آپ کو بطور مالک ہٹا دیا گیا ہے</string>
+    <string name="owner_deleted">مالک حذف کر دیا گیا</string>
+    <string name="could_not_be_deleted">حذف نہیں ہو سکا</string>
+    <string name="delete_rol">کردار حذف کریں</string>
+    <string name="already_observer">پہلے ہی مشاہدہ کار ہے</string>
+    <string name="not_owner_new_observer">نیا مشاہدہ کار، اب مالک نہیں</string>
+    <string name="new_observer">نیا مشاہدہ کار</string>
+    <string name="could_not_add">شامل نہیں ہو سکا</string>
+    <string name="user_not_exist">صارف موجود نہیں</string>
+    <string name="not_ownsers_available">کوئی مالک دستیاب نہیں</string>
+    <string name="now_he_observer">اب وہ مشاہدہ کار ہے</string>
+    <string name="change_to_observer">مشاہدہ کار میں تبدیل کریں</string>
+    <string name="not_possible_delete">حذف نہیں ہو سکا</string>
+    <string name="not_observer_new_owner">نیا مالک، اب مشاہدہ کار نہیں</string>
+    <string name="new_owner">نیا مالک</string>
+    <string name="authorized_for_creator">اجازت مسترد کر دی گئی، صرف تخلیق کار کے لیے</string>
+    <string name="already_creator">پہلے ہی تخلیق کار</string>
+    <string name="new_creator">نیا تخلیق کار</string>
+    <string name="filter_veterinary_visits">ویٹرنری وزٹس کو فلٹر کریں</string>
+    <string name="previous_visits">پچھلی وزٹس</string>
+    <string name="previous_not_attending_visits">پچھلی غیر حاضر وزٹس</string>
+    <string name="all_visits">تمام وزٹس</string>
+    <string name="next_vivits">آنے والی وزٹس</string>
+    <string name="not_invitations">کوئی دعوت نامے نہیں</string>
+    <string name="change_rol_to">کردار %1$s میں تبدیل کریں</string>
+    <string name="passwords_do_not_match">پاس ورڈز مماثل نہیں</string>
+    <string name="password_minimum_characters">پاس ورڈ کم از کم 6 حروف کا ہونا چاہیے</string>
+    <string name="account_without_linked_email">منسلک ای میل کے بغیر اکاؤنٹ</string>
+    <string name="email_not_associated">ای میل آپ کے اکاؤنٹ سے منسلک نہیں</string>
+    <string name="time_zone">ٹائم زون</string>
+    <string name="select_language" translatable="false">زبان منتخب کریں</string>
+    <string name="calendar">کیلنڈر</string>
+    <string name="passwordInvalid">8 حروف، ایک حرف اور ایک عدد ہونا چاہیے</string>
+    <string name="invalid_email">غلط ای میل ایڈریس</string>
+    <string name="weight_not_exist">کسی نے یہ وزن حذف کر دیا، ترمیم ممکن نہیں</string>
+    <string name="veterinaryVisit_not_exist">کسی نے یہ وزٹ حذف کر دی، ترمیم ممکن نہیں</string>
+    <string name="next_events">آنے والے واقعات</string>
+    <string name="not_events">اس تاریخ کے لیے کوئی واقعات نہیں</string>
+    <string name="select_a_date">ایک تاریخ منتخب کریں</string>
+    <string name="select_your_pets">اپنے پالتو جانور منتخب کریں</string>
+    <string-array name="species_options">
+        <item>مکڑی</item>
+        <item>گدھا</item>
+        <item>گھوڑا</item>
+        <item>بکری</item>
+        <item>گرگٹ</item>
+        <item>کیکڑا</item>
+        <item>خنزیر</item>
+        <item>چنچیلا</item>
+        <item>گنی پگ</item>
+        <item>خرگوش</item>
+        <item>سیہہ</item>
+        <item>بچھو</item>
+        <item>نیولا</item>
+        <item>مرغی</item>
+        <item>بلی</item>
+        <item>گیکو</item>
+        <item>ہیمسٹر</item>
+        <item>نیولا</item>
+        <item>آئیگوانا</item>
+        <item>چھپکلی</item>
+        <item>بھیڑ</item>
+        <item>کبوتر</item>
+        <item>بطخ</item>
+        <item>پرندہ</item>
+        <item>مچھلی</item>
+        <item>کتا</item>
+        <item>چوہا</item>
+        <item>چوہیا</item>
+        <item>سانپ</item>
+        <item>کچھوا</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>پیر</item>
+        <item>منگل</item>
+        <item>بدھ</item>
+        <item>جمعرات</item>
+        <item>جمعہ</item>
+        <item>ہفتہ</item>
+        <item>اتوار</item>
+    </string-array>
+    <string name="year_singular">سال</string>
+    <string name="year_plural">سال</string>
+    <string name="month_singular">مہینہ</string>
+    <string name="month_plural">مہینے</string>
+    <string name="day_singular">دن</string>
+    <string name="day_plural">دن</string>
+    <string name="current_weight">موجودہ وزن</string>
+</resources>
