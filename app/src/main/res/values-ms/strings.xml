@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Lembaran Teknikal</string>
+    <string name="create_weight_title">Berat Baharu</string>
+    <string name="weight_form_label_date">Tarikh</string>
+    <string name="weight_form_label_note">Komen</string>
+    <string name="weight_form_placeholder_note">Tulis komen</string>
+    <string name="weight_form_label_weight">Berat (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Terima</string>
+    <string name="form_cancel_btn">Batal</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Pilihan</string>
+    <string name="edit_weight_title">Edit Berat</string>
+    <string name="delete_weight_alert_title">Padam berat ini dari senarai?</string>
+    <string name="delete_weight_alert_description">Jika anda memadam berat ini dari senarai, ia akan dialih keluar secara kekal dari semua akaun yang dipautkan kepada haiwan kesayangan %1$s</string>
+    <string name="wheights_pets_title">Berat</string>
+    <string name="select_weght_unit_title_dialog">Pilih unit berat</string>
+    <string name="form_confirm_delete_btn">Padam</string>
+    <string name="empty_pet_list">Tiada haiwan kesayangan tersedia</string>
+    <string name="sign_out">Log keluar</string>
+    <string name="delete_pet_button">Padam haiwan kesayangan</string>
+    <string name="forgot_password">Lupa kata laluan anda?</string>
+    <string name="have_an_account">Sudah mempunyai akaun?</string>
+    <string name="sign_up">Daftar masuk</string>
+    <string name="create_account">Cipta akaun</string>
+    <string name="not_create_account">Belum mempunyai akaun?</string>
+    <string name="title_photoPickerBottomSheet">Pilih pilihan</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="profile_pet_photo_description">Imej profil haiwan kesayangan</string>
+    <string name="camera_permission_denied">Kebenaran kamera ditolak</string>
+    <string name="selected_photo">Foto dipilih</string>
+    <string name="photo_not_taken">Foto tidak diambil</string>
+    <string name="photo_taken">Foto diambil</string>
+    <string name="type">Spesies</string>
+    <string name="dog">Anjing</string>
+    <string name="breed">Baka</string>
+    <string name="carlino">Pug</string>
+    <string name="birthdayDate">Tarikh Lahir</string>
+    <string name="adoptionDate">Tarikh angkat</string>
+    <string name="microchip">Mikrocip</string>
+    <string name="sterilized">Disteril</string>
+    <string name="not_sterilized">Tidak disteril</string>
+    <string name="delete_pet_alert_description">Jika anda memadam haiwan kesayangan ini, ia akan dialih keluar secara kekal dari semua akaun yang dipautkan kepada haiwan kesayangan %1$s</string>
+    <string name="delete_pet_alert_title">Padam haiwan kesayangan ini?</string>
+    <string name="sterilizedDate">Tarikh sterilisasi</string>
+    <string name="pet_not_exists_dialog_description">Tindakan tidak dapat dilakukan pada haiwan kesayangan ini. Jika anda belum memadam haiwan kesayangan itu, semak jika pemilik yang berkaitan telah melakukannya.</string>
+    <string name="pet_not_exists_dialog_title">Haiwan kesayangan tidak ditemui</string>
+    <string name="understood">Faham</string>
+    <string name="microchipDate">Tarikh implantasi</string>
+    <string name="microchip_identifier">Pengecam</string>
+    <string name="invalid_microchip">Mesti mengandungi 12 digit</string>
+    <string name="edit_microchip_title">Data Mikrocip</string>
+    <string name="edit_sterilized_state_title">Status Sterilisasi</string>
+    <string name="save">Simpan</string>
+    <string name="default_datePicker_title">Pilih tarikh</string>
+    <string name="edit">Edit</string>
+    <string name="edit_birthdate_title">Umur dan Tarikh Lahir</string>
+    <string name="unidentified">Tidak Dikenal pasti</string>
+    <string name="age">Umur</string>
+    <string name="time">Masa</string>
+    <string name="adoption">Pengangkatan</string>
+    <string name="add_date">Tambah tarikh</string>
+    <string name="updated_photo">Foto dikemas kini</string>
+    <string name="not_updated_photo">Tidak dapat mengemas kini</string>
+    <string name="delete">Padam</string>
+    <string name="deleted_pet">%1$s dipadam</string>
+    <string name="not_deleted_pet">Tidak dapat memadam</string>
+    <string name="edit_basic_data_title">Data Utama</string>
+    <string name="name">Nama</string>
+    <string name="edit_user_profile">Edit Profil</string>
+    <string name="notifications">Pemberitahuan</string>
+    <string name="dark_mode">Mod gelap</string>
+    <string name="light_mode">Mod terang</string>
+    <string name="clear_cache">Kosongkan cache</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Tetapan</string>
+    <string name="key">Kunci</string>
+    <string name="invitation_key">Kunci jemputan</string>
+    <string name="invitations">Jemputan</string>
+    <string name="language">Bahasa</string>
+    <string name="update_password">Tukar kata laluan</string>
+    <string name="password">Kata Laluan</string>
+    <string name="new_password">Kata laluan baharu</string>
+    <string name="reset_password">Set semula kata laluan</string>
+    <string name="recover_password">Pulihkan kata laluan</string>
+    <string name="associed_email">E-mel berkaitan</string>
+    <string name="send_mail">Hantar e-mel</string>
+    <string name="log_out_alert_title">Adakah anda mahu log keluar?</string>
+    <string name="log_out_alert_description">Dengan menerima, akaun anda akan dilog keluar dan akses akan hilang sehingga anda mendaftar masuk semula</string>
+    <string name="people_linked">Orang berkaitan</string>
+    <string name="owners">Pemilik</string>
+    <string name="observers">Pemerhati</string>
+    <string name="pet">Haiwan Kesayangan</string>
+    <string name="observed_pets">Haiwan kesayangan yang boleh diperhatikan</string>
+    <string name="pets">Haiwan Kesayangan</string>
+    <string name="invite_petOwner">Jemput pemilik</string>
+    <string name="send">Hantar</string>
+    <string name="add">Tambah</string>
+    <string name="add_petOwner">Tambah pemilik</string>
+    <string name="update_creatorOwner">Edit pencipta</string>
+    <string name="creatorOwner">Pencipta</string>
+    <string name="add_petObserver">Tambah pemerhati</string>
+    <string name="permission_denied_observer">Kebenaran ditolak sebagai pemerhati</string>
+    <string name="new_pet">Haiwan kesayangan baharu</string>
+    <string name="owner">Pemilik</string>
+    <string name="observer">Pemerhati</string>
+    <string name="veterinary_visits">Lawatan doktor haiwan seterusnya</string>
+    <string name="register_new_weight">Tambah berat pertama</string>
+    <string name="register_new_veterinay_visists">Tambah lawatan</string>
+    <string name="edit_veterinay_vivist_title">Edit janji temu doktor haiwan</string>
+    <string name="create_veterinay_vivist_title">Janji temu doktor haiwan baharu</string>
+    <string name="concept">Konsep</string>
+    <string name="concept_placeholder">Pembasmi cacing</string>
+    <string name="description">Penerangan</string>
+    <string name="description_placeholder">Sapukan pipet pembasmi cacing</string>
+    <string name="form_label_time">Masa</string>
+    <string name="veterinary">Doktor Haiwan</string>
+    <string name="veterinary_placeholder">Klinik Veterinar Martínez</string>
+    <string name="error_create_veterinary_visit">Ralat mencipta lawatan</string>
+    <string name="error_edit_veterinary_visit">Ralat mengedit lawatan</string>
+    <string name="delete_visit_alert_title">Padam lawatan doktor haiwan ini?</string>
+    <string name="delete_visit_alert_description">Jika anda memadam lawatan ini, ia akan dialih keluar secara kekal dari semua akaun yang dipautkan kepada haiwan kesayangan %1$s</string>
+    <string name="completed">Selesai</string>
+    <string name="not_completed">Dijadualkan</string>
+    <string name="comment">Komen</string>
+    <string name="add_weight">Tambah berat</string>
+    <string name="next_visit">Lawatan seterusnya</string>
+    <string name="veterinary_visits_title">Lawatan doktor haiwan</string>
+    <string name="owners_info_dialog_title">Apa yang boleh dilakukan oleh pemilik?</string>
+    <string name="owners_info_dialog_description">Cipta, edit dan ubah suai sebarang data</string>
+    <string name="owners_info_dialog_description2">Tambah, edit dan alih keluar pemilik lain</string>
+    <string name="owners_info_dialog_description3">Tambah, edit dan alih keluar pemerhati</string>
+    <string name="owners_info_dialog_description4">Hanya pencipta boleh ditukar kepada pengguna lain</string>
+    <string name="observers_info_dialog_title">Apa yang boleh dilakukan oleh pemerhati?</string>
+    <string name="observers_info_dialog_description">Boleh melihat sebarang data</string>
+    <string name="observers_info_dialog_description2">Tidak boleh mencipta, mengedit atau mengubah suai sebarang data</string>
+    <string name="observers_info_dialog_description3">Tidak boleh menambah, mengedit atau mengalih keluar pemilik</string>
+    <string name="observers_info_dialog_description4">Tidak boleh menambah, mengedit atau mengalih keluar pemerhati lain</string>
+    <string name="next_visits_subtitle">Akan datang</string>
+    <string name="previous_visits_subtitle">Sebelum ini</string>
+    <string name="previous_not_attending_visits_subtitle">Sebelum ini tidak dihadiri</string>
+    <string name="search">Cari...</string>
+    <string name="not_available">Tidak tersedia</string>
+    <string name="state">Negeri</string>
+    <string name="select_time">Pilih masa</string>
+    <string name="email">E-mel</string>
+    <string name="welcome">Selamat datang %1$s</string>
+    <string name="error_creating_user">Ralat mencipta pengguna</string>
+    <string name="welcome_back">Selamat datang kembali %1$s</string>
+    <string name="an_error_has_occurred">Ralat telah berlaku</string>
+    <string name="guest">Tetamu</string>
+    <string name="loggin">LOG MASUK</string>
+    <string name="register">Daftar</string>
+    <string name="already_have_an_account">Sudah mempunyai akaun? Daftar masuk</string>
+    <string name="registered_account">Akaun didaftarkan</string>
+    <string name="account_already_exists">Akaun ini sudah wujud</string>
+    <string name="all_fields_are_required">Semua medan diperlukan</string>
+    <string name="unregistered_image">Imej %1$s tidak didaftarkan</string>
+    <string name="pet_not_registered">Haiwan kesayangan tidak dapat didaftarkan</string>
+    <string name="register_pet">Daftar</string>
+    <string name="not_observables_available">Tiada pemerhati tersedia</string>
+    <string name="manage_user">Urus %1$s</string>
+    <string name="not_possible_change_creator">Tidak boleh menukar peranan pencipta</string>
+    <string name="already_owner">Sudah menjadi pemilik</string>
+    <string name="now_he_owner">Sekarang seorang pemilik</string>
+    <string name="role_could_not_be_changed">Peranan tidak dapat diubah</string>
+    <string name="change_to_owner">Tukar kepada pemilik</string>
+    <string name="not_possible_delete_creator">Tidak boleh memadam pencipta</string>
+    <string name="you_have_been_removed_as_owner">Anda telah dialih keluar sebagai pemilik</string>
+    <string name="owner_deleted">Pemilik dipadam</string>
+    <string name="could_not_be_deleted">Tidak dapat dipadam</string>
+    <string name="delete_rol">Padam peranan</string>
+    <string name="already_observer">Sudah menjadi pemerhati</string>
+    <string name="not_owner_new_observer">Pemerhati baharu, bukan lagi pemilik</string>
+    <string name="new_observer">Pemerhati baharu</string>
+    <string name="could_not_add">Tidak dapat menambah</string>
+    <string name="user_not_exist">Pengguna tidak wujud</string>
+    <string name="not_ownsers_available">Tiada pemilik tersedia</string>
+    <string name="now_he_observer">Sekarang seorang pemerhati</string>
+    <string name="change_to_observer">Tukar kepada pemerhati</string>
+    <string name="not_possible_delete">Tidak dapat memadam</string>
+    <string name="not_observer_new_owner">Pemilik baharu, bukan lagi pemerhati</string>
+    <string name="new_owner">Pemilik baharu</string>
+    <string name="authorized_for_creator">Kebenaran ditolak, hanya untuk pencipta</string>
+    <string name="already_creator">Sudah menjadi pencipta</string>
+    <string name="new_creator">Pencipta baharu</string>
+    <string name="filter_veterinary_visits">Tapis lawatan doktor haiwan</string>
+    <string name="previous_visits">Lawatan sebelumnya</string>
+    <string name="previous_not_attending_visits">Lawatan sebelumnya yang tidak dihadiri</string>
+    <string name="all_visits">Semua lawatan</string>
+    <string name="next_vivits">Lawatan akan datang</string>
+    <string name="not_invitations">Tiada jemputan</string>
+    <string name="change_rol_to">Tukar peranan kepada %1$s</string>
+    <string name="passwords_do_not_match">Kata laluan tidak sepadan</string>
+    <string name="password_minimum_characters">Kata laluan mestilah sekurang-kurangnya 6 aksara</string>
+    <string name="account_without_linked_email">Akaun tanpa e-mel yang dipautkan</string>
+    <string name="email_not_associated">E-mel tidak berkaitan dengan akaun anda</string>
+    <string name="time_zone">Zon masa</string>
+    <string name="select_language" translatable="false">Pilih bahasa</string>
+    <string name="calendar">Kalendar</string>
+    <string name="passwordInvalid">Mesti mengandungi 8 aksara, satu huruf, dan satu nombor</string>
+    <string name="invalid_email">Alamat e-mel tidak sah</string>
+    <string name="weight_not_exist">Seseorang memadam berat ini, pengeditan tidak mungkin</string>
+    <string name="veterinaryVisit_not_exist">Seseorang memadam lawatan ini, pengeditan tidak mungkin</string>
+    <string name="next_events">Acara akan datang</string>
+    <string name="not_events">Tiada acara untuk tarikh ini</string>
+    <string name="select_a_date">Pilih tarikh</string>
+    <string name="select_your_pets">Pilih haiwan kesayangan anda</string>
+    <string-array name="species_options">
+        <item>Labah-labah</item>
+        <item>Keldai</item>
+        <item>Kuda</item>
+        <item>Kambing</item>
+        <item>Sesumpah</item>
+        <item>Ketam</item>
+        <item>Babi</item>
+        <item>Chinchilla</item>
+        <item>Tikus belanda</item>
+        <item>Arnab</item>
+        <item>Landak</item>
+        <item>Kala jengking</item>
+        <item>Feret</item>
+        <item>Ayam</item>
+        <item>Kucing</item>
+        <item>Cicak tokek</item>
+        <item>Hamster</item>
+        <item>Iguana</item>
+        <item>Cicak</item>
+        <item>Biri-biri</item>
+        <item>Merpati</item>
+        <item>Itik</item>
+        <item>Burung</item>
+        <item>Ikan</item>
+        <item>Anjing</item>
+        <item>Tikus</item>
+        <item>Tikus kecil</item>
+        <item>Ular</item>
+        <item>Penyu</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Isn</item>
+        <item>Sel</item>
+        <item>Rab</item>
+        <item>Kha</item>
+        <item>Jum</item>
+        <item>Sab</item>
+        <item>Aha</item>
+    </string-array>
+    <string name="year_singular">tahun</string>
+    <string name="year_plural">tahun</string>
+    <string name="month_singular">bulan</string>
+    <string name="month_plural">bulan</string>
+    <string name="day_singular">hari</string>
+    <string name="day_plural">hari</string>
+    <string name="current_weight">Berat semasa</string>
 </resources>

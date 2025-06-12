@@ -1,4 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Fișă tehnică</string>
+    <string name="create_weight_title">Greutate nouă</string>
+    <string name="weight_form_label_date">Data</string>
+    <string name="weight_form_label_note">Comentariu</string>
+    <string name="weight_form_placeholder_note">Scrie un comentariu</string>
+    <string name="weight_form_label_weight">Greutate (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Acceptă</string>
+    <string name="form_cancel_btn">Anulează</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Opțional</string>
+    <string name="edit_weight_title">Editează greutatea</string>
+    <string name="delete_weight_alert_title">Dorești să ștergi această greutate din listă?</string>
+    <string name="delete_weight_alert_description">Dacă ștergi această greutate din listă, va fi eliminată definitiv din toate conturile legate de animalul de companie %1$s</string>
+    <string name="wheights_pets_title">Greutăți</string>
+    <string name="select_weght_unit_title_dialog">Selectează unitatea de greutate</string>
+    <string name="form_confirm_delete_btn">Șterge</string>
+    <string name="empty_pet_list">Niciun animal de companie disponibil</string>
+    <string name="sign_out">Deconectare</string>
+    <string name="delete_pet_button">Șterge animalul de companie</string>
+    <string name="forgot_password">Ți-ai uitat parola?</string>
+    <string name="have_an_account">Ai deja un cont?</string>
+    <string name="sign_up">Conectare</string>
+    <string name="create_account">Creează cont</string>
+    <string name="not_create_account">Nu ai încă un cont?</string>
+    <string name="title_photoPickerBottomSheet">Selectează o opțiune</string>
+    <string name="camera">Cameră</string>
+    <string name="gallery">Galerie</string>
+    <string name="profile_pet_photo_description">Imagine de profil a animalului de companie</string>
+    <string name="camera_permission_denied">Permisiune cameră refuzată</string>
+    <string name="selected_photo">Fotografie selectată</string>
+    <string name="photo_not_taken">Fotografie netrecută</string>
+    <string name="photo_taken">Fotografie realizată</string>
+    <string name="type">Specie</string>
+    <string name="dog">Câine</string>
+    <string name="breed">Rasă</string>
+    <string name="carlino">Mops</string>
+    <string name="birthdayDate">Data nașterii</string>
+    <string name="adoptionDate">Data adopției</string>
+    <string name="microchip">Microcip</string>
+    <string name="sterilized">Sterilizat</string>
+    <string name="not_sterilized">Nesterilizat</string>
+    <string name="delete_pet_alert_description">Dacă ștergi acest animal de companie, va fi eliminat definitiv din toate conturile legate de animalul de companie %1$s</string>
+    <string name="delete_pet_alert_title">Dorești să ștergi acest animal de companie?</string>
+    <string name="sterilizedDate">Data sterilizării</string>
+    <string name="pet_not_exists_dialog_description">Acțiunile nu pot fi efectuate asupra acestui animal de companie. Dacă nu ai șters animalul de companie, verifică dacă un proprietar asociat a făcut acest lucru.</string>
+    <string name="pet_not_exists_dialog_title">Animal de companie negăsit</string>
+    <string name="understood">Am înțeles</string>
+    <string name="microchipDate">Data implantării</string>
+    <string name="microchip_identifier">Identificator</string>
+    <string name="invalid_microchip">Trebuie să conțină 12 cifre</string>
+    <string name="edit_microchip_title">Date microcip</string>
+    <string name="edit_sterilized_state_title">Status sterilizare</string>
+    <string name="save">Salvează</string>
+    <string name="default_datePicker_title">Selectează o dată</string>
+    <string name="edit">Editează</string>
+    <string name="edit_birthdate_title">Vârsta și data nașterii</string>
+    <string name="unidentified">Neidentificat</string>
+    <string name="age">Vârstă</string>
+    <string name="time">Oră</string>
+    <string name="adoption">Adopție</string>
+    <string name="add_date">Adaugă dată</string>
+    <string name="updated_photo">Fotografie actualizată</string>
+    <string name="not_updated_photo">Nu s-a putut actualiza</string>
+    <string name="delete">Șterge</string>
+    <string name="deleted_pet">%1$s șters</string>
+    <string name="not_deleted_pet">Nu s-a putut șterge</string>
+    <string name="edit_basic_data_title">Date principale</string>
+    <string name="name">Nume</string>
+    <string name="edit_user_profile">Editează profilul</string>
+    <string name="notifications">Notificări</string>
+    <string name="dark_mode">Mod întunecat</string>
+    <string name="light_mode">Mod luminos</string>
+    <string name="clear_cache">Golește memoria cache</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Setări</string>
+    <string name="key">Cheie</string>
+    <string name="invitation_key">Cheie de invitație</string>
+    <string name="invitations">Invitații</string>
+    <string name="language">Limbă</string>
+    <string name="update_password">Schimbă parola</string>
+    <string name="password">Parolă</string>
+    <string name="new_password">Parolă nouă</string>
+    <string name="reset_password">Resetează parola</string>
+    <string name="recover_password">Recuperează parola</string>
+    <string name="associed_email">Adresă de e-mail asociată</string>
+    <string name="send_mail">Trimite e-mail</string>
+    <string name="log_out_alert_title">Dorești să te deconectezi?</string>
+    <string name="log_out_alert_description">Prin acceptare, contul tău va fi deconectat și vei pierde accesul până te vei conecta din nou</string>
+    <string name="people_linked">Persoane asociate</string>
+    <string name="owners">Proprietari</string>
+    <string name="observers">Observatori</string>
+    <string name="pet">Animal de companie</string>
+    <string name="observed_pets">Animale de companie observabile</string>
+    <string name="pets">Animale de companie</string>
+    <string name="invite_petOwner">Invitați un proprietar</string>
+    <string name="send">Trimite</string>
+    <string name="add">Adaugă</string>
+    <string name="add_petOwner">Adaugă un proprietar</string>
+    <string name="update_creatorOwner">Editează creatorul</string>
+    <string name="creatorOwner">Creator</string>
+    <string name="add_petObserver">Adaugă un observator</string>
+    <string name="permission_denied_observer">Permisiune refuzată ca observator</string>
+    <string name="new_pet">Animal de companie nou</string>
+    <string name="owner">Proprietar</string>
+    <string name="observer">Observator</string>
+    <string name="veterinary_visits">Următoarea vizită veterinară</string>
+    <string name="register_new_weight">Adaugă prima greutate</string>
+    <string name="register_new_veterinay_visists">Adaugă o vizită</string>
+    <string name="edit_veterinay_vivist_title">Editează programarea veterinară</string>
+    <string name="create_veterinay_vivist_title">Programare veterinară nouă</string>
+    <string name="concept">Concept</string>
+    <string name="concept_placeholder">Deparazitare</string>
+    <string name="description">Descriere</string>
+    <string name="description_placeholder">Aplică pipetă de deparazitare</string>
+    <string name="form_label_time">Oră</string>
+    <string name="veterinary">Veterinar</string>
+    <string name="veterinary_placeholder">Clinica Veterinară Martínez</string>
+    <string name="error_create_veterinary_visit">Eroare la crearea vizitei</string>
+    <string name="error_edit_veterinary_visit">Eroare la editarea vizitei</string>
+    <string name="delete_visit_alert_title">Dorești să ștergi această vizită veterinară?</string>
+    <string name="delete_visit_alert_description">Dacă ștergi această vizită, va fi eliminată definitiv din toate conturile legate de animalul de companie %1$s</string>
+    <string name="completed">Completat</string>
+    <string name="not_completed">Programat</string>
+    <string name="comment">Comentariu</string>
+    <string name="add_weight">Adaugă o greutate</string>
+    <string name="next_visit">Următoarea vizită</string>
+    <string name="veterinary_visits_title">Vizite veterinare</string>
+    <string name="owners_info_dialog_title">Ce poate face un proprietar?</string>
+    <string name="owners_info_dialog_description">Crează, editează și modifică orice date</string>
+    <string name="owners_info_dialog_description2">Adaugă, editează și elimină un alt proprietar</string>
+    <string name="owners_info_dialog_description3">Adaugă, editează și elimină un observator</string>
+    <string name="owners_info_dialog_description4">Doar creatorul poate fi schimbat cu un alt utilizator</string>
+    <string name="observers_info_dialog_title">Ce poate face un observator?</string>
+    <string name="observers_info_dialog_description">Poate vizualiza orice date</string>
+    <string name="observers_info_dialog_description2">Nu poate crea, edita sau modifica nicio dată</string>
+    <string name="observers_info_dialog_description3">Nu poate adăuga, edita sau elimina un proprietar</string>
+    <string name="observers_info_dialog_description4">Nu poate adăuga, edita sau elimina un alt observator</string>
+    <string name="next_visits_subtitle">Următoarele</string>
+    <string name="previous_visits_subtitle">Anterioare</string>
+    <string name="previous_not_attending_visits_subtitle">Anterioare neparticipate</string>
+    <string name="search">Căutare...</string>
+    <string name="not_available">Indisponibil</string>
+    <string name="state">Stare</string>
+    <string name="select_time">Selectează ora</string>
+    <string name="email">E-mail</string>
+    <string name="welcome">Bun venit %1$s</string>
+    <string name="error_creating_user">Eroare la crearea utilizatorului</string>
+    <string name="welcome_back">Bun venit înapoi %1$s</string>
+    <string name="an_error_has_occurred">A apărut o eroare</string>
+    <string name="guest">Oaspete</string>
+    <string name="loggin">AUTENTIFICARE</string>
+    <string name="register">Înregistrare</string>
+    <string name="already_have_an_account">Ai deja un cont? Conectează-te</string>
+    <string name="registered_account">Cont înregistrat</string>
+    <string name="account_already_exists">Acest cont există deja</string>
+    <string name="all_fields_are_required">Toate câmpurile sunt obligatorii</string>
+    <string name="unregistered_image">Imagine %1$s neînregistrată</string>
+    <string name="pet_not_registered">Animalul de companie nu a putut fi înregistrat</string>
+    <string name="register_pet">Înregistrează</string>
+    <string name="not_observables_available">Niciun observator disponibil</string>
+    <string name="manage_user">Gestionează %1$s</string>
+    <string name="not_possible_change_creator">Nu se poate schimba rolul creatorului</string>
+    <string name="already_owner">Deja proprietar</string>
+    <string name="now_he_owner">Acum este proprietar</string>
+    <string name="role_could_not_be_changed">Rolul nu a putut fi schimbat</string>
+    <string name="change_to_owner">Schimbă la proprietar</string>
+    <string name="not_possible_delete_creator">Nu se poate șterge creatorul</string>
+    <string name="you_have_been_removed_as_owner">Ai fost eliminat ca proprietar</string>
+    <string name="owner_deleted">Proprietar șters</string>
+    <string name="could_not_be_deleted">Nu s-a putut șterge</string>
+    <string name="delete_rol">Șterge rolul</string>
+    <string name="already_observer">Deja observator</string>
+    <string name="not_owner_new_observer">Observator nou, nu mai este proprietar</string>
+    <string name="new_observer">Observator nou</string>
+    <string name="could_not_add">Nu s-a putut adăuga</string>
+    <string name="user_not_exist">Utilizatorul nu există</string>
+    <string name="not_ownsers_available">Niciun proprietar disponibil</string>
+    <string name="now_he_observer">Acum este observator</string>
+    <string name="change_to_observer">Schimbă la observator</string>
+    <string name="not_possible_delete">Nu s-a putut șterge</string>
+    <string name="not_observer_new_owner">Proprietar nou, nu mai este observator</string>
+    <string name="new_owner">Proprietar nou</string>
+    <string name="authorized_for_creator">Permisiune refuzată, doar pentru creator</string>
+    <string name="already_creator">Deja creator</string>
+    <string name="new_creator">Creator nou</string>
+    <string name="filter_veterinary_visits">Filtrează vizitele veterinare</string>
+    <string name="previous_visits">Vizite anterioare</string>
+    <string name="previous_not_attending_visits">Vizite anterioare neparticipate</string>
+    <string name="all_visits">Toate vizitele</string>
+    <string name="next_vivits">Vizite viitoare</string>
+    <string name="not_invitations">Nicio invitație</string>
+    <string name="change_rol_to">Schimbă rolul în %1$s</string>
+    <string name="passwords_do_not_match">Parolele nu se potrivesc</string>
+    <string name="password_minimum_characters">Parola trebuie să aibă minim 6 caractere</string>
+    <string name="account_without_linked_email">Cont fără e-mail asociat</string>
+    <string name="email_not_associated">E-mailul nu este asociat contului tău</string>
+    <string name="time_zone">Fus orar</string>
+    <string name="select_language" translatable="false">Selectează o limbă</string>
+    <string name="calendar">Calendar</string>
+    <string name="passwordInvalid">Trebuie să conțină 8 caractere, o literă și un număr</string>
+    <string name="invalid_email">Adresă de e-mail invalidă</string>
+    <string name="weight_not_exist">Cineva a șters această greutate, editarea nu este posibilă</string>
+    <string name="veterinaryVisit_not_exist">Cineva a șters această vizită, editarea nu este posibilă</string>
+    <string name="next_events">Evenimente viitoare</string>
+    <string name="not_events">Niciun eveniment pentru această dată</string>
+    <string name="select_a_date">Selectează o dată</string>
+    <string name="select_your_pets">Selectează-ți animalele de companie</string>
+    <string-array name="species_options">
+        <item>Păianjen</item>
+        <item>Măgar</item>
+        <item>Cal</item>
+        <item>Capră</item>
+        <item>Cameleon</item>
+        <item>Crab</item>
+        <item>Porc</item>
+        <item>Chinchilla</item>
+        <item>Cobai</item>
+        <item>Iepure</item>
+        <item>Arici</item>
+        <item>Scorpion</item>
+        <item>Dihor</item>
+        <item>Găină</item>
+        <item>Pisică</item>
+        <item>Gheko</item>
+        <item>Hamster</item>
+        <item>Dihor</item>
+        <item>Iguană</item>
+        <item>Șopârlă</item>
+        <item>Oaie</item>
+        <item>Porumbel</item>
+        <item>Rață</item>
+        <item>Pasăre</item>
+        <item>Pește</item>
+        <item>Câine</item>
+        <item>Șobolan</item>
+        <item>Șoarece</item>
+        <item>Șarpe</item>
+        <item>Broască țestoasă</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mie</item>
+        <item>Joi</item>
+        <item>Vin</item>
+        <item>Sâm</item>
+        <item>Dum</item>
+    </string-array>
+    <string name="year_singular">an</string>
+    <string name="year_plural">ani</string>
+    <string name="month_singular">lună</string>
+    <string name="month_plural">luni</string>
+    <string name="day_singular">zi</string>
+    <string name="day_plural">zile</string>
+    <string name="current_weight">Greutate actuală</string>
 </resources>

@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">पेटली</string>
+    <string name="pet_detail_screen_title">पालतू पशु कार्ड</string>
+    <string name="create_weight_title">नया वज़न</string>
+    <string name="weight_form_label_date">दिनांक</string>
+    <string name="weight_form_label_note">नोट</string>
+    <string name="weight_form_placeholder_note">एक नोट लिखें</string>
+    <string name="weight_form_label_weight">वज़न (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">स्वीकार करें</string>
+    <string name="form_cancel_btn">रद्द करें</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">वैकल्पिक</string>
+    <string name="edit_weight_title">वज़न संपादित करें</string>
+    <string name="delete_weight_alert_title">क्या आप इस वज़न को सूची से हटाना चाहते हैं?</string>
+    <string name="delete_weight_alert_description">यदि आप इस वज़न को सूची से हटाते हैं, तो इसे पालतू %1$s से जुड़े सभी खातों से स्थायी रूप से हटा दिया जाएगा।</string>
+    <string name="wheights_pets_title">वज़न</string>
+    <string name="select_weght_unit_title_dialog">वज़न की इकाई चुनें</string>
+    <string name="form_confirm_delete_btn">मिटाएं</string>
+    <string name="empty_pet_list">कोई पालतू जानवर नहीं</string>
+    <string name="sign_out">साइन आउट</string>
+    <string name="delete_pet_button">पालतू जानवर मिटाएं</string>
+    <string name="forgot_password">पासवर्ड भूल गए?</string>
+    <string name="have_an_account">पहले से ही एक खाता है?</string>
+    <string name="sign_up">साइन अप करें</string>
+    <string name="create_account">खाता बनाएं</string>
+    <string name="not_create_account">अभी तक कोई खाता नहीं है?</string>
+    <string name="title_photoPickerBottomSheet">एक विकल्प चुनें</string>
+    <string name="camera">कैमरा</string>
+    <string name="gallery">गैलरी</string>
+    <string name="profile_pet_photo_description">पालतू जानवर की प्रोफ़ाइल फ़ोटो</string>
+    <string name="camera_permission_denied">कैमरा अनुमति अस्वीकृत</string>
+    <string name="selected_photo">चयनित फ़ोटो</string>
+    <string name="photo_not_taken">फ़ोटो नहीं ली गई</string>
+    <string name="photo_taken">फ़ोटो ली गई</string>
+    <string name="type">प्रकार</string>
+    <string name="dog">कुत्ता</string>
+    <string name="breed">नस्ल</string>
+    <string name="carlino">पग</string>
+    <string name="birthdayDate">जन्मदिन की तारीख</string>
+    <string name="adoptionDate">गोद लेने की तारीख</string>
+    <string name="microchip">माइक्रोचिप</string>
+    <string name="sterilized">नसबंदी की गई</string>
+    <string name="not_sterilized">नसबंदी नहीं की गई</string>
+    <string name="delete_pet_alert_description">यदि आप इस पालतू जानवर को हटाते हैं, तो इसे पालतू %1$s से जुड़े सभी खातों से स्थायी रूप से हटा दिया जाएगा।</string>
+    <string name="delete_pet_alert_title">क्या आप इस पालतू जानवर को हटाना चाहते हैं?</string>
+    <string name="sterilizedDate">नसबंदी की तारीख</string>
+    <string name="pet_not_exists_dialog_description">इस पालतू जानवर पर कार्रवाई नहीं की जा सकती। यदि पालतू जानवर को नहीं हटाया गया है, तो जाँच करें कि क्या संबद्ध मालिक ने कार्रवाई की है।</string>
+    <string name="pet_not_exists_dialog_title">पालतू जानवर नहीं मिला</string>
+    <string name="understood">समझ गए</string>
+    <string name="microchipDate">प्रत्यारोपण की तारीख</string>
+    <string name="microchip_identifier">पहचानकर्ता</string>
+    <string name="invalid_microchip">इसमें 12 अंक होने चाहिए</string>
+    <string name="edit_microchip_title">माइक्रोचिप डेटा</string>
+    <string name="edit_sterilized_state_title">नसबंदी की स्थिति</string>
+    <string name="save">सहेजें</string>
+    <string name="default_datePicker_title">एक तारीख चुनें</string>
+    <string name="edit">संपादित करें</string>
+    <string name="edit_birthdate_title">उम्र और जन्मदिन</string>
+    <string name="unidentified">अज्ञात</string>
+    <string name="age">उम्र</string>
+    <string name="time">समय</string>
+    <string name="adoption">गोद लेना</string>
+    <string name="add_date">तारीख जोड़ें</string>
+    <string name="updated_photo">फ़ोटो अपडेट की गई</string>
+    <string name="not_updated_photo">अपडेट असफल</string>
+    <string name="delete">मिटाएं</string>
+    <string name="deleted_pet">%1$s हटाया गया</string>
+    <string name="not_deleted_pet">हटाना असफल</string>
+    <string name="edit_basic_data_title">मूल डेटा</string>
+    <string name="name">नाम</string>
+    <string name="edit_user_profile">प्रोफ़ाइल संपादित करें</string>
+    <string name="notifications">सूचनाएं</string>
+    <string name="dark_mode">डार्क मोड</string>
+    <string name="light_mode">लाइट मोड</string>
+    <string name="clear_cache">कैश साफ़ करें</string>
+    <string name="profile">प्रोफ़ाइल</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="key">कुंजी</string>
+    <string name="invitation_key">निमंत्रण कुंजी</string>
+    <string name="invitations">निमंत्रण</string>
+    <string name="language">भाषा</string>
+    <string name="update_password">पासवर्ड बदलें</string>
+    <string name="password">पासवर्ड</string>
+    <string name="new_password">नया पासवर्ड</string>
+    <string name="reset_password">पासवर्ड रीसेट करें</string>
+    <string name="recover_password">पासवर्ड पुनर्प्राप्त करें</string>
+    <string name="associed_email">संबद्ध ईमेल</string>
+    <string name="send_mail">मेल भेजें</string>
+    <string name="log_out_alert_title">क्या आप लॉग आउट करना चाहते हैं?</string>
+    <string name="log_out_alert_description">यदि आप लॉग आउट करने के लिए सहमत होते हैं, तो वर्तमान खाता तब तक पहुंच खो देगा जब तक आप फिर से लॉग इन नहीं करते।</string>
+    <string name="people_linked">जुड़े हुए लोग</string>
+    <string name="owners">मालिक</string>
+    <string name="observers">पर्यवेक्षक</string>
+    <string name="pet">पालतू जानवर</string>
+    <string name="observed_pets">अवलोकित पालतू जानवर</string>
+    <string name="pets">पालतू जानवर</string>
+    <string name="invite_petOwner">पालतू मालिक को आमंत्रित करें</string>
+    <string name="send">भेजें</string>
+    <string name="add">जोड़ें</string>
+    <string name="add_petOwner">पालतू मालिक जोड़ें</string>
+    <string name="update_creatorOwner">निर्माता को अपडेट करें</string>
+    <string name="creatorOwner">निर्माता</string>
+    <string name="add_petObserver">पालतू पर्यवेक्षक जोड़ें</string>
+    <string name="permission_denied_observer">पर्यवेक्षक के रूप में अनुमति अस्वीकृत</string>
+    <string name="new_pet">नया पालतू जानवर</string>
+    <string name="owner">मालिक</string>
+    <string name="observer">पर्यवेक्षक</string>
+    <string name="veterinary_visits">अगली पशु चिकित्सक यात्रा</string>
+    <string name="register_new_weight">पहला वज़न दर्ज करें</string>
+    <string name="register_new_veterinay_visists">विज़िट जोड़ें</string>
+    <string name="edit_veterinay_vivist_title">पशु चिकित्सक की नियुक्ति संपादित करें</string>
+    <string name="create_veterinay_vivist_title">नई पशु चिकित्सक की नियुक्ति</string>
+    <string name="concept">अवधारणा</string>
+    <string name="concept_placeholder">आंतरिक परजीवी उपचार</string>
+    <string name="description">विवरण</string>
+    <string name="description_placeholder">आंतरिक परजीवी बूंदें देने जाएं</string>
+    <string name="form_label_time">समय</string>
+    <string name="veterinary">पशु चिकित्सक</string>
+    <string name="veterinary_placeholder">मार्टिनेज पशु चिकित्सा क्लिनिक</string>
+    <string name="error_create_veterinary_visit">विज़िट बनाते समय त्रुटि</string>
+    <string name="error_edit_veterinary_visit">विज़िट संपादित करते समय त्रुटि</string>
+    <string name="delete_visit_alert_title">क्या आप इस पशु चिकित्सक की यात्रा को हटाना चाहते हैं?</string>
+    <string name="delete_visit_alert_description">यदि आप इस विज़िट को सूची से हटाते हैं, तो इसे पालतू %1$s से जुड़े सभी खातों से स्थायी रूप से हटा दिया जाएगा।</string>
+    <string name="completed">पूरा हो गया</string>
+    <string name="not_completed">नियोजित</string>
+    <string name="comment">टिप्पणी</string>
+    <string name="add_weight">वज़न जोड़ें</string>
+    <string name="next_visit">अगली विज़िट</string>
+    <string name="veterinary_visits_title">पशु चिकित्सक विज़िट</string>
+    <string name="owners_info_dialog_title">मालिक के कार्य क्या हैं?</string>
+    <string name="owners_info_dialog_description">सभी डेटा बनाएं, बदलें और संशोधित करें</string>
+    <string name="owners_info_dialog_description2">दूसरे मालिक को जोड़ें, बदलें और हटा दें</string>
+    <string name="owners_info_dialog_description3">एक पर्यवेक्षक को जोड़ें, बदलें और हटा दें</string>
+    <string name="owners_info_dialog_description4">केवल निर्माता ही खुद को दूसरे उपयोगकर्ता में बदल सकता है</string>
+    <string name="observers_info_dialog_title">एक पर्यवेक्षक के कार्य क्या हैं?</string>
+    <string name="observers_info_dialog_description">सभी डेटा देख सकते हैं</string>
+    <string name="observers_info_dialog_description2">डेटा बना, बदल या संशोधित नहीं कर सकता</string>
+    <string name="observers_info_dialog_description3">मालिक को जोड़, बदल या हटा नहीं सकता</string>
+    <string name="observers_info_dialog_description4">दूसरे पर्यवेक्षक को जोड़, बदल या हटा नहीं सकता</string>
+    <string name="next_visits_subtitle">आगामी</string>
+    <string name="previous_visits_subtitle">पिछला</string>
+    <string name="previous_not_attending_visits_subtitle">पिछली गैर-उपस्थित विज़िट</string>
+    <string name="search">खोजें...</string>
+    <string name="not_available">उपलब्ध नहीं है</string>
+    <string name="state">राज्य</string>
+    <string name="select_time">समय चुनें</string>
+    <string name="email">ईमेल</string>
+    <string name="welcome">स्वागत है, %1$s</string>
+    <string name="error_creating_user">उपयोगकर्ता बनाते समय त्रुटि</string>
+    <string name="welcome_back">वापसी पर स्वागत है, %1$s</string>
+    <string name="an_error_has_occurred">एक त्रुटि हुई है</string>
+    <string name="guest">अतिथि</string>
+    <string name="loggin">लॉग इन करें</string>
+    <string name="register">रजिस्टर करें</string>
+    <string name="already_have_an_account">पहले से ही एक खाता है? लॉग इन करें</string>
+    <string name="registered_account">खाता पंजीकृत</string>
+    <string name="account_already_exists">यह खाता पहले से मौजूद है</string>
+    <string name="all_fields_are_required">सभी फ़ील्ड अनिवार्य हैं</string>
+    <string name="unregistered_image">अपंजीकृत छवि %1$s</string>
+    <string name="pet_not_registered">पालतू जानवर पंजीकृत नहीं हो सका</string>
+    <string name="register_pet">रजिस्टर करें</string>
+    <string name="not_observables_available">कोई पर्यवेक्षक उपलब्ध नहीं है</string>
+    <string name="manage_user">उपयोगकर्ता %1$s प्रबंधित करें</string>
+    <string name="not_possible_change_creator">निर्माता की भूमिका बदलना संभव नहीं है</string>
+    <string name="already_owner">पहले से ही मालिक है</string>
+    <string name="now_he_owner">अब वह मालिक है</string>
+    <string name="role_could_not_be_changed">भूमिका नहीं बदली जा सकी</string>
+    <string name="change_to_owner">मालिक में बदलें</string>
+    <string name="not_possible_delete_creator">निर्माता को हटाना संभव नहीं है</string>
+    <string name="you_have_been_removed_as_owner">आपको मालिक के रूप में हटा दिया गया है</string>
+    <string name="owner_deleted">मालिक हटा दिया गया</string>
+    <string name="could_not_be_deleted">हटाया नहीं जा सका</string>
+    <string name="delete_rol">भूमिका हटाएँ</string>
+    <string name="already_observer">पहले से ही पर्यवेक्षक है</string>
+    <string name="not_owner_new_observer">नया पर्यवेक्षक, अब मालिक नहीं</string>
+    <string name="new_observer">नया पर्यवेक्षक</string>
+    <string name="could_not_add">जोड़ा नहीं जा सका</string>
+    <string name="user_not_exist">उपयोगकर्ता मौजूद नहीं है</string>
+    <string name="not_ownsers_available">कोई मालिक उपलब्ध नहीं है</string>
+    <string name="now_he_observer">अब वह पर्यवेक्षक है</string>
+    <string name="change_to_observer">पर्यवेक्षक में बदलें</string>
+    <string name="not_possible_delete">मिटाया नहीं जा सकता</string>
+    <string name="not_observer_new_owner">नया मालिक, अब पर्यवेक्षक नहीं</string>
+    <string name="new_owner">नया मालिक</string>
+    <string name="authorized_for_creator">अनुमति अस्वीकृत, निर्माता के लिए अधिकृत</string>
+    <string name="already_creator">पहले से ही निर्माता है</string>
+    <string name="new_creator">नया निर्माता</string>
+    <string name="filter_veterinary_visits">पशु चिकित्सक विज़िट फ़िल्टर करें</string>
+    <string name="previous_visits">पिछली विज़िट</string>
+    <string name="previous_not_attending_visits">पिछली गैर-उपस्थित विज़िट</string>
+    <string name="all_visits">सभी विज़िट</string>
+    <string name="next_vivits">आगामी विज़िट</string>
+    <string name="not_invitations">कोई आमंत्रण नहीं</string>
+    <string name="change_rol_to">भूमिका को %1$s में बदलें</string>
+    <string name="passwords_do_not_match">पासवर्ड मेल नहीं खाते</string>
+    <string name="password_minimum_characters">पासवर्ड में कम से कम 6 वर्ण होने चाहिए</string>
+    <string name="account_without_linked_email">लिंक्ड ईमेल के बिना खाता</string>
+    <string name="email_not_associated">ईमेल आपके खाते से संबद्ध नहीं है</string>
+    <string name="time_zone">समय क्षेत्र</string>
+    <string name="select_language" translatable="false">भाषा चुनें</string>
+    <string name="calendar">कैलेंडर</string>
+    <string name="passwordInvalid">इसमें 8 वर्ण, एक अक्षर और एक संख्या होनी चाहिए</string>
+    <string name="invalid_email">अमान्य ईमेल पता</string>
+    <string name="weight_not_exist">किसी ने यह वज़न हटा दिया, इसे संपादित नहीं किया जा सकता</string>
+    <string name="veterinaryVisit_not_exist">किसी ने इस पशु चिकित्सक की यात्रा को हटा दिया, इसे संपादित नहीं किया जा सकता</string>
+    <string name="next_events">आगामी इवेंट</string>
+    <string name="not_events">इस तारीख के लिए कोई इवेंट नहीं</string>
+    <string name="select_a_date">एक तारीख चुनें</string>
+    <string name="select_your_pets">अपने पालतू जानवरों को चुनें</string>
+    <string-array name="species_options">
+        <item>मकड़ी</item>
+        <item>गधा</item>
+        <item>घोड़ा</item>
+        <item>बकरी</item>
+        <item>गिरगिट</item>
+        <item>केकड़ा</item>
+        <item>सूअर</item>
+        <item>चिंचिला</item>
+        <item>गिनी पिग</item>
+        <item>खरगोश</item>
+        <item>हेजहोग</item>
+        <item>बिच्छू</item>
+        <item>फेरेट</item>
+        <item>मुर्गा</item>
+        <item>बिल्ली</item>
+        <item>छिपकली</item>
+        <item>हैम्स्टर</item>
+        <item>इगुआना</item>
+        <item>छिपकली</item>
+        <item>भेड़</item>
+        <item>कबूतर</item>
+        <item>बत्तख</item>
+        <item>पक्षी</item>
+        <item>मछली</item>
+        <item>कुत्ता</item>
+        <item>चूहा</item>
+        <item>माउस</item>
+        <item>साँप</item>
+        <item>कछुआ</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>सोम</item>
+        <item>मंगल</item>
+        <item>बुध</item>
+        <item>गुरु</item>
+        <item>शुक्र</item>
+        <item>शनि</item>
+        <item>रवि</item>
+    </string-array>
+    <string name="year_singular">साल</string>
+    <string name="year_plural">साल</string>
+    <string name="month_singular">महीना</string>
+    <string name="month_plural">महीने</string>
+    <string name="day_singular">दिन</string>
+    <string name="day_plural">दिन</string>
+    <string name="current_weight">वर्तमान वज़न</string>
 </resources>

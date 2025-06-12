@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Kisállat kártya</string>
+    <string name="create_weight_title">Új súly</string>
+    <string name="weight_form_label_date">Dátum</string>
+    <string name="weight_form_label_note">Megjegyzés</string>
+    <string name="weight_form_placeholder_note">Írjon megjegyzést</string>
+    <string name="weight_form_label_weight">Súly (%1$s)</string>
+    <string name="weight_form_placeholder_date">2025.03.12</string>
+    <string name="form_confirm_btn">Elfogadom</string>
+    <string name="form_cancel_btn">Mégse</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Opcionális</string>
+    <string name="edit_weight_title">Súly szerkesztése</string>
+    <string name="delete_weight_alert_title">Biztosan törölni szeretné ezt a súlyt a listáról?</string>
+    <string name="delete_weight_alert_description">Ha törli ezt a súlyt a listáról, véglegesen törlődik az %1$s kisállathoz kapcsolódó összes fiókból</string>
+    <string name="wheights_pets_title">Súlyok</string>
+    <string name="select_weght_unit_title_dialog">Súly mértékegység kiválasztása</string>
+    <string name="form_confirm_delete_btn">Törlés</string>
+    <string name="empty_pet_list">Nincs kisállat</string>
+    <string name="sign_out">Kijelentkezés</string>
+    <string name="delete_pet_button">Kisállat törlése</string>
+    <string name="forgot_password">Elfelejtett jelszó?</string>
+    <string name="have_an_account">Van már fiókja?</string>
+    <string name="sign_up">Regisztráció</string>
+    <string name="create_account">Fiók létrehozása</string>
+    <string name="not_create_account">Nincs még fiókja?</string>
+    <string name="title_photoPickerBottomSheet">Válasszon egy opciót</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galéria</string>
+    <string name="profile_pet_photo_description">Kisállat profilfotója</string>
+    <string name="camera_permission_denied">Kamera engedély megtagadva</string>
+    <string name="selected_photo">Kiválasztott fotó</string>
+    <string name="photo_not_taken">Nincs fénykép készítve</string>
+    <string name="photo_taken">Fénykép készítve</string>
+    <string name="type">Fajta</string>
+    <string name="dog">Kutya</string>
+    <string name="breed">Fajta</string>
+    <string name="carlino">Mopsz</string>
+    <string name="birthdayDate">Születésnap</string>
+    <string name="adoptionDate">Örökbefogadás dátuma</string>
+    <string name="microchip">Mikrochip</string>
+    <string name="sterilized">Ivartalanítva</string>
+    <string name="not_sterilized">Nincs ivartalanítva</string>
+    <string name="delete_pet_alert_description">Ha törli ezt a kisállatot, véglegesen törlődik az %1$s kisállathoz kapcsolódó összes fiókból</string>
+    <string name="delete_pet_alert_title">Törli ezt a kisállatot?</string>
+    <string name="sterilizedDate">Ivartalanítás dátuma</string>
+    <string name="pet_not_exists_dialog_description">Ezen a kisállaton nem lehet műveletet végrehajtani. Ha a kisállat nincs törölve, ellenőrizze, hogy a társult tulajdonos elvégezte-e a műveletet.</string>
+    <string name="pet_not_exists_dialog_title">Kisállat nem található</string>
+    <string name="understood">Értem</string>
+    <string name="microchipDate">Beültetés dátuma</string>
+    <string name="microchip_identifier">Azonosító</string>
+    <string name="invalid_microchip">12 számjegyet kell tartalmaznia</string>
+    <string name="edit_microchip_title">Mikrochip adatok</string>
+    <string name="edit_sterilized_state_title">Ivartalanítás állapota</string>
+    <string name="save">Mentés</string>
+    <string name="default_datePicker_title">Válasszon dátumot</string>
+    <string name="edit">Szerkesztés</string>
+    <string name="edit_birthdate_title">Életkor és születésnap</string>
+    <string name="unidentified">Azonosítatlan</string>
+    <string name="age">Életkor</string>
+    <string name="time">Idő</string>
+    <string name="adoption">Örökbefogadás</string>
+    <string name="add_date">Dátum hozzáadása</string>
+    <string name="updated_photo">Fotó frissítve</string>
+    <string name="not_updated_photo">Frissítés sikertelen</string>
+    <string name="delete">Törlés</string>
+    <string name="deleted_pet">%1$s törölve</string>
+    <string name="not_deleted_pet">Törlés sikertelen</string>
+    <string name="edit_basic_data_title">Alapvető adatok</string>
+    <string name="name">Név</string>
+    <string name="edit_user_profile">Profil szerkesztése</string>
+    <string name="notifications">Értesítések</string>
+    <string name="dark_mode">Sötét mód</string>
+    <string name="light_mode">Világos mód</string>
+    <string name="clear_cache">Gyorsítótár törlése</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Beállítások</string>
+    <string name="key">Kulcs</string>
+    <string name="invitation_key">Meghívó kulcs</string>
+    <string name="invitations">Meghívók</string>
+    <string name="language">Nyelv</string>
+    <string name="update_password">Jelszó frissítése</string>
+    <string name="password">Jelszó</string>
+    <string name="new_password">Új jelszó</string>
+    <string name="reset_password">Jelszó visszaállítása</string>
+    <string name="recover_password">Jelszó visszaállítása</string>
+    <string name="associed_email">Társított e-mail</string>
+    <string name="send_mail">E-mail küldése</string>
+    <string name="log_out_alert_title">Kijelentkezik?</string>
+    <string name="log_out_alert_description">Ha elfogadja a kijelentkezést, a jelenlegi fiók elveszíti a hozzáférést, amíg újra be nem jelentkezik.</string>
+    <string name="people_linked">Kapcsolt személyek</string>
+    <string name="owners">Tulajdonosok</string>
+    <string name="observers">Megfigyelők</string>
+    <string name="pet">Kisállat</string>
+    <string name="observed_pets">Megfigyelt kisállatok</string>
+    <string name="pets">Kisállatok</string>
+    <string name="invite_petOwner">Kisállat tulajdonos meghívása</string>
+    <string name="send">Küldés</string>
+    <string name="add">Hozzáadás</string>
+    <string name="add_petOwner">Kisállat tulajdonos hozzáadása</string>
+    <string name="update_creatorOwner">Létrehozó frissítése</string>
+    <string name="creatorOwner">Létrehozó</string>
+    <string name="add_petObserver">Kisállat megfigyelő hozzáadása</string>
+    <string name="permission_denied_observer">Engedély megtagadva megfigyelőként</string>
+    <string name="new_pet">Új kisállat</string>
+    <string name="owner">Tulajdonos</string>
+    <string name="observer">Megfigyelő</string>
+    <string name="veterinary_visits">Következő állatorvosi látogatás</string>
+    <string name="register_new_weight">Első súly regisztrálása</string>
+    <string name="register_new_veterinay_visists">Látogatás hozzáadása</string>
+    <string name="edit_veterinay_vivist_title">Állatorvosi időpont szerkesztése</string>
+    <string name="create_veterinay_vivist_title">Új állatorvosi időpont</string>
+    <string name="concept">Koncepció</string>
+    <string name="concept_placeholder">Féregtelenítés</string>
+    <string name="description">Leírás</string>
+    <string name="description_placeholder">El kell menni beadni a féregtelenítő cseppeket</string>
+    <string name="form_label_time">Idő</string>
+    <string name="veterinary">Állatorvos</string>
+    <string name="veterinary_placeholder">Martínez Állatorvosi Klinika</string>
+    <string name="error_create_veterinary_visit">Hiba a látogatás létrehozásakor</string>
+    <string name="error_edit_veterinary_visit">Hiba a látogatás szerkesztésekor</string>
+    <string name="delete_visit_alert_title">Törli ezt az állatorvosi látogatást?</string>
+    <string name="delete_visit_alert_description">Ha törli ezt a látogatást a listáról, véglegesen törlődik az %1$s kisállathoz kapcsolódó összes fiókból</string>
+    <string name="completed">Befejezett</string>
+    <string name="not_completed">Ütemezett</string>
+    <string name="comment">Megjegyzés</string>
+    <string name="add_weight">Súly hozzáadása</string>
+    <string name="next_visit">Következő látogatás</string>
+    <string name="veterinary_visits_title">Állatorvosi látogatások</string>
+    <string name="owners_info_dialog_title">Milyen funkciói vannak a tulajdonosnak?</string>
+    <string name="owners_info_dialog_description">Összes adat létrehozása, megváltoztatása és módosítása</string>
+    <string name="owners_info_dialog_description2">Másik tulajdonos hozzáadása, megváltoztatása és törlése</string>
+    <string name="owners_info_dialog_description3">Megfigyelő hozzáadása, megváltoztatása és törlése</string>
+    <string name="owners_info_dialog_description4">Csak a létrehozó tudja magát másik felhasználóvá alakítani</string>
+    <string name="observers_info_dialog_title">Milyen funkciói vannak egy megfigyelőnek?</string>
+    <string name="observers_info_dialog_description">Minden adatot megtekinthet</string>
+    <string name="observers_info_dialog_description2">Nem hozhat létre, nem változtathat meg vagy módosíthat adatokat</string>
+    <string name="observers_info_dialog_description3">Nem adhat hozzá, nem változtathat meg vagy törölhet tulajdonost</string>
+    <string name="observers_info_dialog_description4">Nem adhat hozzá, nem változtathat meg vagy törölhet más megfigyelőt</string>
+    <string name="next_visits_subtitle">Közelgő</string>
+    <string name="previous_visits_subtitle">Előző</string>
+    <string name="previous_not_attending_visits_subtitle">Előző (nem részvétel)</string>
+    <string name="search">Keresés...</string>
+    <string name="not_available">Nem elérhető</string>
+    <string name="state">Állapot</string>
+    <string name="select_time">Idő kiválasztása</string>
+    <string name="email">E-mail</string>
+    <string name="welcome">Üdvözöljük, %1$s</string>
+    <string name="error_creating_user">Hiba a felhasználó létrehozásakor</string>
+    <string name="welcome_back">Üdvözöljük újra, %1$s</string>
+    <string name="an_error_has_occurred">Hiba történt</string>
+    <string name="guest">Vendég</string>
+    <string name="loggin">BEJELENTKEZÉS</string>
+    <string name="register">Regisztráció</string>
+    <string name="already_have_an_account">Van már fiókja? Jelentkezzen be</string>
+    <string name="registered_account">Fiók regisztrálva</string>
+    <string name="account_already_exists">Ez a fiók már létezik</string>
+    <string name="all_fields_are_required">Minden mező kitöltése kötelező</string>
+    <string name="unregistered_image">Nem regisztrált kép %1$s</string>
+    <string name="pet_not_registered">A kisállat nem regisztrálható</string>
+    <string name="register_pet">Regisztráció</string>
+    <string name="not_observables_available">Nincs elérhető megfigyelő</string>
+    <string name="manage_user">Felhasználó kezelése: %1$s</string>
+    <string name="not_possible_change_creator">Nem lehet megváltoztatni a létrehozó szerepét</string>
+    <string name="already_owner">Már tulajdonos</string>
+    <string name="now_he_owner">Most ő a tulajdonos</string>
+    <string name="role_could_not_be_changed">A szerepkör nem változtatható meg</string>
+    <string name="change_to_owner">Váltás tulajdonosra</string>
+    <string name="not_possible_delete_creator">Nem lehet törölni a létrehozót</string>
+    <string name="you_have_been_removed_as_owner">Eltávolították a tulajdonosi szerepkörből</string>
+    <string name="owner_deleted">Tulajdonos törölve</string>
+    <string name="could_not_be_deleted">Nem törölhető</string>
+    <string name="delete_rol">Szerepkör törlése</string>
+    <string name="already_observer">Már megfigyelő</string>
+    <string name="not_owner_new_observer">Új megfigyelő, már nem tulajdonos</string>
+    <string name="new_observer">Új megfigyelő</string>
+    <string name="could_not_add">Nem adható hozzá</string>
+    <string name="user_not_exist">A felhasználó nem létezik</string>
+    <string name="not_ownsers_available">Nincs elérhető tulajdonos</string>
+    <string name="now_he_observer">Most ő a megfigyelő</string>
+    <string name="change_to_observer">Váltás megfigyelőre</string>
+    <string name="not_possible_delete">Nem törölhető</string>
+    <string name="not_observer_new_owner">Új tulajdonos, már nem megfigyelő</string>
+    <string name="new_owner">Új tulajdonos</string>
+    <string name="authorized_for_creator">Engedély megtagadva, csak a létrehozó számára engedélyezett</string>
+    <string name="already_creator">Már létrehozó</string>
+    <string name="new_creator">Új létrehozó</string>
+    <string name="filter_veterinary_visits">Állatorvosi látogatások szűrése</string>
+    <string name="previous_visits">Előző látogatások</string>
+    <string name="previous_not_attending_visits">Előző (nem részvétel) látogatások</string>
+    <string name="all_visits">Minden látogatás</string>
+    <string name="next_vivits">Közelgő látogatások</string>
+    <string name="not_invitations">Nincs meghívó</string>
+    <string name="change_rol_to">Szerepkör megváltoztatása %1$s-re</string>
+    <string name="passwords_do_not_match">A jelszavak nem egyeznek</string>
+    <string name="password_minimum_characters">A jelszónak legalább 6 karaktert kell tartalmaznia</string>
+    <string name="account_without_linked_email">Fiók kapcsolt e-mail nélkül</string>
+    <string name="email_not_associated">Az e-mail nincs társítva a fiókjához</string>
+    <string name="time_zone">Időzóna</string>
+    <string name="select_language" translatable="false">Nyelv kiválasztása</string>
+    <string name="calendar">Naptár</string>
+    <string name="passwordInvalid">8 karaktert, egy betűt és egy számot kell tartalmaznia</string>
+    <string name="invalid_email">Érvénytelen e-mail cím</string>
+    <string name="weight_not_exist">Valaki törölte ezt a súlyt, nem módosítható</string>
+    <string name="veterinaryVisit_not_exist">Valaki törölte ezt az állatorvosi látogatást, nem módosítható</string>
+    <string name="next_events">Közelgő események</string>
+    <string name="not_events">Nincs esemény erre a dátumra</string>
+    <string name="select_a_date">Válasszon dátumot</string>
+    <string name="select_your_pets">Válassza ki kisállatait</string>
+    <string-array name="species_options">
+        <item>Pók</item>
+        <item>Szamár</item>
+        <item>Ló</item>
+        <item>Kecske</item>
+        <item>Kaméleon</item>
+        <item>Rák</item>
+        <item>Sertés</item>
+        <item>Csincsilla</item>
+        <item>Tengerimalac</item>
+        <item>Nyúl</item>
+        <item>Sün</item>
+        <item>Skorpió</item>
+        <item>Görény</item>
+        <item>Tyúk</item>
+        <item>Macska</item>
+        <item>Gekkó</item>
+        <item>Hörcsög</item>
+        <item>Iguána</item>
+        <item>Gyík</item>
+        <item>Juh</item>
+        <item>Galamb</item>
+        <item>Kacsa</item>
+        <item>Madár</item>
+        <item>Hal</item>
+        <item>Kutya</item>
+        <item>Patkány</item>
+        <item>Egér</item>
+        <item>Kígyó</item>
+        <item>Teknős</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>H</item>
+        <item>K</item>
+        <item>Sz</item>
+        <item>Cs</item>
+        <item>P</item>
+        <item>Sz</item>
+        <item>V</item>
+    </string-array>
+    <string name="year_singular">év</string>
+    <string name="year_plural">év</string>
+    <string name="month_singular">hónap</string>
+    <string name="month_plural">hónap</string>
+    <string name="day_singular">nap</string>
+    <string name="day_plural">nap</string>
+    <string name="current_weight">Jelenlegi súly</string>
 </resources>

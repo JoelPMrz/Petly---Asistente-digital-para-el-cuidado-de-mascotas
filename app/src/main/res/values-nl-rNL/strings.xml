@@ -1,4 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Technische Fiche</string>
+    <string name="create_weight_title">Nieuw Gewicht</string>
+    <string name="weight_form_label_date">Datum</string>
+    <string name="weight_form_label_note">Opmerking</string>
+    <string name="weight_form_placeholder_note">Schrijf een opmerking</string>
+    <string name="weight_form_label_weight">Gewicht (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Accepteren</string>
+    <string name="form_cancel_btn">Annuleren</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Optioneel</string>
+    <string name="edit_weight_title">Gewicht Bewerken</string>
+    <string name="delete_weight_alert_title">Dit gewicht uit de lijst verwijderen?</string>
+    <string name="delete_weight_alert_description">Als je dit gewicht uit de lijst verwijdert, wordt het permanent verwijderd van alle accounts die aan huisdier %1$s zijn gekoppeld</string>
+    <string name="wheights_pets_title">Gewichten</string>
+    <string name="select_weght_unit_title_dialog">Selecteer gewichtseenheid</string>
+    <string name="form_confirm_delete_btn">Verwijderen</string>
+    <string name="empty_pet_list">Geen huisdieren beschikbaar</string>
+    <string name="sign_out">Uitloggen</string>
+    <string name="delete_pet_button">Huisdier verwijderen</string>
+    <string name="forgot_password">Wachtwoord vergeten?</string>
+    <string name="have_an_account">Heb je al een account?</string>
+    <string name="sign_up">Inloggen</string>
+    <string name="create_account">Account aanmaken</string>
+    <string name="not_create_account">Nog geen account?</string>
+    <string name="title_photoPickerBottomSheet">Selecteer een optie</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Galerij</string>
+    <string name="profile_pet_photo_description">Profielfoto huisdier</string>
+    <string name="camera_permission_denied">Cameratoestemming geweigerd</string>
+    <string name="selected_photo">Foto geselecteerd</string>
+    <string name="photo_not_taken">Foto niet genomen</string>
+    <string name="photo_taken">Foto genomen</string>
+    <string name="type">Soort</string>
+    <string name="dog">Hond</string>
+    <string name="breed">Ras</string>
+    <string name="carlino">Mopshond</string>
+    <string name="birthdayDate">Geboortedatum</string>
+    <string name="adoptionDate">Adoptiedatum</string>
+    <string name="microchip">Microchip</string>
+    <string name="sterilized">Gesteriliseerd</string>
+    <string name="not_sterilized">Niet gesteriliseerd</string>
+    <string name="delete_pet_alert_description">Als je dit huisdier verwijdert, wordt het permanent verwijderd van alle accounts die aan huisdier %1$s zijn gekoppeld</string>
+    <string name="delete_pet_alert_title">Dit huisdier verwijderen?</string>
+    <string name="sterilizedDate">Sterilisatiedatum</string>
+    <string name="pet_not_exists_dialog_description">Acties kunnen niet worden uitgevoerd op dit huisdier. Als je het huisdier niet hebt verwijderd, controleer dan of een gekoppelde eigenaar dit heeft gedaan.</string>
+    <string name="pet_not_exists_dialog_title">Huisdier niet gevonden</string>
+    <string name="understood">Begrepen</string>
+    <string name="microchipDate">Implantatiedatum</string>
+    <string name="microchip_identifier">Identificatie</string>
+    <string name="invalid_microchip">Moet 12 cijfers bevatten</string>
+    <string name="edit_microchip_title">Microchipgegevens</string>
+    <string name="edit_sterilized_state_title">Sterilisatiestatus</string>
+    <string name="save">Opslaan</string>
+    <string name="default_datePicker_title">Selecteer een datum</string>
+    <string name="edit">Bewerken</string>
+    <string name="edit_birthdate_title">Leeftijd en geboortedatum</string>
+    <string name="unidentified">Onbekend</string>
+    <string name="age">Leeftijd</string>
+    <string name="time">Tijd</string>
+    <string name="adoption">Adoptie</string>
+    <string name="add_date">Datum toevoegen</string>
+    <string name="updated_photo">Foto bijgewerkt</string>
+    <string name="not_updated_photo">Kon niet bijwerken</string>
+    <string name="delete">Verwijderen</string>
+    <string name="deleted_pet">%1$s verwijderd</string>
+    <string name="not_deleted_pet">Kon niet verwijderen</string>
+    <string name="edit_basic_data_title">Hoofdgegevens</string>
+    <string name="name">Naam</string>
+    <string name="edit_user_profile">Profiel bewerken</string>
+    <string name="notifications">Meldingen</string>
+    <string name="dark_mode">Donkere modus</string>
+    <string name="light_mode">Lichte modus</string>
+    <string name="clear_cache">Cache wissen</string>
+    <string name="profile">Profiel</string>
+    <string name="settings">Instellingen</string>
+    <string name="key">Sleutel</string>
+    <string name="invitation_key">Uitnodigingssleutel</string>
+    <string name="invitations">Uitnodigingen</string>
+    <string name="language">Taal</string>
+    <string name="update_password">Wachtwoord wijzigen</string>
+    <string name="password">Wachtwoord</string>
+    <string name="new_password">Nieuw wachtwoord</string>
+    <string name="reset_password">Wachtwoord resetten</string>
+    <string name="recover_password">Wachtwoord herstellen</string>
+    <string name="associed_email">Gekoppeld e-mailadres</string>
+    <string name="send_mail">E-mail verzenden</string>
+    <string name="log_out_alert_title">Wil je uitloggen?</string>
+    <string name="log_out_alert_description">Door te accepteren, wordt je account uitgelogd en verlies je de toegang totdat je opnieuw inlogt</string>
+    <string name="people_linked">Gekoppelde personen</string>
+    <string name="owners">Eigenaren</string>
+    <string name="observers">Waarnemers</string>
+    <string name="pet">Huisdier</string>
+    <string name="observed_pets">Observeerbare huisdieren</string>
+    <string name="pets">Huisdieren</string>
+    <string name="invite_petOwner">Nodig een eigenaar uit</string>
+    <string name="send">Verzenden</string>
+    <string name="add">Toevoegen</string>
+    <string name="add_petOwner">Een eigenaar toevoegen</string>
+    <string name="update_creatorOwner">Maker bewerken</string>
+    <string name="creatorOwner">Maker</string>
+    <string name="add_petObserver">Een waarnemer toevoegen</string>
+    <string name="permission_denied_observer">Toestemming geweigerd als waarnemer</string>
+    <string name="new_pet">Nieuw huisdier</string>
+    <string name="owner">Eigenaar</string>
+    <string name="observer">Waarnemer</string>
+    <string name="veterinary_visits">Volgend dierenartsbezoek</string>
+    <string name="register_new_weight">Eerste gewicht toevoegen</string>
+    <string name="register_new_veterinay_visists">Een bezoek toevoegen</string>
+    <string name="edit_veterinay_vivist_title">Dierenartsafspraak bewerken</string>
+    <string name="create_veterinay_vivist_title">Nieuwe dierenartsafspraak</string>
+    <string name="concept">Concept</string>
+    <string name="concept_placeholder">Ontwormen</string>
+    <string name="description">Beschrijving</string>
+    <string name="description_placeholder">Ontwormingspipet aanbrengen</string>
+    <string name="form_label_time">Tijd</string>
+    <string name="veterinary">Dierenarts</string>
+    <string name="veterinary_placeholder">Dierenartsenkliniek Martínez</string>
+    <string name="error_create_veterinary_visit">Fout bij aanmaken bezoek</string>
+    <string name="error_edit_veterinary_visit">Fout bij bewerken bezoek</string>
+    <string name="delete_visit_alert_title">Dit dierenartsbezoek verwijderen?</string>
+    <string name="delete_visit_alert_description">Als je dit bezoek verwijdert, wordt het permanent verwijderd van alle accounts die aan huisdier %1$s zijn gekoppeld</string>
+    <string name="completed">Voltooid</string>
+    <string name="not_completed">Gepland</string>
+    <string name="comment">Opmerking</string>
+    <string name="add_weight">Een gewicht toevoegen</string>
+    <string name="next_visit">Volgend bezoek</string>
+    <string name="veterinary_visits_title">Dierenartsbezoeken</string>
+    <string name="owners_info_dialog_title">Wat kan een eigenaar doen?</string>
+    <string name="owners_info_dialog_description">Alle gegevens aanmaken, bewerken en wijzigen</string>
+    <string name="owners_info_dialog_description2">Een andere eigenaar toevoegen, bewerken en verwijderen</string>
+    <string name="owners_info_dialog_description3">Een waarnemer toevoegen, bewerken en verwijderen</string>
+    <string name="owners_info_dialog_description4">Alleen de maker kan naar een andere gebruiker worden gewijzigd</string>
+    <string name="observers_info_dialog_title">Wat kan een waarnemer doen?</string>
+    <string name="observers_info_dialog_description">Kan alle gegevens bekijken</string>
+    <string name="observers_info_dialog_description2">Kan geen gegevens aanmaken, bewerken of wijzigen</string>
+    <string name="observers_info_dialog_description3">Kan geen eigenaar toevoegen, bewerken of verwijderen</string>
+    <string name="observers_info_dialog_description4">Kan geen andere waarnemer toevoegen, bewerken of verwijderen</string>
+    <string name="next_visits_subtitle">Aankomend</string>
+    <string name="previous_visits_subtitle">Vorig</string>
+    <string name="previous_not_attending_visits_subtitle">Vorig, niet bijgewoond</string>
+    <string name="search">Zoeken...</string>
+    <string name="not_available">Niet beschikbaar</string>
+    <string name="state">Status</string>
+    <string name="select_time">Selecteer tijd</string>
+    <string name="email">E-mail</string>
+    <string name="welcome">Welkom %1$s</string>
+    <string name="error_creating_user">Fout bij aanmaken gebruiker</string>
+    <string name="welcome_back">Welkom terug %1$s</string>
+    <string name="an_error_has_occurred">Er is een fout opgetreden</string>
+    <string name="guest">Gast</string>
+    <string name="loggin">INLOGGEN</string>
+    <string name="register">Registreren</string>
+    <string name="already_have_an_account">Heb je al een account? Log in</string>
+    <string name="registered_account">Account geregistreerd</string>
+    <string name="account_already_exists">Dit account bestaat al</string>
+    <string name="all_fields_are_required">Alle velden zijn verplicht</string>
+    <string name="unregistered_image">%1$s afbeelding niet geregistreerd</string>
+    <string name="pet_not_registered">Huisdier kon niet worden geregistreerd</string>
+    <string name="register_pet">Registreren</string>
+    <string name="not_observables_available">Geen waarnemers beschikbaar</string>
+    <string name="manage_user">Beheer %1$s</string>
+    <string name="not_possible_change_creator">Kan de rol van maker niet wijzigen</string>
+    <string name="already_owner">Al een eigenaar</string>
+    <string name="now_he_owner">Nu een eigenaar</string>
+    <string name="role_could_not_be_changed">Rol kon niet worden gewijzigd</string>
+    <string name="change_to_owner">Wijzig naar eigenaar</string>
+    <string name="not_possible_delete_creator">Kan de maker niet verwijderen</string>
+    <string name="you_have_been_removed_as_owner">Je bent verwijderd als eigenaar</string>
+    <string name="owner_deleted">Eigenaar verwijderd</string>
+    <string name="could_not_be_deleted">Kon niet worden verwijderd</string>
+    <string name="delete_rol">Rol verwijderen</string>
+    <string name="already_observer">Al een waarnemer</string>
+    <string name="not_owner_new_observer">Nieuwe waarnemer, geen eigenaar meer</string>
+    <string name="new_observer">Nieuwe waarnemer</string>
+    <string name="could_not_add">Kon niet toevoegen</string>
+    <string name="user_not_exist">Gebruiker bestaat niet</string>
+    <string name="not_ownsers_available">Geen eigenaren beschikbaar</string>
+    <string name="now_he_observer">Nu een waarnemer</string>
+    <string name="change_to_observer">Wijzig naar waarnemer</string>
+    <string name="not_possible_delete">Kon niet verwijderen</string>
+    <string name="not_observer_new_owner">Nieuwe eigenaar, geen waarnemer meer</string>
+    <string name="new_owner">Nieuwe eigenaar</string>
+    <string name="authorized_for_creator">Toestemming geweigerd, alleen voor maker</string>
+    <string name="already_creator">Al maker</string>
+    <string name="new_creator">Nieuwe maker</string>
+    <string name="filter_veterinary_visits">Dierenartsbezoeken filteren</string>
+    <string name="previous_visits">Vorige bezoeken</string>
+    <string name="previous_not_attending_visits">Vorige bezoeken niet bijgewoond</string>
+    <string name="all_visits">Alle bezoeken</string>
+    <string name="next_vivits">Aankomende bezoeken</string>
+    <string name="not_invitations">Geen uitnodigingen</string>
+    <string name="change_rol_to">Wijzig rol naar %1$s</string>
+    <string name="passwords_do_not_match">Wachtwoorden komen niet overeen</string>
+    <string name="password_minimum_characters">Wachtwoord moet minimaal 6 tekens bevatten</string>
+    <string name="account_without_linked_email">Account zonder gekoppeld e-mailadres</string>
+    <string name="email_not_associated">E-mailadres niet gekoppeld aan uw account</string>
+    <string name="time_zone">Tijdzone</string>
+    <string name="select_language" translatable="false">Selecteer een taal</string>
+    <string name="calendar">Kalender</string>
+    <string name="passwordInvalid">Moet 8 tekens, een letter en een cijfer bevatten</string>
+    <string name="invalid_email">Ongeldig e-mailadres</string>
+    <string name="weight_not_exist">Iemand heeft dit gewicht verwijderd, bewerken is niet mogelijk</string>
+    <string name="veterinaryVisit_not_exist">Iemand heeft dit bezoek verwijderd, bewerken is niet mogelijk</string>
+    <string name="next_events">Aankomende evenementen</string>
+    <string name="not_events">Geen evenementen voor deze datum</string>
+    <string name="select_a_date">Selecteer een datum</string>
+    <string name="select_your_pets">Selecteer je huisdieren</string>
+    <string-array name="species_options">
+        <item>Spin</item>
+        <item>Ezel</item>
+        <item>Paard</item>
+        <item>Geit</item>
+        <item>Kameleon</item>
+        <item>Krab</item>
+        <item>Varken</item>
+        <item>Chinchilla</item>
+        <item>Cavia</item>
+        <item>Konijn</item>
+        <item>Egel</item>
+        <item>Schorpioen</item>
+        <item>Fret</item>
+        <item>Kip</item>
+        <item>Kat</item>
+        <item>Gekko</item>
+        <item>Hamster</item>
+        <item>Iguana</item>
+        <item>Hagedis</item>
+        <item>Schaap</item>
+        <item>Duif</item>
+        <item>Eend</item>
+        <item>Vogel</item>
+        <item>Vis</item>
+        <item>Hond</item>
+        <item>Rat</item>
+        <item>Muis</item>
+        <item>Slang</item>
+        <item>Schildpad</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Ma</item>
+        <item>Di</item>
+        <item>Wo</item>
+        <item>Do</item>
+        <item>Vr</item>
+        <item>Za</item>
+        <item>Zo</item>
+    </string-array>
+    <string name="year_singular">jaar</string>
+    <string name="year_plural">jaren</string>
+    <string name="month_singular">maand</string>
+    <string name="month_plural">maanden</string>
+    <string name="day_singular">dag</string>
+    <string name="day_plural">dagen</string>
+    <string name="current_weight">Huidig gewicht</string>
 </resources>

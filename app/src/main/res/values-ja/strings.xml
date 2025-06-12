@@ -1,4 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_veterinary_visits">Filtrar visitas veterinarias</string>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Technical Sheet</string>
+    <string name="create_weight_title">New Weight</string>
+    <string name="weight_form_label_date">Date</string>
+    <string name="weight_form_label_note">Comment</string>
+    <string name="weight_form_placeholder_note">Write a comment</string>
+    <string name="weight_form_label_weight">Weight (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Accept</string>
+    <string name="form_cancel_btn">Cancel</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Optional</string>
+    <string name="edit_weight_title">Edit Weight</string>
+    <string name="delete_weight_alert_title">Delete this weight from the list?</string>
+    <string name="delete_weight_alert_description">If you delete this weight from the list, it will be permanently removed from all accounts linked to the pet %1$s</string>
+    <string name="wheights_pets_title">Weights</string>
+    <string name="select_weght_unit_title_dialog">Select weight unit</string>
+    <string name="form_confirm_delete_btn">Delete</string>
+    <string name="empty_pet_list">No pets available</string>
+    <string name="sign_out">Sign out</string>
+    <string name="delete_pet_button">Delete pet</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="have_an_account">Already have an account?</string>
+    <string name="sign_up">Sign in</string>
+    <string name="create_account">Create account</string>
+    <string name="not_create_account">Don’t have an account yet?</string>
+    <string name="title_photoPickerBottomSheet">Select an option</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="profile_pet_photo_description">Pet profile image</string>
+    <string name="camera_permission_denied">Camera permission denied</string>
+    <string name="selected_photo">Photo selected</string>
+    <string name="photo_not_taken">Photo not taken</string>
+    <string name="photo_taken">Photo taken</string>
+    <string name="type">Species</string>
+    <string name="dog">Dog</string>
+    <string name="breed">Breed</string>
+    <string name="carlino">Pug</string>
+    <string name="birthdayDate">Birthdate</string>
+    <string name="adoptionDate">Adoption date</string>
+    <string name="microchip">Microchip</string>
+    <string name="sterilized">Sterilized</string>
+    <string name="not_sterilized">Not sterilized</string>
+    <string name="delete_pet_alert_description">If you delete this pet, it will be permanently removed from all accounts linked to pet %1$s</string>
+    <string name="delete_pet_alert_title">Delete this pet?</string>
+    <string name="sterilizedDate">Sterilization date</string>
+    <string name="pet_not_exists_dialog_description">Actions cannot be performed on this pet. If you haven\'t deleted the pet, check if any associated owner has done so.</string>
+    <string name="pet_not_exists_dialog_title">Pet not found</string>
+    <string name="understood">Understood</string>
+    <string name="microchipDate">Implantation date</string>
+    <string name="microchip_identifier">Identifier</string>
+    <string name="invalid_microchip">Must contain 12 digits</string>
+    <string name="edit_microchip_title">Microchip Data</string>
+    <string name="edit_sterilized_state_title">Sterilization Status</string>
+    <string name="save">Save</string>
+    <string name="default_datePicker_title">Select a date</string>
+    <string name="edit">Edit</string>
+    <string name="edit_birthdate_title">Age and Birthdate</string>
+    <string name="unidentified">Unidentified</string>
+    <string name="age">Age</string>
+    <string name="time">Time</string>
+    <string name="adoption">Adoption</string>
+    <string name="add_date">Add date</string>
+    <string name="updated_photo">Photo updated</string>
+    <string name="not_updated_photo">Could not update</string>
+    <string name="delete">Delete</string>
+    <string name="deleted_pet">%1$s deleted</string>
+    <string name="not_deleted_pet">Could not delete</string>
+    <string name="edit_basic_data_title">Main Data</string>
+    <string name="name">Name</string>
+    <string name="edit_user_profile">Edit Profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="light_mode">Light mode</string>
+    <string name="clear_cache">Clear cache</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="key">Key</string>
+    <string name="invitation_key">Invitation key</string>
+    <string name="invitations">Invitations</string>
+    <string name="language">Language</string>
+    <string name="update_password">Change password</string>
+    <string name="password">Password</string>
+    <string name="new_password">New password</string>
+    <string name="reset_password">Reset password</string>
+    <string name="recover_password">Recover password</string>
+    <string name="associed_email">Associated email</string>
+    <string name="send_mail">Send email</string>
+    <string name="log_out_alert_title">Do you want to sign out?</string>
+    <string name="log_out_alert_description">By accepting, your account will be signed out and access will be lost until you sign in again</string>
+    <string name="people_linked">Associated people</string>
+    <string name="owners">Owners</string>
+    <string name="observers">Observers</string>
+    <string name="pet">Pet</string>
+    <string name="observed_pets">Observable pets</string>
+    <string name="pets">Pets</string>
+    <string name="invite_petOwner">Invite an owner</string>
+    <string name="send">Send</string>
+    <string name="add">Add</string>
+    <string name="add_petOwner">Add an owner</string>
+    <string name="update_creatorOwner">Edit creator</string>
+    <string name="creatorOwner">Creator</string>
+    <string name="add_petObserver">Add an observer</string>
+    <string name="permission_denied_observer">Permission denied as observer</string>
+    <string name="new_pet">New pet</string>
+    <string name="owner">Owner</string>
+    <string name="observer">Observer</string>
+    <string name="veterinary_visits">Next veterinary visit</string>
+    <string name="register_new_weight">Add first weight</string>
+    <string name="register_new_veterinay_visists">Add a visit</string>
+    <string name="edit_veterinay_vivist_title">Edit veterinary appointment</string>
+    <string name="create_veterinay_vivist_title">New veterinary appointment</string>
+    <string name="concept">Concept</string>
+    <string name="concept_placeholder">Deworming</string>
+    <string name="description">Description</string>
+    <string name="description_placeholder">Apply deworming pipette</string>
+    <string name="form_label_time">Time</string>
+    <string name="veterinary">Veterinary</string>
+    <string name="veterinary_placeholder">Martínez Veterinary Clinic</string>
+    <string name="error_create_veterinary_visit">Error creating visit</string>
+    <string name="error_edit_veterinary_visit">Error editing visit</string>
+    <string name="delete_visit_alert_title">Delete this veterinary visit?</string>
+    <string name="delete_visit_alert_description">If you delete this visit, it will be permanently removed from all accounts linked to the pet %1$s</string>
+    <string name="completed">Completed</string>
+    <string name="not_completed">Scheduled</string>
+    <string name="comment">Comment</string>
+    <string name="add_weight">Add a weight</string>
+    <string name="next_visit">Next visit</string>
+    <string name="veterinary_visits_title">Veterinary visits</string>
+    <string name="owners_info_dialog_title">What can an owner do?</string>
+    <string name="owners_info_dialog_description">Create, edit, and modify any data</string>
+    <string name="owners_info_dialog_description2">Add, edit, and remove another owner</string>
+    <string name="owners_info_dialog_description3">Add, edit, and remove an observer</string>
+    <string name="owners_info_dialog_description4">Only the creator can be changed to another user</string>
+    <string name="observers_info_dialog_title">What can an observer do?</string>
+    <string name="observers_info_dialog_description">Can view any data</string>
+    <string name="observers_info_dialog_description2">Cannot create, edit, or modify any data</string>
+    <string name="observers_info_dialog_description3">Cannot add, edit, or remove an owner</string>
+    <string name="observers_info_dialog_description4">Cannot add, edit, or remove another observer</string>
+    <string name="next_visits_subtitle">Upcoming</string>
+    <string name="previous_visits_subtitle">Previous</string>
+    <string name="previous_not_attending_visits_subtitle">Previous not attended</string>
+    <string name="search">Search...</string>
+    <string name="not_available">Not available</string>
+    <string name="state">State</string>
+    <string name="select_time">Select time</string>
+    <string name="email">Email</string>
+    <string name="welcome">Welcome %1$s</string>
+    <string name="error_creating_user">Error creating user</string>
+    <string name="welcome_back">Welcome back %1$s</string>
+    <string name="an_error_has_occurred">An error has occurred</string>
+    <string name="guest">Guest</string>
+    <string name="loggin">LOGIN</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account">Already have an account? Sign in</string>
+    <string name="registered_account">Account registered</string>
+    <string name="account_already_exists">This account already exists</string>
+    <string name="all_fields_are_required">All fields are required</string>
+    <string name="unregistered_image">%1$s image not registered</string>
+    <string name="pet_not_registered">Pet could not be registered</string>
+    <string name="register_pet">Register</string>
+    <string name="not_observables_available">No observers available</string>
+    <string name="manage_user">Manage %1$s</string>
+    <string name="not_possible_change_creator">Cannot change creator\'s role</string>
+    <string name="already_owner">Already an owner</string>
+    <string name="now_he_owner">Now an owner</string>
+    <string name="role_could_not_be_changed">Role could not be changed</string>
+    <string name="change_to_owner">Change to owner</string>
+    <string name="not_possible_delete_creator">Cannot delete creator</string>
+    <string name="you_have_been_removed_as_owner">You have been removed as owner</string>
+    <string name="owner_deleted">Owner deleted</string>
+    <string name="could_not_be_deleted">Could not be deleted</string>
+    <string name="delete_rol">Delete role</string>
+    <string name="already_observer">Already an observer</string>
+    <string name="not_owner_new_observer">New observer, no longer owner</string>
+    <string name="new_observer">New observer</string>
+    <string name="could_not_add">Could not add</string>
+    <string name="user_not_exist">User does not exist</string>
+    <string name="not_ownsers_available">No owners available</string>
+    <string name="now_he_observer">Now an observer</string>
+    <string name="change_to_observer">Change to observer</string>
+    <string name="not_possible_delete">Could not delete</string>
+    <string name="not_observer_new_owner">New owner, no longer observer</string>
+    <string name="new_owner">New owner</string>
+    <string name="authorized_for_creator">Permission denied, only for creator</string>
+    <string name="already_creator">Already creator</string>
+    <string name="new_creator">New creator</string>
+    <string name="filter_veterinary_visits">Filter veterinary visits</string>
+    <string name="previous_visits">Previous visits</string>
+    <string name="previous_not_attending_visits">Previous visits not attended</string>
+    <string name="all_visits">All visits</string>
+    <string name="next_vivits">Upcoming visits</string>
+    <string name="not_invitations">No invitations</string>
+    <string name="change_rol_to">Change role to %1$s</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="password_minimum_characters">Password must be at least 6 characters</string>
+    <string name="account_without_linked_email">Account without linked email</string>
+    <string name="email_not_associated">Email not associated with your account</string>
+    <string name="time_zone">Time zone</string>
+    <string name="select_language" translatable="false">Select a language</string>
+    <string name="calendar">Calendar</string>
+    <string name="passwordInvalid">Must contain 8 characters, a letter, and a number</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="weight_not_exist">Someone deleted this weight, editing is not possible</string>
+    <string name="veterinaryVisit_not_exist">Someone deleted this visit, editing is not possible</string>
+    <string name="next_events">Upcoming events</string>
+    <string name="not_events">No events for this date</string>
+    <string name="select_a_date">Select a date</string>
+    <string name="select_your_pets">Select your pets</string>
+    <string-array name="species_options">
+        <item>Spider</item>
+        <item>Donkey</item>
+        <item>Horse</item>
+        <item>Goat</item>
+        <item>Chameleon</item>
+        <item>Crab</item>
+        <item>Pig</item>
+        <item>Chinchilla</item>
+        <item>Guinea pig</item>
+        <item>Rabbit</item>
+        <item>Hedgehog</item>
+        <item>Scorpion</item>
+        <item>Ferret</item>
+        <item>Chicken</item>
+        <item>Cat</item>
+        <item>Gecko</item>
+        <item>Hamster</item>
+        <item>Ferret</item>
+        <item>Iguana</item>
+        <item>Lizard</item>
+        <item>Sheep</item>
+        <item>Dove</item>
+        <item>Duck</item>
+        <item>Bird</item>
+        <item>Fish</item>
+        <item>Dog</item>
+        <item>Rat</item>
+        <item>Mouse</item>
+        <item>Snake</item>
+        <item>Turtle</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+    <string name="year_singular">year</string>
+    <string name="year_plural">years</string>
+    <string name="month_singular">month</string>
+    <string name="month_plural">months</string>
+    <string name="day_singular">day</string>
+    <string name="day_plural">days</string>
+    <string name="current_weight">Current weight</string>
 </resources>
