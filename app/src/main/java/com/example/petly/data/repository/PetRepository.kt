@@ -173,8 +173,6 @@ class PetRepository @Inject constructor(
     }
 
     suspend fun deletePet(petId: String) {
-        val petRef = firestore.collection("pets").document(petId)
-        petRef.delete().await()
 
         val weightsQuery = firestore.collection("weights")
             .whereEqualTo("petId", petId)
@@ -193,6 +191,18 @@ class PetRepository @Inject constructor(
         for (doc in veterinaryVisitsQuery.documents){
             doc.reference.delete().await()
         }
+
+        val eventsQuery = firestore.collection("events")
+            .whereEqualTo("petId", petId)
+            .get()
+            .await()
+
+        for (doc in eventsQuery.documents){
+            doc.reference.delete().await()
+        }
+
+        val petRef = firestore.collection("pets").document(petId)
+        petRef.delete().await()
 
         val storageRef = FirebaseStorage.getInstance().reference.child("photos/pets/$petId/")
         try {

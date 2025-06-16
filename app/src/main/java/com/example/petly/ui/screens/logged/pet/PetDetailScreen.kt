@@ -80,6 +80,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.petly.R
+import com.example.petly.data.models.Event
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.data.models.Weight
@@ -91,6 +92,7 @@ import com.example.petly.ui.components.pet.PetNotExistsDialog
 import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.components.pet.AdoptionCard
 import com.example.petly.ui.components.pet.BirthdayCard
+import com.example.petly.ui.components.pet.EventsCard
 import com.example.petly.ui.components.pet.MicrochipCard
 import com.example.petly.ui.components.pet.PeopleLinkedCard
 import com.example.petly.ui.components.pet.SterilizedCard
@@ -103,6 +105,7 @@ import com.example.petly.utils.TypeDropdownSelector
 import com.example.petly.utils.formatLocalDateToString
 import com.example.petly.utils.getAgeFromDate
 import com.example.petly.utils.isMicrochipIdValid
+import com.example.petly.viewmodel.NormalEventViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.example.petly.viewmodel.VeterinaryVisitsViewModel
 import com.example.petly.viewmodel.WeightViewModel
@@ -120,10 +123,12 @@ fun PetDetailScreen(
     navigateToObservers: (String) -> Unit,
     navigateToWeights: (String) -> Unit,
     navigateToVeterinaryVisits: (String) -> Unit,
+    navigateToEvents: (String) -> Unit,
     navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel(),
     veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel(),
+    normalEventViewModel: NormalEventViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
 ) {
 
@@ -142,6 +147,8 @@ fun PetDetailScreen(
     var weight by remember { mutableStateOf<Weight?>(null) }
     val veterinaryVisitsList by  veterinaryVisitsViewModel.veterinaryVisits.collectAsState()
     var veterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
+    val eventList by normalEventViewModel.events.collectAsState()
+    var event by remember { mutableStateOf<Event?>(null) }
     var showPhotoPicker by remember { mutableStateOf(false) }
     var capturedImageUri by remember { mutableStateOf<Uri>(Uri.EMPTY) }
 
@@ -154,6 +161,7 @@ fun PetDetailScreen(
         )
         weightViewModel.getWeights(petId)
         veterinaryVisitsViewModel.getVeterinaryVisitsFlow(petId)
+        normalEventViewModel.getEventsFlow(petId)
     }
 
 
@@ -164,6 +172,14 @@ fun PetDetailScreen(
     LaunchedEffect(veterinaryVisitsList) {
         veterinaryVisit = veterinaryVisitsList
             .map { visit -> visit to LocalDateTime.of(visit.date, visit.time) }
+            .filter { (_, dateTime) -> dateTime.isAfter(LocalDateTime.now()) }
+            .minByOrNull { (_, dateTime) -> dateTime }
+            ?.first
+    }
+
+    LaunchedEffect(eventList) {
+        event = eventList
+            .map { event -> event to LocalDateTime.of(event.date, event.time) }
             .filter { (_, dateTime) -> dateTime.isAfter(LocalDateTime.now()) }
             .minByOrNull { (_, dateTime) -> dateTime }
             ?.first
@@ -540,6 +556,14 @@ fun PetDetailScreen(
                         modifier = Modifier,
                         onClick = {
                             navigateToVeterinaryVisits(petId)
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    EventsCard(
+                        event = event,
+                        modifier = Modifier,
+                        onClick = {
+                            navigateToEvents(petId)
                         }
                     )
                     Spacer(modifier = Modifier.height(10.dp))

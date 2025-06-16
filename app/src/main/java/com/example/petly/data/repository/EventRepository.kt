@@ -2,8 +2,10 @@ package com.example.petly.data.repository
 
 import com.example.petly.data.models.PetEvent
 import com.example.petly.data.models.PetEvent.VeterinaryVisitEvent
+import com.example.petly.data.models.eventFromFirebase
 import com.example.petly.data.models.veterinaryVisitFromFirebase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -70,43 +72,71 @@ class EventRepository @Inject constructor(
             return@callbackFlow
         }
 
-        val listeners = mutableListOf<() -> Unit>()
+        val listeners = mutableListOf<ListenerRegistration>()
         val allEvents = mutableListOf<PetEvent>()
 
         fun emitEvents() {
             val filtered = allEvents
                 .filter { it.date in startDate..endDate }
                 .groupBy { it.date }
-            trySend(filtered).isSuccess
+            trySend(filtered)
         }
 
         petIds.forEach { petId ->
-            val query = firestore.collection("veterinaryVisits")
+            // Listener para veterinaryVisits
+            val visitQuery = firestore.collection("veterinaryVisits")
                 .whereEqualTo("petId", petId)
 
-            val listener = query.addSnapshotListener { snapshot, error ->
+            val visitListener = visitQuery.addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     close(error)
                     return@addSnapshotListener
                 }
 
                 val visits = snapshot?.documents?.mapNotNull { doc ->
-                    val visit = veterinaryVisitFromFirebase(doc.data ?: return@mapNotNull null)
+                    val data = doc.data ?: return@mapNotNull null
+                    val visit = veterinaryVisitFromFirebase(data)
                     visit.id = doc.id
-                    VeterinaryVisitEvent(visit)
+                    VeterinaryVisitEvent(visit) as PetEvent
                 } ?: emptyList()
 
-                allEvents.removeAll { it.petId == petId }
+                // Elimina eventos anteriores de este petId antes de reemplazar
+                allEvents.removeAll { it.petId == petId && it is VeterinaryVisitEvent }
                 allEvents.addAll(visits)
                 emitEvents()
             }
 
-            listeners.add { listener.remove() }
+            listeners.add(visitListener)
+
+            // Listener para events
+            val eventQuery = firestore.collection("events")
+                .whereEqualTo("petId", petId)
+
+            val eventListener = eventQuery.addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
+
+                val events = snapshot?.documents?.mapNotNull { doc ->
+                    val data = doc.data ?: return@mapNotNull null
+                    val event = eventFromFirebase(data)
+                    event.id = doc.id
+                    PetEvent.NormalEvent(event)
+                } ?: emptyList()
+
+                allEvents.removeAll { it.petId == petId && it is PetEvent.NormalEvent }
+                allEvents.addAll(events)
+                emitEvents()
+            }
+
+            listeners.add(eventListener)
         }
 
         awaitClose {
-            listeners.forEach { it.invoke() }
+            listeners.forEach { it.remove() }
         }
     }
+
 
 }

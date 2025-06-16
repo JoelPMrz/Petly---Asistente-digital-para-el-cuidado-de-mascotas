@@ -42,7 +42,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
@@ -86,9 +85,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.petly.R
+import com.example.petly.data.models.Event
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.User
-import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
@@ -102,15 +101,15 @@ import com.example.petly.utils.formatLocalDateToStringWithDay
 import com.example.petly.utils.formatLocalTimeToString
 import com.example.petly.utils.parseDate
 import com.example.petly.utils.parseTime
+import com.example.petly.viewmodel.NormalEventViewModel
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
-import com.example.petly.viewmodel.VeterinaryVisitsViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Composable
-fun VeterinaryVisitsScreen(
+fun EventsScreen(
     //analytics: AnalyticsManager,
     auth: AuthManager,
     petId: String,
@@ -118,7 +117,7 @@ fun VeterinaryVisitsScreen(
     navigateToHome: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel(),
+    normalEventViewModel: NormalEventViewModel = hiltViewModel(),
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -126,30 +125,30 @@ fun VeterinaryVisitsScreen(
     val petState by petViewModel.petState.collectAsState()
     var showPetNotExistsDialog by remember { mutableStateOf(false) }
     val currentUserState by userViewModel.userState.collectAsState()
-    val veterinaryVisits by veterinaryVisitsViewModel.veterinaryVisits.collectAsState()
-    var showAddEditVeterinaryVisit by remember { mutableStateOf(false) }
-    var showFilterVeterinaryVisits by remember { mutableStateOf(false) }
-    var itemSelected by remember { mutableStateOf<VeterinaryVisit?>(null) }
-    val selectedVisitFilter = preferencesViewModel.visitFilter.collectAsState().value
+    val events by normalEventViewModel.events.collectAsState()
+    var showAddEditEvents by remember { mutableStateOf(false) }
+    var showFilterEvents by remember { mutableStateOf(false) }
+    var itemSelected by remember { mutableStateOf<Event?>(null) }
+    val selectedEventFilter = preferencesViewModel.visitFilter.collectAsState().value
 
-    val subTitle: String? = when (selectedVisitFilter) {
+    val subTitle: String? = when (selectedEventFilter) {
         "next" -> stringResource(R.string.next_visits_subtitle)
         "previous" -> stringResource(R.string.previous_visits_subtitle)
         "previous_not_attending" -> stringResource(R.string.previous_not_attending_visits_subtitle)
         else -> null
     }
-    val filteredVisits = veterinaryVisits.filter { visit ->
-        val dateTime = LocalDateTime.of(visit.date, visit.time)
-        when (selectedVisitFilter) {
+    val filteredEvents = events.filter { event ->
+        val dateTime = LocalDateTime.of(event.date, event.time)
+        when (selectedEventFilter) {
             "next" -> dateTime.isAfter(LocalDateTime.now())
             "previous" -> dateTime.isBefore(LocalDateTime.now())
-            "previous_not_attending" -> !visit.completed && dateTime.isBefore(LocalDateTime.now())
+            "previous_not_attending" -> !event.completed && dateTime.isBefore(LocalDateTime.now())
             else -> true
         }
     }
-    val sortedVisits = when (selectedVisitFilter) {
-        "next" -> filteredVisits
-        else -> filteredVisits.reversed()
+    val sortedEvents = when (selectedEventFilter) {
+        "next" -> filteredEvents
+        else -> filteredEvents.reversed()
     }
 
     LaunchedEffect(petId) {
@@ -159,7 +158,7 @@ fun VeterinaryVisitsScreen(
                 showPetNotExistsDialog = true
             }
         )
-        veterinaryVisitsViewModel.getVeterinaryVisitsFlow(petId)
+        normalEventViewModel.getEventsFlow(petId)
     }
 
     LaunchedEffect(true) {
@@ -171,10 +170,10 @@ fun VeterinaryVisitsScreen(
 
     Scaffold(
         topBar = {
-            VeterinaryVisitsTopAppBar(
+            EventsTopAppBar(
                 navigateBack,
                 onClickFilter = {
-                    showFilterVeterinaryVisits = true
+                    showFilterEvents = true
                 }
             )
         },
@@ -184,7 +183,7 @@ fun VeterinaryVisitsScreen(
                     petState?.id?.let {
                         petViewModel.doesPetExist(
                             petId = it,
-                            exists = { showAddEditVeterinaryVisit = !showAddEditVeterinaryVisit },
+                            exists = { showAddEditEvents = !showAddEditEvents },
                             notExists = {
                                 Toast.makeText(
                                     context,
@@ -212,7 +211,12 @@ fun VeterinaryVisitsScreen(
                 AnimatedVisibility(
                     visible = true,
                 ) {
-                    DividerWithText(it, modifier = Modifier.padding(horizontal = 20.dp))
+                    Text(
+                        text = it,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(start = 32.dp)
+                    )
+
                 }
             }
             Spacer(Modifier.height(5.dp))
@@ -222,14 +226,14 @@ fun VeterinaryVisitsScreen(
                     .padding(horizontal = 30.dp)
             ) {
                 item {
-                    if (filteredVisits.isEmpty()) {
+                    if (filteredEvents.isEmpty()) {
                         EmptyCard(
                             onClick = {
                                 petState?.id?.let {
                                     petViewModel.doesPetExist(
                                         petId = it,
                                         exists = {
-                                            showAddEditVeterinaryVisit = !showAddEditVeterinaryVisit
+                                            showAddEditEvents = !showAddEditEvents
                                         },
                                         notExists = {
                                             Toast.makeText(
@@ -246,30 +250,13 @@ fun VeterinaryVisitsScreen(
                         )
                     }
                 }
-                var hasShownPreviousLabel = if(selectedVisitFilter == "previous_not_attending" || selectedVisitFilter == "previous") true else false
-                var hasShownNextLabel = selectedVisitFilter != "all"
-                items(sortedVisits, key = { it.id }) { veterinaryVisit ->
-                    val isPrevious = veterinaryVisit.date.isBefore(LocalDate.now())
 
-                    if (isPrevious && !hasShownPreviousLabel ) {
-                        hasShownPreviousLabel = true
-                        Spacer(modifier = Modifier.height(10.dp))
-                        DividerWithText(stringResource(R.string.previous_visits_subtitle), modifier = Modifier)
-
-                        Spacer(modifier = Modifier.height(5.dp))
-                    }
-
-                    if (!isPrevious && !hasShownNextLabel) {
-                        hasShownNextLabel = true
-                        DividerWithText(stringResource(R.string.next_visits_subtitle), modifier = Modifier)
-                        Spacer(modifier = Modifier.height(5.dp))
-                    }
-
-                    VeterinaryVisitCard(
-                        veterinaryVisit = veterinaryVisit,
+                items(sortedEvents, key = { it.id }) { event ->
+                    EventCard(
+                        event = event,
                         onClick = {
-                            showAddEditVeterinaryVisit = true
-                            itemSelected = veterinaryVisit
+                            showAddEditEvents = true
+                            itemSelected = event
                         },
                         pet = petState
                     )
@@ -278,25 +265,25 @@ fun VeterinaryVisitsScreen(
             }
         }
 
-        if (showAddEditVeterinaryVisit) {
+        if (showAddEditEvents) {
             petState?.let { pet ->
-                AddVeterinaryVisitBottomSheet(
+                AddEventBottomSheet(
                     onDismiss = {
-                        showAddEditVeterinaryVisit = false
+                        showAddEditEvents = false
                         itemSelected = null
                     },
                     pet = pet,
                     currentUser = currentUserState,
-                    veterinaryVisit = itemSelected
+                    event = itemSelected
                 )
             }
         }
     }
 
-    if (showFilterVeterinaryVisits) {
-        VeterinaryVisitsFilterBottomSheet(
+    if (showFilterEvents) {
+        EventsFilterBottomSheet(
             onDismiss = {
-                showFilterVeterinaryVisits = false
+                showFilterEvents = false
             }
         )
     }
@@ -310,13 +297,13 @@ fun VeterinaryVisitsScreen(
 }
 
 @Composable
-fun VeterinaryVisitCard(
-    veterinaryVisit: VeterinaryVisit,
+fun EventCard(
+    event: Event,
     showImage: Boolean = false,
     onClick: () -> Unit,
     pet: Pet?,
 ) {
-    val dateTime = LocalDateTime.of(veterinaryVisit.date, veterinaryVisit.time)
+    val dateTime = LocalDateTime.of(event.date, event.time)
     val photo = pet?.photo
     Card(
         modifier = Modifier
@@ -329,8 +316,8 @@ fun VeterinaryVisitCard(
         shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(
             containerColor = when {
-                !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.errorContainer
-                veterinaryVisit.completed -> MaterialTheme.colorScheme.primaryContainer
+                !event.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.errorContainer
+                event.completed -> MaterialTheme.colorScheme.primaryContainer
                 else -> MaterialTheme.colorScheme.surfaceVariant
             }
         )
@@ -345,8 +332,12 @@ fun VeterinaryVisitCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = veterinaryVisit.concept, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
-                if(showImage){
+                Text(
+                    text = event.concept,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f)
+                )
+                if (showImage) {
                     if (photo != null) {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
@@ -385,12 +376,12 @@ fun VeterinaryVisitCard(
 
             Spacer(modifier = Modifier.height(5.dp))
 
-            if (!veterinaryVisit.description.isNullOrEmpty()) {
+            if (event.description.isNotEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = veterinaryVisit.description.toString(),
+                        text = event.description,
                         fontSize = 12.sp,
                         textAlign = TextAlign.Justify,
                         lineHeight = 15.sp
@@ -399,52 +390,18 @@ fun VeterinaryVisitCard(
                 Spacer(modifier = Modifier.height(5.dp))
             }
 
-
-            if (!veterinaryVisit.veterinary.isNullOrEmpty()) {
-                Spacer(modifier = Modifier.height(5.dp))
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconCircle(
-                            modifier = Modifier.size(18.dp),
-                            sizeIcon = 18.dp,
-                            icon = ImageVector.vectorResource(id = R.drawable.home_health_24dp),
-                            backgroundColor = when {
-                                !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.onErrorContainer
-                                veterinaryVisit.completed -> MaterialTheme.colorScheme.onPrimaryContainer
-                                else -> MaterialTheme.colorScheme.onSurfaceVariant
-                            },
-                            contentColor = when {
-                                !veterinaryVisit.completed && dateTime.isBefore(LocalDateTime.now()) -> MaterialTheme.colorScheme.errorContainer
-                                veterinaryVisit.completed -> MaterialTheme.colorScheme.primaryContainer
-                                else -> MaterialTheme.colorScheme.surfaceVariant
-                            }
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(
-                            text = veterinaryVisit.veterinary.toString(),
-                            fontSize = 12.sp,
-                            textAlign = TextAlign.Justify,
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(5.dp))
-            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = formatLocalDateToStringWithDay(veterinaryVisit.date),
+                    text = formatLocalDateToStringWithDay(event.date),
                     fontSize = 12.sp
                 )
                 Spacer(Modifier.width(5.dp))
                 Text(
-                    text = formatLocalTimeToString(veterinaryVisit.time),
+                    text = formatLocalTimeToString(event.time),
                     fontSize = 12.sp
                 )
             }
@@ -453,12 +410,12 @@ fun VeterinaryVisitCard(
 }
 
 @Composable
-fun DeleteVeterinaryVisitDialog(
+fun DeleteEventDialog(
     onDismiss: () -> Unit,
     onDelete: () -> Unit,
-    pet : Pet,
-    veterinaryVisit: VeterinaryVisit,
-    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
+    pet: Pet,
+    event: Event,
+    normalEventViewModel: NormalEventViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     AlertDialog(
@@ -477,10 +434,10 @@ fun DeleteVeterinaryVisitDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    pet.id?.let {
-                        veterinaryVisitsViewModel.deleteVeterinaryVisit(
-                            it,
-                            veterinaryVisit.id,
+                    pet.id?.let { petId ->
+                        normalEventViewModel.deleteEvent(
+                            petId = petId,
+                            eventId = event.id,
                             notPermission = {
                                 Toast.makeText(
                                     context,
@@ -512,7 +469,7 @@ fun DeleteVeterinaryVisitDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VeterinaryVisitsTopAppBar(
+fun EventsTopAppBar(
     navigateBack: () -> Unit,
     onClickFilter: () -> Unit
 ) {
@@ -522,7 +479,8 @@ fun VeterinaryVisitsTopAppBar(
         title = {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text = stringResource(R.string.veterinary_visits_title),
+                text = "Eventos",
+                //stringResource(R.string.veterinary_visits_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -550,13 +508,13 @@ fun VeterinaryVisitsTopAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddVeterinaryVisitBottomSheet(
+fun AddEventBottomSheet(
     onDismiss: () -> Unit,
     pet: Pet,
     currentUser: User?,
-    veterinaryVisit: VeterinaryVisit? = null,
+    event: Event? = null,
     petViewModel: PetViewModel = hiltViewModel(),
-    veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
+    normalEventViewModel: NormalEventViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
@@ -570,9 +528,6 @@ fun AddVeterinaryVisitBottomSheet(
     var description by remember { mutableStateOf("") }
     val descriptionFocusRequester = remember { FocusRequester() }
 
-    var veterinary by remember { mutableStateOf("") }
-    val veterinaryFocusRequester = remember { FocusRequester() }
-
     var completed by remember { mutableStateOf(false) }
 
     val openDatePicker = remember { mutableStateOf(false) }
@@ -585,35 +540,38 @@ fun AddVeterinaryVisitBottomSheet(
     var timeText by remember { mutableStateOf("") }
     val timeFocusRequester = remember { FocusRequester() }
 
-    val isPastUncompletedVeterinaryVisit = veterinaryVisit != null &&
+    val isPastUncompletedEvent = event != null &&
             !completed &&
             LocalDateTime.of(selectedDate.value, selectedTime.value).isBefore(LocalDateTime.now())
 
-    var showDeleteVeterinaryVisit by remember { mutableStateOf(false) }
+    var showDeleteEvent by remember { mutableStateOf(false) }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     var showPetNotExistsDialog by remember { mutableStateOf(false) }
 
+
+
     LaunchedEffect(pet.id) {
-        pet.id?.let { petViewModel.getObservedPet(
-            it,
-            petNotExits = {
-                showPetNotExistsDialog = true
-            }
-        ) }
+        pet.id?.let {
+            petViewModel.getObservedPet(
+                it,
+                petNotExits = {
+                    showPetNotExistsDialog = true
+                }
+            )
+        }
     }
 
-    LaunchedEffect(veterinaryVisit) {
-        veterinaryVisit?.let { veterinaryVisit ->
-            concept = veterinaryVisit.concept
-            description = veterinaryVisit.description.orEmpty()
-            selectedDate.value = veterinaryVisit.date
-            selectedTime.value = veterinaryVisit.time
-            dateText = formatLocalDateToString(veterinaryVisit.date)
-            timeText = formatLocalTimeToString(veterinaryVisit.time)
-            veterinary = veterinaryVisit.veterinary ?: ""
-            completed = veterinaryVisit.completed
+    LaunchedEffect(event) {
+        event?.let { event ->
+            concept = event.concept
+            description = event.description
+            selectedDate.value = event.date
+            selectedTime.value = event.time
+            dateText = formatLocalDateToString(event.date)
+            timeText = formatLocalTimeToString(event.time)
+            completed = event.completed
         } ?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(LocalDate.now())
@@ -670,7 +628,7 @@ fun AddVeterinaryVisitBottomSheet(
         ) {
             Text(
                 text = stringResource(
-                    if (veterinaryVisit != null) R.string.edit_veterinay_vivist_title
+                    if (event != null) R.string.edit_veterinay_vivist_title
                     else R.string.create_veterinay_vivist_title
                 ),
                 fontWeight = FontWeight.SemiBold,
@@ -731,33 +689,14 @@ fun AddVeterinaryVisitBottomSheet(
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
                     onNext = {
-                        veterinaryFocusRequester.requestFocus()
+                        dateFocusRequester.requestFocus()
+                        openDatePicker.value = true
                     }
                 )
             ) {
                 description = it
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
-
-            BaseOutlinedTextField(
-                value = veterinary,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(veterinaryFocusRequester),
-                placeHolder = stringResource(R.string.veterinary_placeholder),
-                label = stringResource(R.string.veterinary),
-                maxLines = 2,
-                maxLength = 25,
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        dateFocusRequester.requestFocus()
-                    }
-                )
-            ) {
-                veterinary = it
-            }
             Spacer(modifier = Modifier.height(10.dp))
 
             BaseOutlinedTextField(
@@ -809,7 +748,7 @@ fun AddVeterinaryVisitBottomSheet(
                     .clip(RoundedCornerShape(12))
                     .background(
                         when {
-                            isPastUncompletedVeterinaryVisit -> MaterialTheme.colorScheme.onErrorContainer
+                            isPastUncompletedEvent -> MaterialTheme.colorScheme.onErrorContainer
                             completed -> MaterialTheme.colorScheme.primaryContainer
                             else -> MaterialTheme.colorScheme.surfaceVariant
                         }
@@ -821,13 +760,13 @@ fun AddVeterinaryVisitBottomSheet(
             ) {
                 Icon(
                     imageVector = when {
-                        isPastUncompletedVeterinaryVisit -> Icons.Rounded.EventBusy
+                        isPastUncompletedEvent -> Icons.Rounded.EventBusy
                         completed -> Icons.Rounded.EventAvailable
                         else -> ImageVector.vectorResource(id = R.drawable.event_upcoming_24dp)
                     },
                     contentDescription = null,
                     tint = when {
-                        isPastUncompletedVeterinaryVisit -> MaterialTheme.colorScheme.errorContainer
+                        isPastUncompletedEvent -> MaterialTheme.colorScheme.errorContainer
                         completed -> MaterialTheme.colorScheme.primary
                         else -> MaterialTheme.colorScheme.onSurfaceVariant
                     }
@@ -835,12 +774,12 @@ fun AddVeterinaryVisitBottomSheet(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = when {
-                        isPastUncompletedVeterinaryVisit -> "No ha sido realizada"
+                        isPastUncompletedEvent -> "No ha sido realizado"
                         completed -> stringResource(R.string.completed)
                         else -> stringResource(R.string.not_completed)
                     },
                     color = when {
-                        isPastUncompletedVeterinaryVisit -> MaterialTheme.colorScheme.errorContainer
+                        isPastUncompletedEvent -> MaterialTheme.colorScheme.errorContainer
                         completed -> MaterialTheme.colorScheme.primary
                         else -> MaterialTheme.colorScheme.onSurfaceVariant
                     },
@@ -860,25 +799,24 @@ fun AddVeterinaryVisitBottomSheet(
                         } else {
                             val parsedDate = parseDate(dateText)
                             val parseTime = parseTime(timeText)
-                            val newVeterinaryVisit = pet.id?.let { petId ->
-                                VeterinaryVisit(
-                                    id = veterinaryVisit?.id ?: "",
+                            val newEvent = pet.id?.let { petId ->
+                                Event(
+                                    id = event?.id ?: "",
                                     petId = petId,
                                     concept = concept,
                                     description = description,
                                     date = parsedDate,
                                     time = parseTime,
-                                    veterinary = veterinary,
                                     createdBy = currentUser?.id
                                         ?: context.getString(R.string.unidentified),
                                     completed = completed
                                 )
                             }
-                            if (veterinaryVisit != null) {
-                                newVeterinaryVisit?.let { veterinaryVisit ->
-                                    veterinaryVisitsViewModel.updateVeterinaryVisit(
-                                        veterinaryVisit = veterinaryVisit,
-                                        veterinaryVisitNotExist = {
+                            if (event != null) {
+                                newEvent?.let { event ->
+                                    normalEventViewModel.updateEvent(
+                                        event = event,
+                                        eventNotExist = {
                                             Toast.makeText(
                                                 context,
                                                 context.getString(R.string.veterinaryVisit_not_exist),
@@ -903,10 +841,13 @@ fun AddVeterinaryVisitBottomSheet(
                                 }
                             } else {
                                 pet.id?.let {
-                                    newVeterinaryVisit?.let { veterinaryVisit ->
-                                        veterinaryVisitsViewModel.addVeterinaryVisit(
+                                    newEvent?.let { event ->
+                                        event.editedBy = currentUser?.id
+                                            ?: context.getString(R.string.unidentified)
+                                        event.lastEditAt = LocalDateTime.now()
+                                        normalEventViewModel.addEvent(
                                             petId = it,
-                                            veterinaryVisit = veterinaryVisit,
+                                            event = event,
                                             notPermission = {
                                                 Toast.makeText(
                                                     context,
@@ -933,17 +874,17 @@ fun AddVeterinaryVisitBottomSheet(
                         .height(60.dp)
                 ) {
                     Text(
-                        text = if (veterinaryVisit == null) stringResource(R.string.add) else stringResource(
+                        text = if (event == null) stringResource(R.string.add) else stringResource(
                             R.string.edit
                         )
                     )
                 }
 
-                if (veterinaryVisit != null) {
+                if (event != null) {
                     Spacer(modifier = Modifier.width(10.dp))
                     Button(
                         onClick = {
-                            showDeleteVeterinaryVisit = true
+                            showDeleteEvent = true
                         },
                         modifier = Modifier
                             .height(60.dp),
@@ -960,17 +901,17 @@ fun AddVeterinaryVisitBottomSheet(
         }
     }
 
-    if (showDeleteVeterinaryVisit) {
-        veterinaryVisit?.let {
-            DeleteVeterinaryVisitDialog(
+    if (showDeleteEvent) {
+        event?.let {
+            DeleteEventDialog(
                 onDismiss = {
-                    showDeleteVeterinaryVisit = false
+                    showDeleteEvent = false
                 },
                 onDelete = {
                     onDismiss()
                 },
                 pet = pet,
-                veterinaryVisit = it,
+                event = it,
             )
         }
     }
@@ -978,7 +919,7 @@ fun AddVeterinaryVisitBottomSheet(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VeterinaryVisitsFilterBottomSheet(
+fun EventsFilterBottomSheet(
     onDismiss: () -> Unit,
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
@@ -1136,33 +1077,6 @@ fun VeterinaryVisitsFilterBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
         }
-    }
-}
-
-@Composable
-fun DividerWithText(text: String, modifier: Modifier) {
-    Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 40.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Divider(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp),
-            color = Color.Gray
-        )
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = 8.dp),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Divider(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp),
-            color = Color.Gray
-        )
     }
 }
 

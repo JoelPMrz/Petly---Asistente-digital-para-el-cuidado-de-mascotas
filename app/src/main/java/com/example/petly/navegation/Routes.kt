@@ -42,6 +42,11 @@ data class VeterinaryVisits(
 )
 
 @Serializable
+data class Events(
+    val petId: String
+)
+
+@Serializable
 data class Owners(
     val petId : String
 )

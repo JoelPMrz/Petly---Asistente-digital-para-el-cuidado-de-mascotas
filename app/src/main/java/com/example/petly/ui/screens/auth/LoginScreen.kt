@@ -154,6 +154,7 @@ fun LoginScreen(
             contentScale = ContentScale.Crop
         )
 
+        /*
         Row(
             modifier = Modifier.align(Alignment.TopStart).padding(start = 20.dp, top = 45.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -166,6 +167,8 @@ fun LoginScreen(
             )
             Text(text = language.toUpperCase())
         }
+
+         */
 
 
         Column(

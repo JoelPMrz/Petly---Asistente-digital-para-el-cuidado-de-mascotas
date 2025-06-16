@@ -19,6 +19,14 @@ sealed class PetEvent {
         override val dateTime: LocalDateTime = LocalDateTime.of(date, time)
     }
 
+    data class NormalEvent(val event: Event) : PetEvent(){
+        override val id = event.id
+        override val petId = event.petId
+        override val date = event.date
+        override val time = event.time
+        override val dateTime: LocalDateTime = LocalDateTime.of(date, time)
+    }
+
 }
 
 fun PetEvent.getPet(pets: List<Pet>): Pet? {

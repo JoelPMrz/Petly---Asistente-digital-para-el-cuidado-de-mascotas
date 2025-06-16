@@ -21,6 +21,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.MedicalInformation
 import androidx.compose.material.icons.rounded.ChevronLeft
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Pets
@@ -37,6 +39,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -56,13 +59,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.petly.R
+import com.example.petly.data.models.Event
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.PetEvent
 import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.data.models.getPet
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
+import com.example.petly.ui.screens.logged.pet.AddEventBottomSheet
 import com.example.petly.ui.screens.logged.pet.AddVeterinaryVisitBottomSheet
+import com.example.petly.ui.screens.logged.pet.EventCard
 import com.example.petly.ui.screens.logged.pet.VeterinaryVisitCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
@@ -95,6 +101,7 @@ fun CalendarScreen(
     val events = eventsPerDay[selectedDate] ?: emptyList()
     val selectedPet by petViewModel.petState.collectAsState()
     var selectedVeterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
+    var selectedEvent by remember { mutableStateOf<Event?>(null) }
     var showSelectPets by remember { mutableStateOf(false) }
 
     var displayedMonth by remember { mutableStateOf(YearMonth.now()) }
@@ -133,6 +140,12 @@ fun CalendarScreen(
         }
     }
 
+    LaunchedEffect(selectedEvent) {
+        selectedEvent?.let { event ->
+            petViewModel.getPetById(event.petId)
+        }
+    }
+
     Scaffold(
         bottomBar = {
             MyNavigationAppBar(
@@ -160,7 +173,7 @@ fun CalendarScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(vertical = 5.dp),
+                .padding(bottom = 5.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -224,6 +237,8 @@ fun CalendarScreen(
                             val backgroundColor =
                                 if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
                             val isToday = date == LocalDate.now()
+                            var numberOfEvents by remember { mutableIntStateOf(0) }
+                            var numberOfVeterinaryVisits by remember { mutableIntStateOf(0) }
                             Column(
                                 modifier = Modifier
                                     .weight(1f)
@@ -247,14 +262,36 @@ fun CalendarScreen(
                                 )
 
                                 if (!eventsPerDay[date].isNullOrEmpty()) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(6.dp)
-                                            .background(
-                                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onErrorContainer,
-                                                shape = CircleShape
+                                    eventsPerDay[date]?.forEach { event ->
+                                        when (event) {
+                                            is PetEvent.VeterinaryVisitEvent -> numberOfVeterinaryVisits++
+                                            is PetEvent.NormalEvent -> numberOfEvents++
+                                        }
+                                    }
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        if(numberOfVeterinaryVisits > 0){
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(6.dp)
+                                                    .background(color = MaterialTheme.colorScheme.onSecondaryContainer, shape = CircleShape)
                                             )
-                                    )
+                                        }
+
+                                        if(numberOfEvents >0 && numberOfVeterinaryVisits>0){
+                                            Spacer(Modifier.width(3.dp))
+                                        }
+
+                                        if(numberOfEvents > 0){
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(6.dp)
+                                                    .background(color = MaterialTheme.colorScheme.onTertiaryContainer, shape = CircleShape)
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -271,12 +308,12 @@ fun CalendarScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 AnimatedContent(targetState = events) { currentEvents ->
-                    if(selectedDate == null){
+                    if (selectedDate == null) {
                         Text(
                             text = stringResource(R.string.select_a_date),
                             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                         )
-                    }else{
+                    } else {
                         if (currentEvents.isEmpty()) {
                             Text(
                                 text = stringResource(R.string.not_events),
@@ -291,7 +328,18 @@ fun CalendarScreen(
                                             VeterinaryVisitCard(
                                                 event.visit,
                                                 onClick = {
-                                                selectedVeterinaryVisit = event.visit
+                                                    selectedVeterinaryVisit = event.visit
+                                                },
+                                                showImage = true,
+                                                pet = pet
+                                            )
+                                        }
+
+                                        is PetEvent.NormalEvent -> {
+                                            EventCard(
+                                                event.event,
+                                                onClick = {
+                                                    selectedEvent = event.event
                                                 },
                                                 showImage = true,
                                                 pet = pet
@@ -308,7 +356,7 @@ fun CalendarScreen(
         }
     }
 
-    if(showSelectPets){
+    if (showSelectPets) {
         PetSelectionDialog(
             petList = petList,
             filteredPetList = petListFiltered,
@@ -329,6 +377,20 @@ fun CalendarScreen(
                     pet = pet,
                     currentUser = userState,
                     veterinaryVisit = visit,
+                )
+            }
+        }
+    }
+
+    if (selectedEvent != null) {
+        selectedEvent?.let { event ->
+            val pet = petList.find { it.id == event.petId }
+            if (pet != null) {
+                AddEventBottomSheet(
+                    onDismiss = { selectedEvent = null },
+                    pet = pet,
+                    currentUser = userState,
+                    event = event,
                 )
             }
         }
@@ -456,7 +518,8 @@ fun PetSelectionDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                selectedPets = if (isSelected) selectedPets - pet else selectedPets + pet
+                                selectedPets =
+                                    if (isSelected) selectedPets - pet else selectedPets + pet
                             }
                             .padding(vertical = 8.dp)
                     ) {
@@ -506,8 +569,6 @@ fun PetSelectionDialog(
         }
     )
 }
-
-
 
 
 fun generateCalendarMonth(baseDate: LocalDate): List<LocalDate> {

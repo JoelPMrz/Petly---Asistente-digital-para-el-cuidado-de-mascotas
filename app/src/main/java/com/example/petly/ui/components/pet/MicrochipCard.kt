@@ -54,7 +54,7 @@ fun MicrochipCard(
                 contentColor = MaterialTheme.colorScheme.secondaryContainer
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Microchip", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = stringResource(R.string.microchip), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(
                 text = pet?.microchipId.takeUnless { it.isNullOrBlank() } ?: stringResource(R.string.unidentified),
                 fontSize = 14.sp,

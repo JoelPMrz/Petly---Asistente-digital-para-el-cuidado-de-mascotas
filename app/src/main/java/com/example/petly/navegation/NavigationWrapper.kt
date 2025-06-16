@@ -12,6 +12,7 @@ import com.example.petly.ui.screens.auth.SingUpScreen
 import com.example.petly.ui.screens.logged.HomeScreen
 import com.example.petly.ui.screens.logged.calendar.CalendarScreen
 import com.example.petly.ui.screens.logged.pet.AddPetScreen
+import com.example.petly.ui.screens.logged.pet.EventsScreen
 import com.example.petly.ui.screens.logged.pet.ObserversScreen
 import com.example.petly.ui.screens.logged.pet.OwnersScreen
 import com.example.petly.ui.screens.logged.pet.PetDetailScreen
@@ -172,6 +173,9 @@ fun NavigationWrapper(context : Context){
                 navigateToVeterinaryVisits = {
                     navController.navigate(VeterinaryVisits(petDetail.petId))
                 },
+                navigateToEvents = {
+                    navController.navigate(Events(petDetail.petId))
+                },
                 navigateToHome = {
                     navController.navigate(Home){
                         popUpTo(0) { inclusive = true }
@@ -194,7 +198,7 @@ fun NavigationWrapper(context : Context){
                 }
             )
         }
-        composable<VeterinaryVisits> {backStackEntry->
+        composable<VeterinaryVisits> { backStackEntry->
             val petDetail: VeterinaryVisits = backStackEntry.toRoute()
            VeterinaryVisitsScreen(
                 //analytics = analytics,
@@ -210,7 +214,23 @@ fun NavigationWrapper(context : Context){
                }
             )
         }
-        composable<Owners> {backStackEntry->
+        composable<Events> {  backStackEntry ->
+            val petDetail: Events = backStackEntry.toRoute()
+            EventsScreen(
+                //analytics = analytics,
+                auth =  authManager,
+                petId = petDetail.petId,
+                navigateBack = {
+                    navController.popBackStack()
+                },
+                navigateToHome = {
+                    navController.navigate(Home){
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable<Owners> { backStackEntry->
             val petDetail: Owners = backStackEntry.toRoute()
             OwnersScreen(
                 auth = authManager,

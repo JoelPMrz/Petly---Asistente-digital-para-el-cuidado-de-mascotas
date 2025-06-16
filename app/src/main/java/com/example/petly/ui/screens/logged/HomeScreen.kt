@@ -72,14 +72,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.petly.R
+import com.example.petly.data.models.Event
 import com.example.petly.data.models.Pet
 import com.example.petly.data.models.PetEvent
 import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.data.models.getPet
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
+import com.example.petly.ui.screens.logged.pet.AddEventBottomSheet
 import com.example.petly.ui.screens.logged.pet.AddVeterinaryVisitBottomSheet
 import com.example.petly.ui.screens.logged.pet.DeletePetDialog
+import com.example.petly.ui.screens.logged.pet.EventCard
 import com.example.petly.ui.screens.logged.pet.VeterinaryVisitCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
@@ -127,6 +130,7 @@ fun HomeScreen(
         }
     }
     var selectedVeterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
+    var selectedEvent by remember { mutableStateOf<Event?>(null) }
 
     LaunchedEffect(filteredPetList) {
         if (filteredPetList.isNotEmpty()) {
@@ -160,6 +164,12 @@ fun HomeScreen(
     LaunchedEffect(selectedVeterinaryVisit) {
         selectedVeterinaryVisit?.let { visit ->
             petViewModel.getPetById(visit.petId)
+        }
+    }
+
+    LaunchedEffect(selectedEvent) {
+        selectedEvent?.let { event ->
+            petViewModel.getPetById(event.petId)
         }
     }
 
@@ -309,8 +319,10 @@ fun HomeScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()).lowercase()
-                                .replaceFirstChar { it.uppercase() },
+                            text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                                .lowercase()
+                                .replaceFirstChar { it.uppercase() }
+                                .take(3),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium,
                             color = textColor
@@ -377,6 +389,17 @@ fun HomeScreen(
                                             pet = pet
                                         )
                                     }
+
+                                    is PetEvent.NormalEvent -> {
+                                        EventCard(
+                                            event =  event.event,
+                                            onClick = {
+                                                selectedEvent = event.event
+                                            },
+                                            showImage = true,
+                                            pet = pet
+                                        )
+                                    }
                                 }
                                 Spacer(Modifier.height(10.dp))
                             }
@@ -399,7 +422,20 @@ fun HomeScreen(
                 )
             }
         }
+    }
 
+    if (selectedEvent != null) {
+        selectedEvent?.let { event ->
+            val pet = petList.find { it.id == event.petId }
+            if (pet != null) {
+                AddEventBottomSheet(
+                    onDismiss = { selectedEvent = null },
+                    pet = pet,
+                    currentUser = userState,
+                    event = event,
+                )
+            }
+        }
     }
 }
 

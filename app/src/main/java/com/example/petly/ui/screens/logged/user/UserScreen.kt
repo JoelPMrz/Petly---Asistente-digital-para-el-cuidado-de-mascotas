@@ -258,6 +258,19 @@ fun UserScreen(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 18.sp
                 )
+                Spacer(modifier = Modifier.height(10.dp))
+                ProfileCard(
+                    onClick = {
+                        preferencesViewModel.setDarkMode(!isDarkMode)
+                        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+                        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier,
+                    title = if (isDarkMode) stringResource(R.string.dark_mode) else stringResource(R.string.light_mode),
+                    icon = if (isDarkMode) Icons.Rounded.Bedtime else Icons.Rounded.LightMode
+                )
+                /*
                 Spacer(modifier = Modifier.height(8.dp))
                 ProfileCard(
                     onClick = {
@@ -285,18 +298,7 @@ fun UserScreen(
                     title = stringResource(R.string.notifications),
                     icon = Icons.Rounded.NotificationsActive
                 )
-                Spacer(modifier = Modifier.height(10.dp))
-                ProfileCard(
-                    onClick = {
-                        preferencesViewModel.setDarkMode(!isDarkMode)
-                        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-                        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        context.startActivity(intent)
-                    },
-                    modifier = Modifier,
-                    title = if (isDarkMode) stringResource(R.string.dark_mode) else stringResource(R.string.light_mode),
-                    icon = if (isDarkMode) Icons.Rounded.Bedtime else Icons.Rounded.LightMode
-                )
+
                 Spacer(modifier = Modifier.height(10.dp))
                 ProfileCard(
                     onClick = {
@@ -306,6 +308,8 @@ fun UserScreen(
                     title = stringResource(R.string.clear_cache),
                     icon = Icons.Rounded.CleaningServices
                 )
+
+                 */
             }
         }
 
