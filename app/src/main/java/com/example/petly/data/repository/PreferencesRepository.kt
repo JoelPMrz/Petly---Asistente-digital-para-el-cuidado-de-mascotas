@@ -23,6 +23,14 @@ class PreferencesRepository @Inject constructor(
         return sharedPreferencesManager.getString("filer_veterinay_visits", "all")
     }
 
+    fun setFilterEvents(filter : String) {
+        sharedPreferencesManager.saveString("filer_events", filter)
+    }
+
+    fun getFilterEvents(): String {
+        return sharedPreferencesManager.getString("filer_events", "all")
+    }
+
     fun setLanguage(language : String) {
         sharedPreferencesManager.saveString("language", language)
     }

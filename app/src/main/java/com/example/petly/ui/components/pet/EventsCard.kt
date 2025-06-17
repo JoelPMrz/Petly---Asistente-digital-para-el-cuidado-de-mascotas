@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Event
-import androidx.compose.material.icons.outlined.MedicalInformation
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -22,16 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.petly.R
 import com.example.petly.data.models.Event
-import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.utils.formatLocalDateToStringWithDay
 import com.example.petly.utils.formatLocalTimeToString
@@ -64,7 +59,7 @@ fun EventsCard(
                 contentColor = MaterialTheme.colorScheme.secondaryContainer
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Próximo evento", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = stringResource(R.string.upcoming_event), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             if(event != null){
                 Column  {
                     Spacer(modifier = Modifier.height(5.dp))

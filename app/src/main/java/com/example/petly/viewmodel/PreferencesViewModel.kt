@@ -37,6 +37,14 @@ class PreferencesViewModel @Inject constructor(
         _visitFilter.value = filter
     }
 
+    private val _eventsFilter = MutableStateFlow(preferencesRepository.getFilterEvents())
+    val filterEvents: StateFlow<String> = _eventsFilter
+
+    fun setEventsFilter(filter: String) {
+        preferencesRepository.setFilterEvents(filter)
+        _eventsFilter.value = filter
+    }
+
     private val _language = MutableStateFlow(preferencesRepository.getLanguage())
     val language: StateFlow<String> = _language
 

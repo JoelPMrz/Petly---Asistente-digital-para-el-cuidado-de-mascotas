@@ -42,7 +42,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
@@ -92,6 +91,7 @@ import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
+import com.example.petly.ui.components.DividerWithText
 import com.example.petly.ui.components.EmptyCard
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.pet.PetNotExistsDialog
@@ -148,8 +148,20 @@ fun VeterinaryVisitsScreen(
         }
     }
     val sortedVisits = when (selectedVisitFilter) {
-        "next" -> filteredVisits
-        else -> filteredVisits.reversed()
+        "next" -> filteredVisits.sortedBy { LocalDateTime.of(it.date, it.time) }
+        "previous", "previous_not_attending" -> filteredVisits.sortedByDescending { LocalDateTime.of(it.date, it.time) }
+        "all" -> {
+            val upcoming = filteredVisits.filter {
+                LocalDateTime.of(it.date, it.time).isAfter(LocalDateTime.now())
+            }.sortedBy { LocalDateTime.of(it.date, it.time) }
+
+            val past = filteredVisits.filter {
+                LocalDateTime.of(it.date, it.time).isBefore(LocalDateTime.now())
+            }.sortedByDescending { LocalDateTime.of(it.date, it.time) }
+
+            upcoming + past
+        }
+        else -> filteredVisits
     }
 
     LaunchedEffect(petId) {
@@ -246,7 +258,7 @@ fun VeterinaryVisitsScreen(
                         )
                     }
                 }
-                var hasShownPreviousLabel = if(selectedVisitFilter == "previous_not_attending" || selectedVisitFilter == "previous") true else false
+                var hasShownPreviousLabel = selectedVisitFilter == "previous_not_attending" || selectedVisitFilter == "previous"
                 var hasShownNextLabel = selectedVisitFilter != "all"
                 items(sortedVisits, key = { it.id }) { veterinaryVisit ->
                     val isPrevious = veterinaryVisit.date.isBefore(LocalDate.now())
@@ -835,7 +847,7 @@ fun AddVeterinaryVisitBottomSheet(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = when {
-                        isPastUncompletedVeterinaryVisit -> "No ha sido realizada"
+                        isPastUncompletedVeterinaryVisit -> stringResource(R.string.has_not_been_completed)
                         completed -> stringResource(R.string.completed)
                         else -> stringResource(R.string.not_completed)
                     },
@@ -1139,32 +1151,7 @@ fun VeterinaryVisitsFilterBottomSheet(
     }
 }
 
-@Composable
-fun DividerWithText(text: String, modifier: Modifier) {
-    Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 40.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Divider(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp),
-            color = Color.Gray
-        )
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = 8.dp),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Divider(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp),
-            color = Color.Gray
-        )
-    }
-}
+
 
 
 

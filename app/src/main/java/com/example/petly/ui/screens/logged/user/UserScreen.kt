@@ -27,16 +27,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Bedtime
 import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material.icons.rounded.CleaningServices
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.HowToReg
-import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.LockReset
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material.icons.rounded.Mail
 import androidx.compose.material.icons.rounded.MailLock
-import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.VpnKey
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -69,7 +66,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -87,7 +83,6 @@ import com.example.petly.ui.components.PasswordOutlinedTextField
 import com.example.petly.ui.components.PhotoPickerBottomSheet
 import com.example.petly.ui.screens.auth.LanguageSelectorDialog
 import com.example.petly.utils.AuthManager
-import com.example.petly.utils.clearAppCache
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
 import kotlinx.coroutines.delay
@@ -828,6 +823,7 @@ fun UpdateBasicDataBottomSheet(
     )
 
     var name by remember { mutableStateOf(user?.name ?: "") }
+    var errorName by remember { mutableStateOf(false) }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -857,20 +853,40 @@ fun UpdateBasicDataBottomSheet(
             BaseOutlinedTextField(
                 value = name,
                 label = stringResource(R.string.name),
+                isRequired = true,
+                isError = errorName,
                 maxLines = 1,
                 maxLength = 25
             ) { name = it }
+
+            if(errorName) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = stringResource(R.string.empty_name),
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+            }
+
 
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
                 onClick = {
-                    enableButton = false
-                    scope.launch {
-                        user?.id?.let{
-                            userViewModel.updateUserBasicData(it, name,)
+                    if(name.isBlank()){
+                        errorName = true
+                        return@Button
+                    }else{
+                        enableButton = false
+                        scope.launch {
+                            user?.id?.let{
+                                userViewModel.updateUserBasicData(it, name,)
+                            }
+                            onDismiss()
                         }
-                        onDismiss()
                     }
                 },
                 modifier = Modifier

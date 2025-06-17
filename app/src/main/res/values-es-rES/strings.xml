@@ -257,5 +257,16 @@
     <string name="day_singular">día</string>
     <string name="day_plural">días</string>
     <string name="current_weight">Peso actual</string>
+    <string name="previous_not_attending_events">Eventos anteriores no asistidos</string>
+    <string name="previous_events">Eventos anteriores</string>
+    <string name="filter_events">Filtrar eventos</string>
+    <string name="delete_event_alert_title">¿Eliminar este evento?</string>
+    <string name="delete_event_alert_description">Si eliminas este evento, se eliminará permanentemente de todas las cuentas vinculadas a la mascota %1$s</string>
+    <string name="events_title">Eventos</string>
+    <string name="edit_event_title">Editar evento</string>
+    <string name="create_event_title">Crear evento</string>
+    <string name="has_not_been_completed">No completado</string>
+    <string name="upcoming_event">Próximo evento</string>
+    <string name="empty_name">El nombre no puede estar vacío</string>
 
 </resources>

@@ -129,7 +129,7 @@ fun EventsScreen(
     var showAddEditEvents by remember { mutableStateOf(false) }
     var showFilterEvents by remember { mutableStateOf(false) }
     var itemSelected by remember { mutableStateOf<Event?>(null) }
-    val selectedEventFilter = preferencesViewModel.visitFilter.collectAsState().value
+    val selectedEventFilter = preferencesViewModel.filterEvents.collectAsState().value
 
     val subTitle: String? = when (selectedEventFilter) {
         "next" -> stringResource(R.string.next_visits_subtitle)
@@ -421,12 +421,12 @@ fun DeleteEventDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = stringResource(R.string.delete_visit_alert_title))
+            Text(text = stringResource(R.string.delete_event_alert_title))
         },
         text = {
             Text(
                 text = stringResource(
-                    R.string.delete_visit_alert_description,
+                    R.string.delete_event_alert_description,
                     pet.name
                 )
             )
@@ -479,8 +479,7 @@ fun EventsTopAppBar(
         title = {
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text = "Eventos",
-                //stringResource(R.string.veterinary_visits_title),
+                text = stringResource(R.string.events_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -628,8 +627,8 @@ fun AddEventBottomSheet(
         ) {
             Text(
                 text = stringResource(
-                    if (event != null) R.string.edit_veterinay_vivist_title
-                    else R.string.create_veterinay_vivist_title
+                    if (event != null) R.string.edit_event_title
+                    else R.string.create_event_title
                 ),
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -774,7 +773,7 @@ fun AddEventBottomSheet(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = when {
-                        isPastUncompletedEvent -> "No ha sido realizado"
+                        isPastUncompletedEvent -> stringResource(R.string.has_not_been_completed)
                         completed -> stringResource(R.string.completed)
                         else -> stringResource(R.string.not_completed)
                     },
@@ -819,7 +818,7 @@ fun AddEventBottomSheet(
                                         eventNotExist = {
                                             Toast.makeText(
                                                 context,
-                                                context.getString(R.string.veterinaryVisit_not_exist),
+                                                context.getString(R.string.event_not_exist),
                                                 Toast.LENGTH_LONG
                                             ).show()
                                         },
@@ -833,7 +832,7 @@ fun AddEventBottomSheet(
                                         onFailure = {
                                             Toast.makeText(
                                                 context,
-                                                context.getString(R.string.error_edit_veterinary_visit),
+                                                context.getString(R.string.error_edit_event),
                                                 Toast.LENGTH_LONG
                                             ).show()
                                         }
@@ -858,7 +857,7 @@ fun AddEventBottomSheet(
                                             onFailure = {
                                                 Toast.makeText(
                                                     context,
-                                                    context.getString(R.string.error_create_veterinary_visit),
+                                                    context.getString(R.string.error_create_event),
                                                     Toast.LENGTH_LONG
                                                 ).show()
                                             }
@@ -944,7 +943,7 @@ fun EventsFilterBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.filter_veterinary_visits),
+                text = stringResource(R.string.filter_events),
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -961,7 +960,7 @@ fun EventsFilterBottomSheet(
                     .fillMaxWidth()
                     .clickable {
                         enableButton = false
-                        preferencesViewModel.setVisitFilter("next")
+                        preferencesViewModel.setEventsFilter("next")
                         onDismiss()
                     }
             ) {
@@ -978,7 +977,7 @@ fun EventsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        stringResource(R.string.next_vivits),
+                        stringResource(R.string.next_events),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
@@ -990,7 +989,7 @@ fun EventsFilterBottomSheet(
                     .fillMaxWidth()
                     .clickable {
                         enableButton = false
-                        preferencesViewModel.setVisitFilter("previous")
+                        preferencesViewModel.setEventsFilter("previous")
                         onDismiss()
                     }
             ) {
@@ -1008,7 +1007,7 @@ fun EventsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        stringResource(R.string.previous_visits),
+                        stringResource(R.string.previous_events),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
 
@@ -1020,7 +1019,7 @@ fun EventsFilterBottomSheet(
                     .fillMaxWidth()
                     .clickable {
                         enableButton = false
-                        preferencesViewModel.setVisitFilter("previous_not_attending")
+                        preferencesViewModel.setEventsFilter("previous_not_attending")
                         onDismiss()
                     }
             ) {
@@ -1038,7 +1037,7 @@ fun EventsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        stringResource(R.string.previous_not_attending_visits),
+                        stringResource(R.string.previous_not_attending_events),
                         color = MaterialTheme.colorScheme.onErrorContainer
                     )
 
@@ -1050,7 +1049,7 @@ fun EventsFilterBottomSheet(
                     .fillMaxWidth()
                     .clickable {
                         enableButton = false
-                        preferencesViewModel.setVisitFilter("all")
+                        preferencesViewModel.setEventsFilter("all")
                         onDismiss()
                     }
             ) {
@@ -1068,7 +1067,7 @@ fun EventsFilterBottomSheet(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        stringResource(R.string.all_visits),
+                        stringResource(R.string.all_events),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
