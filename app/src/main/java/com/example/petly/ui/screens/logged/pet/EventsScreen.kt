@@ -133,7 +133,7 @@ fun EventsScreen(
     val selectedEventFilter = preferencesViewModel.filterEvents.collectAsState().value
 
     val subTitle: String? = when (selectedEventFilter) {
-        "next" -> stringResource(R.string.next_visits_subtitle)
+        "next" -> stringResource(R.string.next_events_subtitle)
         "previous" -> stringResource(R.string.previous_visits_subtitle)
         "previous_not_attending" -> stringResource(R.string.previous_not_attending_visits_subtitle)
         else -> null
@@ -272,7 +272,7 @@ fun EventsScreen(
 
                     if (!isPrevious && !hasShownNextLabel) {
                         hasShownNextLabel = true
-                        DividerWithText(stringResource(R.string.next_visits_subtitle), modifier = Modifier)
+                        DividerWithText(stringResource(R.string.next_events_subtitle), modifier = Modifier)
                         Spacer(modifier = Modifier.height(5.dp))
                     }
 

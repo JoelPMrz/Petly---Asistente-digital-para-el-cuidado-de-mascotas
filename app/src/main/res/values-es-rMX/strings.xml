@@ -257,6 +257,7 @@
     <string name="day_singular">día</string>
     <string name="day_plural">días</string>
     <string name="current_weight">Peso actual</string>
+    <string name="all_events">Todos los eventos</string>
     <string name="previous_not_attending_events">Eventos anteriores no asistidos</string>
     <string name="previous_events">Eventos anteriores</string>
     <string name="filter_events">Filtrar eventos</string>
@@ -268,4 +269,9 @@
     <string name="has_not_been_completed">No completado</string>
     <string name="upcoming_event">Próximo evento</string>
     <string name="empty_name">El nombre no puede estar vacío</string>
+    <string name="event_not_exist">Alguien eliminó este evento, no es posible editarlo</string>
+    <string name="error_edit_event">Error al editar el evento</string>
+    <string name="error_create_event">Error al crear el evento</string>
+    <string name="next_events_subtitle">Próximos</string>
+
 </resources>

@@ -234,6 +234,10 @@ fun CalendarScreen(
                                 !isInCurrentMonth -> Color.Gray
                                 else -> MaterialTheme.colorScheme.onBackground
                             }
+                            val alphaColor = when {
+                                !isInCurrentMonth -> 0.4f
+                                else -> 1f
+                            }
                             val backgroundColor =
                                 if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
                             val isToday = date == LocalDate.now()
@@ -277,7 +281,7 @@ fun CalendarScreen(
                                                 modifier = Modifier
                                                     .size(6.dp)
                                                     .background(
-                                                        color = Color(0xFFE573B1).copy(alpha = 0.5f),
+                                                        color = Color(0xFFE573B1).copy(alpha = alphaColor),
                                                         shape = CircleShape
                                                     )
                                             )
@@ -292,7 +296,7 @@ fun CalendarScreen(
                                                 modifier = Modifier
                                                     .size(6.dp)
                                                     .background(
-                                                        color = Color(0xFFFFB74D),
+                                                        color = Color(0xFFFFB74D).copy(alpha = alphaColor),
                                                         shape = CircleShape
                                                     )
                                             )

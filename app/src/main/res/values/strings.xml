@@ -272,4 +272,5 @@
     <string name="event_not_exist">Someone deleted this event, editing is not possible</string>
     <string name="error_edit_event">Error editing event</string>
     <string name="error_create_event">Error creating event</string>
+    <string name="next_events_subtitle">Upcoming</string>
 </resources>
