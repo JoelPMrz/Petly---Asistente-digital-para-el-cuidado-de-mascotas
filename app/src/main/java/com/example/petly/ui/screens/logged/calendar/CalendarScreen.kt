@@ -207,7 +207,7 @@ fun CalendarScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
+                    .padding(horizontal = 15.dp)
             ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -237,21 +237,21 @@ fun CalendarScreen(
                             val backgroundColor =
                                 if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
                             val isToday = date == LocalDate.now()
-                            var numberOfEvents by remember { mutableIntStateOf(0) }
-                            var numberOfVeterinaryVisits by remember { mutableIntStateOf(0) }
+                            var numberOfEvents = 0
+                            var numberOfVeterinaryVisits = 0
                             Column(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(4.dp)
+                                    .padding(2.dp)
                                     .clip(RoundedCornerShape(8.dp))
                                     .background(backgroundColor)
                                     .border(
-                                        width = if (isToday && !isSelected) 2.dp else 0.dp,
+                                        width = if (isToday && !isSelected) 1.dp else 0.dp,
                                         color = if (isToday && !isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                                         shape = RoundedCornerShape(8.dp)
                                     )
                                     .clickable { selectedDate = date }
-                                    .padding(vertical = 6.dp),
+                                    .padding(vertical = 4.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             )
                             {
@@ -272,23 +272,29 @@ fun CalendarScreen(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.Center
                                     ) {
-                                        if(numberOfVeterinaryVisits > 0){
+                                        if (numberOfVeterinaryVisits > 0) {
                                             Box(
                                                 modifier = Modifier
                                                     .size(6.dp)
-                                                    .background(color = MaterialTheme.colorScheme.onSecondaryContainer, shape = CircleShape)
+                                                    .background(
+                                                        color = Color(0xFFE573B1).copy(alpha = 0.5f),
+                                                        shape = CircleShape
+                                                    )
                                             )
                                         }
 
-                                        if(numberOfEvents >0 && numberOfVeterinaryVisits>0){
+                                        if (numberOfEvents > 0 && numberOfVeterinaryVisits > 0) {
                                             Spacer(Modifier.width(3.dp))
                                         }
 
-                                        if(numberOfEvents > 0){
+                                        if (numberOfEvents > 0) {
                                             Box(
                                                 modifier = Modifier
                                                     .size(6.dp)
-                                                    .background(color = MaterialTheme.colorScheme.onTertiaryContainer, shape = CircleShape)
+                                                    .background(
+                                                        color = Color(0xFFFFB74D),
+                                                        shape = CircleShape
+                                                    )
                                             )
                                         }
                                     }
@@ -299,7 +305,7 @@ fun CalendarScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             Column(
                 modifier = Modifier
@@ -311,7 +317,7 @@ fun CalendarScreen(
                     if (selectedDate == null) {
                         Text(
                             text = stringResource(R.string.select_a_date),
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                         )
                     } else {
                         if (currentEvents.isEmpty()) {

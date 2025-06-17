@@ -91,6 +91,7 @@ import com.example.petly.data.models.User
 import com.example.petly.ui.components.BaseDatePicker
 import com.example.petly.ui.components.BaseFAB
 import com.example.petly.ui.components.BaseOutlinedTextField
+import com.example.petly.ui.components.DividerWithText
 import com.example.petly.ui.components.EmptyCard
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.pet.PetNotExistsDialog
@@ -147,8 +148,20 @@ fun EventsScreen(
         }
     }
     val sortedEvents = when (selectedEventFilter) {
-        "next" -> filteredEvents
-        else -> filteredEvents.reversed()
+        "next" -> filteredEvents.sortedBy { LocalDateTime.of(it.date, it.time) }
+        "previous", "previous_not_attending" -> filteredEvents.sortedByDescending { LocalDateTime.of(it.date, it.time) }
+        "all" -> {
+            val upcoming = filteredEvents.filter {
+                LocalDateTime.of(it.date, it.time).isAfter(LocalDateTime.now())
+            }.sortedBy { LocalDateTime.of(it.date, it.time) }
+
+            val past = filteredEvents.filter {
+                LocalDateTime.of(it.date, it.time).isBefore(LocalDateTime.now())
+            }.sortedByDescending { LocalDateTime.of(it.date, it.time) }
+
+            upcoming + past
+        }
+        else -> filteredEvents
     }
 
     LaunchedEffect(petId) {
@@ -211,12 +224,7 @@ fun EventsScreen(
                 AnimatedVisibility(
                     visible = true,
                 ) {
-                    Text(
-                        text = it,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(start = 32.dp)
-                    )
-
+                    DividerWithText(it, modifier = Modifier.padding(horizontal = 30.dp))
                 }
             }
             Spacer(Modifier.height(5.dp))
@@ -250,8 +258,24 @@ fun EventsScreen(
                         )
                     }
                 }
-
+                var hasShownPreviousLabel = selectedEventFilter == "previous_not_attending" || selectedEventFilter == "previous"
+                var hasShownNextLabel = selectedEventFilter != "all"
                 items(sortedEvents, key = { it.id }) { event ->
+                    val isPrevious = event.date.isBefore(LocalDate.now())
+
+                    if (isPrevious && !hasShownPreviousLabel ) {
+                        hasShownPreviousLabel = true
+                        Spacer(modifier = Modifier.height(10.dp))
+                        DividerWithText(stringResource(R.string.previous_visits_subtitle), modifier = Modifier)
+                        Spacer(modifier = Modifier.height(5.dp))
+                    }
+
+                    if (!isPrevious && !hasShownNextLabel) {
+                        hasShownNextLabel = true
+                        DividerWithText(stringResource(R.string.next_visits_subtitle), modifier = Modifier)
+                        Spacer(modifier = Modifier.height(5.dp))
+                    }
+
                     EventCard(
                         event = event,
                         onClick = {

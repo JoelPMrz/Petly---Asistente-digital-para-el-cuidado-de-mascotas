@@ -16,11 +16,11 @@ class PreferencesRepository @Inject constructor(
     }
 
     fun setFilterVeterinaryVisits(filter : String) {
-        sharedPreferencesManager.saveString("filer_veterinay_visits", filter)
+        sharedPreferencesManager.saveString("filer_veterinary_visits", filter)
     }
 
     fun getFilterVeterinaryVisits(): String {
-        return sharedPreferencesManager.getString("filer_veterinay_visits", "all")
+        return sharedPreferencesManager.getString("filer_veterinary_visits", "all")
     }
 
     fun setFilterEvents(filter : String) {

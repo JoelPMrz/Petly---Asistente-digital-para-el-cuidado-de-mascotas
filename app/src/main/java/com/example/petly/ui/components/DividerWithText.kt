@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DividerWithText(text: String, modifier: Modifier) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 40.dp),
+        modifier = modifier.fillMaxWidth().padding(horizontal = 30.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Divider(
