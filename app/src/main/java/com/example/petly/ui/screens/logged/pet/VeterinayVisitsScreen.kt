@@ -258,34 +258,88 @@ fun VeterinaryVisitsScreen(
                         )
                     }
                 }
-                var hasShownPreviousLabel = selectedVisitFilter == "previous_not_attending" || selectedVisitFilter == "previous"
-                var hasShownNextLabel = selectedVisitFilter != "all"
-                items(sortedVisits, key = { it.id }) { veterinaryVisit ->
-                    val isPrevious = veterinaryVisit.date.isBefore(LocalDate.now())
+                if (selectedVisitFilter == "all") {
+                    val upcomingVisits = sortedVisits.filter { LocalDateTime.of(it.date, it.time).isAfter(LocalDateTime.now()) }
+                    val pastVisits = sortedVisits.filter { LocalDateTime.of(it.date, it.time).isBefore(LocalDateTime.now()) }
 
-                    if (isPrevious && !hasShownPreviousLabel ) {
-                        hasShownPreviousLabel = true
+                    if (upcomingVisits.isNotEmpty()) {
+                        item {
+                            DividerWithText(stringResource(R.string.next_visits_subtitle), modifier = Modifier)
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                        items(upcomingVisits, key = { it.id }) { veterinaryVisit ->
+                            VeterinaryVisitCard(
+                                veterinaryVisit = veterinaryVisit,
+                                onClick = {
+                                    showAddEditVeterinaryVisit = true
+                                    itemSelected = veterinaryVisit
+                                },
+                                pet = petState
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                    }else if (filteredVisits.isNotEmpty()){
+                        item{
+                            DividerWithText(stringResource(R.string.next_visits_subtitle), modifier = Modifier)
+                            Spacer(modifier = Modifier.height(5.dp))
+                            EmptyCard(
+                                onClick = {
+                                    petState?.id?.let {
+                                        petViewModel.doesPetExist(
+                                            petId = it,
+                                            exists = {
+                                                showAddEditVeterinaryVisit = !showAddEditVeterinaryVisit
+                                            },
+                                            notExists = {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.pet_not_exists_dialog_title),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            },
+                                            onFailure = {}
+                                        )
+                                    }
+                                },
+                                text = stringResource(R.string.register_new_veterinay_visists)
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                    }
+
+                    if (pastVisits.isNotEmpty()) {
+                        item {
+                            if (upcomingVisits.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(10.dp))
+                            }
+                            DividerWithText(stringResource(R.string.previous_visits_subtitle), modifier = Modifier)
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                        items(pastVisits, key = { it.id }) { veterinaryVisit ->
+                            VeterinaryVisitCard(
+                                veterinaryVisit = veterinaryVisit,
+                                onClick = {
+                                    showAddEditVeterinaryVisit = true
+                                    itemSelected = veterinaryVisit
+                                },
+                                pet = petState
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                    }
+
+                } else {
+                    items(sortedVisits, key = { it.id }) { veterinaryVisit ->
+                        VeterinaryVisitCard(
+                            veterinaryVisit = veterinaryVisit,
+                            onClick = {
+                                showAddEditVeterinaryVisit = true
+                                itemSelected = veterinaryVisit
+                            },
+                            pet = petState
+                        )
                         Spacer(modifier = Modifier.height(10.dp))
-                        DividerWithText(stringResource(R.string.previous_visits_subtitle), modifier = Modifier)
-
-                        Spacer(modifier = Modifier.height(5.dp))
                     }
-
-                    if (!isPrevious && !hasShownNextLabel) {
-                        hasShownNextLabel = true
-                        DividerWithText(stringResource(R.string.next_visits_subtitle), modifier = Modifier)
-                        Spacer(modifier = Modifier.height(5.dp))
-                    }
-
-                    VeterinaryVisitCard(
-                        veterinaryVisit = veterinaryVisit,
-                        onClick = {
-                            showAddEditVeterinaryVisit = true
-                            itemSelected = veterinaryVisit
-                        },
-                        pet = petState
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }

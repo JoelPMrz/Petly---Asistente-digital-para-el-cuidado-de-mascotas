@@ -254,39 +254,95 @@ fun EventsScreen(
                                     )
                                 }
                             },
-                            text = stringResource(R.string.register_new_veterinay_visists)
+                            text = stringResource(R.string.register_new_event)
                         )
                     }
                 }
-                var hasShownPreviousLabel = selectedEventFilter == "previous_not_attending" || selectedEventFilter == "previous"
-                var hasShownNextLabel = selectedEventFilter != "all"
-                items(sortedEvents, key = { it.id }) { event ->
-                    val isPrevious = event.date.isBefore(LocalDate.now())
+                if (selectedEventFilter == "all") {
+                    val upcomingEvents = sortedEvents.filter { LocalDateTime.of(it.date, it.time).isAfter(LocalDateTime.now()) }
+                    val pastEvents = sortedEvents.filter { LocalDateTime.of(it.date, it.time).isBefore(LocalDateTime.now()) }
 
-                    if (isPrevious && !hasShownPreviousLabel ) {
-                        hasShownPreviousLabel = true
+                    if (upcomingEvents.isNotEmpty()) {
+                        item {
+                            DividerWithText(stringResource(R.string.next_events_subtitle), modifier = Modifier)
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                        items(upcomingEvents, key = { it.id }) { event ->
+                            EventCard(
+                                event = event,
+                                onClick = {
+                                    showAddEditEvents = true
+                                    itemSelected = event
+                                },
+                                pet = petState
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                    }else if(filteredEvents.isNotEmpty()){
+                        item {
+                            DividerWithText(stringResource(R.string.next_events_subtitle), modifier = Modifier)
+                            Spacer(modifier = Modifier.height(5.dp))
+                            EmptyCard(
+                                onClick = {
+                                    petState?.id?.let {
+                                        petViewModel.doesPetExist(
+                                            petId = it,
+                                            exists = {
+                                                showAddEditEvents = !showAddEditEvents
+                                            },
+                                            notExists = {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.pet_not_exists_dialog_title),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            },
+                                            onFailure = {}
+                                        )
+                                    }
+                                },
+                                text = stringResource(R.string.register_new_event)
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                    }
+
+                    if (pastEvents.isNotEmpty()) {
+                        item {
+                            if (upcomingEvents.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(10.dp))
+                            }
+                            DividerWithText(stringResource(R.string.previous_visits_subtitle), modifier = Modifier)
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                        items(pastEvents, key = { it.id }) { event ->
+                            EventCard(
+                                event = event,
+                                onClick = {
+                                    showAddEditEvents = true
+                                    itemSelected = event
+                                },
+                                pet = petState
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                    }
+
+                } else {
+                    items(sortedEvents, key = { it.id }) { event ->
+                        EventCard(
+                            event = event,
+                            onClick = {
+                                showAddEditEvents = true
+                                itemSelected = event
+                            },
+                            pet = petState
+                        )
                         Spacer(modifier = Modifier.height(10.dp))
-                        DividerWithText(stringResource(R.string.previous_visits_subtitle), modifier = Modifier)
-                        Spacer(modifier = Modifier.height(5.dp))
                     }
-
-                    if (!isPrevious && !hasShownNextLabel) {
-                        hasShownNextLabel = true
-                        DividerWithText(stringResource(R.string.next_events_subtitle), modifier = Modifier)
-                        Spacer(modifier = Modifier.height(5.dp))
-                    }
-
-                    EventCard(
-                        event = event,
-                        onClick = {
-                            showAddEditEvents = true
-                            itemSelected = event
-                        },
-                        pet = petState
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
+
         }
 
         if (showAddEditEvents) {

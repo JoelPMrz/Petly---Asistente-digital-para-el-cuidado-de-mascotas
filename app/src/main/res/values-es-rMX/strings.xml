@@ -273,5 +273,6 @@
     <string name="error_edit_event">Error al editar el evento</string>
     <string name="error_create_event">Error al crear el evento</string>
     <string name="next_events_subtitle">Próximos</string>
+    <string name="register_new_event">Agrega un evento</string>
 
 </resources>
