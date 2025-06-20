@@ -274,5 +274,10 @@
     <string name="error_create_event">Error al crear el evento</string>
     <string name="next_events_subtitle">Próximos</string>
     <string name="register_new_event">Agrega un evento</string>
+    <string name="update_available">Actualización disponible</string>
+    <string name="incompatible_version">Versión incompatible</string>
+    <string name="incompatible_version_description">Hay una nueva versión disponible (%1$s). Para seguir usando Pelty, necesitas actualizar.</string>
+    <string name="update_available_description">La versión %1$s ya está disponible con nuevas funciones y mejoras. ¿Te gustaría actualizar?</string>
+    <string name="update">Actualizar</string>
 
 </resources>

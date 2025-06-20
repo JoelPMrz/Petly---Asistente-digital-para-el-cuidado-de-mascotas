@@ -1,5 +1,8 @@
 package com.example.petly.ui.screens.logged
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -79,6 +82,7 @@ import com.example.petly.data.models.VeterinaryVisit
 import com.example.petly.data.models.getPet
 import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.MyNavigationAppBar
+import com.example.petly.ui.components.UpdateAppDialog
 import com.example.petly.ui.screens.logged.pet.AddEventBottomSheet
 import com.example.petly.ui.screens.logged.pet.AddVeterinaryVisitBottomSheet
 import com.example.petly.ui.screens.logged.pet.DeletePetDialog
@@ -86,6 +90,8 @@ import com.example.petly.ui.screens.logged.pet.EventCard
 import com.example.petly.ui.screens.logged.pet.VeterinaryVisitCard
 import com.example.petly.ui.viewmodel.PetViewModel
 import com.example.petly.utils.AuthManager
+import com.example.petly.utils.RemoteConfigManager
+import com.example.petly.utils.isVersionLower
 import com.example.petly.utils.normalizeForSearch
 import com.example.petly.viewmodel.EventsViewModel
 import com.example.petly.viewmodel.UserViewModel
@@ -97,6 +103,7 @@ import java.util.Locale
 fun HomeScreen(
     //analytics: AnalyticsManager,
     auth: AuthManager,
+    remoteConfig: RemoteConfigManager,
     navigateToPetDetail: (String) -> Unit,
     navigateToAddPet: () -> Unit,
     navigateToHome: () -> Unit,
@@ -106,6 +113,13 @@ fun HomeScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     eventsViewModel: EventsViewModel = hiltViewModel()
 ) {
+    val context: Context = LocalContext.current
+    val versionName = context.packageManager
+        .getPackageInfo(context.packageName, 0).versionName.toString()
+    var showUpdateDialog by remember { mutableStateOf(false) }
+    var isMandatoryUpdate by remember { mutableStateOf(false) }
+    var latestVersion by remember { mutableStateOf<String?>(null) }
+
     val petList by petViewModel.petsState.collectAsState()
     val userState by userViewModel.userState.collectAsState()
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
@@ -131,6 +145,23 @@ fun HomeScreen(
     }
     var selectedVeterinaryVisit by remember { mutableStateOf<VeterinaryVisit?>(null) }
     var selectedEvent by remember { mutableStateOf<Event?>(null) }
+
+    LaunchedEffect(Unit) {
+        val remoteLatestVersion = remoteConfig.getLatestVersion()
+        val remoteMinVersion = remoteConfig.getMinimumVersion()
+
+        if (remoteLatestVersion != null && remoteMinVersion != null) {
+            if (isVersionLower(versionName, remoteMinVersion)) {
+                isMandatoryUpdate = true
+                latestVersion = remoteLatestVersion
+                showUpdateDialog = true
+            } else if (isVersionLower(versionName, remoteLatestVersion)) {
+                isMandatoryUpdate = false
+                latestVersion = remoteLatestVersion
+                showUpdateDialog = true
+            }
+        }
+    }
 
     LaunchedEffect(filteredPetList) {
         if (filteredPetList.isNotEmpty()) {
@@ -180,7 +211,7 @@ fun HomeScreen(
                     navigateToHome()
                 },
                 navigateToCalendar = {
-                    navigateToCalendar ()
+                    navigateToCalendar()
                 },
                 navigateToUser = {
                     navigateToUser()
@@ -275,6 +306,7 @@ fun HomeScreen(
                     filteredPetList.isEmpty() && page == 0 -> {
                         AddPetCard(navigateToAddPet)
                     }
+
                     page < filteredPetList.size -> {
                         Pet(
                             pet = filteredPetList[page],
@@ -282,6 +314,7 @@ fun HomeScreen(
                             auth = auth
                         )
                     }
+
                     else -> {
                         AddPetCard(navigateToAddPet)
                     }
@@ -290,7 +323,12 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            Text(text = stringResource(R.string.next_events), fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 25.dp), fontSize = 20.sp)
+            Text(
+                text = stringResource(R.string.next_events),
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(start = 25.dp),
+                fontSize = 20.sp
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
             Row(
@@ -301,8 +339,10 @@ fun HomeScreen(
             ) {
                 days.forEach { date ->
                     val isSelected = date == selectedDate
-                    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
-                    val textColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
+                    val backgroundColor =
+                        if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
+                    val textColor =
+                        if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground
                     val isToday = date == LocalDate.now()
 
                     Column(
@@ -319,7 +359,10 @@ fun HomeScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                            text = date.dayOfWeek.getDisplayName(
+                                TextStyle.SHORT,
+                                Locale.getDefault()
+                            )
                                 .lowercase()
                                 .replaceFirstChar { it.uppercase() }
                                 .take(3),
@@ -381,9 +424,9 @@ fun HomeScreen(
                                 when (event) {
                                     is PetEvent.VeterinaryVisitEvent -> {
                                         VeterinaryVisitCard(
-                                            veterinaryVisit =  event.visit,
+                                            veterinaryVisit = event.visit,
                                             onClick = {
-                                            selectedVeterinaryVisit = event.visit
+                                                selectedVeterinaryVisit = event.visit
                                             },
                                             showImage = true,
                                             pet = pet
@@ -392,7 +435,7 @@ fun HomeScreen(
 
                                     is PetEvent.NormalEvent -> {
                                         EventCard(
-                                            event =  event.event,
+                                            event = event.event,
                                             onClick = {
                                                 selectedEvent = event.event
                                             },
@@ -436,6 +479,23 @@ fun HomeScreen(
                 )
             }
         }
+    }
+
+    if (showUpdateDialog) {
+        UpdateAppDialog(
+            isMandatory = isMandatoryUpdate,
+            latestVersion = latestVersion ?: "",
+            onDismiss = { if (!isMandatoryUpdate) showUpdateDialog = false },
+            onUpdate = {
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW).apply {
+                        data =
+                            Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+                        setPackage("com.android.vending")
+                    }
+                )
+            }
+        )
     }
 }
 

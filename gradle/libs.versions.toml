@@ -34,6 +34,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-config-ktx = { module = "com.google.firebase:firebase-config-ktx" }
 firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 firebase-functions-ktx = { module = "com.google.firebase:firebase-functions-ktx", version.ref = "firebaseFunctionsKtx" }

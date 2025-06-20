@@ -21,14 +21,15 @@ import com.example.petly.ui.screens.logged.user.UserScreen
 import com.example.petly.ui.screens.logged.weight.WeightsScreen
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
+import com.example.petly.utils.RemoteConfigManager
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
 fun NavigationWrapper(context : Context){
     val navController = rememberNavController()
-    //val storage = CloudStorageManager()
     val analytics = AnalyticsManager(context)
     val authManager = AuthManager(context)
+    val remoteConfig = RemoteConfigManager()
     val user: FirebaseUser? = authManager.getCurrentUser()
 
 
@@ -37,6 +38,7 @@ fun NavigationWrapper(context : Context){
             LoginScreen(
                 analytics = analytics ,
                 auth = authManager,
+                remoteConfig = remoteConfig,
                 navigateToHome ={
                     navController.navigate(Home){
                         popUpTo<Login>{
@@ -74,6 +76,7 @@ fun NavigationWrapper(context : Context){
             HomeScreen(
                 //analytics = analytics ,
                 auth = authManager,
+                remoteConfig = remoteConfig,
                 navigateToPetDetail = { petId ->
                     navController.navigate(PetDetail(petId = petId))
                 },

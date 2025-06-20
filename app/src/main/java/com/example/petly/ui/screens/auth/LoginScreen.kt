@@ -1,11 +1,13 @@
 package com.example.petly.ui.screens.auth
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +27,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowRightAlt
 import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -35,6 +36,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,8 +47,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -60,11 +60,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petly.R
 import com.example.petly.ui.components.BaseOutlinedTextField
-import com.example.petly.ui.components.IconCircle
 import com.example.petly.ui.components.PasswordOutlinedTextField
+import com.example.petly.ui.components.UpdateAppDialog
 import com.example.petly.utils.AnalyticsManager
 import com.example.petly.utils.AuthManager
 import com.example.petly.utils.AuthRes
+import com.example.petly.utils.RemoteConfigManager
+import com.example.petly.utils.isVersionLower
 import com.example.petly.viewmodel.PreferencesViewModel
 import com.example.petly.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -75,6 +77,7 @@ import kotlinx.coroutines.launch
 fun LoginScreen(
     analytics: AnalyticsManager,
     auth: AuthManager,
+    remoteConfig: RemoteConfigManager,
     navigateToHome:()-> Unit,
     navigateToForgotPassword:()-> Unit,
     navigateToSingUp:()-> Unit,
@@ -82,6 +85,11 @@ fun LoginScreen(
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val versionName = context.packageManager
+        .getPackageInfo(context.packageName, 0).versionName.toString()
+    var showUpdateDialog by remember { mutableStateOf(false) }
+    var isMandatoryUpdate by remember { mutableStateOf(false) }
+    var latestVersion by remember { mutableStateOf<String?>(null) }
     val focusManager = LocalFocusManager.current
     var email: String by remember { mutableStateOf("") }
     val mailFocusRequester = remember { FocusRequester() }
@@ -135,10 +143,44 @@ fun LoginScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        val remoteLatestVersion = remoteConfig.getLatestVersion()
+        val remoteMinVersion = remoteConfig.getMinimumVersion()
+
+        if (remoteLatestVersion != null && remoteMinVersion != null) {
+            if (isVersionLower(versionName, remoteMinVersion)) {
+                isMandatoryUpdate = true
+                latestVersion = remoteLatestVersion
+                showUpdateDialog = true
+            } else if (isVersionLower(versionName, remoteLatestVersion)) {
+                isMandatoryUpdate = false
+                latestVersion = remoteLatestVersion
+                showUpdateDialog = true
+            }
+        }
+    }
+
     if(showLanguageSelectorDialog){
         LanguageSelectorDialog(
             onDismiss = {
                 showLanguageSelectorDialog = false
+            }
+        )
+    }
+
+    if (showUpdateDialog) {
+        UpdateAppDialog(
+            isMandatory = isMandatoryUpdate,
+            latestVersion = latestVersion ?: "",
+            onDismiss = { if (!isMandatoryUpdate) showUpdateDialog = false },
+            onUpdate = {
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW).apply {
+                        data =
+                            Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+                        setPackage("com.android.vending")
+                    }
+                )
             }
         )
     }
