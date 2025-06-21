@@ -256,4 +256,27 @@
     <string name="day_singular">dan</string>
     <string name="day_plural">dani</string>
     <string name="current_weight">Trenutna težina</string>
+    <string name="all_events">Svi događaji</string>
+    <string name="previous_not_attending_events">Prethodni događaji na koje se nije došlo</string>
+    <string name="previous_events">Prethodni događaji</string>
+    <string name="filter_events">Filtriraj događaje</string>
+    <string name="delete_event_alert_title">Izbrisati ovaj događaj?</string>
+    <string name="delete_event_alert_description">Ako izbrišete ovaj događaj, bit će trajno uklonjen sa svih računa povezanih s ljubimcem %1$s</string>
+    <string name="events_title">Događaji</string>
+    <string name="edit_event_title">Uredi događaj</string>
+    <string name="create_event_title">Kreiraj događaj</string>
+    <string name="has_not_been_completed">Nije dovršeno</string>
+    <string name="upcoming_event">Nadolazeći događaj</string>
+    <string name="empty_name">Naziv ne može biti prazan</string>
+    <string name="event_not_exist">Netko je izbrisao ovaj događaj, uređivanje nije moguće</string>
+    <string name="error_edit_event">Greška pri uređivanju događaja</string>
+    <string name="error_create_event">Greška pri kreiranju događaja</string>
+    <string name="next_events_subtitle">Nadolazeći</string>
+    <string name="register_new_event">Dodaj događaj</string>
+    <string name="update_available">Dostupno ažuriranje</string>
+    <string name="incompatible_version">Nekompatibilna verzija</string>
+    <string name="incompatible_version_description">Dostupna je nova verzija (%1$s). Za nastavak korištenja aplikacije Pelty, trebate ažurirati.</string>
+    <string name="update_available_description">Verzija %1$s je sada dostupna s novim funkcijama i poboljšanjima. Želite li ažurirati?</string>
+    <string name="update">Ažuriraj</string>
+    <string name="comming_soon">Uskoro...</string>
 </resources>

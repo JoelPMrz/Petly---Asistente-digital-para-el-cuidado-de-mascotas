@@ -257,4 +257,27 @@
     <string name="day_singular">Tag</string>
     <string name="day_plural">Tage</string>
     <string name="current_weight">Aktuelles Gewicht</string>
+    <string name="all_events">Alle Ereignisse</string>
+    <string name="previous_not_attending_events">Bisherige nicht besuchte Ereignisse</string>
+    <string name="previous_events">Bisherige Ereignisse</string>
+    <string name="filter_events">Ereignisse filtern</string>
+    <string name="delete_event_alert_title">Dieses Ereignis löschen?</string>
+    <string name="delete_event_alert_description">Wenn Sie dieses Ereignis löschen, wird es dauerhaft von allen Konten entfernt, die mit dem Haustier %1$s verknüpft sind</string>
+    <string name="events_title">Ereignisse</string>
+    <string name="edit_event_title">Ereignis bearbeiten</string>
+    <string name="create_event_title">Ereignis erstellen</string>
+    <string name="has_not_been_completed">Nicht abgeschlossen</string>
+    <string name="upcoming_event">Bevorstehendes Ereignis</string>
+    <string name="empty_name">Der Name darf nicht leer sein</string>
+    <string name="event_not_exist">Jemand hat dieses Ereignis gelöscht, Bearbeitung ist nicht möglich</string>
+    <string name="error_edit_event">Fehler beim Bearbeiten des Ereignisses</string>
+    <string name="error_create_event">Fehler beim Erstellen des Ereignisses</string>
+    <string name="next_events_subtitle">Bevorstehende</string>
+    <string name="register_new_event">Ein Ereignis hinzufügen</string>
+    <string name="update_available">Update verfügbar</string>
+    <string name="incompatible_version">Inkompatible Version</string>
+    <string name="incompatible_version_description">Eine neue Version ist verfügbar (%1$s). Um Pelty weiterhin nutzen zu können, müssen Sie aktualisieren.</string>
+    <string name="update_available_description">Version %1$s ist jetzt mit neuen Funktionen und Verbesserungen verfügbar. Möchten Sie aktualisieren?</string>
+    <string name="update">Aktualisieren</string>
+    <string name="comming_soon">Demnächst...</string>
 </resources>

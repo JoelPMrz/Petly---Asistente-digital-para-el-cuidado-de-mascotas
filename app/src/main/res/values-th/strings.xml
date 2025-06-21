@@ -256,4 +256,27 @@
     <string name="day_singular">วัน</string>
     <string name="day_plural">วัน</string>
     <string name="current_weight">น้ำหนักปัจจุบัน</string>
+    <string name="all_events">กิจกรรมทั้งหมด</string>
+    <string name="previous_not_attending_events">กิจกรรมก่อนหน้าไม่ได้เข้าร่วม</string>
+    <string name="previous_events">กิจกรรมก่อนหน้า</string>
+    <string name="filter_events">กรองกิจกรรม</string>
+    <string name="delete_event_alert_title">ลบกิจกรรมนี้หรือไม่?</string>
+    <string name="delete_event_alert_description">หากคุณลบกิจกรรมนี้ กิจกรรมจะถูกลบอย่างถาวรจากบัญชีทั้งหมดที่เชื่อมโยงกับสัตว์เลี้ยง %1$s</string>
+    <string name="events_title">กิจกรรม</string>
+    <string name="edit_event_title">แก้ไขกิจกรรม</string>
+    <string name="create_event_title">สร้างกิจกรรม</string>
+    <string name="has_not_been_completed">ยังไม่เสร็จสมบูรณ์</string>
+    <string name="upcoming_event">กิจกรรมที่กำลังจะมาถึง</string>
+    <string name="empty_name">ชื่อต้องไม่ว่างเปล่า</string>
+    <string name="event_not_exist">มีคนลบกิจกรรมนี้ไปแล้ว ไม่สามารถแก้ไขได้</string>
+    <string name="error_edit_event">เกิดข้อผิดพลาดในการแก้ไขกิจกรรม</string>
+    <string name="error_create_event">เกิดข้อผิดพลาดในการสร้างกิจกรรม</string>
+    <string name="next_events_subtitle">ถัดไป</string>
+    <string name="register_new_event">เพิ่มกิจกรรม</string>
+    <string name="update_available">มีการอัปเดต</string>
+    <string name="incompatible_version">เวอร์ชันไม่รองรับ</string>
+    <string name="incompatible_version_description">มีเวอร์ชันใหม่ให้ใช้งาน (%1$s) หากต้องการใช้งาน Pelty ต่อไป คุณต้องอัปเดต</string>
+    <string name="update_available_description">เวอร์ชัน %1$s พร้อมใช้งานแล้วพร้อมคุณสมบัติใหม่และการปรับปรุง คุณต้องการอัปเดตหรือไม่?</string>
+    <string name="update">อัปเดต</string>
+    <string name="comming_soon">เร็วๆ นี้...</string>
 </resources>

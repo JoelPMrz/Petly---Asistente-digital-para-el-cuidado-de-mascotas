@@ -256,4 +256,27 @@
     <string name="day_singular">dan</string>
     <string name="day_plural">dni</string>
     <string name="current_weight">Trenutna teža</string>
+    <string name="all_events">Vsi dogodki</string>
+    <string name="previous_not_attending_events">Pretekli neudeleženi dogodki</string>
+    <string name="previous_events">Pretekli dogodki</string>
+    <string name="filter_events">Filtriraj dogodke</string>
+    <string name="delete_event_alert_title">Izbrišem ta dogodek?</string>
+    <string name="delete_event_alert_description">Če izbrišete ta dogodek, bo trajno odstranjen iz vseh računov, povezanih z ljubljenčkom %1$s</string>
+    <string name="events_title">Dogodki</string>
+    <string name="edit_event_title">Uredi dogodek</string>
+    <string name="create_event_title">Ustvari dogodek</string>
+    <string name="has_not_been_completed">Ni dokončano</string>
+    <string name="upcoming_event">Prihajajoči dogodek</string>
+    <string name="empty_name">Ime ne sme biti prazno</string>
+    <string name="event_not_exist">Nekdo je izbrisal ta dogodek, urejanje ni mogoče</string>
+    <string name="error_edit_event">Napaka pri urejanju dogodka</string>
+    <string name="error_create_event">Napaka pri ustvarjanju dogodka</string>
+    <string name="next_events_subtitle">Prihajajoči</string>
+    <string name="register_new_event">Dodaj dogodek</string>
+    <string name="update_available">Posodobitev na voljo</string>
+    <string name="incompatible_version">Nezdružljiva različica</string>
+    <string name="incompatible_version_description">Na voljo je nova različica (%1$s). Za nadaljnjo uporabo Peltyja morate posodobiti.</string>
+    <string name="update_available_description">Različica %1$s je zdaj na voljo z novimi funkcijami in izboljšavami. Bi radi posodobili?</string>
+    <string name="update">Posodobi</string>
+    <string name="comming_soon">Kmalu na voljo...</string>
 </resources>

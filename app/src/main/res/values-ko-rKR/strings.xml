@@ -256,4 +256,27 @@
     <string name="day_singular">일</string>
     <string name="day_plural">일</string>
     <string name="current_weight">현재 체중</string>
+    <string name="all_events">모든 이벤트</string>
+    <string name="previous_not_attending_events">참석하지 않은 이전 이벤트</string>
+    <string name="previous_events">이전 이벤트</string>
+    <string name="filter_events">이벤트 필터링</string>
+    <string name="delete_event_alert_title">이 이벤트를 삭제하시겠습니까?</string>
+    <string name="delete_event_alert_description">이 이벤트를 삭제하면 반려동물 %1$s와 연결된 모든 계정에서 영구적으로 삭제됩니다</string>
+    <string name="events_title">이벤트</string>
+    <string name="edit_event_title">이벤트 편집</string>
+    <string name="create_event_title">이벤트 생성</string>
+    <string name="has_not_been_completed">미완료</string>
+    <string name="upcoming_event">예정된 이벤트</string>
+    <string name="empty_name">이름은 비워둘 수 없습니다</string>
+    <string name="event_not_exist">누군가 이 이벤트를 삭제했습니다. 편집할 수 없습니다.</string>
+    <string name="error_edit_event">이벤트 편집 오류</string>
+    <string name="error_create_event">이벤트 생성 오류</string>
+    <string name="next_events_subtitle">예정</string>
+    <string name="register_new_event">이벤트 추가</string>
+    <string name="update_available">업데이트 가능</string>
+    <string name="incompatible_version">호환되지 않는 버전</string>
+    <string name="incompatible_version_description">새 버전(%1$s)을 사용할 수 있습니다. Pelty를 계속 사용하려면 업데이트해야 합니다.</string>
+    <string name="update_available_description">버전 %1$s이(가) 새로운 기능 및 개선 사항과 함께 출시되었습니다. 업데이트하시겠습니까?</string>
+    <string name="update">업데이트</string>
+    <string name="comming_soon">출시 예정...</string>
 </resources>

@@ -256,4 +256,27 @@
     <string name="day_singular">ngày</string>
     <string name="day_plural">ngày</string>
     <string name="current_weight">Cân nặng hiện tại</string>
+    <string name="all_events">Tất cả sự kiện</string>
+    <string name="previous_not_attending_events">Các sự kiện trước đó không tham dự</string>
+    <string name="previous_events">Các sự kiện trước đó</string>
+    <string name="filter_events">Lọc sự kiện</string>
+    <string name="delete_event_alert_title">Xóa sự kiện này?</string>
+    <string name="delete_event_alert_description">Nếu bạn xóa sự kiện này, nó sẽ bị xóa vĩnh viễn khỏi tất cả các tài khoản được liên kết với thú cưng %1$s</string>
+    <string name="events_title">Sự kiện</string>
+    <string name="edit_event_title">Chỉnh sửa sự kiện</string>
+    <string name="create_event_title">Tạo sự kiện</string>
+    <string name="has_not_been_completed">Chưa hoàn thành</string>
+    <string name="upcoming_event">Sự kiện sắp tới</string>
+    <string name="empty_name">Tên không được để trống</string>
+    <string name="event_not_exist">Ai đó đã xóa sự kiện này, không thể chỉnh sửa</string>
+    <string name="error_edit_event">Lỗi khi chỉnh sửa sự kiện</string>
+    <string name="error_create_event">Lỗi khi tạo sự kiện</string>
+    <string name="next_events_subtitle">Sắp tới</string>
+    <string name="register_new_event">Thêm một sự kiện</string>
+    <string name="update_available">Cập nhật có sẵn</string>
+    <string name="incompatible_version">Phiên bản không tương thích</string>
+    <string name="incompatible_version_description">Có một phiên bản mới (%1$s) có sẵn. Để tiếp tục sử dụng Pelty, bạn cần cập nhật.</string>
+    <string name="update_available_description">Phiên bản %1$s đã có sẵn với các tính năng mới và cải tiến. Bạn có muốn cập nhật không?</string>
+    <string name="update">Cập nhật</string>
+    <string name="comming_soon">Sắp ra mắt...</string>
 </resources>

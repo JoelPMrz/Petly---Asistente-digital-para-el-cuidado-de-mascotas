@@ -256,4 +256,27 @@
     <string name="day_singular">dia</string>
     <string name="day_plural">dias</string>
     <string name="current_weight">Peso atual</string>
+    <string name="all_events">Todos os eventos</string>
+    <string name="previous_not_attending_events">Eventos anteriores não assistidos</string>
+    <string name="previous_events">Eventos anteriores</string>
+    <string name="filter_events">Filtrar eventos</string>
+    <string name="delete_event_alert_title">Eliminar este evento?</string>
+    <string name="delete_event_alert_description">Se eliminar este evento, será removido permanentemente de todas as contas associadas ao animal de estimação %1$s</string>
+    <string name="events_title">Eventos</string>
+    <string name="edit_event_title">Editar evento</string>
+    <string name="create_event_title">Criar evento</string>
+    <string name="has_not_been_completed">Não concluído</string>
+    <string name="upcoming_event">Próximo evento</string>
+    <string name="empty_name">O nome não pode estar vazio</string>
+    <string name="event_not_exist">Alguém eliminou este evento, não é possível editá-lo</string>
+    <string name="error_edit_event">Erro ao editar o evento</string>
+    <string name="error_create_event">Erro ao criar o evento</string>
+    <string name="next_events_subtitle">Próximos</string>
+    <string name="register_new_event">Adicionar um evento</string>
+    <string name="update_available">Atualização disponível</string>
+    <string name="incompatible_version">Versão incompatível</string>
+    <string name="incompatible_version_description">Está disponível uma nova versão (%1$s). Para continuar a usar o Pelty, precisa de atualizar.</string>
+    <string name="update_available_description">A versão %1$s já está disponível com novas funcionalidades e melhorias. Gostaria de atualizar?</string>
+    <string name="update">Atualizar</string>
+    <string name="comming_soon">Brevemente...</string>
 </resources>

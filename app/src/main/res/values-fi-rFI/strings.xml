@@ -257,4 +257,27 @@
     <string name="day_singular">päivä</string>
     <string name="day_plural">päivää</string>
     <string name="current_weight">Nykyinen paino</string>
+    <string name="all_events">Kaikki tapahtumat</string>
+    <string name="previous_not_attending_events">Edelliset tapahtumat, joihin ei osallistuttu</string>
+    <string name="previous_events">Edelliset tapahtumat</string>
+    <string name="filter_events">Suodata tapahtumia</string>
+    <string name="delete_event_alert_title">Poista tämä tapahtuma?</string>
+    <string name="delete_event_alert_description">Jos poistat tämän tapahtuman, se poistetaan pysyvästi kaikilta %1$s lemmikkiin liitetyiltä tileiltä</string>
+    <string name="events_title">Tapahtumat</string>
+    <string name="edit_event_title">Muokkaa tapahtumaa</string>
+    <string name="create_event_title">Luo tapahtuma</string>
+    <string name="has_not_been_completed">Ei valmis</string>
+    <string name="upcoming_event">Tuleva tapahtuma</string>
+    <string name="empty_name">Nimi ei voi olla tyhjä</string>
+    <string name="event_not_exist">Joku poisti tämän tapahtuman, muokkaaminen ei ole mahdollista</string>
+    <string name="error_edit_event">Virhe tapahtumaa muokatessa</string>
+    <string name="error_create_event">Virhe tapahtumaa luodessa</string>
+    <string name="next_events_subtitle">Seuraavat</string>
+    <string name="register_new_event">Lisää tapahtuma</string>
+    <string name="update_available">Päivitys saatavilla</string>
+    <string name="incompatible_version">Yhteensopimaton versio</string>
+    <string name="incompatible_version_description">Uusi versio on saatavilla (%1$s). Jotta voit jatkaa Peltyn käyttöä, sinun on päivitettävä.</string>
+    <string name="update_available_description">Versio %1$s on nyt saatavilla uusilla ominaisuuksilla ja parannuksilla. Haluatko päivittää?</string>
+    <string name="update">Päivitä</string>
+    <string name="comming_soon">Tulossa pian...</string>
 </resources>

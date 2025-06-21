@@ -256,4 +256,27 @@
     <string name="day_singular">दिन</string>
     <string name="day_plural">दिन</string>
     <string name="current_weight">वर्तमान वज़न</string>
+    <string name="all_events">सभी इवेंट</string>
+    <string name="previous_not_attending_events">पहले के इवेंट जिनमें शामिल नहीं हुए</string>
+    <string name="previous_events">पहले के इवेंट</string>
+    <string name="filter_events">इवेंट फ़िल्टर करें</string>
+    <string name="delete_event_alert_title">यह इवेंट हटाएँ?</string>
+    <string name="delete_event_alert_description">यदि आप इस इवेंट को हटाते हैं, तो यह %1$s पालतू जानवर से जुड़े सभी खातों से स्थायी रूप से हट जाएगा</string>
+    <string name="events_title">इवेंट</string>
+    <string name="edit_event_title">इवेंट एडिट करें</string>
+    <string name="create_event_title">इवेंट बनाएँ</string>
+    <string name="has_not_been_completed">पूरा नहीं हुआ</string>
+    <string name="upcoming_event">आने वाला इवेंट</string>
+    <string name="empty_name">नाम खाली नहीं हो सकता</string>
+    <string name="event_not_exist">किसी ने यह इवेंट हटा दिया है, संपादन संभव नहीं है</string>
+    <string name="error_edit_event">इवेंट एडिट करने में त्रुटि</string>
+    <string name="error_create_event">इवेंट बनाने में त्रुटि</string>
+    <string name="next_events_subtitle">आने वाले</string>
+    <string name="register_new_event">एक इवेंट जोड़ें</string>
+    <string name="update_available">अपडेट उपलब्ध है</string>
+    <string name="incompatible_version">असंगत वर्ज़न</string>
+    <string name="incompatible_version_description">एक नया वर्ज़न (%1$s) उपलब्ध है। Pelty का उपयोग जारी रखने के लिए, आपको अपडेट करना होगा।</string>
+    <string name="update_available_description">वर्ज़न %1$s अब नए फ़ीचर और सुधारों के साथ उपलब्ध है। क्या आप अपडेट करना चाहेंगे?</string>
+    <string name="update">अपडेट करें</string>
+    <string name="comming_soon">जल्द आ रहा है...</string>
 </resources>

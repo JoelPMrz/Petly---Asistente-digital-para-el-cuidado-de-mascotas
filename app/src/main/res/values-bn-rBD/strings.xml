@@ -209,7 +209,6 @@
     <string name="not_events">এই তারিখে কোনও ইভেন্ট নেই</string>
     <string name="select_a_date">একটি তারিখ নির্বাচন করুন</string>
     <string name="select_your_pets">আপনার পোষা প্রাণী নির্বাচন করুন</string>
-
     <string-array name="species_options">
         <item>মাকড়সা</item>
         <item>গাধা</item>
@@ -242,7 +241,6 @@
         <item>সাপ</item>
         <item>কচ্ছপ</item>
     </string-array>
-
     <string-array name="days_of_week">
         <item>সোম</item>
         <item>মঙ্গল</item>
@@ -252,7 +250,6 @@
         <item>শনি</item>
         <item>রবি</item>
     </string-array>
-
     <string name="year_singular">বছর</string>
     <string name="year_plural">বছর</string>
     <string name="month_singular">মাস</string>
@@ -260,4 +257,27 @@
     <string name="day_singular">দিন</string>
     <string name="day_plural">দিন</string>
     <string name="current_weight">বর্তমান ওজন</string>
+    <string name="all_events">সব ঘটনা</string>
+    <string name="previous_not_attending_events">অংশগ্রহণ করেননি এমন পূর্ববর্তী ঘটনা</string>
+    <string name="previous_events">পূর্ববর্তী ঘটনা</string>
+    <string name="filter_events">ঘটনা ফিল্টার করুন</string>
+    <string name="delete_event_alert_title">এই ঘটনাটি মুছে ফেলবেন?</string>
+    <string name="delete_event_alert_description">আপনি যদি এই ঘটনাটি মুছে ফেলেন, তবে এটি %1$s পোষা প্রাণীর সাথে সংযুক্ত সমস্ত অ্যাকাউন্ট থেকে স্থায়ীভাবে মুছে যাবে</string>
+    <string name="events_title">ঘটনা</string>
+    <string name="edit_event_title">ঘটনা সম্পাদনা করুন</string>
+    <string name="create_event_title">ঘটনা তৈরি করুন</string>
+    <string name="has_not_been_completed">সম্পন্ন হয়নি</string>
+    <string name="upcoming_event">আসন্ন ঘটনা</string>
+    <string name="empty_name">নাম খালি থাকতে পারে না</string>
+    <string name="event_not_exist">কেউ এই ঘটনাটি মুছে দিয়েছে, সম্পাদনা করা সম্ভব নয়</string>
+    <string name="error_edit_event">ঘটনা সম্পাদনায় ত্রুটি</string>
+    <string name="error_create_event">ঘটনা তৈরিতে ত্রুটি</string>
+    <string name="next_events_subtitle">আসছে</string>
+    <string name="register_new_event">একটি ঘটনা যোগ করুন</string>
+    <string name="update_available">আপডেট উপলব্ধ</string>
+    <string name="incompatible_version">অসঙ্গত সংস্করণ</string>
+    <string name="incompatible_version_description">একটি নতুন সংস্করণ উপলব্ধ (%1$s)। Pelty ব্যবহার চালিয়ে যেতে, আপনাকে আপডেট করতে হবে।</string>
+    <string name="update_available_description">সংস্করণ %1$s এখন নতুন বৈশিষ্ট্য এবং উন্নতি সহ উপলব্ধ। আপনি কি আপডেট করতে চান?</string>
+    <string name="update">আপডেট</string>
+    <string name="comming_soon">শীঘ্রই আসছে...</string>
 </resources>

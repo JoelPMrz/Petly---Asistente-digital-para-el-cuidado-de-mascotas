@@ -256,4 +256,27 @@
     <string name="day_singular">gün</string>
     <string name="day_plural">gün</string>
     <string name="current_weight">Mevcut Kilo</string>
+    <string name="all_events">Tüm Etkinlikler</string>
+    <string name="previous_not_attending_events">Katılmadığınız Önceki Etkinlikler</string>
+    <string name="previous_events">Önceki Etkinlikler</string>
+    <string name="filter_events">Etkinlikleri Filtrele</string>
+    <string name="delete_event_alert_title">Bu etkinliği silmek ister misiniz?</string>
+    <string name="delete_event_alert_description">Bu etkinliği silerseniz, %1$s evcil hayvanıyla bağlantılı tüm hesaplardan kalıcı olarak silinecektir</string>
+    <string name="events_title">Etkinlikler</string>
+    <string name="edit_event_title">Etkinliği Düzenle</string>
+    <string name="create_event_title">Etkinlik Oluştur</string>
+    <string name="has_not_been_completed">Tamamlanmadı</string>
+    <string name="upcoming_event">Yaklaşan Etkinlik</string>
+    <string name="empty_name">Ad boş olamaz</string>
+    <string name="event_not_exist">Birisi bu etkinliği sildi, düzenlenemez</string>
+    <string name="error_edit_event">Etkinlik düzenlenirken hata oluştu</string>
+    <string name="error_create_event">Etkinlik oluşturulurken hata oluştu</string>
+    <string name="next_events_subtitle">Yaklaşanlar</string>
+    <string name="register_new_event">Bir etkinlik ekle</string>
+    <string name="update_available">Güncelleme Mevcut</string>
+    <string name="incompatible_version">Uyumsuz Sürüm</string>
+    <string name="incompatible_version_description">Yeni bir sürüm mevcut (%1$s). Pelty\'yi kullanmaya devam etmek için güncellemeniz gerekiyor.</string>
+    <string name="update_available_description">Sürüm %1$s, yeni özellikler ve iyileştirmelerle kullanıma sunuldu. Güncellemek ister misiniz?</string>
+    <string name="update">Güncelle</string>
+    <string name="comming_soon">Çok Yakında...</string>
 </resources>

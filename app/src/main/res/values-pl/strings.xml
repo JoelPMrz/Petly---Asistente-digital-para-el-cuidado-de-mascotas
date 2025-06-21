@@ -257,4 +257,27 @@
     <string name="day_singular">dzień</string>
     <string name="day_plural">dni</string>
     <string name="current_weight">Obecna waga</string>
+    <string name="all_events">Wszystkie wydarzenia</string>
+    <string name="previous_not_attending_events">Poprzednie wydarzenia, w których nie uczestniczono</string>
+    <string name="previous_events">Poprzednie wydarzenia</string>
+    <string name="filter_events">Filtruj wydarzenia</string>
+    <string name="delete_event_alert_title">Usunąć to wydarzenie?</string>
+    <string name="delete_event_alert_description">Jeśli usuniesz to wydarzenie, zostanie ono trwale usunięte ze wszystkich kont powiązanych ze zwierzęciem %1$s</string>
+    <string name="events_title">Wydarzenia</string>
+    <string name="edit_event_title">Edytuj wydarzenie</string>
+    <string name="create_event_title">Utwórz wydarzenie</string>
+    <string name="has_not_been_completed">Nieukończone</string>
+    <string name="upcoming_event">Nadchodzące wydarzenie</string>
+    <string name="empty_name">Nazwa nie może być pusta</string>
+    <string name="event_not_exist">Ktoś usunął to wydarzenie, edycja nie jest możliwa</string>
+    <string name="error_edit_event">Błąd podczas edycji wydarzenia</string>
+    <string name="error_create_event">Błąd podczas tworzenia wydarzenia</string>
+    <string name="next_events_subtitle">Nadchodzące</string>
+    <string name="register_new_event">Dodaj wydarzenie</string>
+    <string name="update_available">Dostępna aktualizacja</string>
+    <string name="incompatible_version">Niekompatybilna wersja</string>
+    <string name="incompatible_version_description">Dostępna jest nowa wersja (%1$s). Aby kontynuować korzystanie z Pelty, musisz zaktualizować aplikację.</string>
+    <string name="update_available_description">Wersja %1$s jest już dostępna z nowymi funkcjami i ulepszeniami. Czy chcesz zaktualizować?</string>
+    <string name="update">Aktualizuj</string>
+    <string name="comming_soon">Wkrótce...</string>
 </resources>

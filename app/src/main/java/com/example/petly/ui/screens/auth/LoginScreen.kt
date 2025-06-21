@@ -301,9 +301,12 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.width(20.dp))
                 Button(
                     onClick = {
+                        Toast.makeText(context, context.getString(R.string.comming_soon), Toast.LENGTH_SHORT).show()
+                        /*
                         scope.launch {
                             auth.signInAnonymously(auth, analytics, navigateToHome)
                         }
+                         */
                     },
                     modifier = Modifier
                         .weight(1f)

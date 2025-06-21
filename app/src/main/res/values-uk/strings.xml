@@ -257,4 +257,27 @@
     <string name="day_singular">день</string>
     <string name="day_plural">днів</string>
     <string name="current_weight">Поточна вага</string>
+    <string name="all_events">Усі події</string>
+    <string name="previous_not_attending_events">Попередні події, на яких не були присутні</string>
+    <string name="previous_events">Попередні події</string>
+    <string name="filter_events">Фільтрувати події</string>
+    <string name="delete_event_alert_title">Видалити цю подію?</string>
+    <string name="delete_event_alert_description">Якщо ви видалите цю подію, її буде назавжди видалено з усіх облікових записів, пов’язаних з домашньою твариною %1$s</string>
+    <string name="events_title">Події</string>
+    <string name="edit_event_title">Редагувати подію</string>
+    <string name="create_event_title">Створити подію</string>
+    <string name="has_not_been_completed">Не завершено</string>
+    <string name="upcoming_event">Майбутня подія</string>
+    <string name="empty_name">Ім\'я не може бути пустим</string>
+    <string name="event_not_exist">Хтось видалив цю подію, її неможливо редагувати</string>
+    <string name="error_edit_event">Помилка під час редагування події</string>
+    <string name="error_create_event">Помилка під час створення події</string>
+    <string name="next_events_subtitle">Наступні</string>
+    <string name="register_new_event">Додати подію</string>
+    <string name="update_available">Доступне оновлення</string>
+    <string name="incompatible_version">Несумісна версія</string>
+    <string name="incompatible_version_description">Доступна нова версія (%1$s). Щоб продовжити використовувати Pelty, вам потрібно оновитися.</string>
+    <string name="update_available_description">Версія %1$s вже доступна з новими функціями та покращеннями. Бажаєте оновити?</string>
+    <string name="update">Оновити</string>
+    <string name="comming_soon">Незабаром...</string>
 </resources>

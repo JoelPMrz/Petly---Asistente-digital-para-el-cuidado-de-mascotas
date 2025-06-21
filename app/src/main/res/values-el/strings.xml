@@ -257,4 +257,27 @@
     <string name="day_singular">ημέρα</string>
     <string name="day_plural">ημέρες</string>
     <string name="current_weight">Τρέχον βάρος</string>
+    <string name="all_events">Όλες οι εκδηλώσεις</string>
+    <string name="previous_not_attending_events">Προηγούμενες εκδηλώσεις που δεν παρακολούθησες</string>
+    <string name="previous_events">Προηγούμενες εκδηλώσεις</string>
+    <string name="filter_events">Φιλτράρισμα εκδηλώσεων</string>
+    <string name="delete_event_alert_title">Διαγραφή αυτής της εκδήλωσης;</string>
+    <string name="delete_event_alert_description">Εάν διαγράψετε αυτήν την εκδήλωση, θα αφαιρεθεί οριστικά από όλους τους λογαριασμούς που συνδέονται με το κατοικίδιο %1$s</string>
+    <string name="events_title">Εκδηλώσεις</string>
+    <string name="edit_event_title">Επεξεργασία εκδήλωσης</string>
+    <string name="create_event_title">Δημιουργία εκδήλωσης</string>
+    <string name="has_not_been_completed">Δεν έχει ολοκληρωθεί</string>
+    <string name="upcoming_event">Επερχόμενη εκδήλωση</string>
+    <string name="empty_name">Το όνομα δεν μπορεί να είναι κενό</string>
+    <string name="event_not_exist">Κάποιος διέγραψε αυτήν την εκδήλωση, δεν είναι δυνατή η επεξεργασία</string>
+    <string name="error_edit_event">Σφάλμα κατά την επεξεργασία της εκδήλωσης</string>
+    <string name="error_create_event">Σφάλμα κατά τη δημιουργία της εκδήλωσης</string>
+    <string name="next_events_subtitle">Επόμενες</string>
+    <string name="register_new_event">Προσθήκη εκδήλωσης</string>
+    <string name="update_available">Διαθέσιμη ενημέρωση</string>
+    <string name="incompatible_version">Μη συμβατή έκδοση</string>
+    <string name="incompatible_version_description">Μια νέα έκδοση είναι διαθέσιμη (%1$s). Για να συνεχίσετε να χρησιμοποιείτε το Pelty, πρέπει να ενημερώσετε.</string>
+    <string name="update_available_description">Η έκδοση %1$s είναι πλέον διαθέσιμη με νέες λειτουργίες και βελτιώσεις. Θα θέλατε να ενημερώσετε;</string>
+    <string name="update">Ενημέρωση</string>
+    <string name="comming_soon">Έρχεται σύντομα...</string>
 </resources>

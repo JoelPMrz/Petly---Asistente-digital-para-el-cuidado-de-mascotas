@@ -256,4 +256,27 @@
     <string name="day_singular">nap</string>
     <string name="day_plural">nap</string>
     <string name="current_weight">Jelenlegi súly</string>
+    <string name="all_events">Összes esemény</string>
+    <string name="previous_not_attending_events">Korábbi, nem látogatott események</string>
+    <string name="previous_events">Korábbi események</string>
+    <string name="filter_events">Események szűrése</string>
+    <string name="delete_event_alert_title">Törli ezt az eseményt?</string>
+    <string name="delete_event_alert_description">Ha törli ezt az eseményt, az véglegesen eltávolításra kerül minden, a %1$s háziállathoz kapcsolt fiókból</string>
+    <string name="events_title">Események</string>
+    <string name="edit_event_title">Esemény szerkesztése</string>
+    <string name="create_event_title">Esemény létrehozása</string>
+    <string name="has_not_been_completed">Nincs befejezve</string>
+    <string name="upcoming_event">Közelgő esemény</string>
+    <string name="empty_name">A név nem lehet üres</string>
+    <string name="event_not_exist">Valaki törölte ezt az eseményt, a szerkesztés nem lehetséges</string>
+    <string name="error_edit_event">Hiba az esemény szerkesztésekor</string>
+    <string name="error_create_event">Hiba az esemény létrehozásakor</string>
+    <string name="next_events_subtitle">Következő</string>
+    <string name="register_new_event">Esemény hozzáadása</string>
+    <string name="update_available">Frissítés elérhető</string>
+    <string name="incompatible_version">Inkompatibilis verzió</string>
+    <string name="incompatible_version_description">Új verzió érhető el (%1$s). A Pelty további használatához frissítenie kell.</string>
+    <string name="update_available_description">A %1$s verzió már elérhető új funkciókkal és fejlesztésekkel. Szeretné frissíteni?</string>
+    <string name="update">Frissítés</string>
+    <string name="comming_soon">Hamarosan...</string>
 </resources>

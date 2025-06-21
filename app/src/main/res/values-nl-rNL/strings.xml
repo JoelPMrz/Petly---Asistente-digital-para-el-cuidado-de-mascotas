@@ -256,4 +256,27 @@
     <string name="day_singular">dag</string>
     <string name="day_plural">dagen</string>
     <string name="current_weight">Huidig gewicht</string>
+    <string name="all_events">Alle evenementen</string>
+    <string name="previous_not_attending_events">Eerdere niet-bijgewoonde evenementen</string>
+    <string name="previous_events">Eerdere evenementen</string>
+    <string name="filter_events">Evenementen filteren</string>
+    <string name="delete_event_alert_title">Dit evenement verwijderen?</string>
+    <string name="delete_event_alert_description">Als je dit evenement verwijdert, wordt het permanent verwijderd van alle accounts die aan huisdier %1$s zijn gekoppeld</string>
+    <string name="events_title">Evenementen</string>
+    <string name="edit_event_title">Evenement bewerken</string>
+    <string name="create_event_title">Evenement aanmaken</string>
+    <string name="has_not_been_completed">Niet voltooid</string>
+    <string name="upcoming_event">Aankomend evenement</string>
+    <string name="empty_name">De naam mag niet leeg zijn</string>
+    <string name="event_not_exist">Iemand heeft dit evenement verwijderd, bewerken is niet mogelijk</string>
+    <string name="error_edit_event">Fout bij het bewerken van het evenement</string>
+    <string name="error_create_event">Fout bij het aanmaken van het evenement</string>
+    <string name="next_events_subtitle">Aankomend</string>
+    <string name="register_new_event">Voeg een evenement toe</string>
+    <string name="update_available">Update beschikbaar</string>
+    <string name="incompatible_version">Incompatibele versie</string>
+    <string name="incompatible_version_description">Er is een nieuwe versie beschikbaar (%1$s). Om Pelty te blijven gebruiken, moet je updaten.</string>
+    <string name="update_available_description">Versie %1$s is nu beschikbaar met nieuwe functies en verbeteringen. Wil je updaten?</string>
+    <string name="update">Updaten</string>
+    <string name="comming_soon">Binnenkort beschikbaar...</string>
 </resources>

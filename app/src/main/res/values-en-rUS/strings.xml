@@ -257,4 +257,27 @@
     <string name="day_singular">day</string>
     <string name="day_plural">days</string>
     <string name="current_weight">Current weight</string>
+    <string name="all_events">All events</string>
+    <string name="previous_not_attending_events">Previous events not attended</string>
+    <string name="previous_events">Previous events</string>
+    <string name="filter_events">Filter events</string>
+    <string name="delete_event_alert_title">Delete this event?</string>
+    <string name="delete_event_alert_description">If you delete this event, it will be permanently removed from all accounts linked to the pet %1$s</string>
+    <string name="events_title">Events</string>
+    <string name="edit_event_title">Edit event</string>
+    <string name="create_event_title">Create event</string>
+    <string name="has_not_been_completed">Not completed</string>
+    <string name="upcoming_event">Upcoming event</string>
+    <string name="empty_name">The name cannot be empty</string>
+    <string name="event_not_exist">Someone deleted this event, editing is not possible</string>
+    <string name="error_edit_event">Error editing event</string>
+    <string name="error_create_event">Error creating event</string>
+    <string name="next_events_subtitle">Upcoming</string>
+    <string name="register_new_event">Add a event</string>
+    <string name="update_available">Update available</string>
+    <string name="incompatible_version">Incompatible version</string>
+    <string name="incompatible_version_description">A new version is available (%1$s). To continue using Pelty, you need to update.</string>
+    <string name="update_available_description">La versión %1$s ya está disponible con nuevas funciones y mejoras. ¿Te gustaría actualizar?</string>
+    <string name="update">Update</string>
+    <string name="comming_soon">Comming soon...</string>
 </resources>

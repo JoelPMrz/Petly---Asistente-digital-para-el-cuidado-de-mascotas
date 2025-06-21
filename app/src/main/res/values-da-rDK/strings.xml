@@ -257,4 +257,27 @@
     <string name="day_singular">dag</string>
     <string name="day_plural">dage</string>
     <string name="current_weight">Nuværende vægt</string>
+    <string name="all_events">Alle begivenheder</string>
+    <string name="previous_not_attending_events">Tidligere begivenheder, der ikke blev deltaget i</string>
+    <string name="previous_events">Tidligere begivenheder</string>
+    <string name="filter_events">Filtrer begivenheder</string>
+    <string name="delete_event_alert_title">Slet denne begivenhed?</string>
+    <string name="delete_event_alert_description">Hvis du sletter denne begivenhed, fjernes den permanent fra alle konti knyttet til kæledyret %1$s</string>
+    <string name="events_title">Begivenheder</string>
+    <string name="edit_event_title">Rediger begivenhed</string>
+    <string name="create_event_title">Opret begivenhed</string>
+    <string name="has_not_been_completed">Ikke fuldført</string>
+    <string name="upcoming_event">Kommende begivenhed</string>
+    <string name="empty_name">Navnet kan ikke være tomt</string>
+    <string name="event_not_exist">Nogen har slettet denne begivenhed, redigering er ikke mulig</string>
+    <string name="error_edit_event">Fejl under redigering af begivenhed</string>
+    <string name="error_create_event">Fejl under oprettelse af begivenhed</string>
+    <string name="next_events_subtitle">Kommende</string>
+    <string name="register_new_event">Tilføj en begivenhed</string>
+    <string name="update_available">Opdatering tilgængelig</string>
+    <string name="incompatible_version">Inkompatibel version</string>
+    <string name="incompatible_version_description">En ny version er tilgængelig (%1$s). For at fortsætte med at bruge Pelty, skal du opdatere.</string>
+    <string name="update_available_description">Version %1$s er nu tilgængelig med nye funktioner og forbedringer. Vil du opdatere?</string>
+    <string name="update">Opdater</string>
+    <string name="comming_soon">Kommer snart...</string>
 </resources>

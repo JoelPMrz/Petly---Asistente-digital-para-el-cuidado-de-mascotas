@@ -205,12 +205,10 @@
     <string name="invalid_email">عنوان البريد الإلكتروني غير صالح</string>
     <string name="weight_not_exist">تم حذف هذا الوزن، لا يمكن تعديله</string>
     <string name="veterinaryVisit_not_exist">تم حذف هذه الزيارة، لا يمكن تعديلها</string>
-
     <string name="next_events">الأحداث القادمة</string>
     <string name="not_events"> لا توجد أحداث لهذا التاريخ</string>
     <string name="select_a_date"> اختر تاريخًا</string>
     <string name="select_your_pets"> اختر حيواناتك</string>
-
     <string-array name="species_options">
         <item>عنكبوت</item>
         <item>حمار</item>
@@ -243,7 +241,6 @@
         <item>ثعبان</item>
         <item>سلحفاة</item>
     </string-array>
-
     <string-array name="days_of_week">
         <item>اثن</item>
         <item>ثلا</item>
@@ -253,13 +250,34 @@
         <item>سبت</item>
         <item>أحد</item>
     </string-array>
-
     <string name="year_singular">سنة</string>
     <string name="year_plural">سنوات</string>
     <string name="month_singular">شهر</string>
     <string name="month_plural">أشهر</string>
     <string name="day_singular">يوم</string>
     <string name="day_plural">أيام</string>
-
     <string name="current_weight">الوزن الحالي</string>
+    <string name="all_events">كل الأحداث</string>
+    <string name="previous_not_attending_events">الأحداث السابقة التي لم يتم حضورها</string>
+    <string name="previous_events">الأحداث السابقة</string>
+    <string name="filter_events">تصفية الأحداث</string>
+    <string name="delete_event_alert_title">حذف هذا الحدث؟</string>
+    <string name="delete_event_alert_description">إذا حذفت هذا الحدث، فسيتم إزالته نهائيًا من جميع الحسابات المرتبطة بالحيوان الأليف %1$s</string>
+    <string name="events_title">الأحداث</string>
+    <string name="edit_event_title">تعديل الحدث</string>
+    <string name="create_event_title">إنشاء حدث</string>
+    <string name="has_not_been_completed">لم يكتمل</string>
+    <string name="upcoming_event">حدث قادم</string>
+    <string name="empty_name">لا يمكن أن يكون الاسم فارغًا</string>
+    <string name="event_not_exist">شخص ما حذف هذا الحدث، لا يمكن التعديل</string>
+    <string name="error_edit_event">خطأ في تعديل الحدث</string>
+    <string name="error_create_event">خطأ في إنشاء الحدث</string>
+    <string name="next_events_subtitle">القادمة</string>
+    <string name="register_new_event">إضافة حدث</string>
+    <string name="update_available">تحديث متاح</string>
+    <string name="incompatible_version">نسخة غير متوافقة</string>
+    <string name="incompatible_version_description">يتوفر إصدار جديد (%1$s). لمواصلة استخدام Pelty، تحتاج إلى التحديث.</string>
+    <string name="update_available_description">الإصدار %1$s متاح الآن مع ميزات وتحسينات جديدة. هل ترغب في التحديث؟</string>
+    <string name="update">تحديث</string>
+    <string name="comming_soon">قريبًا...</string>
 </resources>

@@ -257,4 +257,27 @@
     <string name="day_singular">jour</string>
     <string name="day_plural">jours</string>
     <string name="current_weight">Poids actuel</string>
+    <string name="all_events">Tous les événements</string>
+    <string name="previous_not_attending_events">Événements précédents non participés</string>
+    <string name="previous_events">Événements précédents</string>
+    <string name="filter_events">Filtrer les événements</string>
+    <string name="delete_event_alert_title">Supprimer cet événement?</string>
+    <string name="delete_event_alert_description">Si vous supprimez cet événement, il sera définitivement retiré de tous les comptes liés à l\'animal %1$s</string>
+    <string name="events_title">Événements</string>
+    <string name="edit_event_title">Modifier l\'événement</string>
+    <string name="create_event_title">Créer un événement</string>
+    <string name="has_not_been_completed">Non terminé</string>
+    <string name="upcoming_event">Événement à venir</string>
+    <string name="empty_name">Le nom ne peut pas être vide</string>
+    <string name="event_not_exist">Quelqu\'un a supprimé cet événement, la modification n\'est pas possible</string>
+    <string name="error_edit_event">Erreur lors de la modification de l\'événement</string>
+    <string name="error_create_event">Erreur lors de la création de l\'événement</string>
+    <string name="next_events_subtitle">Prochains</string>
+    <string name="register_new_event">Ajouter un événement</string>
+    <string name="update_available">Mise à jour disponible</string>
+    <string name="incompatible_version">Version incompatible</string>
+    <string name="incompatible_version_description">Une nouvelle version est disponible (%1$s). Pour continuer à utiliser Pelty, vous devez mettre à jour.</string>
+    <string name="update_available_description">La version %1$s est maintenant disponible avec de nouvelles fonctionnalités et améliorations. Souhaitez-vous mettre à jour?</string>
+    <string name="update">Mettre à jour</string>
+    <string name="comming_soon">Bientôt disponible...</string>
 </resources>

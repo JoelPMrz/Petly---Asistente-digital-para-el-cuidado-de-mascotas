@@ -1,260 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Petly</string>
-    <string name="pet_detail_screen_title">Technical Sheet</string>
-    <string name="create_weight_title">New Weight</string>
-    <string name="weight_form_label_date">Date</string>
-    <string name="weight_form_label_note">Comment</string>
-    <string name="weight_form_placeholder_note">Write a comment</string>
-    <string name="weight_form_label_weight">Weight (%1$s)</string>
-    <string name="weight_form_placeholder_date">12/03/2025</string>
-    <string name="form_confirm_btn">Accept</string>
-    <string name="form_cancel_btn">Cancel</string>
+    <string name="pet_detail_screen_title">ペット詳細</string>
+    <string name="create_weight_title">新しい体重</string>
+    <string name="weight_form_label_date">日付</string>
+    <string name="weight_form_label_note">コメント</string>
+    <string name="weight_form_placeholder_note">コメントを入力してください</string>
+    <string name="weight_form_label_weight">体重 (%1$s)</string>
+    <string name="weight_form_placeholder_date">2025/03/12</string>
+    <string name="form_confirm_btn">承認</string>
+    <string name="form_cancel_btn">キャンセル</string>
     <string name="weight_form_placeholder_weight">20.0</string>
-    <string name="optional">Optional</string>
-    <string name="edit_weight_title">Edit Weight</string>
-    <string name="delete_weight_alert_title">Delete this weight from the list?</string>
-    <string name="delete_weight_alert_description">If you delete this weight from the list, it will be permanently removed from all accounts linked to the pet %1$s</string>
-    <string name="wheights_pets_title">Weights</string>
-    <string name="select_weght_unit_title_dialog">Select weight unit</string>
-    <string name="form_confirm_delete_btn">Delete</string>
-    <string name="empty_pet_list">No pets available</string>
-    <string name="sign_out">Sign out</string>
-    <string name="delete_pet_button">Delete pet</string>
-    <string name="forgot_password">Forgot your password?</string>
-    <string name="have_an_account">Already have an account?</string>
-    <string name="sign_up">Sign in</string>
-    <string name="create_account">Create account</string>
-    <string name="not_create_account">Don’t have an account yet?</string>
-    <string name="title_photoPickerBottomSheet">Select an option</string>
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
-    <string name="profile_pet_photo_description">Pet profile image</string>
-    <string name="camera_permission_denied">Camera permission denied</string>
-    <string name="selected_photo">Photo selected</string>
-    <string name="photo_not_taken">Photo not taken</string>
-    <string name="photo_taken">Photo taken</string>
-    <string name="type">Species</string>
-    <string name="dog">Dog</string>
-    <string name="breed">Breed</string>
-    <string name="carlino">Pug</string>
-    <string name="birthdayDate">Birthdate</string>
-    <string name="adoptionDate">Adoption date</string>
-    <string name="microchip">Microchip</string>
-    <string name="sterilized">Sterilized</string>
-    <string name="not_sterilized">Not sterilized</string>
-    <string name="delete_pet_alert_description">If you delete this pet, it will be permanently removed from all accounts linked to pet %1$s</string>
-    <string name="delete_pet_alert_title">Delete this pet?</string>
-    <string name="sterilizedDate">Sterilization date</string>
-    <string name="pet_not_exists_dialog_description">Actions cannot be performed on this pet. If you haven\'t deleted the pet, check if any associated owner has done so.</string>
-    <string name="pet_not_exists_dialog_title">Pet not found</string>
-    <string name="understood">Understood</string>
-    <string name="microchipDate">Implantation date</string>
-    <string name="microchip_identifier">Identifier</string>
-    <string name="invalid_microchip">Must contain 12 digits</string>
-    <string name="edit_microchip_title">Microchip Data</string>
-    <string name="edit_sterilized_state_title">Sterilization Status</string>
-    <string name="save">Save</string>
-    <string name="default_datePicker_title">Select a date</string>
-    <string name="edit">Edit</string>
-    <string name="edit_birthdate_title">Age and Birthdate</string>
-    <string name="unidentified">Unidentified</string>
-    <string name="age">Age</string>
-    <string name="time">Time</string>
-    <string name="adoption">Adoption</string>
-    <string name="add_date">Add date</string>
-    <string name="updated_photo">Photo updated</string>
-    <string name="not_updated_photo">Could not update</string>
-    <string name="delete">Delete</string>
-    <string name="deleted_pet">%1$s deleted</string>
-    <string name="not_deleted_pet">Could not delete</string>
-    <string name="edit_basic_data_title">Main Data</string>
-    <string name="name">Name</string>
-    <string name="edit_user_profile">Edit Profile</string>
-    <string name="notifications">Notifications</string>
-    <string name="dark_mode">Dark mode</string>
-    <string name="light_mode">Light mode</string>
-    <string name="clear_cache">Clear cache</string>
-    <string name="profile">Profile</string>
-    <string name="settings">Settings</string>
-    <string name="key">Key</string>
-    <string name="invitation_key">Invitation key</string>
-    <string name="invitations">Invitations</string>
-    <string name="language">Language</string>
-    <string name="update_password">Change password</string>
-    <string name="password">Password</string>
-    <string name="new_password">New password</string>
-    <string name="reset_password">Reset password</string>
-    <string name="recover_password">Recover password</string>
-    <string name="associed_email">Associated email</string>
-    <string name="send_mail">Send email</string>
-    <string name="log_out_alert_title">Do you want to sign out?</string>
-    <string name="log_out_alert_description">By accepting, your account will be signed out and access will be lost until you sign in again</string>
-    <string name="people_linked">Associated people</string>
-    <string name="owners">Owners</string>
-    <string name="observers">Observers</string>
-    <string name="pet">Pet</string>
-    <string name="observed_pets">Observable pets</string>
-    <string name="pets">Pets</string>
-    <string name="invite_petOwner">Invite an owner</string>
-    <string name="send">Send</string>
-    <string name="add">Add</string>
-    <string name="add_petOwner">Add an owner</string>
-    <string name="update_creatorOwner">Edit creator</string>
-    <string name="creatorOwner">Creator</string>
-    <string name="add_petObserver">Add an observer</string>
-    <string name="permission_denied_observer">Permission denied as observer</string>
-    <string name="new_pet">New pet</string>
-    <string name="owner">Owner</string>
-    <string name="observer">Observer</string>
-    <string name="veterinary_visits">Next veterinary visit</string>
-    <string name="register_new_weight">Add first weight</string>
-    <string name="register_new_veterinay_visists">Add a visit</string>
-    <string name="edit_veterinay_vivist_title">Edit veterinary appointment</string>
-    <string name="create_veterinay_vivist_title">New veterinary appointment</string>
-    <string name="concept">Concept</string>
-    <string name="concept_placeholder">Deworming</string>
-    <string name="description">Description</string>
-    <string name="description_placeholder">Apply deworming pipette</string>
-    <string name="form_label_time">Time</string>
-    <string name="veterinary">Veterinary</string>
-    <string name="veterinary_placeholder">Martínez Veterinary Clinic</string>
-    <string name="error_create_veterinary_visit">Error creating visit</string>
-    <string name="error_edit_veterinary_visit">Error editing visit</string>
-    <string name="delete_visit_alert_title">Delete this veterinary visit?</string>
-    <string name="delete_visit_alert_description">If you delete this visit, it will be permanently removed from all accounts linked to the pet %1$s</string>
-    <string name="completed">Completed</string>
-    <string name="not_completed">Scheduled</string>
-    <string name="comment">Comment</string>
-    <string name="add_weight">Add a weight</string>
-    <string name="next_visit">Next visit</string>
-    <string name="veterinary_visits_title">Veterinary visits</string>
-    <string name="owners_info_dialog_title">What can an owner do?</string>
-    <string name="owners_info_dialog_description">Create, edit, and modify any data</string>
-    <string name="owners_info_dialog_description2">Add, edit, and remove another owner</string>
-    <string name="owners_info_dialog_description3">Add, edit, and remove an observer</string>
-    <string name="owners_info_dialog_description4">Only the creator can be changed to another user</string>
-    <string name="observers_info_dialog_title">What can an observer do?</string>
-    <string name="observers_info_dialog_description">Can view any data</string>
-    <string name="observers_info_dialog_description2">Cannot create, edit, or modify any data</string>
-    <string name="observers_info_dialog_description3">Cannot add, edit, or remove an owner</string>
-    <string name="observers_info_dialog_description4">Cannot add, edit, or remove another observer</string>
-    <string name="next_visits_subtitle">Upcoming</string>
-    <string name="previous_visits_subtitle">Previous</string>
-    <string name="previous_not_attending_visits_subtitle">Previous not attended</string>
-    <string name="search">Search...</string>
-    <string name="not_available">Not available</string>
-    <string name="state">State</string>
-    <string name="select_time">Select time</string>
-    <string name="email">Email</string>
-    <string name="welcome">Welcome %1$s</string>
-    <string name="error_creating_user">Error creating user</string>
-    <string name="welcome_back">Welcome back %1$s</string>
-    <string name="an_error_has_occurred">An error has occurred</string>
-    <string name="guest">Guest</string>
-    <string name="loggin">LOGIN</string>
-    <string name="register">Register</string>
-    <string name="already_have_an_account">Already have an account? Sign in</string>
-    <string name="registered_account">Account registered</string>
-    <string name="account_already_exists">This account already exists</string>
-    <string name="all_fields_are_required">All fields are required</string>
-    <string name="unregistered_image">%1$s image not registered</string>
-    <string name="pet_not_registered">Pet could not be registered</string>
-    <string name="register_pet">Register</string>
-    <string name="not_observables_available">No observers available</string>
-    <string name="manage_user">Manage %1$s</string>
-    <string name="not_possible_change_creator">Cannot change creator\'s role</string>
-    <string name="already_owner">Already an owner</string>
-    <string name="now_he_owner">Now an owner</string>
-    <string name="role_could_not_be_changed">Role could not be changed</string>
-    <string name="change_to_owner">Change to owner</string>
-    <string name="not_possible_delete_creator">Cannot delete creator</string>
-    <string name="you_have_been_removed_as_owner">You have been removed as owner</string>
-    <string name="owner_deleted">Owner deleted</string>
-    <string name="could_not_be_deleted">Could not be deleted</string>
-    <string name="delete_rol">Delete role</string>
-    <string name="already_observer">Already an observer</string>
-    <string name="not_owner_new_observer">New observer, no longer owner</string>
-    <string name="new_observer">New observer</string>
-    <string name="could_not_add">Could not add</string>
-    <string name="user_not_exist">User does not exist</string>
-    <string name="not_ownsers_available">No owners available</string>
-    <string name="now_he_observer">Now an observer</string>
-    <string name="change_to_observer">Change to observer</string>
-    <string name="not_possible_delete">Could not delete</string>
-    <string name="not_observer_new_owner">New owner, no longer observer</string>
-    <string name="new_owner">New owner</string>
-    <string name="authorized_for_creator">Permission denied, only for creator</string>
-    <string name="already_creator">Already creator</string>
-    <string name="new_creator">New creator</string>
-    <string name="filter_veterinary_visits">Filter veterinary visits</string>
-    <string name="previous_visits">Previous visits</string>
-    <string name="previous_not_attending_visits">Previous visits not attended</string>
-    <string name="all_visits">All visits</string>
-    <string name="next_vivits">Upcoming visits</string>
-    <string name="not_invitations">No invitations</string>
-    <string name="change_rol_to">Change role to %1$s</string>
-    <string name="passwords_do_not_match">Passwords do not match</string>
-    <string name="password_minimum_characters">Password must be at least 6 characters</string>
-    <string name="account_without_linked_email">Account without linked email</string>
-    <string name="email_not_associated">Email not associated with your account</string>
-    <string name="time_zone">Time zone</string>
-    <string name="select_language" translatable="false">Select a language</string>
-    <string name="calendar">Calendar</string>
-    <string name="passwordInvalid">Must contain 8 characters, a letter, and a number</string>
-    <string name="invalid_email">Invalid email address</string>
-    <string name="weight_not_exist">Someone deleted this weight, editing is not possible</string>
-    <string name="veterinaryVisit_not_exist">Someone deleted this visit, editing is not possible</string>
-    <string name="next_events">Upcoming events</string>
-    <string name="not_events">No events for this date</string>
-    <string name="select_a_date">Select a date</string>
-    <string name="select_your_pets">Select your pets</string>
+    <string name="optional">オプション</string>
+    <string name="edit_weight_title">体重を編集</string>
+    <string name="delete_weight_alert_title">この体重をリストから削除しますか？</string>
+    <string name="delete_weight_alert_description">リストからこの体重を削除すると、ペット %1$s にリンクされているすべてのアカウントから完全に削除されます。</string>
+    <string name="wheights_pets_title">体重</string>
+    <string name="select_weght_unit_title_dialog">体重の単位を選択</string>
+    <string name="form_confirm_delete_btn">削除</string>
+    <string name="empty_pet_list">ペットがいません</string>
+    <string name="sign_out">サインアウト</string>
+    <string name="delete_pet_button">ペットを削除</string>
+    <string name="forgot_password">パスワードをお忘れですか？</string>
+    <string name="have_an_account">アカウントをお持ちですか？</string>
+    <string name="sign_up">ログイン</string>
+    <string name="create_account">アカウントを作成</string>
+    <string name="not_create_account">まだアカウントをお持ちではありませんか？</string>
+    <string name="title_photoPickerBottomSheet">オプションを選択</string>
+    <string name="camera">カメラ</string>
+    <string name="gallery">ギャラリー</string>
+    <string name="profile_pet_photo_description">ペットのプロフィール画像</string>
+    <string name="camera_permission_denied">カメラの許可が拒否されました</string>
+    <string name="selected_photo">選択された写真</string>
+    <string name="photo_not_taken">写真が撮影されていません</string>
+    <string name="photo_taken">写真が撮影されました</string>
+    <string name="type">種類</string>
+    <string name="dog">犬</string>
+    <string name="breed">品種</string>
+    <string name="carlino">パグ</string>
+    <string name="birthdayDate">生年月日</string>
+    <string name="adoptionDate">引き取り日</string>
+    <string name="microchip">マイクロチップ</string>
+    <string name="sterilized">去勢/避妊済み</string>
+    <string name="not_sterilized">去勢/避妊していません</string>
+    <string name="delete_pet_alert_description">このペットを削除すると、ペット %1$s にリンクされているすべてのアカウントから完全に削除されます。</string>
+    <string name="delete_pet_alert_title">このペットを削除しますか？</string>
+    <string name="sterilizedDate">去勢/避妊日</string>
+    <string name="pet_not_exists_dialog_description">このペットに対して操作を実行できません。ペットが削除されていない場合は、関連する飼い主が操作を実行していないか確認してください。</string>
+    <string name="pet_not_exists_dialog_title">ペットが見つかりません</string>
+    <string name="understood">了解</string>
+    <string name="microchipDate">埋め込み日</string>
+    <string name="microchip_identifier">識別子</string>
+    <string name="invalid_microchip">12桁の数字を含める必要があります</string>
+    <string name="edit_microchip_title">マイクロチップデータ</string>
+    <string name="edit_sterilized_state_title">去勢/避妊状態</string>
+    <string name="save">保存</string>
+    <string name="default_datePicker_title">日付を選択</string>
+    <string name="edit">編集</string>
+    <string name="edit_birthdate_title">年齢と生年月日</string>
+    <string name="unidentified">未識別</string>
+    <string name="age">年齢</string>
+    <string name="time">時間</string>
+    <string name="adoption">養子縁組</string>
+    <string name="add_date">日付を追加</string>
+    <string name="updated_photo">写真が更新されました</string>
+    <string name="not_updated_photo">更新できませんでした</string>
+    <string name="delete">削除</string>
+    <string name="deleted_pet">%1$s が削除されました</string>
+    <string name="not_deleted_pet">削除できませんでした</string>
+    <string name="edit_basic_data_title">基本データ</string>
+    <string name="name">名前</string>
+    <string name="edit_user_profile">プロフィールを編集</string>
+    <string name="notifications">通知</string>
+    <string name="dark_mode">ダークモード</string>
+    <string name="light_mode">ライトモード</string>
+    <string name="clear_cache">キャッシュをクリア</string>
+    <string name="profile">プロフィール</string>
+    <string name="settings">設定</string>
+    <string name="key">キー</string>
+    <string name="invitation_key">招待キー</string>
+    <string name="invitations">招待</string>
+    <string name="language">言語</string>
+    <string name="update_password">パスワードを変更</string>
+    <string name="password">パスワード</string>
+    <string name="new_password">新しいパスワード</string>
+    <string name="reset_password">パスワードをリセット</string>
+    <string name="recover_password">パスワードを回復</string>
+    <string name="associed_email">関連付けられたメール</string>
+    <string name="send_mail">メールを送信</string>
+    <string name="log_out_alert_title">ログアウトしますか？</string>
+    <string name="log_out_alert_description">ログアウトを承認すると、再度ログインするまで現在のアカウントはアクセスを失います。</string>
+    <string name="people_linked">リンクされたユーザー</string>
+    <string name="owners">飼い主</string>
+    <string name="observers">同行者</string>
+    <string name="pet">ペット</string>
+    <string name="observed_pets">観察中のペット</string>
+    <string name="pets">ペット</string>
+    <string name="invite_petOwner">飼い主を招待</string>
+    <string name="send">送信</string>
+    <string name="add">追加</string>
+    <string name="add_petOwner">飼い主を追加</string>
+    <string name="update_creatorOwner">作成者を編集</string>
+    <string name="creatorOwner">作成者</string>
+    <string name="add_petObserver">同行者を追加</string>
+    <string name="permission_denied_observer">同行者としての権限が拒否されました</string>
+    <string name="new_pet">新しいペット</string>
+    <string name="owner">飼い主</string>
+    <string name="observer">同行者</string>
+    <string name="veterinary_visits">次回の獣医訪問</string>
+    <string name="register_new_weight">最初の体重を追加</string>
+    <string name="register_new_veterinay_visists">訪問を追加</string>
+    <string name="edit_veterinay_vivist_title">獣医の予約を編集</string>
+    <string name="create_veterinay_vivist_title">新しい獣医の予約</string>
+    <string name="concept">概念</string>
+    <string name="concept_placeholder">駆虫</string>
+    <string name="description">説明</string>
+    <string name="description_placeholder">駆虫用のピペットを塗布しに行く</string>
+    <string name="form_label_time">時間</string>
+    <string name="veterinary">獣医</string>
+    <string name="veterinary_placeholder">マルティネス動物病院</string>
+    <string name="error_create_veterinary_visit">訪問の作成中にエラーが発生しました</string>
+    <string name="error_edit_veterinary_visit">訪問の編集中にエラーが発生しました</string>
+    <string name="delete_visit_alert_title">この獣医の訪問を削除しますか？</string>
+    <string name="delete_visit_alert_description">獣医の訪問リストからこの訪問を削除すると、ペット %1$s にリンクされているすべてのアカウントから完全に削除されます。</string>
+    <string name="completed">完了済み</string>
+    <string name="not_completed">予定済み</string>
+    <string name="comment">コメント</string>
+    <string name="add_weight">体重を追加</string>
+    <string name="next_visit">次回の訪問</string>
+    <string name="veterinary_visits_title">獣医の訪問</string>
+    <string name="owners_info_dialog_title">飼い主の機能は何ですか？</string>
+    <string name="owners_info_dialog_description">すべてのデータを作成、編集、変更する</string>
+    <string name="owners_info_dialog_description2">他の飼い主を追加、編集、削除する</string>
+    <string name="owners_info_dialog_description3">同行者を追加、編集、削除する</string>
+    <string name="owners_info_dialog_description4">作成者のみが自分を別のユーザーに変更できます</string>
+    <string name="observers_info_dialog_title">同行者の機能は何ですか？</string>
+    <string name="observers_info_dialog_description">すべてのデータを表示できます</string>
+    <string name="observers_info_dialog_description2">データを新規作成、編集、変更することはできません</string>
+    <string name="observers_info_dialog_description3">飼い主を追加、編集、削除することはできません</string>
+    <string name="observers_info_dialog_description4">他の同行者を追加、編集、削除することはできません</string>
+    <string name="next_visits_subtitle">今後の訪問</string>
+    <string name="previous_visits_subtitle">過去の訪問</string>
+    <string name="previous_not_attending_visits_subtitle">不参加だった過去の訪問</string>
+    <string name="search">検索...</string>
+    <string name="not_available">利用不可</string>
+    <string name="state">状態</string>
+    <string name="select_time">時間を選択</string>
+    <string name="email">メールアドレス</string>
+    <string name="welcome">ようこそ、%1$sさん</string>
+    <string name="error_creating_user">ユーザー作成中にエラーが発生しました</string>
+    <string name="welcome_back">おかえりなさい、%1$sさん</string>
+    <string name="an_error_has_occurred">エラーが発生しました</string>
+    <string name="guest">ゲスト</string>
+    <string name="loggin">ログイン</string>
+    <string name="register">登録</string>
+    <string name="already_have_an_account">すでにアカウントをお持ちですか？ログイン</string>
+    <string name="registered_account">登録済みアカウント</string>
+    <string name="account_already_exists">このアカウントはすでに存在します</string>
+    <string name="all_fields_are_required">すべてのフィールドは必須です</string>
+    <string name="unregistered_image">%1$sの画像は登録されていません</string>
+    <string name="pet_not_registered">ペットを登録できませんでした</string>
+    <string name="register_pet">登録</string>
+    <string name="not_observables_available">同行者がいません</string>
+    <string name="manage_user">%1$sを管理</string>
+    <string name="not_possible_change_creator">作成者の役割は変更できません</string>
+    <string name="already_owner">すでに飼い主です</string>
+    <string name="now_he_owner">今から飼い主です</string>
+    <string name="role_could_not_be_changed">役割を変更できませんでした</string>
+    <string name="change_to_owner">飼い主に変更</string>
+    <string name="not_possible_delete_creator">作成者を削除できません</string>
+    <string name="you_have_been_removed_as_owner">飼い主から削除されました</string>
+    <string name="owner_deleted">飼い主が削除されました</string>
+    <string name="could_not_be_deleted">削除できませんでした</string>
+    <string name="delete_rol">役割を削除</string>
+    <string name="already_observer">すでに同行者です</string>
+    <string name="not_owner_new_observer">新しい同行者です。飼い主ではなくなりました。</string>
+    <string name="new_observer">新しい同行者</string>
+    <string name="could_not_add">追加できませんでした</string>
+    <string name="user_not_exist">ユーザーが存在しません</string>
+    <string name="not_ownsers_available">飼い主がいません</string>
+    <string name="now_he_observer">今から同行者です</string>
+    <string name="change_to_observer">同行者に変更</string>
+    <string name="not_possible_delete">削除できませんでした</string>
+    <string name="not_observer_new_owner">新しい飼い主です。同行者ではなくなりました。</string>
+    <string name="new_owner">新しい飼い主</string>
+    <string name="authorized_for_creator">権限が拒否されました。作成者のみが許可されています。</string>
+    <string name="already_creator">すでに作成者です</string>
+    <string name="new_creator">新しい作成者</string>
+    <string name="filter_veterinary_visits">獣医の訪問をフィルタリング</string>
+    <string name="previous_visits">過去の訪問</string>
+    <string name="previous_not_attending_visits">不参加だった過去の訪問</string>
+    <string name="all_visits">すべての訪問</string>
+    <string name="next_vivits">次回の訪問</string>
+    <string name="not_invitations">招待はありません</string>
+    <string name="change_rol_to">%1$sに役割を変更</string>
+    <string name="passwords_do_not_match">パスワードが一致しません</string>
+    <string name="password_minimum_characters">パスワードは少なくとも6文字である必要があります</string>
+    <string name="account_without_linked_email">リンクされたメールアドレスがないアカウント</string>
+    <string name="email_not_associated">メールアドレスがアカウントに関連付けられていません</string>
+    <string name="time_zone">タイムゾーン</string>
+    <string name="select_language" translatable="false">言語を選択</string>
+    <string name="calendar">カレンダー</string>
+    <string name="passwordInvalid">8文字、英字1文字、数字1文字を含む必要があります</string>
+    <string name="invalid_email">無効なメールアドレスです</string>
+    <string name="weight_not_exist">誰かがこの体重を削除しました。編集できません。</string>
+    <string name="veterinaryVisit_not_exist">誰かがこの獣医の訪問を削除しました。編集できません。</string>
+    <string name="next_events">今後のイベント</string>
+    <string name="not_events">この日付のイベントはありません</string>
+    <string name="select_a_date">日付を選択</string>
+    <string name="select_your_pets">あなたのペットを選択</string>
     <string-array name="species_options">
-        <item>Spider</item>
-        <item>Donkey</item>
-        <item>Horse</item>
-        <item>Goat</item>
-        <item>Chameleon</item>
-        <item>Crab</item>
-        <item>Pig</item>
-        <item>Chinchilla</item>
-        <item>Guinea pig</item>
-        <item>Rabbit</item>
-        <item>Hedgehog</item>
-        <item>Scorpion</item>
-        <item>Ferret</item>
-        <item>Chicken</item>
-        <item>Cat</item>
-        <item>Gecko</item>
-        <item>Hamster</item>
-        <item>Ferret</item>
-        <item>Iguana</item>
-        <item>Lizard</item>
-        <item>Sheep</item>
-        <item>Dove</item>
-        <item>Duck</item>
-        <item>Bird</item>
-        <item>Fish</item>
-        <item>Dog</item>
-        <item>Rat</item>
-        <item>Mouse</item>
-        <item>Snake</item>
-        <item>Turtle</item>
+        <item>クモ</item>
+        <item>ロバ</item>
+        <item>馬</item>
+        <item>ヤギ</item>
+        <item>カメレオン</item>
+        <item>カニ</item>
+        <item>豚</item>
+        <item>チンチラ</item>
+        <item>モルモット</item>
+        <item>ウサギ</item>
+        <item>ハリネズミ</item>
+        <item>サソリ</item>
+        <item>フェレット</item>
+        <item>ニワトリ</item>
+        <item>猫</item>
+        <item>ヤモリ</item>
+        <item>ハムスター</item>
+        <item>フェレット</item>
+        <item>イグアナ</item>
+        <item>トカゲ</item>
+        <item>羊</item>
+        <item>ハト</item>
+        <item>アヒル</item>
+        <item>鳥</item>
+        <item>魚</item>
+        <item>犬</item>
+        <item>ラット</item>
+        <item>ネズミ</item>
+        <item>ヘビ</item>
+        <item>カメ</item>
     </string-array>
     <string-array name="days_of_week">
-        <item>Mon</item>
-        <item>Tue</item>
-        <item>Wed</item>
-        <item>Thu</item>
-        <item>Fri</item>
-        <item>Sat</item>
-        <item>Sun</item>
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
     </string-array>
-    <string name="year_singular">year</string>
-    <string name="year_plural">years</string>
-    <string name="month_singular">month</string>
-    <string name="month_plural">months</string>
-    <string name="day_singular">day</string>
-    <string name="day_plural">days</string>
-    <string name="current_weight">Current weight</string>
+    <string name="year_singular">年</string>
+    <string name="year_plural">年</string>
+    <string name="month_singular">ヶ月</string>
+    <string name="month_plural">ヶ月</string>
+    <string name="day_singular">日</string>
+    <string name="day_plural">日</string>
+    <string name="current_weight">現在の体重</string>
+    <string name="all_events">すべてのイベント</string>
+    <string name="previous_not_attending_events">不参加だった過去のイベント</string>
+    <string name="previous_events">過去のイベント</string>
+    <string name="filter_events">イベントをフィルタリング</string>
+    <string name="delete_event_alert_title">このイベントを削除しますか？</string>
+    <string name="delete_event_alert_description">このイベントを削除すると、ペット %1$s に関連付けられているすべてのアカウントから完全に削除されます</string>
+    <string name="events_title">イベント</string>
+    <string name="edit_event_title">イベントを編集</string>
+    <string name="create_event_title">イベントを作成</string>
+    <string name="has_not_been_completed">未完了</string>
+    <string name="upcoming_event">今後のイベント</string>
+    <string name="empty_name">名前は空にできません</string>
+    <string name="event_not_exist">誰かがこのイベントを削除しました。編集はできません</string>
+    <string name="error_edit_event">イベントの編集中にエラーが発生しました</string>
+    <string name="error_create_event">イベントの作成中にエラーが発生しました</string>
+    <string name="next_events_subtitle">今後の予定</string>
+    <string name="register_new_event">イベントを追加</string>
+    <string name="update_available">アップデートが利用可能です</string>
+    <string name="incompatible_version">互換性のないバージョン</string>
+    <string name="incompatible_version_description">新しいバージョン（%1$s）が利用可能です。Pelty を引き続き使用するには、アップデートが必要です。</string>
+    <string name="update_available_description">バージョン %1$s が新機能と改善を加えて利用可能になりました。アップデートしますか？</string>
+    <string name="update">アップデート</string>
+    <string name="comming_soon">近日公開</string>
 </resources>

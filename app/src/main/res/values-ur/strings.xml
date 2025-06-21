@@ -257,4 +257,27 @@
     <string name="day_singular">دن</string>
     <string name="day_plural">دن</string>
     <string name="current_weight">موجودہ وزن</string>
+    <string name="all_events">تمام ایونٹس</string>
+    <string name="previous_not_attending_events">گزشتہ غیر حاضری والے ایونٹس</string>
+    <string name="previous_events">گزشتہ ایونٹس</string>
+    <string name="filter_events">ایونٹس فلٹر کریں</string>
+    <string name="delete_event_alert_title">کیا یہ ایونٹ حذف کرنا ہے؟</string>
+    <string name="delete_event_alert_description">اگر آپ یہ ایونٹ حذف کرتے ہیں، تو یہ %1$s پالتو جانور سے منسلک تمام اکاؤنٹس سے مستقل طور پر حذف ہو جائے گا</string>
+    <string name="events_title">ایونٹس</string>
+    <string name="edit_event_title">ایونٹ میں ترمیم کریں</string>
+    <string name="create_event_title">ایونٹ بنائیں</string>
+    <string name="has_not_been_completed">مکمل نہیں ہوا</string>
+    <string name="upcoming_event">آنے والا ایونٹ</string>
+    <string name="empty_name">نام خالی نہیں ہو سکتا</string>
+    <string name="event_not_exist">کسی نے یہ ایونٹ حذف کر دیا ہے، اس میں ترمیم ممکن نہیں</string>
+    <string name="error_edit_event">ایونٹ میں ترمیم کرتے وقت خرابی</string>
+    <string name="error_create_event">ایونٹ بناتے وقت خرابی</string>
+    <string name="next_events_subtitle">آنے والے</string>
+    <string name="register_new_event">ایک ایونٹ شامل کریں</string>
+    <string name="update_available">اپ ڈیٹ دستیاب ہے</string>
+    <string name="incompatible_version">غیر مطابقت پذیر ورژن</string>
+    <string name="incompatible_version_description">ایک نیا ورژن دستیاب ہے (%1$s)۔ Pelty کا استعمال جاری رکھنے کے لیے، آپ کو اپ ڈیٹ کرنے کی ضرورت ہے۔</string>
+    <string name="update_available_description">ورژن %1$s اب نئی خصوصیات اور بہتریوں کے ساتھ دستیاب ہے۔ کیا آپ اپ ڈیٹ کرنا چاہیں گے؟</string>
+    <string name="update">اپ ڈیٹ کریں</string>
+    <string name="comming_soon">جلد آ رہا ہے...</string>
 </resources>

@@ -256,4 +256,27 @@
     <string name="day_singular">hari</string>
     <string name="day_plural">hari</string>
     <string name="current_weight">Berat semasa</string>
+        <string name="all_events">Semua Acara</string>
+        <string name="previous_not_attending_events">Acara Terdahulu Tidak Dihadiri</string>
+        <string name="previous_events">Acara Terdahulu</string>
+        <string name="filter_events">Tapis Acara</string>
+        <string name="delete_event_alert_title">Padam acara ini?</string>
+        <string name="delete_event_alert_description">Jika anda memadam acara ini, ia akan dipadamkan secara kekal dari semua akaun yang dipautkan ke haiwan peliharaan %1$s</string>
+        <string name="events_title">Acara</string>
+        <string name="edit_event_title">Edit Acara</string>
+        <string name="create_event_title">Cipta Acara</string>
+        <string name="has_not_been_completed">Belum Selesai</string>
+        <string name="upcoming_event">Acara Akan Datang</string>
+        <string name="empty_name">Nama tidak boleh kosong</string>
+        <string name="event_not_exist">Seseorang telah memadamkan acara ini, ia tidak boleh diedit</string>
+        <string name="error_edit_event">Ralat semasa mengedit acara</string>
+        <string name="error_create_event">Ralat semasa mencipta acara</string>
+        <string name="next_events_subtitle">Akan Datang</string>
+        <string name="register_new_event">Tambah acara</string>
+        <string name="update_available">Kemas Kini Tersedia</string>
+        <string name="incompatible_version">Versi Tidak Serasi</string>
+        <string name="incompatible_version_description">Terdapat versi baharu tersedia (%1$s). Untuk terus menggunakan Pelty, anda perlu mengemas kini.</string>
+        <string name="update_available_description">Versi %1$s kini tersedia dengan ciri dan penambahbaikan baharu. Adakah anda ingin mengemas kini?</string>
+        <string name="update">Kemas Kini</string>
+        <string name="comming_soon">Akan Datang...</string>
 </resources>

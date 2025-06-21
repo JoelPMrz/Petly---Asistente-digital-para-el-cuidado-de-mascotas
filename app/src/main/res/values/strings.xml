@@ -279,4 +279,5 @@
     <string name="incompatible_version_description">A new version is available (%1$s). To continue using Pelty, you need to update.</string>
     <string name="update_available_description">La versión %1$s ya está disponible con nuevas funciones y mejoras. ¿Te gustaría actualizar?</string>
     <string name="update">Update</string>
+    <string name="comming_soon">Comming soon...</string>
 </resources>

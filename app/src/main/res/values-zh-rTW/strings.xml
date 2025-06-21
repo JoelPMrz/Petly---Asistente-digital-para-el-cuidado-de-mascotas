@@ -256,4 +256,27 @@
     <string name="day_singular">天</string>
     <string name="day_plural">天</string>
     <string name="current_weight">目前體重</string>
+    <string name="all_events">所有事件</string>
+    <string name="previous_not_attending_events">之前未參加的事件</string>
+    <string name="previous_events">以前的事件</string>
+    <string name="filter_events">篩選事件</string>
+    <string name="delete_event_alert_title">刪除此事件嗎？</string>
+    <string name="delete_event_alert_description">如果您刪除此事件，它將從與寵物 %1$s 關聯的所有帳戶中永久刪除</string>
+    <string name="events_title">事件</string>
+    <string name="edit_event_title">編輯事件</string>
+    <string name="create_event_title">創建事件</string>
+    <string name="has_not_been_completed">未完成</string>
+    <string name="upcoming_event">即將發生的事件</string>
+    <string name="empty_name">名稱不能為空</string>
+    <string name="event_not_exist">有人刪除了此事件，無法編輯</string>
+    <string name="error_edit_event">編輯事件時出錯</string>
+    <string name="error_create_event">創建事件時出錯</string>
+    <string name="next_events_subtitle">即將到來</string>
+    <string name="register_new_event">添加一個事件</string>
+    <string name="update_available">有可用更新</string>
+    <string name="incompatible_version">不兼容的版本</string>
+    <string name="incompatible_version_description">有新版本可用 (%1$s)。要繼續使用 Pelty，您需要更新。</string>
+    <string name="update_available_description">版本 %1$s 已推出新功能和改進。您想更新嗎？</string>
+    <string name="update">更新</string>
+    <string name="comming_soon">即將推出...</string>
 </resources>

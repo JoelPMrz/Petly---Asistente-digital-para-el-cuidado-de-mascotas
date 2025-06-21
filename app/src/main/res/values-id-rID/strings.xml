@@ -256,4 +256,27 @@
     <string name="day_singular">hari</string>
     <string name="day_plural">hari</string>
     <string name="current_weight">Berat saat ini</string>
+    <string name="all_events">Semua acara</string>
+    <string name="previous_not_attending_events">Acara sebelumnya yang tidak dihadiri</string>
+    <string name="previous_events">Acara sebelumnya</string>
+    <string name="filter_events">Saring acara</string>
+    <string name="delete_event_alert_title">Hapus acara ini?</string>
+    <string name="delete_event_alert_description">Jika Anda menghapus acara ini, acara ini akan dihapus secara permanen dari semua akun yang terhubung dengan hewan peliharaan %1$s</string>
+    <string name="events_title">Acara</string>
+    <string name="edit_event_title">Edit acara</string>
+    <string name="create_event_title">Buat acara</string>
+    <string name="has_not_been_completed">Belum selesai</string>
+    <string name="upcoming_event">Acara mendatang</string>
+    <string name="empty_name">Nama tidak boleh kosong</string>
+    <string name="event_not_exist">Seseorang menghapus acara ini, pengeditan tidak dimungkinkan</string>
+    <string name="error_edit_event">Kesalahan saat mengedit acara</string>
+    <string name="error_create_event">Kesalahan saat membuat acara</string>
+    <string name="next_events_subtitle">Mendatang</string>
+    <string name="register_new_event">Tambahkan acara</string>
+    <string name="update_available">Pembaruan tersedia</string>
+    <string name="incompatible_version">Versi tidak kompatibel</string>
+    <string name="incompatible_version_description">Versi baru tersedia (%1$s). Untuk terus menggunakan Pelty, Anda perlu memperbarui.</string>
+    <string name="update_available_description">Versi %1$s kini tersedia dengan fitur dan peningkatan baru. Apakah Anda ingin memperbarui?</string>
+    <string name="update">Perbarui</string>
+    <string name="comming_soon">Segera hadir...</string>
 </resources>

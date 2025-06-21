@@ -256,4 +256,27 @@
     <string name="day_singular">deň</string>
     <string name="day_plural">dni</string>
     <string name="current_weight">Aktuálna hmotnosť</string>
+    <string name="all_events">Všetky udalosti</string>
+    <string name="previous_not_attending_events">Predchádzajúce udalosti, ktorých ste sa nezúčastnili</string>
+    <string name="previous_events">Predchádzajúce udalosti</string>
+    <string name="filter_events">Filtrovať udalosti</string>
+    <string name="delete_event_alert_title">Vymazať túto udalosť?</string>
+    <string name="delete_event_alert_description">Ak vymažete túto udalosť, bude natrvalo odstránená zo všetkých účtov prepojených so zvieraťom %1$s</string>
+    <string name="events_title">Udalosti</string>
+    <string name="edit_event_title">Upraviť udalosť</string>
+    <string name="create_event_title">Vytvoriť udalosť</string>
+    <string name="has_not_been_completed">Nedokončené</string>
+    <string name="upcoming_event">Nadchádzajúca udalosť</string>
+    <string name="empty_name">Názov nemôže byť prázdny</string>
+    <string name="event_not_exist">Niekto vymazal túto udalosť, nie je možné ju upravovať</string>
+    <string name="error_edit_event">Chyba pri úprave udalosti</string>
+    <string name="error_create_event">Chyba pri vytváraní udalosti</string>
+    <string name="next_events_subtitle">Nadchádzajúce</string>
+    <string name="register_new_event">Pridať udalosť</string>
+    <string name="update_available">Dostupná aktualizácia</string>
+    <string name="incompatible_version">Nekompatibilná verzia</string>
+    <string name="incompatible_version_description">Je k dispozícii nová verzia (%1$s). Ak chcete naďalej používať Pelty, musíte aktualizovať aplikáciu.</string>
+    <string name="update_available_description">Verzia %1$s je už k dispozícii s novými funkciami a vylepšeniami. Chceli by ste aktualizovať?</string>
+    <string name="update">Aktualizovať</string>
+    <string name="comming_soon">Už čoskoro...</string>
 </resources>
