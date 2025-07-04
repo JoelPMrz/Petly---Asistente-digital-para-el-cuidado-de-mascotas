@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Fitxa teknikoa</string>
+    <string name="create_weight_title">Pisu berria</string>
+    <string name="weight_form_label_date">Data</string>
+    <string name="weight_form_label_note">Iruzkina</string>
+    <string name="weight_form_placeholder_note">Idatzi iruzkin bat</string>
+    <string name="weight_form_label_weight">Pisua (%1$s)</string>
+    <string name="weight_form_placeholder_date">2025/03/12</string>
+    <string name="form_confirm_btn">Onartu</string>
+    <string name="form_cancel_btn">Utzi</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Aukerakoa</string>
+    <string name="edit_weight_title">Pisua editatu</string>
+    <string name="delete_weight_alert_title">Zerrendatik pisu hau ezabatu nahi duzu?</string>
+    <string name="delete_weight_alert_description">Pisu hau pisuen zerrendatik ezabatzen baduzu, %1$s maskotarekin lotutako kontu guztietatik betirako ezabatuko da</string>
+    <string name="wheights_pets_title">Pisuak</string>
+    <string name="select_weght_unit_title_dialog">Hautatu pisu-unitatea</string>
+    <string name="form_confirm_delete_btn">Ezabatu</string>
+    <string name="empty_pet_list">Ez dago maskotarik</string>
+    <string name="sign_out">Saioa itxi</string>
+    <string name="delete_pet_button">Maskota ezabatu</string>
+    <string name="forgot_password">Pasahitza ahaztu duzu?</string>
+    <string name="have_an_account">Baduzu konturik?</string>
+    <string name="sign_up">Hasi saioa</string>
+    <string name="create_account">Kontua sortu</string>
+    <string name="not_create_account">Oraindik ez duzu konturik?</string>
+    <string name="title_photoPickerBottomSheet">Aukeratu bat</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeria</string>
+    <string name="profile_pet_photo_description">Maskotaren profileko irudia</string>
+    <string name="camera_permission_denied">Kamera baimena ukatu da</string>
+    <string name="selected_photo">Hautatutako argazkia</string>
+    <string name="photo_not_taken">Argazkia ez da atera</string>
+    <string name="photo_taken">Argazkia aterata</string>
+    <string name="type">Espeziea</string>
+    <string name="dog">Txakurra</string>
+    <string name="breed">Arraza</string>
+    <string name="carlino">Carlino</string>
+    <string name="birthdayDate">Jaiotze data</string>
+    <string name="adoptionDate">Adoptatzeko data</string>
+    <string name="microchip">Mikrotxipa</string>
+    <string name="sterilized">Esterilizatua</string>
+    <string name="not_sterilized">Ez dago esterilizatuta</string>
+    <string name="delete_pet_alert_description">Maskota hau ezabatzen baduzu, %1$s maskotarekin lotutako kontu guztietatik betirako ezabatuko da</string>
+    <string name="delete_pet_alert_title">Maskota hau ezabatu nahi duzu?</string>
+    <string name="sterilizedDate">Esterilizazio data</string>
+    <string name="pet_not_exists_dialog_description">Ezin da maskota honetan ekintzarik egin. Maskota ezabatu ez baduzu, egiaztatu horri lotutako edozein jabeak ez duela ekintza hori egin.</string>
+    <string name="pet_not_exists_dialog_title">Maskota ez da aurkitu</string>
+    <string name="understood">Ulertuta</string>
+    <string name="microchipDate">Inplantazio data</string>
+    <string name="microchip_identifier">Identifikatzailea</string>
+    <string name="invalid_microchip">12 zenbaki izan behar ditu</string>
+    <string name="edit_microchip_title">Mikrotxiparen datuak</string>
+    <string name="edit_sterilized_state_title">Esterilizazio egoera</string>
+    <string name="save">Gorde</string>
+    <string name="default_datePicker_title">Hautatu data bat</string>
+    <string name="edit">Editatu</string>
+    <string name="edit_birthdate_title">Adina eta jaiotze data</string>
+    <string name="unidentified">Identifikatu gabe</string>
+    <string name="age">Adina</string>
+    <string name="time">Ordua</string>
+    <string name="adoption">Adoptatzea</string>
+    <string name="add_date">Data gehitu</string>
+    <string name="updated_photo">Argazkia eguneratuta</string>
+    <string name="not_updated_photo">Ezin izan da eguneratu</string>
+    <string name="delete">Ezabatu</string>
+    <string name="deleted_pet">%1$s ezabatuta</string>
+    <string name="not_deleted_pet">Ezin izan da ezabatu</string>
+    <string name="edit_basic_data_title">Datu nagusiak</string>
+    <string name="name">Izena</string>
+    <string name="edit_user_profile">Profila editatu</string>
+    <string name="notifications">Jakinarazpenak</string>
+    <string name="dark_mode">Modu iluna</string>
+    <string name="light_mode">Modu argia</string>
+    <string name="clear_cache">Cachea garbitu</string>
+    <string name="profile">Profila</string>
+    <string name="settings">Ezarpenak</string>
+    <string name="key">Gakoa</string>
+    <string name="invitation_key">Gonbidapen gakoa</string>
+    <string name="invitations">Gonbidapenak</string>
+    <string name="language">Hizkuntza</string>
+    <string name="update_password">Pasahitza aldatu</string>
+    <string name="password">Pasahitza</string>
+    <string name="new_password">Pasahitz berria</string>
+    <string name="reset_password">Pasahitza berrezarri</string>
+    <string name="recover_password">Pasahitza berreskuratu</string>
+    <string name="associed_email">Lotutako posta elektronikoa</string>
+    <string name="send_mail">Posta bidali</string>
+    <string name="log_out_alert_title">Saioa itxi nahi duzu?</string>
+    <string name="log_out_alert_description">Saioa ixtea onartzean, uneko kontuak sarbidea galduko du berriro saioa hasi arte</string>
+    <string name="people_linked">Lotutako pertsonak</string>
+    <string name="owners">Jabeak</string>
+    <string name="observers">Laguntzaileak</string>
+    <string name="pet">Maskota</string>
+    <string name="observed_pets">Behatzeko maskotak</string>
+    <string name="pets">Maskotak</string>
+    <string name="invite_petOwner">Jabe bat gonbidatu</string>
+    <string name="send">Bidali</string>
+    <string name="add">Gehitu</string>
+    <string name="add_petOwner">Jabe bat gehitu</string>
+    <string name="update_creatorOwner">Sortzailea editatu</string>
+    <string name="creatorOwner">Sortzailea</string>
+    <string name="add_petObserver">Laguntzaile bat gehitu</string>
+    <string name="permission_denied_observer">Baimena ukatu da laguntzaile gisa</string>
+    <string name="new_pet">Maskota berria</string>
+    <string name="owner">Jabea</string>
+    <string name="observer">Laguntzailea</string>
+    <string name="veterinary_visits">Hurrengo albaitari bisita</string>
+    <string name="register_new_weight">Lehen pisua gehitu</string>
+    <string name="register_new_veterinay_visists">Bisita bat gehitu</string>
+    <string name="edit_veterinay_vivist_title">Albaitari hitzordua editatu</string>
+    <string name="create_veterinay_vivist_title">Albaitari hitzordu berria</string>
+    <string name="concept">Kontzeptua</string>
+    <string name="concept_placeholder">Desparasitazioa</string>
+    <string name="description">Deskribapena</string>
+    <string name="description_placeholder">Desparasitatzeko pipeta jartzera joan</string>
+    <string name="form_label_time">Ordua</string>
+    <string name="veterinary">Albaitaria</string>
+    <string name="veterinary_placeholder">Martínez Albaitaritza Klinika</string>
+    <string name="error_create_veterinary_visit">Errorea bisita sortzean</string>
+    <string name="error_edit_veterinary_visit">Errorea bisita editatzean</string>
+    <string name="delete_visit_alert_title">Albaitari bisita hau ezabatu nahi duzu?</string>
+    <string name="delete_visit_alert_description">Bisita hau albaitari bisiten zerrendatik ezabatzen baduzu, %1$s maskotarekin lotutako kontu guztietatik betirako ezabatuko da</string>
+    <string name="completed">Eginda</string>
+    <string name="not_completed">Programatuta</string>
+    <string name="comment">Iruzkina</string>
+    <string name="add_weight">Pisu bat gehitu</string>
+    <string name="next_visit">Hurrengo bisita</string>
+    <string name="veterinary_visits_title">Albaitari bisitak</string>
+    <string name="owners_info_dialog_title">Zein funtzio ditu jabe batek?</string>
+    <string name="owners_info_dialog_description">Edozein datu sortu, editatu eta aldatu</string>
+    <string name="owners_info_dialog_description2">Beste jabe bat gehitu, editatu eta ezabatu</string>
+    <string name="owners_info_dialog_description3">Laguntzaile bat gehitu, editatu eta ezabatu</string>
+    <string name="owners_info_dialog_description4">Sortzaileak bakarrik alda dezake beste erabiltzaile batek</string>
+    <string name="observers_info_dialog_title">Zein funtzio ditu laguntzaile batek?</string>
+    <string name="observers_info_dialog_description">Edozein datu ikusi ditzake</string>
+    <string name="observers_info_dialog_description2">Ezin du daturik sortu, editatu edo aldatu</string>
+    <string name="observers_info_dialog_description3">Ezin du jaberik gehitu, editatu edo ezabatu</string>
+    <string name="observers_info_dialog_description4">Ezin du beste laguntzailerik gehitu, editatu edo ezabatu</string>
+    <string name="next_visits_subtitle">Hurrengoak</string>
+    <string name="previous_visits_subtitle">Aurrekoak</string>
+    <string name="previous_not_attending_visits_subtitle">Aurrekoak joan gabe</string>
+    <string name="search">Bilatu...</string>
+    <string name="not_available">Ez dago erabilgarri</string>
+    <string name="state">Egoera</string>
+    <string name="select_time">Hautatu ordua</string>
+    <string name="email">Posta elektronikoa</string>
+    <string name="welcome">Ongi etorri %1$s</string>
+    <string name="error_creating_user">Errorea erabiltzailea sortzean</string>
+    <string name="welcome_back">Ongi etorri berriro %1$s</string>
+    <string name="an_error_has_occurred">Errore bat gertatu da</string>
+    <string name="guest">Gonbidatua</string>
+    <string name="loggin">SAIOA HASI</string>
+    <string name="register">Erregistratu</string>
+    <string name="already_have_an_account">Baduzu konturik? Hasi saioa</string>
+    <string name="registered_account">Kontua erregistratuta</string>
+    <string name="account_already_exists">Kontu hau badago</string>
+    <string name="all_fields_are_required">Eremu guztiak derrigorrezkoak dira</string>
+    <string name="unregistered_image">%1$s irudia ez dago erregistratuta</string>
+    <string name="pet_not_registered">Ezin izan da maskota erregistratu</string>
+    <string name="register_pet">Erregistratu</string>
+    <string name="not_observables_available">Ez du laguntzailerik</string>
+    <string name="manage_user">%1$s kudeatu</string>
+    <string name="not_possible_change_creator">Ezin da sortzailearen rola aldatu</string>
+    <string name="already_owner">Dagoeneko jabea da</string>
+    <string name="now_he_owner">Orain jabea da</string>
+    <string name="role_could_not_be_changed">Ezin izan da rola aldatu</string>
+    <string name="change_to_owner">Jabea izatera aldatu</string>
+    <string name="not_possible_delete_creator">Ezin da sortzailea ezabatu</string>
+    <string name="you_have_been_removed_as_owner">Jabe gisa ezabatu zaituzte</string>
+    <string name="owner_deleted">Jabea ezabatuta</string>
+    <string name="could_not_be_deleted">Ezin izan da ezabatu</string>
+    <string name="delete_rol">Rola ezabatu</string>
+    <string name="already_observer">Dagoeneko laguntzailea da</string>
+    <string name="not_owner_new_observer">Laguntzaile berria, jabe izateari utzi dio</string>
+    <string name="new_observer">Laguntzaile berria</string>
+    <string name="could_not_add">Ezin izan da gehitu</string>
+    <string name="user_not_exist">Erabiltzailea ez da existitzen</string>
+    <string name="not_ownsers_available">Ez du jaberik</string>
+    <string name="now_he_observer">Orain laguntzailea da</string>
+    <string name="change_to_observer">Laguntzaile izatera aldatu</string>
+    <string name="not_possible_delete">Ezin izan da ezabatu</string>
+    <string name="not_observer_new_owner">Jabe berria, laguntzaile izateari utzi dio</string>
+    <string name="new_owner">Jabe berria</string>
+    <string name="authorized_for_creator">Baimena ukatu da, sortzailearentzat baimenduta</string>
+    <string name="already_creator">Dagoeneko sortzailea da</string>
+    <string name="new_creator">Sortzaile berria</string>
+    <string name="filter_veterinary_visits">Albaitari bisitak iragazi</string>
+    <string name="previous_visits">Aurreko bisitak</string>
+    <string name="previous_not_attending_visits">Aurreko bisitak joan gabe</string>
+    <string name="all_visits">Bisita guztiak</string>
+    <string name="next_vivits">Hurrengo bisitak</string>
+    <string name="not_invitations">Ez dago gonbidapenik</string>
+    <string name="change_rol_to">Rola aldatu honetara: %1$s</string>
+    <string name="passwords_do_not_match">Pasahitzak ez datoz bat</string>
+    <string name="password_minimum_characters">Pasahitzak gutxienez 6 karaktere izan behar ditu</string>
+    <string name="account_without_linked_email">Posta elektronikorik lotu gabeko kontua</string>
+    <string name="email_not_associated">Posta elektronikoa ez dago zure kontuarekin lotuta</string>
+    <string name="time_zone">Ordu-zona</string>
+    <string name="select_language" translatable="false">Hautatu hizkuntza bat</string>
+    <string name="calendar">Egutegia</string>
+    <string name="passwordInvalid">8 karaktere, letra eta zenbaki bat izan behar ditu</string>
+    <string name="invalid_email">Helbidea ez da baliozkoa</string>
+    <string name="weight_not_exist">Norbaitek pisu hau ezabatu du, ezin da editatu</string>
+    <string name="veterinaryVisit_not_exist">Norbaitek albaitari bisita hau ezabatu du, ezin da editatu</string>
+    <string name="next_events">Hurrengo gertaerak</string>
+    <string name="not_events">Ez dago gertaerarik data honetarako</string>
+    <string name="select_a_date">Hautatu data bat</string>
+    <string name="select_your_pets">Hautatu zure maskotak</string>
+    <string-array name="species_options">
+        <item>Armiarma</item>
+        <item>Astoa</item>
+        <item>Zaldia</item>
+        <item>Ahuntza</item>
+        <item>Kamaleoia</item>
+        <item>Karramarroa</item>
+        <item>Txerria</item>
+        <item>Txintxila</item>
+        <item>Indiako txerria</item>
+        <item>Untxia</item>
+        <item>Triku</item>
+        <item>Eskorpioia</item>
+        <item>Marta</item>
+        <item>Oilaskoa</item>
+        <item>Katua</item>
+        <item>Geckoa</item>
+        <item>Hamsterra</item>
+        <item>Hudo</item>
+        <item>Iguana</item>
+        <item>Sugandila</item>
+        <item>Ardia</item>
+        <item>Usoa</item>
+        <item>Ahatea</item>
+        <item>Txoria</item>
+        <item>Arraina</item>
+        <item>Txakurra</item>
+        <item>Arratoia</item>
+        <item>Sagua</item>
+        <item>Sugea</item>
+        <item>Dortoka</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Ast</item>
+        <item>Ast</item>
+        <item>Ast</item>
+        <item>Ost</item>
+        <item>Ost</item>
+        <item>Lar</item>
+        <item>Ig</item>
+    </string-array>
+    <string name="year_singular">urte</string>
+    <string name="year_plural">urte</string>
+    <string name="month_singular">hilabete</string>
+    <string name="month_plural">hilabete</string>
+    <string name="day_singular">egun</string>
+    <string name="day_plural">egun</string>
+    <string name="current_weight">Uneko pisua</string>
+    <string name="all_events">Gertaera guztiak</string>
+    <string name="previous_not_attending_events">Aurreko gertaerak, joan gabe</string>
+    <string name="previous_events">Aurreko gertaerak</string>
+    <string name="filter_events">Gertaerak iragazi</string>
+    <string name="delete_event_alert_title">Gertaera hau ezabatu nahi duzu?</string>
+    <string name="delete_event_alert_description">Gertaera hau ezabatzen baduzu, %1$s maskotarekin lotutako kontu guztietatik betirako ezabatuko da</string>
+    <string name="events_title">Gertaerak</string>
+    <string name="edit_event_title">Gertaera editatu</string>
+    <string name="create_event_title">Gertaera sortu</string>
+    <string name="has_not_been_completed">Ez da osatu</string>
+    <string name="upcoming_event">Hurrengo gertaera</string>
+    <string name="empty_name">Izena ezin da hutsik egon</string>
+    <string name="event_not_exist">Norbaitek gertaera hau ezabatu du, ezin da editatu</string>
+    <string name="error_edit_event">Errorea gertaera editatzean</string>
+    <string name="error_create_event">Errorea gertaera sortzean</string>
+    <string name="next_events_subtitle">Hurrengoak</string>
+    <string name="register_new_event">Gertaera bat gehitu</string>
+    <string name="update_available">Eguneratzea eskuragarri</string>
+    <string name="incompatible_version">Bertsio bateraezina</string>
+    <string name="incompatible_version_description">Bertsio berri bat dago eskuragarri (%1$s). Petly erabiltzen jarraitzeko, eguneratu behar duzu.</string>
+    <string name="update_available_description">Bertsioa %1$s dagoeneko eskuragarri dago funtzio eta hobekuntza berriekin. Eguneratu nahi zenuke?</string>
+    <string name="update">Eguneratu</string>
+    <string name="comming_soon">Laster...</string>
+</resources>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Petly</string>
+    <string name="pet_detail_screen_title">Fitxa tècnica</string>
+    <string name="create_weight_title">Nou pes</string>
+    <string name="weight_form_label_date">Data</string>
+    <string name="weight_form_label_note">Comentari</string>
+    <string name="weight_form_placeholder_note">Escriu un comentari</string>
+    <string name="weight_form_label_weight">Pes (%1$s)</string>
+    <string name="weight_form_placeholder_date">12/03/2025</string>
+    <string name="form_confirm_btn">Acceptar</string>
+    <string name="form_cancel_btn">Cancel·lar</string>
+    <string name="weight_form_placeholder_weight">20.0</string>
+    <string name="optional">Opcional</string>
+    <string name="edit_weight_title">Editar pes</string>
+    <string name="delete_weight_alert_title">Vols eliminar aquest pes del llistat?</string>
+    <string name="delete_weight_alert_description">Si elimines aquest pes del llistat de pesos, s\'eliminarà permanentment de tots els comptes vinculats a la mascota %1$s</string>
+    <string name="wheights_pets_title">Pesos</string>
+    <string name="select_weght_unit_title_dialog">Seleccionar unitat de pes</string>
+    <string name="form_confirm_delete_btn">Eliminar</string>
+    <string name="empty_pet_list">No hi ha mascotes</string>
+    <string name="sign_out">Tancar sessió</string>
+    <string name="delete_pet_button">Eliminar mascota</string>
+    <string name="forgot_password">Has oblidat la contrasenya?</string>
+    <string name="have_an_account">Ja tens un compte?</string>
+    <string name="sign_up">Iniciar sessió</string>
+    <string name="create_account">Crear compte</string>
+    <string name="not_create_account">Encara no tens compte?</string>
+    <string name="title_photoPickerBottomSheet">Selecciona una opció</string>
+    <string name="camera">Càmera</string>
+    <string name="gallery">Galeria</string>
+    <string name="profile_pet_photo_description">Imatge de perfil de la mascota</string>
+    <string name="camera_permission_denied">Permís de càmera denegat</string>
+    <string name="selected_photo">Foto seleccionada</string>
+    <string name="photo_not_taken">Foto no realitzada</string>
+    <string name="photo_taken">Foto realitzada</string>
+    <string name="type">Espècie</string>
+    <string name="dog">Gos</string>
+    <string name="breed">Raça</string>
+    <string name="carlino">Carlino</string>
+    <string name="birthdayDate">Data de naixement</string>
+    <string name="adoptionDate">Data d\'adopció</string>
+    <string name="microchip">Microxip</string>
+    <string name="sterilized">Esterilitzat</string>
+    <string name="not_sterilized">No esterilitzat</string>
+    <string name="delete_pet_alert_description">Si elimines aquesta mascota, s\'eliminarà permanentment de tots els comptes vinculats a la mascota %1$s</string>
+    <string name="delete_pet_alert_title">Vols eliminar aquesta mascota?</string>
+    <string name="sterilizedDate">Data d\'esterilització</string>
+    <string name="pet_not_exists_dialog_description">No és possible realitzar accions sobre aquesta mascota. En cas de no haver eliminat la mascota, comprova que qualsevol propietari associat a aquesta no hagi realitzat l\'acció</string>
+    <string name="pet_not_exists_dialog_title">Mascota no trobada</string>
+    <string name="understood">Entès</string>
+    <string name="microchipDate">Data d\'implantació</string>
+    <string name="microchip_identifier">Identificador</string>
+    <string name="invalid_microchip">Ha de contenir 12 números</string>
+    <string name="edit_microchip_title">Dades del microxip</string>
+    <string name="edit_sterilized_state_title">Estat d\'esterilització</string>
+    <string name="save">Guardar</string>
+    <string name="default_datePicker_title">Selecciona una data</string>
+    <string name="edit">Editar</string>
+    <string name="edit_birthdate_title">Edat i data de naixement</string>
+    <string name="unidentified">Sense identificar</string>
+    <string name="age">Edat</string>
+    <string name="time">Temps</string>
+    <string name="adoption">Adopció</string>
+    <string name="add_date">Afegir data</string>
+    <string name="updated_photo">Foto actualitzada</string>
+    <string name="not_updated_photo">No s\'ha pogut actualitzar</string>
+    <string name="delete">Eliminar</string>
+    <string name="deleted_pet">%1$s eliminat</string>
+    <string name="not_deleted_pet">No s\'ha pogut eliminar</string>
+    <string name="edit_basic_data_title">Dades principals</string>
+    <string name="name">Nom</string>
+    <string name="edit_user_profile">Editar perfil</string>
+    <string name="notifications">Notificacions</string>
+    <string name="dark_mode">Mode fosc</string>
+    <string name="light_mode">Mode clar</string>
+    <string name="clear_cache">Netejar memòria cau</string>
+    <string name="profile">Perfil</string>
+    <string name="settings">Configuració</string>
+    <string name="key">Clau</string>
+    <string name="invitation_key">Clau d\'invitació</string>
+    <string name="invitations">Invitacions</string>
+    <string name="language">Idioma</string>
+    <string name="update_password">Canviar contrasenya</string>
+    <string name="password">Contrasenya</string>
+    <string name="new_password">Nova contrasenya</string>
+    <string name="reset_password">Recuperar contrasenya</string>
+    <string name="recover_password">Recuperar contrasenya</string>
+    <string name="associed_email">Correu associat</string>
+    <string name="send_mail">Enviar correu</string>
+    <string name="log_out_alert_title">Vols tancar la sessió?</string>
+    <string name="log_out_alert_description">En acceptar el tancament de sessió, el compte actual perdrà l\'accés fins que iniciïs sessió de nou</string>
+    <string name="people_linked">Persones associades</string>
+    <string name="owners">Propietaris</string>
+    <string name="observers">Acompanyants</string>
+    <string name="pet">Mascota</string>
+    <string name="observed_pets">Mascotes observables</string>
+    <string name="pets">Mascotes</string>
+    <string name="invite_petOwner">Convida un propietari</string>
+    <string name="send">Enviar</string>
+    <string name="add">Afegir</string>
+    <string name="add_petOwner">Afegir un propietari</string>
+    <string name="update_creatorOwner">Editar creador</string>
+    <string name="creatorOwner">Creador</string>
+    <string name="add_petObserver">Afegir un acompanyant</string>
+    <string name="permission_denied_observer">Permís denegat com a acompanyant</string>
+    <string name="new_pet">Nova mascota</string>
+    <string name="owner">Propietari</string>
+    <string name="observer">Acompanyant</string>
+    <string name="veterinary_visits">Pròxima visita veterinària</string>
+    <string name="register_new_weight">Afegir primer pes</string>
+    <string name="register_new_veterinay_visists">Afegeix una visita</string>
+    <string name="edit_veterinay_vivist_title">Editar cita veterinària</string>
+    <string name="create_veterinay_vivist_title">Nova cita veterinària</string>
+    <string name="concept">Concepte</string>
+    <string name="concept_placeholder">Desparasitació</string>
+    <string name="description">Descripció</string>
+    <string name="description_placeholder">Anar a posar la pipeta desparasitadora</string>
+    <string name="form_label_time">Temps</string>
+    <string name="veterinary">Veterinari</string>
+    <string name="veterinary_placeholder">Clínica Veterinària Martínez</string>
+    <string name="error_create_veterinary_visit">Error en crear la visita</string>
+    <string name="error_edit_veterinary_visit">Error en editar la visita</string>
+    <string name="delete_visit_alert_title">Vols eliminar aquesta visita veterinària?</string>
+    <string name="delete_visit_alert_description">Si elimines aquesta visita del llistat de visites veterinàries, s\'eliminarà permanentment de tots els comptes vinculats a la mascota %1$s</string>
+    <string name="completed">Realitzada</string>
+    <string name="not_completed">Programada</string>
+    <string name="comment">Comentari</string>
+    <string name="add_weight">Afegir un pes</string>
+    <string name="next_visit">Pròxima visita</string>
+    <string name="veterinary_visits_title">Visites veterinàries</string>
+    <string name="owners_info_dialog_title">Quines funcions té un propietari?</string>
+    <string name="owners_info_dialog_description">Crear, editar i modificar qualsevol dada</string>
+    <string name="owners_info_dialog_description2">Afegir, editar i eliminar un altre propietari</string>
+    <string name="owners_info_dialog_description3">Afegir, editar i eliminar un acompanyant</string>
+    <string name="owners_info_dialog_description4">Només el creador podrà canviar-se per un altre usuari</string>
+    <string name="observers_info_dialog_title">Quines funcions té un acompanyant?</string>
+    <string name="observers_info_dialog_description">Pot visualitzar qualsevol dada</string>
+    <string name="observers_info_dialog_description2">No pot crear, editar o modificar cap dada</string>
+    <string name="observers_info_dialog_description3">No pot afegir, editar o eliminar un propietari</string>
+    <string name="observers_info_dialog_description4">No pot afegir, editar o eliminar un altre acompanyant</string>
+    <string name="next_visits_subtitle">Pròximes</string>
+    <string name="previous_visits_subtitle">Anteriors</string>
+    <string name="previous_not_attending_visits_subtitle">Anteriors sense acudir</string>
+    <string name="search">Cercar...</string>
+    <string name="not_available">No disponible</string>
+    <string name="state">Estat</string>
+    <string name="select_time">Selecciona el temps</string>
+    <string name="email">Correu electrònic</string>
+    <string name="welcome">Benvingut %1$s</string>
+    <string name="error_creating_user">Error en crear l\'usuari</string>
+    <string name="welcome_back">Benvingut de nou %1$s</string>
+    <string name="an_error_has_occurred">Ha succeït un error</string>
+    <string name="guest">Convidat</string>
+    <string name="loggin">INICIAR SESSIÓ</string>
+    <string name="register">Registrar-se</string>
+    <string name="already_have_an_account">Ja tens compte? Inicia sessió</string>
+    <string name="registered_account">Compte registrat</string>
+    <string name="account_already_exists">Aquest compte ja existeix</string>
+    <string name="all_fields_are_required">Tots els camps són obligatoris</string>
+    <string name="unregistered_image">Imatge de %1$s no registrada</string>
+    <string name="pet_not_registered">No s\'ha pogut registrar la mascota</string>
+    <string name="register_pet">Registrar</string>
+    <string name="not_observables_available">No disposa d\'acompanyants</string>
+    <string name="manage_user">Gestionar a %1$s</string>
+    <string name="not_possible_change_creator">No és possible canviar el rol del creador</string>
+    <string name="already_owner">Ja és propietari</string>
+    <string name="now_he_owner">Ara és propietari</string>
+    <string name="role_could_not_be_changed">No s\'ha pogut canviar el rol</string>
+    <string name="change_to_owner">Canviar a propietari</string>
+    <string name="not_possible_delete_creator">No és possible eliminar el creador</string>
+    <string name="you_have_been_removed_as_owner">T\'has eliminat de propietari</string>
+    <string name="owner_deleted">Propietari eliminat</string>
+    <string name="could_not_be_deleted">No s\'ha pogut eliminar</string>
+    <string name="delete_rol">Eliminar rol</string>
+    <string name="already_observer">Ja és acompanyant</string>
+    <string name="not_owner_new_observer">Nou acompanyant, va deixar de ser propietari</string>
+    <string name="new_observer">Nou acompanyant</string>
+    <string name="could_not_add">No s\'ha pogut afegir</string>
+    <string name="user_not_exist">L\'usuari no existeix</string>
+    <string name="not_ownsers_available">No disposa de propietaris</string>
+    <string name="now_he_observer">Ara és acompanyant</string>
+    <string name="change_to_observer">Canviar a acompanyant</string>
+    <string name="not_possible_delete">No s\'ha pogut eliminar</string>
+    <string name="not_observer_new_owner">Nou propietari, va deixar de ser acompanyant</string>
+    <string name="new_owner">Nou propietari</string>
+    <string name="authorized_for_creator">Permís denegat, autoritzat per al creador</string>
+    <string name="already_creator">Ja és creador</string>
+    <string name="new_creator">Nou creador</string>
+    <string name="filter_veterinary_visits">Filtrar visites veterinàries</string>
+    <string name="previous_visits">Visites anteriors</string>
+    <string name="previous_not_attending_visits">Visites anteriors sense acudir</string>
+    <string name="all_visits">Totes les visites</string>
+    <string name="next_vivits">Pròximes visites</string>
+    <string name="not_invitations">No hi ha invitacions</string>
+    <string name="change_rol_to">Canviar rol a %1$s</string>
+    <string name="passwords_do_not_match">Les contrasenyes no coincideixen</string>
+    <string name="password_minimum_characters">La contrasenya ha de contenir almenys 6 caràcters</string>
+    <string name="account_without_linked_email">Compte sense correu vinculat</string>
+    <string name="email_not_associated">Correu no associat al teu compte</string>
+    <string name="time_zone">Localització horària</string>
+    <string name="select_language" translatable="false">Selecciona un idioma</string>
+    <string name="calendar">Calendari</string>
+    <string name="passwordInvalid">Ha de contenir 8 caràcters, lletra i número</string>
+    <string name="invalid_email">L\'adreça no és vàlida</string>
+    <string name="weight_not_exist">Algú va eliminar aquest pes, no és possible editar-lo</string>
+    <string name="veterinaryVisit_not_exist">Algú va eliminar aquesta visita veterinària, no és possible editar-la</string>
+    <string name="next_events">Pròxims esdeveniments</string>
+    <string name="not_events">No hi ha esdeveniments per a aquesta data</string>
+    <string name="select_a_date">Selecciona una data</string>
+    <string name="select_your_pets">Selecciona les teves mascotes</string>
+    <string-array name="species_options">
+        <item>Aranya</item>
+        <item>Ase</item>
+        <item>Cavall</item>
+        <item>Cabra</item>
+        <item>Camaleó</item>
+        <item>Cranc</item>
+        <item>Porc</item>
+        <item>Xinxilla</item>
+        <item>Conill d\'Índies</item>
+        <item>Conill</item>
+        <item>Eriçó</item>
+        <item>Escorpí</item>
+        <item>Fura</item>
+        <item>Gallina</item>
+        <item>Gat</item>
+        <item>Gec</item>
+        <item>Hàmster</item>
+        <item>Fura</item>
+        <item>Iguana</item>
+        <item>Llangardaix</item>
+        <item>Ovella</item>
+        <item>Colom</item>
+        <item>Ànec</item>
+        <item>Ocell</item>
+        <item>Peix</item>
+        <item>Gos</item>
+        <item>Rata</item>
+        <item>Ratolí</item>
+        <item>Serp</item>
+        <item>Tortuga</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Dil</item>
+        <item>Dim</item>
+        <item>Mie</item>
+        <item>Dij</item>
+        <item>Div</item>
+        <item>Dis</item>
+        <item>Dum</item>
+    </string-array>
+    <string name="year_singular">any</string>
+    <string name="year_plural">anys</string>
+    <string name="month_singular">mes</string>
+    <string name="month_plural">mesos</string>
+    <string name="day_singular">dia</string>
+    <string name="day_plural">dies</string>
+    <string name="current_weight">Pes actual</string>
+    <string name="all_events">Tots els esdeveniments</string>
+    <string name="previous_not_attending_events">Esdeveniments anteriors no assistits</string>
+    <string name="previous_events">Esdeveniments anteriors</string>
+    <string name="filter_events">Filtrar esdeveniments</string>
+    <string name="delete_event_alert_title">Vols eliminar aquest esdeveniment?</string>
+    <string name="delete_event_alert_description">Si elimines aquest esdeveniment, s\'eliminarà permanentment de tots els comptes vinculats a la mascota %1$s</string>
+    <string name="events_title">Esdeveniments</string>
+    <string name="edit_event_title">Editar esdeveniment</string>
+    <string name="create_event_title">Crear esdeveniment</string>
+    <string name="has_not_been_completed">No completat</string>
+    <string name="upcoming_event">Pròxim esdeveniment</string>
+    <string name="empty_name">El nom no pot estar buit</string>
+    <string name="event_not_exist">Algú va eliminar aquest esdeveniment, no és possible editar-lo</string>
+    <string name="error_edit_event">Error en editar l\'esdeveniment</string>
+    <string name="error_create_event">Error en crear l\'esdeveniment</string>
+    <string name="next_events_subtitle">Pròxims</string>
+    <string name="register_new_event">Afegeix un esdeveniment</string>
+    <string name="update_available">Actualització disponible</string>
+    <string name="incompatible_version">Versió incompatible</string>
+    <string name="incompatible_version_description">Hi ha una nova versió disponible (%1$s). Per seguir utilitzant Pelty, necessites actualitzar.</string>
+    <string name="update_available_description">La versió %1$s ja està disponible amb noves funcions i millores. T\'agradaria actualitzar?</string>
+    <string name="update">Actualitzar</string>
+    <string name="comming_soon">Pròximament...</string>
+</resources>

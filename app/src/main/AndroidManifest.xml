@@ -35,7 +35,7 @@
         </activity>
 
         <provider
-            android:authorities="com.example.petly.provider"
+            android:authorities="com.jdev.petly.provider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

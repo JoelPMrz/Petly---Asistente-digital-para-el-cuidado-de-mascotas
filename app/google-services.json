@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "495073801536",
+    "firebase_url": "https://petly-2d5c2-default-rtdb.firebaseio.com",
     "project_id": "petly-2d5c2",
     "storage_bucket": "petly-2d5c2.firebasestorage.app"
   },
@@ -19,6 +20,51 @@
           "android_info": {
             "package_name": "com.example.petly",
             "certificate_hash": "9d62346e8001fc81a993885f60d92a65806d74d6"
+          }
+        },
+        {
+          "client_id": "495073801536-3d3h7dkv2379iuh264fss6aci1409k8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRO9PYRGxolgN4Wk5exy-MfPk6VK5QXMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495073801536-3d3h7dkv2379iuh264fss6aci1409k8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495073801536:android:602d1968607c52023936a5",
+        "android_client_info": {
+          "package_name": "com.jdev.petly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495073801536-f42jnhuod6mh4lumug9rpb1av7m3c9su.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jdev.petly",
+            "certificate_hash": "9d62346e8001fc81a993885f60d92a65806d74d6"
+          }
+        },
+        {
+          "client_id": "495073801536-mkr78vcbogau1dagsdrqkqere4pavagd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jdev.petly",
+            "certificate_hash": "7eff939d2233bb9c347c1b394dc5cf346afbfce0"
           }
         },
         {
