@@ -279,4 +279,7 @@
     <string name="update_available_description">버전 %1$s이(가) 새로운 기능 및 개선 사항과 함께 출시되었습니다. 업데이트하시겠습니까?</string>
     <string name="update">업데이트</string>
     <string name="comming_soon">출시 예정...</string>
+    <string name="event_creator">생성자</string>
+    <string name="event_editor">편집자</string>
+    <string name="event_not_edited">수정되지 않음</string>
 </resources>

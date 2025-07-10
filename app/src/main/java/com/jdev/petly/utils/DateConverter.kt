@@ -84,7 +84,7 @@ fun formatLocalTimeToString(localTime: LocalTime): String {
 }
 
 fun formatLocalDateTimeToString(localDateTime: LocalDateTime): String {
-    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
+    val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy - HH:mm", Locale.getDefault())
     return localDateTime.format(formatter)
 }
 

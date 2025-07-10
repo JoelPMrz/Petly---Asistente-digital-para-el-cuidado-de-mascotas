@@ -279,4 +279,7 @@
     <string name="update_available_description">Phiên bản %1$s đã có sẵn với các tính năng mới và cải tiến. Bạn có muốn cập nhật không?</string>
     <string name="update">Cập nhật</string>
     <string name="comming_soon">Sắp ra mắt...</string>
+    <string name="event_creator">Người tạo</string>
+    <string name="event_editor">Người chỉnh sửa</string>
+    <string name="event_not_edited">Chưa chỉnh sửa</string>
 </resources>

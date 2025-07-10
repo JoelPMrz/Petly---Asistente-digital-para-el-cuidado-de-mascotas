@@ -280,4 +280,7 @@
     <string name="update_available_description">Bertsioa %1$s dagoeneko eskuragarri dago funtzio eta hobekuntza berriekin. Eguneratu nahi zenuke?</string>
     <string name="update">Eguneratu</string>
     <string name="comming_soon">Laster...</string>
+    <string name="event_creator">Sortzailea</string>
+    <string name="event_editor">Editorea</string>
+    <string name="event_not_edited">Ez da editatu</string>
 </resources>

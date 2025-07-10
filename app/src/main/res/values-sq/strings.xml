@@ -280,4 +280,7 @@
     <string name="update_available_description">Versioni %1$s është tashmë në dispozicion me funksione dhe përmirësime të reja. Dëshironi të përditësoni?</string>
     <string name="update">Përditëso</string>
     <string name="comming_soon">Së shpejti...</string>
+    <string name="event_creator">Krijuesi</string>
+    <string name="event_editor">Redaktues</string>
+    <string name="event_not_edited">Nuk u redaktua</string>
 </resources>

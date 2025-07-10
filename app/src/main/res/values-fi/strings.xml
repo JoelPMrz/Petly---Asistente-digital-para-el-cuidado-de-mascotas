@@ -280,4 +280,7 @@
     <string name="update_available_description">Versio %1$s on nyt saatavilla uusilla ominaisuuksilla ja parannuksilla. Haluatko päivittää?</string>
     <string name="update">Päivitä</string>
     <string name="comming_soon">Tulossa pian...</string>
+    <string name="event_creator">Luojalta</string>
+    <string name="event_editor">Muokkaaja</string>
+    <string name="event_not_edited">Ei muokattu</string>
 </resources>

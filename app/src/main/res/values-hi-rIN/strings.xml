@@ -279,4 +279,7 @@
     <string name="update_available_description">वर्ज़न %1$s अब नए फ़ीचर और सुधारों के साथ उपलब्ध है। क्या आप अपडेट करना चाहेंगे?</string>
     <string name="update">अपडेट करें</string>
     <string name="comming_soon">जल्द आ रहा है...</string>
+    <string name="event_creator">निर्माता</string>
+    <string name="event_editor">संपादक</string>
+    <string name="event_not_edited">संपादित नहीं किया गया</string>
 </resources>

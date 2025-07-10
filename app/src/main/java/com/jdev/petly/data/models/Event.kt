@@ -39,6 +39,7 @@ fun Event.toFirestoreMap(): Map<String, Any?>{
 
 fun eventFromFirebase(map: Map<String, Any?>) : Event{
     val dateTime = map["dateTime"] as? Timestamp
+    val lastEditAt = map["lastEditAt"] as? Timestamp
     val date = dateTime?.toLocalDate() ?: LocalDate.now()
     val time = dateTime?.toLocalTime() ?: LocalTime.now()
     return Event(
@@ -50,7 +51,7 @@ fun eventFromFirebase(map: Map<String, Any?>) : Event{
         time = time,
         createdBy = map["createdBy"] as? String ?: "",
         editedBy = map["editedBy"] as? String ?: "",
-        lastEditAt = dateTime?.toLocalDateTime(),
+        lastEditAt = lastEditAt?.toLocalDateTime(),
         completed = map["completed"] as? Boolean ?: false
     )
 }

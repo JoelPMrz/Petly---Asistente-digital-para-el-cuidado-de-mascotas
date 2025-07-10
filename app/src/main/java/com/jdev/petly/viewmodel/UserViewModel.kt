@@ -35,6 +35,29 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    private val _eventCreatorUserState = MutableStateFlow<User?>(null)
+    val eventCreatorUserState: StateFlow<User?> get() = _eventCreatorUserState
+
+
+    fun getEventCreatorUserFlowById(userId: String) {
+        viewModelScope.launch {
+            userRepository.getUserByIdFlow(userId).collect { user ->
+                _eventCreatorUserState.value = user
+            }
+        }
+    }
+
+    private val _eventEditorUserState = MutableStateFlow<User?>(null)
+    val eventEditorUserState: StateFlow<User?> get() = _eventEditorUserState
+
+
+    fun getEventEditorUserFlowById(userId: String) {
+        viewModelScope.launch {
+            userRepository.getUserByIdFlow(userId).collect { user ->
+                _eventEditorUserState.value = user
+            }
+        }
+    }
 
     private val _createdOwnerState = MutableStateFlow<User?>(null)
     val createdOwnerState: StateFlow<User?> get() = _createdOwnerState

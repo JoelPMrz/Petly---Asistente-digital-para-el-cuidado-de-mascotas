@@ -279,4 +279,7 @@
     <string name="update_available_description">Versjon %1$s er nå tilgjengelig med nye funksjoner og forbedringer. Vil du oppdatere?</string>
     <string name="update">Oppdater</string>
     <string name="comming_soon">Kommer snart...</string>
+    <string name="event_creator">Skaper</string>
+    <string name="event_editor">Redaktør</string>
+    <string name="event_not_edited">Ikke redigert</string>
 </resources>

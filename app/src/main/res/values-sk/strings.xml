@@ -279,4 +279,7 @@
     <string name="update_available_description">Verzia %1$s je už k dispozícii s novými funkciami a vylepšeniami. Chceli by ste aktualizovať?</string>
     <string name="update">Aktualizovať</string>
     <string name="comming_soon">Už čoskoro...</string>
+    <string name="event_creator">Tvorca</string>
+    <string name="event_editor">Editor</string>
+    <string name="event_not_edited">Neupravené</string>
 </resources>

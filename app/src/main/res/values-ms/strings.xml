@@ -279,4 +279,7 @@
         <string name="update_available_description">Versi %1$s kini tersedia dengan ciri dan penambahbaikan baharu. Adakah anda ingin mengemas kini?</string>
         <string name="update">Kemas Kini</string>
         <string name="comming_soon">Akan Datang...</string>
+        <string name="event_creator">Pencipta</string>
+        <string name="event_editor">Editor</string>
+        <string name="event_not_edited">Tidak disunting</string>
 </resources>

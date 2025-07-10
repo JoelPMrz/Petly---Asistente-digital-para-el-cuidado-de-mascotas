@@ -279,4 +279,7 @@
     <string name="update_available_description">Versie %1$s is nu beschikbaar met nieuwe functies en verbeteringen. Wil je updaten?</string>
     <string name="update">Updaten</string>
     <string name="comming_soon">Binnenkort beschikbaar...</string>
+    <string name="event_creator">Maker</string>
+    <string name="event_editor">Bewerker</string>
+    <string name="event_not_edited">Niet bewerkt</string>
 </resources>

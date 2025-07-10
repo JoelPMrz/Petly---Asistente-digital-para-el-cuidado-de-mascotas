@@ -279,4 +279,7 @@
     <string name="update_available_description">Sürüm %1$s, yeni özellikler ve iyileştirmelerle kullanıma sunuldu. Güncellemek ister misiniz?</string>
     <string name="update">Güncelle</string>
     <string name="comming_soon">Çok Yakında...</string>
+    <string name="event_creator">Oluşturan</string>
+    <string name="event_editor">Düzenleyici</string>
+    <string name="event_not_edited">Düzenlenmedi</string>
 </resources>

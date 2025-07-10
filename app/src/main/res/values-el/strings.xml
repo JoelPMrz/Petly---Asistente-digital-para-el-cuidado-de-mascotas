@@ -280,4 +280,7 @@
     <string name="update_available_description">Η έκδοση %1$s είναι πλέον διαθέσιμη με νέες λειτουργίες και βελτιώσεις. Θα θέλατε να ενημερώσετε;</string>
     <string name="update">Ενημέρωση</string>
     <string name="comming_soon">Έρχεται σύντομα...</string>
+    <string name="event_creator">Δημιουργός</string>
+    <string name="event_editor">Επεξεργαστής</string>
+    <string name="event_not_edited">Δεν επεξεργάστηκε</string>
 </resources>

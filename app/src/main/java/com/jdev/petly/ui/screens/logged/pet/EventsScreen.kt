@@ -8,10 +8,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,9 +37,11 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.EventAvailable
 import androidx.compose.material.icons.outlined.EventBusy
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.EventAvailable
 import androidx.compose.material.icons.rounded.EventBusy
 import androidx.compose.material.icons.rounded.FilterAlt
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -97,6 +102,7 @@ import com.jdev.petly.ui.components.IconCircle
 import com.jdev.petly.ui.components.pet.PetNotExistsDialog
 import com.jdev.petly.ui.viewmodel.PetViewModel
 import com.jdev.petly.utils.AuthManager
+import com.jdev.petly.utils.formatLocalDateTimeToString
 import com.jdev.petly.utils.formatLocalDateToString
 import com.jdev.petly.utils.formatLocalDateToStringWithDay
 import com.jdev.petly.utils.formatLocalTimeToString
@@ -149,7 +155,13 @@ fun EventsScreen(
     }
     val sortedEvents = when (selectedEventFilter) {
         "next" -> filteredEvents.sortedBy { LocalDateTime.of(it.date, it.time) }
-        "previous", "previous_not_attending" -> filteredEvents.sortedByDescending { LocalDateTime.of(it.date, it.time) }
+        "previous", "previous_not_attending" -> filteredEvents.sortedByDescending {
+            LocalDateTime.of(
+                it.date,
+                it.time
+            )
+        }
+
         "all" -> {
             val upcoming = filteredEvents.filter {
                 LocalDateTime.of(it.date, it.time).isAfter(LocalDateTime.now())
@@ -161,6 +173,7 @@ fun EventsScreen(
 
             upcoming + past
         }
+
         else -> filteredEvents
     }
 
@@ -259,12 +272,19 @@ fun EventsScreen(
                     }
                 }
                 if (selectedEventFilter == "all") {
-                    val upcomingEvents = sortedEvents.filter { LocalDateTime.of(it.date, it.time).isAfter(LocalDateTime.now()) }
-                    val pastEvents = sortedEvents.filter { LocalDateTime.of(it.date, it.time).isBefore(LocalDateTime.now()) }
+                    val upcomingEvents = sortedEvents.filter {
+                        LocalDateTime.of(it.date, it.time).isAfter(LocalDateTime.now())
+                    }
+                    val pastEvents = sortedEvents.filter {
+                        LocalDateTime.of(it.date, it.time).isBefore(LocalDateTime.now())
+                    }
 
                     if (upcomingEvents.isNotEmpty()) {
                         item {
-                            DividerWithText(stringResource(R.string.next_events_subtitle), modifier = Modifier)
+                            DividerWithText(
+                                stringResource(R.string.next_events_subtitle),
+                                modifier = Modifier
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                         }
                         items(upcomingEvents, key = { it.id }) { event ->
@@ -278,9 +298,12 @@ fun EventsScreen(
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                         }
-                    }else if(filteredEvents.isNotEmpty()){
+                    } else if (filteredEvents.isNotEmpty()) {
                         item {
-                            DividerWithText(stringResource(R.string.next_events_subtitle), modifier = Modifier)
+                            DividerWithText(
+                                stringResource(R.string.next_events_subtitle),
+                                modifier = Modifier
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                             EmptyCard(
                                 onClick = {
@@ -312,7 +335,10 @@ fun EventsScreen(
                             if (upcomingEvents.isNotEmpty()) {
                                 Spacer(modifier = Modifier.height(10.dp))
                             }
-                            DividerWithText(stringResource(R.string.previous_visits_subtitle), modifier = Modifier)
+                            DividerWithText(
+                                stringResource(R.string.previous_visits_subtitle),
+                                modifier = Modifier
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                         }
                         items(pastEvents, key = { it.id }) { event ->
@@ -593,10 +619,10 @@ fun AddEventBottomSheet(
     currentUser: User?,
     event: Event? = null,
     petViewModel: PetViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel(),
     normalEventViewModel: NormalEventViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-
     val focusManager = LocalFocusManager.current
 
     var concept by remember { mutableStateOf("") }
@@ -608,6 +634,7 @@ fun AddEventBottomSheet(
     val descriptionFocusRequester = remember { FocusRequester() }
 
     var completed by remember { mutableStateOf(false) }
+    var createdBy by remember { mutableStateOf("") }
 
     val openDatePicker = remember { mutableStateOf(false) }
     val selectedDate = remember { mutableStateOf(LocalDate.now()) }
@@ -624,11 +651,12 @@ fun AddEventBottomSheet(
             LocalDateTime.of(selectedDate.value, selectedTime.value).isBefore(LocalDateTime.now())
 
     var showDeleteEvent by remember { mutableStateOf(false) }
-
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
     var showPetNotExistsDialog by remember { mutableStateOf(false) }
 
+    var showDetailsTracker by remember { mutableStateOf(false) }
+    val eventCreatorUser by userViewModel.eventCreatorUserState.collectAsState()
+    val eventEditorUser by userViewModel.eventEditorUserState.collectAsState()
 
 
     LaunchedEffect(pet.id) {
@@ -651,6 +679,7 @@ fun AddEventBottomSheet(
             dateText = formatLocalDateToString(event.date)
             timeText = formatLocalTimeToString(event.time)
             completed = event.completed
+            createdBy = event.createdBy
         } ?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(LocalDate.now())
@@ -658,6 +687,18 @@ fun AddEventBottomSheet(
             timeText = formatLocalTimeToString(LocalTime.now())
         }
     }
+
+    LaunchedEffect(event?.createdBy) {
+        event?.createdBy?.let { userViewModel.getEventCreatorUserFlowById(it) }
+    }
+
+    LaunchedEffect(event?.editedBy) {
+        val editorId = event?.editedBy
+        if (!editorId.isNullOrBlank()) {
+            userViewModel.getEventEditorUserFlowById(editorId)
+        }
+    }
+
 
     if (openDatePicker.value) {
         BaseDatePicker(
@@ -705,20 +746,134 @@ fun AddEventBottomSheet(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(
-                    if (event != null) R.string.edit_event_title
-                    else R.string.create_event_title
-                ),
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = stringResource(
+                        if (event != null) R.string.edit_event_title
+                        else R.string.create_event_title
+                    ),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (event != null){
+                    Box(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                showDetailsTracker = !showDetailsTracker
+                            }
+                            .align(Alignment.CenterEnd),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_lupa_rastreadora),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
             HorizontalDivider(
                 Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp),
                 thickness = 1.dp
             )
+
+            AnimatedVisibility(showDetailsTracker) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 3.dp)
+                        .height(IntrinsicSize.Min),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Person,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.event_creator),
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = eventCreatorUser?.name ?: stringResource(R.string.unidentified),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Edit,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.event_editor),
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        if (event?.editedBy.isNullOrBlank()) {
+                            Text(
+                                text = stringResource(R.string.event_not_edited),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        } else {
+                            Text(
+                                text = eventEditorUser?.name ?: stringResource(R.string.unidentified),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+
+                            event?.lastEditAt?.let {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = formatLocalDateTimeToString(it),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            }
 
             BaseOutlinedTextField(
                 value = concept,
@@ -886,44 +1041,47 @@ fun AddEventBottomSheet(
                                     description = description,
                                     date = parsedDate,
                                     time = parseTime,
-                                    createdBy = currentUser?.id
-                                        ?: context.getString(R.string.unidentified),
+                                    createdBy = createdBy,
                                     completed = completed
                                 )
                             }
                             if (event != null) {
-                                newEvent?.let { event ->
-                                    normalEventViewModel.updateEvent(
-                                        event = event,
-                                        eventNotExist = {
-                                            Toast.makeText(
-                                                context,
-                                                context.getString(R.string.event_not_exist),
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        },
-                                        notPermission = {
-                                            Toast.makeText(
-                                                context,
-                                                context.getString(R.string.permission_denied_observer),
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        },
-                                        onFailure = {
-                                            Toast.makeText(
-                                                context,
-                                                context.getString(R.string.error_edit_event),
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        }
-                                    )
-                                }
-                            } else {
                                 pet.id?.let {
                                     newEvent?.let { event ->
                                         event.editedBy = currentUser?.id
                                             ?: context.getString(R.string.unidentified)
                                         event.lastEditAt = LocalDateTime.now()
+                                        normalEventViewModel.updateEvent(
+                                            event = event,
+                                            eventNotExist = {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.event_not_exist),
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            },
+                                            notPermission = {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.permission_denied_observer),
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            },
+                                            onFailure = {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.error_edit_event),
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                        )
+                                    }
+                                }
+                            } else {
+                                pet.id?.let {
+                                    newEvent?.let { event ->
+                                        event.createdBy = currentUser?.id
+                                            ?: context.getString(R.string.unidentified)
                                         normalEventViewModel.addEvent(
                                             petId = it,
                                             event = event,
@@ -1153,7 +1311,6 @@ fun EventsFilterBottomSheet(
 
                 }
             }
-
             Spacer(modifier = Modifier.height(16.dp))
         }
     }

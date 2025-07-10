@@ -278,4 +278,7 @@
     <string name="update_available_description">Version %1$s är nu tillgänglig med nya funktioner och förbättringar. Vill du uppdatera?</string>
     <string name="update">Uppdatera</string>
     <string name="comming_soon">Kommer snart...</string>
+    <string name="event_creator">Skapare</string>
+    <string name="event_editor">Redigerare</string>
+    <string name="event_not_edited">Ej redigerad</string>
 </resources>

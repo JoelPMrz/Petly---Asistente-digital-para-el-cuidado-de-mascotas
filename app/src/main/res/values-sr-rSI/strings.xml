@@ -279,4 +279,7 @@
     <string name="update_available_description">Verzija %1$s je sada dostupna sa novim funkcijama i poboljšanjima. Želite li da ažurirate?</string>
     <string name="update">Ažuriraj</string>
     <string name="comming_soon">Uskoro...</string>
+    <string name="event_creator">Креатор</string>
+    <string name="event_editor">Уредник</string>
+    <string name="event_not_edited">Није уређено</string>
 </resources>

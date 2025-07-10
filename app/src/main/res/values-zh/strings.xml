@@ -279,4 +279,7 @@
     <string name="update_available_description">版本 %1$s 已推出新功能和改进。您想更新吗？</string>
     <string name="update">更新</string>
     <string name="comming_soon">即将推出...</string>
+    <string name="event_creator">创建者</string>
+    <string name="event_editor">编辑器</string>
+    <string name="event_not_edited">未编辑</string>
 </resources>

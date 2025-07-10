@@ -279,4 +279,7 @@
     <string name="update_available_description">A %1$s verzió már elérhető új funkciókkal és fejlesztésekkel. Szeretné frissíteni?</string>
     <string name="update">Frissítés</string>
     <string name="comming_soon">Hamarosan...</string>
+    <string name="event_creator">Alkotó</string>
+    <string name="event_editor">Szerkesztő</string>
+    <string name="event_not_edited">Nincs szerkesztve</string>
 </resources>

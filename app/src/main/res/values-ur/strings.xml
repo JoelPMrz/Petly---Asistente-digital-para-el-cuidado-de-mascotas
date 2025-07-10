@@ -280,4 +280,7 @@
     <string name="update_available_description">ورژن %1$s اب نئی خصوصیات اور بہتریوں کے ساتھ دستیاب ہے۔ کیا آپ اپ ڈیٹ کرنا چاہیں گے؟</string>
     <string name="update">اپ ڈیٹ کریں</string>
     <string name="comming_soon">جلد آ رہا ہے...</string>
+    <string name="event_creator">خالق</string>
+    <string name="event_editor">ایڈیٹر</string>
+    <string name="event_not_edited">ترمیم نہیں کیا گیا</string>
 </resources>

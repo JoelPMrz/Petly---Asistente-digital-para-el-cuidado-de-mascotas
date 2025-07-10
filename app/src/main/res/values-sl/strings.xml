@@ -279,4 +279,7 @@
     <string name="update_available_description">Različica %1$s je zdaj na voljo z novimi funkcijami in izboljšavami. Bi radi posodobili?</string>
     <string name="update">Posodobi</string>
     <string name="comming_soon">Kmalu na voljo...</string>
+    <string name="event_creator">Ustvarjalec</string>
+    <string name="event_editor">Urednik</string>
+    <string name="event_not_edited">Ni urejeno</string>
 </resources>

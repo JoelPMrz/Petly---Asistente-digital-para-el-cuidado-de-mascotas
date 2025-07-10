@@ -280,4 +280,7 @@
     <string name="update_available_description">La version %1$s est maintenant disponible avec de nouvelles fonctionnalités et améliorations. Souhaitez-vous mettre à jour ?</string>
     <string name="update">Mettre à jour</string>
     <string name="comming_soon">Bientôt disponible...</string>
+    <string name="event_creator">Créateur</string>
+    <string name="event_editor">Éditeur</string>
+    <string name="event_not_edited">Non modifié</string>
 </resources>

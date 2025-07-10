@@ -279,4 +279,7 @@
     <string name="update_available_description">เวอร์ชัน %1$s พร้อมใช้งานแล้วพร้อมคุณสมบัติใหม่และการปรับปรุง คุณต้องการอัปเดตหรือไม่?</string>
     <string name="update">อัปเดต</string>
     <string name="comming_soon">เร็วๆ นี้...</string>
+    <string name="event_creator">ผู้สร้าง</string>
+    <string name="event_editor">บรรณาธิการ</string>
+    <string name="event_not_edited">ไม่ได้แก้ไข</string>
 </resources>

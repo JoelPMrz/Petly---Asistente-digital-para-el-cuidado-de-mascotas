@@ -280,4 +280,7 @@
     <string name="update_available_description">সংস্করণ %1$s এখন নতুন বৈশিষ্ট্য এবং উন্নতি সহ উপলব্ধ। আপনি কি আপডেট করতে চান?</string>
     <string name="update">আপডেট</string>
     <string name="comming_soon">শীঘ্রই আসছে...</string>
+    <string name="event_creator">সৃষ্টিকর্তা</string>
+    <string name="event_editor">সম্পাদক</string>
+    <string name="event_not_edited">সম্পাদনা করা হয়নি</string>
 </resources>
