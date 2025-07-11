@@ -8,10 +8,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,9 +37,11 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.EventAvailable
 import androidx.compose.material.icons.outlined.EventBusy
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.EventAvailable
 import androidx.compose.material.icons.rounded.EventBusy
 import androidx.compose.material.icons.rounded.FilterAlt
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -97,6 +102,7 @@ import com.jdev.petly.ui.components.IconCircle
 import com.jdev.petly.ui.components.pet.PetNotExistsDialog
 import com.jdev.petly.ui.viewmodel.PetViewModel
 import com.jdev.petly.utils.AuthManager
+import com.jdev.petly.utils.formatLocalDateTimeToString
 import com.jdev.petly.utils.formatLocalDateToString
 import com.jdev.petly.utils.formatLocalDateToStringWithDay
 import com.jdev.petly.utils.formatLocalTimeToString
@@ -621,6 +627,7 @@ fun AddVeterinaryVisitBottomSheet(
     pet: Pet,
     currentUser: User?,
     veterinaryVisit: VeterinaryVisit? = null,
+    userViewModel: UserViewModel = hiltViewModel(),
     petViewModel: PetViewModel = hiltViewModel(),
     veterinaryVisitsViewModel: VeterinaryVisitsViewModel = hiltViewModel()
 ) {
@@ -639,6 +646,7 @@ fun AddVeterinaryVisitBottomSheet(
     var veterinary by remember { mutableStateOf("") }
     val veterinaryFocusRequester = remember { FocusRequester() }
 
+    var createdBy by remember { mutableStateOf("") }
     var completed by remember { mutableStateOf(false) }
 
     val openDatePicker = remember { mutableStateOf(false) }
@@ -661,6 +669,10 @@ fun AddVeterinaryVisitBottomSheet(
 
     var showPetNotExistsDialog by remember { mutableStateOf(false) }
 
+    var showDetailsTracker by remember { mutableStateOf(false) }
+    val eventCreatorUser by userViewModel.eventCreatorUserState.collectAsState()
+    val eventEditorUser by userViewModel.eventEditorUserState.collectAsState()
+
     LaunchedEffect(pet.id) {
         pet.id?.let { petViewModel.getObservedPet(
             it,
@@ -679,12 +691,27 @@ fun AddVeterinaryVisitBottomSheet(
             dateText = formatLocalDateToString(veterinaryVisit.date)
             timeText = formatLocalTimeToString(veterinaryVisit.time)
             veterinary = veterinaryVisit.veterinary ?: ""
+            createdBy = veterinaryVisit.createdBy
             completed = veterinaryVisit.completed
         } ?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(LocalDate.now())
             selectedTime.value = LocalTime.now()
             timeText = formatLocalTimeToString(LocalTime.now())
+        }
+    }
+
+    LaunchedEffect(veterinaryVisit?.createdBy) {
+        val creatorId = veterinaryVisit?.createdBy
+        if (!creatorId.isNullOrBlank()) {
+            userViewModel.getEventCreatorUserFlowById(creatorId)
+        }
+    }
+
+    LaunchedEffect(veterinaryVisit?.editedBy) {
+        val editorId = veterinaryVisit?.editedBy
+        if (!editorId.isNullOrBlank()) {
+            userViewModel.getEventEditorUserFlowById(editorId)
         }
     }
 
@@ -734,20 +761,134 @@ fun AddVeterinaryVisitBottomSheet(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(
-                    if (veterinaryVisit != null) R.string.edit_veterinay_vivist_title
-                    else R.string.create_veterinay_vivist_title
-                ),
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = stringResource(
+                        if (veterinaryVisit != null) R.string.edit_veterinay_vivist_title
+                        else R.string.create_veterinay_vivist_title
+                    ),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (veterinaryVisit != null){
+                    Box(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                showDetailsTracker = !showDetailsTracker
+                            }
+                            .align(Alignment.CenterEnd),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_lupa_rastreadora),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
             HorizontalDivider(
                 Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp),
                 thickness = 1.dp
             )
+
+            AnimatedVisibility(showDetailsTracker) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 3.dp)
+                        .height(IntrinsicSize.Min),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Person,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.event_creator),
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = eventCreatorUser?.name ?: stringResource(R.string.unidentified),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Edit,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.event_editor),
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        if (veterinaryVisit?.editedBy.isNullOrBlank()) {
+                            Text(
+                                text = stringResource(R.string.event_not_edited),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        } else {
+                            Text(
+                                text = eventEditorUser?.name ?: stringResource(R.string.unidentified),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+
+                            veterinaryVisit?.lastEditAt?.let {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = formatLocalDateTimeToString(it),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            }
 
             BaseOutlinedTextField(
                 value = concept,
@@ -935,13 +1076,15 @@ fun AddVeterinaryVisitBottomSheet(
                                     date = parsedDate,
                                     time = parseTime,
                                     veterinary = veterinary,
-                                    createdBy = currentUser?.id
-                                        ?: context.getString(R.string.unidentified),
+                                    createdBy = createdBy,
                                     completed = completed
                                 )
                             }
                             if (veterinaryVisit != null) {
                                 newVeterinaryVisit?.let { veterinaryVisit ->
+                                    newVeterinaryVisit.editedBy = currentUser?.id
+                                        ?: context.getString(R.string.unidentified)
+                                    newVeterinaryVisit.lastEditAt = LocalDateTime.now()
                                     veterinaryVisitsViewModel.updateVeterinaryVisit(
                                         veterinaryVisit = veterinaryVisit,
                                         veterinaryVisitNotExist = {
@@ -970,6 +1113,8 @@ fun AddVeterinaryVisitBottomSheet(
                             } else {
                                 pet.id?.let {
                                     newVeterinaryVisit?.let { veterinaryVisit ->
+                                        veterinaryVisit.createdBy = currentUser?.id
+                                            ?: context.getString(R.string.unidentified)
                                         veterinaryVisitsViewModel.addVeterinaryVisit(
                                             petId = it,
                                             veterinaryVisit = veterinaryVisit,

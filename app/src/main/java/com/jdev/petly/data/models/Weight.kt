@@ -14,6 +14,9 @@ data class Weight(
     var unit: String = "Kg",
     var date: LocalDate = LocalDate.now(),
     var time: LocalDateTime = LocalDateTime.now(),
+    var createdBy: String = "",
+    var editedBy: String? = null,
+    var lastEditAt: LocalDateTime? = null,
     var notes: String? = null
 ){
     override fun toString(): String {
@@ -29,6 +32,9 @@ fun Weight.toFirestoreMap(): Map<String, Any?> {
         "unit" to unit,
         "date" to date.toTimestamp(),
         "time" to time.toTimestamp(),
+        "createdBy" to createdBy,
+        "editedBy" to editedBy,
+        "lastEditAt" to lastEditAt?.toTimestamp(),
         "notes" to notes
     )
 }
@@ -37,7 +43,7 @@ fun Weight.toFirestoreMap(): Map<String, Any?> {
 fun weightFromFirestoreMap(map: Map<String, Any?>): Weight {
     val dateTimestamp = map["date"] as? Timestamp
     val timeTimestamp = map["time"] as? Timestamp
-
+    val lastEditAt = map["lastEditAt"] as? Timestamp
     return Weight(
         id = map["id"] as? String,
         petId = map["petId"] as? String,
@@ -45,6 +51,9 @@ fun weightFromFirestoreMap(map: Map<String, Any?>): Weight {
         unit = map["unit"] as? String ?: "Kg",
         date = dateTimestamp?.toLocalDate() ?: LocalDate.now(),
         time = timeTimestamp?.toLocalDateTime() ?: LocalDateTime.now(),
+        createdBy = map["createdBy"] as? String ?: "",
+        editedBy = map["editedBy"] as? String ?: "",
+        lastEditAt = lastEditAt?.toLocalDateTime(),
         notes = map["notes"] as? String
     )
 }

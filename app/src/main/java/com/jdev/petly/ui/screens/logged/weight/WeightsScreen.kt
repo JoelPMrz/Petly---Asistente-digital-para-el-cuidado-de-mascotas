@@ -3,14 +3,17 @@ package com.jdev.petly.ui.screens.logged.weight
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +25,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -32,6 +37,7 @@ import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -81,10 +87,12 @@ import com.jdev.petly.ui.components.EmptyCard
 import com.jdev.petly.ui.components.pet.PetNotExistsDialog
 import com.jdev.petly.ui.viewmodel.PetViewModel
 import com.jdev.petly.utils.convertWeight
+import com.jdev.petly.utils.formatLocalDateTimeToString
 import com.jdev.petly.utils.formatLocalDateToString
 import com.jdev.petly.utils.parseDate
 import com.jdev.petly.utils.truncate
 import com.jdev.petly.viewmodel.PreferencesViewModel
+import com.jdev.petly.viewmodel.UserViewModel
 import com.jdev.petly.viewmodel.WeightViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -479,6 +487,7 @@ fun AddWeightBottomSheet(
     onDismiss: () -> Unit,
     petId: String,
     weight: Weight? = null,
+    userViewModel: UserViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel(),
     preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
@@ -493,17 +502,37 @@ fun AddWeightBottomSheet(
     val selectedDate = remember { mutableStateOf(LocalDate.now()) }
     var dateText by remember { mutableStateOf("") }
 
+    var createdBy by remember { mutableStateOf("") }
+    var showDetailsTracker by remember { mutableStateOf(false) }
+    val eventCreatorUser by userViewModel.eventCreatorUserState.collectAsState()
+    val eventEditorUser by userViewModel.eventEditorUserState.collectAsState()
+
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     LaunchedEffect(weight) {
         weight?.let {
-            weightText = it.value.toString()
-            note = it.notes.orEmpty()
-            selectedDate.value = it.date
-            dateText = formatLocalDateToString(it.date)
+            weightText = weight.value.toString()
+            note = weight.notes.orEmpty()
+            selectedDate.value = weight.date
+            dateText = formatLocalDateToString(weight.date)
+            createdBy = weight.createdBy
         } ?: run {
             selectedDate.value = LocalDate.now()
             dateText = formatLocalDateToString(LocalDate.now())
+        }
+    }
+
+    LaunchedEffect(weight?.createdBy) {
+        val creatorId = weight?.createdBy
+        if (!creatorId.isNullOrBlank()) {
+            userViewModel.getEventCreatorUserFlowById(creatorId)
+        }
+    }
+
+    LaunchedEffect(weight?.editedBy) {
+        val editorId = weight?.editedBy
+        if (!editorId.isNullOrBlank()) {
+            userViewModel.getEventEditorUserFlowById(editorId)
         }
     }
 
@@ -540,20 +569,134 @@ fun AddWeightBottomSheet(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(
-                    if (weight != null) R.string.edit_weight_title
-                    else R.string.create_weight_title
-                ),
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = stringResource(
+                        if (weight != null) R.string.edit_weight_title
+                        else R.string.create_weight_title
+                    ),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (weight != null){
+                    Box(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                showDetailsTracker = !showDetailsTracker
+                            }
+                            .align(Alignment.CenterEnd),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_lupa_rastreadora),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
             HorizontalDivider(
                 Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp),
                 thickness = 1.dp
             )
+
+            AnimatedVisibility(showDetailsTracker) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 3.dp)
+                        .height(IntrinsicSize.Min),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Person,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.event_creator),
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = eventCreatorUser?.name ?: stringResource(R.string.unidentified),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Edit,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(R.string.event_editor),
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        if (weight?.editedBy.isNullOrBlank()) {
+                            Text(
+                                text = stringResource(R.string.event_not_edited),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        } else {
+                            Text(
+                                text = eventEditorUser?.name ?: stringResource(R.string.unidentified),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+
+                            weight?.lastEditAt?.let {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = formatLocalDateTimeToString(it),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            }
 
             BaseOutlinedTextField(
                 value = weightText,
