@@ -47,4 +47,14 @@ class PreferencesRepository @Inject constructor(
         sharedPreferencesManager.saveBoolean("is_dark_mode", isDark)
     }
 
+    private val LAST_OPTIONAL_VERSION_KEY = "last_optional_version_shown"
+
+    fun getLastOptionalVersionShown(): String? {
+        return sharedPreferencesManager.getString(LAST_OPTIONAL_VERSION_KEY, "")
+            .takeIf { it.isNotBlank() }
+    }
+
+    fun setLastOptionalVersionShown(version: String) {
+        sharedPreferencesManager.saveString(LAST_OPTIONAL_VERSION_KEY, version)
+    }
 }
