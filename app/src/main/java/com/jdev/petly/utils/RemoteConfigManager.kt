@@ -9,7 +9,7 @@ class RemoteConfigManager {
 
     init {
         val configSettings = FirebaseRemoteConfigSettings.Builder()
-            .setMinimumFetchIntervalInSeconds(3600)
+            .setMinimumFetchIntervalInSeconds(10)
             .build()
 
         remoteConfig.setConfigSettingsAsync(configSettings)
@@ -21,6 +21,17 @@ class RemoteConfigManager {
         )
     }
 
+    fun fetchRemoteConfig(onComplete: () -> Unit) {
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onComplete()
+                } else {
+                    onComplete()
+                }
+            }
+    }
+
     fun getLatestVersion(): String {
         return remoteConfig.getString("latest_version")
     }
@@ -29,3 +40,4 @@ class RemoteConfigManager {
         return remoteConfig.getString("minimum_version")
     }
 }
+

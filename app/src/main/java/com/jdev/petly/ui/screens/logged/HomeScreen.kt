@@ -94,6 +94,7 @@ import com.jdev.petly.utils.RemoteConfigManager
 import com.jdev.petly.utils.isVersionLower
 import com.jdev.petly.utils.normalizeForSearch
 import com.jdev.petly.viewmodel.EventsViewModel
+import com.jdev.petly.viewmodel.PreferencesViewModel
 import com.jdev.petly.viewmodel.UserViewModel
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -111,15 +112,17 @@ fun HomeScreen(
     navigateToUser: () -> Unit,
     petViewModel: PetViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    eventsViewModel: EventsViewModel = hiltViewModel()
+    eventsViewModel: EventsViewModel = hiltViewModel(),
+    preferencesViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val context: Context = LocalContext.current
     val versionName = context.packageManager
         .getPackageInfo(context.packageName, 0).versionName.toString()
     var showUpdateDialog by remember { mutableStateOf(false) }
     var isMandatoryUpdate by remember { mutableStateOf(false) }
+    val lastOptionalVersion by preferencesViewModel.lastOptionalVersionShown.collectAsState()
     var latestVersion by remember { mutableStateOf<String?>(null) }
-
+    var minimumVersion by remember { mutableStateOf<String?>(null) }
     val petList by petViewModel.petsState.collectAsState()
     val userState by userViewModel.userState.collectAsState()
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
@@ -147,18 +150,24 @@ fun HomeScreen(
     var selectedEvent by remember { mutableStateOf<Event?>(null) }
 
     LaunchedEffect(Unit) {
-        val remoteLatestVersion = remoteConfig.getLatestVersion()
-        val remoteMinVersion = remoteConfig.getMinimumVersion()
+        remoteConfig.fetchRemoteConfig {
+            val remoteLatestVersion = remoteConfig.getLatestVersion()
+            val remoteMinVersion = remoteConfig.getMinimumVersion()
 
-        if (remoteLatestVersion != null && remoteMinVersion != null) {
-            if (isVersionLower(versionName, remoteMinVersion)) {
-                isMandatoryUpdate = true
-                latestVersion = remoteLatestVersion
-                showUpdateDialog = true
-            } else if (isVersionLower(versionName, remoteLatestVersion)) {
-                isMandatoryUpdate = false
-                latestVersion = remoteLatestVersion
-                showUpdateDialog = true
+            if (remoteLatestVersion.isNotBlank() && remoteMinVersion.isNotBlank()) {
+                if (isVersionLower(versionName, remoteMinVersion)) {
+                    isMandatoryUpdate = true
+                    latestVersion = remoteLatestVersion
+                    minimumVersion = remoteMinVersion
+                    showUpdateDialog = true
+                } else if (isVersionLower(versionName, remoteLatestVersion)) {
+                    if (lastOptionalVersion != remoteLatestVersion) {
+                        isMandatoryUpdate = false
+                        latestVersion = remoteLatestVersion
+                        minimumVersion = remoteMinVersion
+                        showUpdateDialog = true
+                    }
+                }
             }
         }
     }
@@ -485,7 +494,15 @@ fun HomeScreen(
         UpdateAppDialog(
             isMandatory = isMandatoryUpdate,
             latestVersion = latestVersion ?: "",
-            onDismiss = { if (!isMandatoryUpdate) showUpdateDialog = false },
+            minimumVersion = minimumVersion ?: "",
+            onDismiss = {
+                if (!isMandatoryUpdate) {
+                    showUpdateDialog = false
+                    latestVersion?.let {
+                        preferencesViewModel.setLastOptionalVersionShown(it)
+                    }
+                }
+            },
             onUpdate = {
                 context.startActivity(
                     Intent(Intent.ACTION_VIEW).apply {
@@ -494,6 +511,9 @@ fun HomeScreen(
                         setPackage("com.android.vending")
                     }
                 )
+                latestVersion?.let {
+                    preferencesViewModel.setLastOptionalVersionShown(it)
+                }
             }
         )
     }

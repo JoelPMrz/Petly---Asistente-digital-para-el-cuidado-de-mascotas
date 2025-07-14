@@ -56,4 +56,13 @@ class PreferencesViewModel @Inject constructor(
     fun reloadUnitPreference() {
         _selectedUnit.value = preferencesRepository.getSelectedUnit()
     }
+
+    private val _lastOptionalVersionShown =
+        MutableStateFlow(preferencesRepository.getLastOptionalVersionShown())
+    val lastOptionalVersionShown: StateFlow<String?> = _lastOptionalVersionShown
+
+    fun setLastOptionalVersionShown(version: String) {
+        preferencesRepository.setLastOptionalVersionShown(version)
+        _lastOptionalVersionShown.value = version
+    }
 }

@@ -12,6 +12,7 @@ import com.jdev.petly.R
 fun UpdateAppDialog(
     isMandatory: Boolean,
     latestVersion: String,
+    minimumVersion : String,
     onDismiss: () -> Unit,
     onUpdate: () -> Unit
 ) {
@@ -29,7 +30,7 @@ fun UpdateAppDialog(
         text = {
             Text(
                 if (isMandatory) {
-                    stringResource(R.string.incompatible_version_description, latestVersion)
+                    stringResource(R.string.incompatible_version_description, minimumVersion)
                 } else {
                     stringResource(R.string.update_available_description, latestVersion)
                 }

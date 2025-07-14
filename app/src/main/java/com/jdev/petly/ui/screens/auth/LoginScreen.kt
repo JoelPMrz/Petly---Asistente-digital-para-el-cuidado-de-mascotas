@@ -88,7 +88,9 @@ fun LoginScreen(
         .getPackageInfo(context.packageName, 0).versionName.toString()
     var showUpdateDialog by remember { mutableStateOf(false) }
     var isMandatoryUpdate by remember { mutableStateOf(false) }
+    val lastOptionalVersion by preferencesViewModel.lastOptionalVersionShown.collectAsState()
     var latestVersion by remember { mutableStateOf<String?>(null) }
+    var minimumVersion by remember { mutableStateOf<String?>(null) }
     val focusManager = LocalFocusManager.current
     var email: String by remember { mutableStateOf("") }
     val mailFocusRequester = remember { FocusRequester() }
@@ -143,21 +145,28 @@ fun LoginScreen(
     }
 
     LaunchedEffect(Unit) {
-        val remoteLatestVersion = remoteConfig.getLatestVersion()
-        val remoteMinVersion = remoteConfig.getMinimumVersion()
+        remoteConfig.fetchRemoteConfig {
+            val remoteLatestVersion = remoteConfig.getLatestVersion()
+            val remoteMinVersion = remoteConfig.getMinimumVersion()
 
-        if (remoteLatestVersion != null && remoteMinVersion != null) {
-            if (isVersionLower(versionName, remoteMinVersion)) {
-                isMandatoryUpdate = true
-                latestVersion = remoteLatestVersion
-                showUpdateDialog = true
-            } else if (isVersionLower(versionName, remoteLatestVersion)) {
-                isMandatoryUpdate = false
-                latestVersion = remoteLatestVersion
-                showUpdateDialog = true
+            if (remoteLatestVersion.isNotBlank() && remoteMinVersion.isNotBlank()) {
+                if (isVersionLower(versionName, remoteMinVersion)) {
+                    isMandatoryUpdate = true
+                    latestVersion = remoteLatestVersion
+                    minimumVersion = remoteMinVersion
+                    showUpdateDialog = true
+                } else if (isVersionLower(versionName, remoteLatestVersion)) {
+                    if (lastOptionalVersion != remoteLatestVersion) {
+                        isMandatoryUpdate = false
+                        latestVersion = remoteLatestVersion
+                        minimumVersion = remoteMinVersion
+                        showUpdateDialog = true
+                    }
+                }
             }
         }
     }
+
 
     if(showLanguageSelectorDialog){
         LanguageSelectorDialog(
@@ -171,7 +180,15 @@ fun LoginScreen(
         UpdateAppDialog(
             isMandatory = isMandatoryUpdate,
             latestVersion = latestVersion ?: "",
-            onDismiss = { if (!isMandatoryUpdate) showUpdateDialog = false },
+            minimumVersion = minimumVersion ?: "",
+            onDismiss = {
+                if (!isMandatoryUpdate) {
+                    showUpdateDialog = false
+                    latestVersion?.let {
+                        preferencesViewModel.setLastOptionalVersionShown(it)
+                    }
+                }
+            },
             onUpdate = {
                 context.startActivity(
                     Intent(Intent.ACTION_VIEW).apply {
@@ -180,6 +197,9 @@ fun LoginScreen(
                         setPackage("com.android.vending")
                     }
                 )
+                latestVersion?.let {
+                    preferencesViewModel.setLastOptionalVersionShown(it)
+                }
             }
         )
     }
