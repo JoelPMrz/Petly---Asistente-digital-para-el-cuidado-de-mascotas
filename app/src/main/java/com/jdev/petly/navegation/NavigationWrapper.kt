@@ -29,7 +29,7 @@ fun NavigationWrapper(context : Context){
     val navController = rememberNavController()
     val analytics = AnalyticsManager(context)
     val authManager = AuthManager(context)
-    val remoteConfig = RemoteConfigManager()
+    val remoteConfig = RemoteConfigManager(context)
     val user: FirebaseUser? = authManager.getCurrentUser()
 
 

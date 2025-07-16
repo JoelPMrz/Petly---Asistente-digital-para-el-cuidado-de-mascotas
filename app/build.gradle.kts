@@ -16,7 +16,7 @@ android {
         applicationId = "com.jdev.petly"
         minSdk = 26
         targetSdk = 35
-        versionCode = 20250704
+        versionCode = 20250716
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

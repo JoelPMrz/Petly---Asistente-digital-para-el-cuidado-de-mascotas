@@ -145,7 +145,7 @@ fun LoginScreen(
     }
 
     LaunchedEffect(Unit) {
-        remoteConfig.fetchRemoteConfig {
+        remoteConfig.fetchRemoteConfigIfNeeded  {
             val remoteLatestVersion = remoteConfig.getLatestVersion()
             val remoteMinVersion = remoteConfig.getMinimumVersion()
 

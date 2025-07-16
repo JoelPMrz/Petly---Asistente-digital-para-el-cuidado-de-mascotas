@@ -150,7 +150,7 @@ fun HomeScreen(
     var selectedEvent by remember { mutableStateOf<Event?>(null) }
 
     LaunchedEffect(Unit) {
-        remoteConfig.fetchRemoteConfig {
+        remoteConfig.fetchRemoteConfigIfNeeded {
             val remoteLatestVersion = remoteConfig.getLatestVersion()
             val remoteMinVersion = remoteConfig.getMinimumVersion()
 
