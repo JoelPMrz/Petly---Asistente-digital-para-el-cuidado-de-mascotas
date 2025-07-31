@@ -79,7 +79,7 @@ fun PhotoPickerBottomSheet(
             val file = context.createImageFile()
             val uri = FileProvider.getUriForFile(
                 context,
-                "com.example.petly.provider",
+                "${context.packageName}.provider",
                 file
             )
             cameraImageUri.value = uri
