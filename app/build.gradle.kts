@@ -10,14 +10,14 @@ plugins {
 
 android {
     namespace = "com.jdev.petly"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.jdev.petly"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 20250721
-        versionName = "1.0.0"
+        targetSdk = 36
+        versionCode = 20261030
+        versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
